@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "purpose": "交接记录模板，不是可直接执行的机器人运行配置；未知保留null",
+  "design_baseline": "v4 / 2026-09-23",
+  "project": {"name": null, "owner": null, "date": null, "stage": "P0", "code_repository": null, "code_commit": null},
+  "hardware": {"robot_model": null, "active_arm": null, "inactive_arm_state": null, "driver_version": null, "cameras": [], "calibration_evidence": null, "gpu_model_count_memory": null},
+  "action_contract": {"control_mode": null, "dimensions_and_order": null, "units": null, "reference_frames": null, "gripper_semantics": null, "limits_and_interpolation": null, "command_feedback_semantics": null},
+  "timing": {"control_hz": null, "chunk_length": null, "slot_n": null, "inference_latency_measurements": null, "deadline": null, "clock_sync_error": null, "max_observation_age": null, "stop_and_hold_measurements": null},
+  "task": {"object": null, "region_A": null, "region_B": null, "forward_init_set": null, "reverse_init_set": null, "success_failure_unknown_rules": null, "perturbation_scope": null, "recovery_budget": null, "autonomous_window": null, "stop_conditions": null},
+  "model_and_learning": {"vla_checkpoint_revision": null, "policy_package_modules": null, "candidate_route": null, "precheck_evidence": null, "runtime_commit_and_lock": null, "demonstrations": null, "bc_td_eligibility": null, "goal_source_sampling": null, "normalizer_version": null, "hyperparameters": null},
+  "harness": {"intended_primary_observer": "GPT-6", "actual_provider_model_id": null, "model_interface_verification": null, "framework_commit": null, "observation_calibration": null, "request_timeout_budget": null, "correction_information_contract": null, "program_trial_scope": null, "assistance_withdrawal_criteria": null},
+  "evaluation": {"dataset_split": null, "independent_training_repeats": null, "trials_per_direction": null, "minimum_practical_gain": null, "allowed_regression": null, "deployment_reliability_and_cycle_time": null, "resource_caps": null, "cost_accounting": null, "stopping_rule": null},
+  "operations": {"log_capacity_and_high_water_mark": null, "service_failure_paths": null, "release_boundary": null, "rollback_evidence": null},
+  "measurements_and_decisions": []
+}

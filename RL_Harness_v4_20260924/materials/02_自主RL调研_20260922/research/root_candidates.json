@@ -1,0 +1,116 @@
+[
+  {
+    "id": "ENPIRE",
+    "name": "ENPIRE",
+    "year": 2026,
+    "type": "编码代理驱动的真机自改进 harness；可调用 RL/BC/代码策略",
+    "algorithm": "Environment、Policy Improvement、Rollout、Evolution 四模块。代理观察物理试验结果后修改代码、参数或学习算法；内环可用 BC、RL 及 PLD actor/learner，外环不是单一RL算法。",
+    "autonomy": "在人已搭建和验证 station/reset/verify 的第二阶段自动运行试验、采集、学习、评测；支持1/4/8台YAM。",
+    "remaining_human": "第一阶段工位集成、标定、成功判据、复位函数、边界条件和审核；物理异常仍受预设恢复范围限制。不可把第二阶段无人等同全生命周期零人工。",
+    "real_evidence": "NVIDIA项目报告真实插销、编码控制等；8机相对1机缩短墙钟但增加机器人资源；99%使用每个子任务最多8次上下文重试的pass@8，不是独立同分布的best-of-8，不能当单次成功率。",
+    "open_source": "官方NVlabs/ENPIRE，Apache-2.0。主README提供station、CaP、RL入口；enpire/policy/pld/runtime/README.md确认从minimal_policy@81988f0迁移真实PLD actor/learner。数据/模型权重不随runtime发布，完整任务/硬件环境仍需逐项适配；本次未执行。",
+    "repo_urls": [
+      "https://github.com/NVlabs/ENPIRE"
+    ],
+    "paper_urls": [
+      "https://arxiv.org/abs/2606.19980"
+    ],
+    "project_url": "https://research.nvidia.com/labs/gear/enpire/",
+    "institutions": [
+      "NVIDIA",
+      "Carnegie Mellon University",
+      "UC Berkeley"
+    ],
+    "limitations": "新系统，缺少本次可核实的独立整套真机复现；自动代码搜索的机器人小时、GPU小时、模型调用费用须独立记账。",
+    "fit": "与用户 harness+RSI+RL 目标最直接匹配的集成研究候选；作为外层系统，与成熟学习器组合验证。"
+  },
+  {
+    "id": "FARL",
+    "name": "Failure-Aware RL (FARL)",
+    "year": 2026,
+    "type": "离线到在线 RL + 失败预测和自恢复",
+    "algorithm": "离线训练任务/恢复策略与世界模型安全critic，在线预测约束风险并切换恢复；任务策略在线继续RL，恢复和安全模型冻结。",
+    "autonomy": "自动识别部分风险并恢复，减少失败；不等于普通回合场景复位全自动。",
+    "remaining_human": "三类数据各约10–20分钟/任务，40–80轨迹；失败演示人为诱导。任务及恢复奖励、工位、部分动态干扰人为设置。",
+    "real_evidence": "Franka三任务，YOLOv8/颜色状态估计，5Hz，50回合。作者报告不可恢复失败下降73.1%、回报提高11.3%，分母为其协议指标，不能改写人工工时下降。",
+    "open_source": "论文和项目公开；项目页未找到实际官方训练仓库链接。代码开放状态记未核到，不凭网页Code字样判定。",
+    "repo_urls": [],
+    "paper_urls": [
+      "https://arxiv.org/abs/2601.07821",
+      "https://rl4il-icra.github.io/assets/papers/L4_failure.pdf"
+    ],
+    "project_url": "https://failure-aware-rl.github.io/",
+    "institutions": [
+      "Shanghai Qi Zhi Institute",
+      "Shanghai Jiao Tong University",
+      "Tsinghua University",
+      "Nanyang Technological University",
+      "A*STAR",
+      "University of Maryland"
+    ],
+    "limitations": "冻结恢复能力受离线覆盖限制；世界模型风险预测不构成硬安全保证；仍须普通复位与异常处置。",
+    "fit": "恢复模块方法备选；当前不优先作为可直接复现基座。"
+  },
+  {
+    "id": "UniIntervene",
+    "name": "UniIntervene",
+    "year": 2026,
+    "type": "自动介入/恢复模块 + HIL-SERL",
+    "algorithm": "价值停滞触发介入，V-JEPA2未来表征与Qwen3-VL模型评价候选，检索高价值恢复记忆，再以目标条件FAST策略纠正。",
+    "autonomy": "复用过去纠正经验替代部分人类动作接管。",
+    "remaining_human": "20条任务示范；过去的人类恢复数据；新失败仍需人；场景常规物理复位自动化未证明。",
+    "real_evidence": "UR7e五任务，各20次评测；成功率81%→88%（+7个百分点）；人工动作步占比34.3%→14.6%（相对降57.4%），不是人工事件数/值守时间下降57%。",
+    "open_source": "MIT，官方仓库明确仅离线流水线：NTTG、proxy value、介入挖掘、VQ1、memory、VQ2。run.py声明不启动机器人/在线RL；不含轨迹、权重、记忆库，真实部署和HIL-SERL接入不在包内。",
+    "repo_urls": [
+      "https://github.com/Denghaoyuan123/UniIntervene"
+    ],
+    "paper_urls": [
+      "https://arxiv.org/abs/2606.12372"
+    ],
+    "project_url": "https://denghaoyuan123.github.io/UniIntervene-project/",
+    "institutions": [
+      "Nanyang Technological University",
+      "Beijing University of Posts and Telecommunications"
+    ],
+    "limitations": "项目/仓库声明CoRL2026接收；新工作社区规模小；需要补真实部署和受控恢复的可用性验证。",
+    "fit": "自动接管研究候选；与AutoSERL作恢复机制对照，不能视作即用无人栈。"
+  },
+  {
+    "id": "CRONOS",
+    "name": "CRONOS",
+    "year": 2026,
+    "type": "持续/多任务自主学习评测基准；非学习器",
+    "algorithm": "在共享场景与有限reset预算下评测多任务持续操作，显式度量复位预算。",
+    "autonomy": "衡量低复位条件下的学习行为，不替系统执行真机复位。",
+    "remaining_human": "仿真任务/评价协议设计。",
+    "real_evidence": "本次读到的是仿真基准，不作为真实无人值守证据。",
+    "open_source": "项目可读，代码入口仍Coming Soon；不计为已开放可运行基准。",
+    "repo_urls": [],
+    "paper_urls": [],
+    "project_url": "https://embodiedai-ntu.github.io/cronos/index.html",
+    "institutions": [
+      "National Taiwan University"
+    ],
+    "limitations": "仿真reset预算不含真实物体补给、故障和相机维护。",
+    "fit": "借鉴评价协议；不进入RL算法首轮候选。"
+  },
+  {
+    "id": "REVERSAL-BENCH",
+    "name": "REVERSAL-BENCH",
+    "year": 2026,
+    "type": "不可逆失败与可恢复性基准；非学习器",
+    "algorithm": "用多环境不可逆陷阱检验风险识别和恢复；区分识别了风险与仍有可行动作恢复。",
+    "autonomy": "辅助检查reset-free假设何时失效。",
+    "remaining_human": "评测协议和环境搭建；仿真oracle恢复不能直接移植到现实。",
+    "real_evidence": "8种设置、5个物理引擎；以仿真证据为主。",
+    "open_source": "论文公开；本次未完成仓库/权重的代码级核验，记未审核。",
+    "repo_urls": [],
+    "paper_urls": [
+      "https://arxiv.org/abs/2609.17745"
+    ],
+    "project_url": "https://arxiv.org/html/2609.17745v1",
+    "institutions": [],
+    "limitations": "不能把oracle状态恢复当真机可恢复能力；不对硬安全作保证。",
+    "fit": "作为不可逆失败压力测试的参考，不作为RL候选。"
+  }
+]

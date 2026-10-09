@@ -1,0 +1,1456 @@
+{
+  "schema_version": "1.0",
+  "title": "S1 生态与资产核查实际检索日志",
+  "accessed_date": "2026-09-23",
+  "scope": "公开页面与入口的 S1 发现/核查；不表示安装、clone、模型/数据下载、训练、真机或完整复现。",
+  "report": "ecosystem_frontier.md",
+  "records_count": 20,
+  "search_query_count": 34,
+  "search_engine_url_note": "web.run 未返回搜索引擎请求 URL；保留实际 q 与返回的页面 URL，不伪造 Google/Bing 请求链接。",
+  "evidence_interpretation": {
+    "search": "只读取工具返回的搜索摘要/片段；其中可能含长正文，但不声称另外打开页面。",
+    "open": "通过 web.run open/click 读取页面文本；结果来自工具抓取，可能受缓存、页面截断、动态内容限制。",
+    "find": "在工具已获取页面中定位关键词；request 中内部 ref_id 保留原始值，result_pages 给出对应实际 URL。",
+    "maintenance": "Open、Closed、Merged 分别记；作者或评论者测试数字不属于本轮独立复现。",
+    "sources": "社区内容仅用于发现与反例；机制结论回溯到官方仓库、原始 issue/PR、模型卡或论文。",
+    "unavailable": "检索未返回资产只记未核验；访问工具失败不推导资产不存在。"
+  },
+  "incremental_findings": [
+    {
+      "topic": "LeRobot RTC/DAgger",
+      "urls": [
+        "https://github.com/huggingface/lerobot/releases/tag/v0.6.1",
+        "https://github.com/huggingface/lerobot/pull/4223",
+        "https://github.com/huggingface/lerobot/pull/4122",
+        "https://github.com/huggingface/lerobot/pull/4452",
+        "https://github.com/huggingface/lerobot/pull/4454",
+        "https://github.com/huggingface/lerobot/issues/3747",
+        "https://github.com/huggingface/lerobot/pull/4398"
+      ],
+      "claim": "release 与 main 分开；4122 Closed 因替代，4452/4454 在 9 月 22 日 Merged，4223/4398 Open。S2 固定 SHA 和检查真实控制路径。"
+    },
+    {
+      "topic": "OpenPI LoRA 发布",
+      "urls": [
+        "https://github.com/Physical-Intelligence/openpi/issues/958",
+        "https://github.com/Physical-Intelligence/openpi/pull/960"
+      ],
+      "claim": "第三方给出转换遗漏 LoRA 的可检验反例；PR Open。S2 审转换/加载/精度一致性，未独立复现。"
+    },
+    {
+      "topic": "国内资产与集成",
+      "urls": [
+        "https://github.com/dexmal/dexbotic/blob/main/docs/RLinfAsRLBackend.md",
+        "https://github.com/dexmal/opendm",
+        "https://github.com/Robbyant/lingbot-vla-v2",
+        "https://huggingface.co/robbyant/lingbot-vla-v2-6b"
+      ],
+      "claim": "可见模型/训练/注册资产；不将 LIBERO 或 SFT/推理入口升级为真机在线 RL。"
+    },
+    {
+      "topic": "许可与数据",
+      "urls": [
+        "https://developer.nvidia.com/blog/develop-humanoid-robot-policies-end-to-end-with-nvidia-isaac-gr00t/",
+        "https://huggingface.co/nvidia/GR00T-N1.7-3B",
+        "https://huggingface.co/datasets/NeoteAIEmbodied/OpenNeoData"
+      ],
+      "claim": "博客与具体模型卡许可表述须进一步核 revision/文件；数据卡的 gate/许可不能省略。NVIDIA 博客及产品页内容来自搜索检索文本，模型卡另有 open 记录。"
+    }
+  ],
+  "deduplication": [
+    {
+      "items": [
+        "VLA-Precision",
+        "UniSteer",
+        "VLAC"
+      ],
+      "status": "已由 02 覆盖；不是新增方法"
+    },
+    {
+      "items": [
+        "UniSteer loopback/shared absolute path/custom executor/demo-v1 cd87d24"
+      ],
+      "status": "旧固定 README/审计已有，本轮未证实升级"
+    },
+    {
+      "items": [
+        "PhyAgentOS"
+      ],
+      "status": "交由 Harness 专项及其 S2，不在本组重复计成果"
+    },
+    {
+      "items": [
+        "RAPolicy",
+        "RT-EXPO",
+        "RLinf-USER",
+        "verl-vla",
+        "Open-RAIL"
+      ],
+      "status": "既存基线，本组未重排方法"
+    }
+  ],
+  "access_exceptions": [
+    {
+      "url": "https://huggingface.co/Robbyant/lingbot-vla-v2-6b",
+      "attempted": true,
+      "result": "web.run Internal Error",
+      "follow_up": "随后使用官方链接 https://huggingface.co/robbyant/lingbot-vla-v2-6b 成功读取；不判资产缺失"
+    },
+    {
+      "url": "https://huggingface.co/datasets/NeoteAIEmbodied/OpenNeoData",
+      "attempted": true,
+      "result": "公开数据卡可读，下载需要 gate",
+      "not_performed": "未登录、共享联系方式、接受条件或下载约 9 TB 数据；S1 无需"
+    },
+    {
+      "url": "https://huggingface.co/spaces/lerobot/visualize_dataset",
+      "attempted": true,
+      "result": "可读 Space 外层页面，主体 iframe",
+      "not_performed": "未启动或操作 iframe；不声称本地数据可视化已验证"
+    },
+    {
+      "url": "https://huggingface.co/spaces/lerobot/visualize_dataset/discussions/4",
+      "attempted": false,
+      "result": "仅搜索命中讨论摘要",
+      "not_performed": "S1 只把它作为本地路径支持的待核问题；未打开/运行"
+    },
+    {
+      "channel": "微信/Discord/私有论坛",
+      "attempted": false,
+      "reason": "无可公开读取的一手讨论路径；不虚构访问封闭渠道"
+    },
+    {
+      "channel": "GitHub API/git",
+      "attempted": false,
+      "reason": "本轮使用网页核查；旧报告中的 API/git 网络失败未重新尝试，不计本轮实测"
+    },
+    {
+      "channel": "模型/实验数据二进制、GPU训练、真实机器人",
+      "attempted": false,
+      "reason": "本轮只做 S1 资产/候选发现，S2 另核静态调用链，未授权或声称完成实验"
+    }
+  ],
+  "records": [
+    {
+      "id": "ECO-001",
+      "accessed_date": "2026-09-23",
+      "tool": "web.run",
+      "request": {
+        "search_query": [
+          {
+            "q": "2026 robot VLA online reinforcement learning framework real robot github open source September"
+          },
+          {
+            "q": "site:github.com huggingface lerobot \"reinforcement\" \"real\" \"2026\""
+          },
+          {
+            "q": "site:huggingface.co/blog \"robot\" \"reinforcement\" 2026"
+          },
+          {
+            "q": "site:github.com VLA \"online\" \"Piper\" reinforcement learning"
+          }
+        ]
+      },
+      "result_pages": [
+        {
+          "title": "LeRobot v0.5.0: Scaling Every Dimension",
+          "url": "https://huggingface.co/blog/lerobot-release-v050"
+        },
+        {
+          "title": "LeRobot v0.4.0: Supercharging OSS Robot Learning",
+          "url": "https://huggingface.co/blog/lerobot-release-v040"
+        },
+        {
+          "title": "GitHub - PIPer-iclr/PIPer: On-Device Environment Setup via Online Reinforcement Learning · GitHub",
+          "url": "https://github.com/PIPer-iclr/PIPer"
+        },
+        {
+          "title": "Reinforcement Learning for Real-Time Vision-Language-Action Policies",
+          "url": "https://arxiv.org/abs/2609.18207"
+        },
+        {
+          "title": "IROS 2026 VLA RL - Heungwoo/research GitHub Wiki",
+          "url": "https://github-wiki-see.page/m/Heungwoo/research/wiki/IROS-2026-VLA-RL"
+        },
+        {
+          "title": "Jack of All Trades, Master of Some, a Multi-Purpose Transformer Agent",
+          "url": "https://huggingface.co/blog/jat"
+        },
+        {
+          "title": "GitHub - microsoft/UniSteer: A on-robot reinforcement learning framework for steering vision-language-action models (VLAs) · GitHub",
+          "url": "https://github.com/microsoft/UniSteer"
+        },
+        {
+          "title": "<p style=\"text-align:center;\"> Bridging the Gap: Making Robotics Feel Like Machine Learning </p>",
+          "url": "https://huggingface.co/blog/hba123/ark"
+        },
+        {
+          "title": "GitHub - 2toinf/X-VLA: [ICLR 2026] The offical Implementation of \"Soft-Prompted Transformer as Scalable Cross-Embodiment Vision-Language-Action Model\" · GitHub",
+          "url": "https://github.com/2toinf/X-VLA"
+        },
+        {
+          "title": "HIL-SERL Real Robot Training Workflow Guide · Hugging Face",
+          "url": "https://huggingface.co/docs/lerobot/hilserl"
+        },
+        {
+          "title": "SARM: Stage-Aware Reward Modeling · Hugging Face",
+          "url": "https://huggingface.co/docs/lerobot/sarm"
+        },
+        {
+          "title": "GitHub - verl-project/verl-vla: A unified VLA post-training framework for human-in-the-loop data collection, fine-tuning, and reinforcement learning. · GitHub",
+          "url": "https://github.com/verl-project/verl-vla"
+        },
+        {
+          "title": "Paper page - Reinforcement Learning for Real-Time Vision-Language-Action Policies",
+          "url": "https://huggingface.co/papers/2609.18207"
+        },
+        {
+          "title": "GzDRL: Scalable and reproducible RL directly in Gazebo",
+          "url": "https://www.reddit.com/r/reinforcementlearning/comments/1wbpc7l/gzdrl_scalable_and_reproducible_rl_directly_in/"
+        },
+        {
+          "title": "CVPR 2026 Submission #4. CONFIDENT",
+          "url": "https://openreview.net/pdf?id=3BRl24kxPy"
+        },
+        {
+          "title": "VLA RL based on π0.5",
+          "url": "https://www.reddit.com/r/robotics/comments/1t6hp2d/vla_rl_based_on_%CF%8005/"
+        },
+        {
+          "title": "RealMirror: A Comprehensive, Open-Source Vision-Language-Action Platform for Embodied AI",
+          "url": "https://arxiv.org/abs/2509.14687"
+        },
+        {
+          "title": "Published as a conference paper at ICLR 2026",
+          "url": "https://openreview.net/pdf?id=H4SyKHjd4c"
+        },
+        {
+          "title": "We created GzDRL, a reinforcement learning framework for Gazebo that is scalable and easy to reproduce.",
+          "url": "https://www.reddit.com/r/ROS/comments/1whhhcz/we_created_gzdrl_a_reinforcement_learning/"
+        },
+        {
+          "title": "Training a robot arm to pick things up with a vision-language model + RL",
+          "url": "https://www.reddit.com/r/reinforcementlearning/comments/1wjnear/training_a_robot_arm_to_pick_things_up_with_a/"
+        },
+        {
+          "title": "LingBot-VLA vs π0.5 vs GR00T N1.6 vs WALL-OSS: 22,500 real-world trials across 3 platforms and 100 tasks",
+          "url": "https://www.reddit.com/r/reinforcementlearning/comments/1r0ap4p/lingbotvla_vs_%CF%8005_vs_gr00t_n16_vs_walloss_22500/"
+        },
+        {
+          "title": "Published as a conference paper at ICLR 2026",
+          "url": "https://virtual-community-ai.github.io/paper.pdf"
+        },
+        {
+          "title": "Karolos: An Open-Source Reinforcement Learning Framework for Robot-Task Environments",
+          "url": "https://arxiv.org/abs/2212.00906"
+        },
+        {
+          "title": "OpenVLA: An Open-Source Vision-Language-Action Model",
+          "url": "https://arxiv.org/abs/2406.09246"
+        },
+        {
+          "title": "Arthur Samuel, an early American leader in the field of computer gaming and artificial intelligence,",
+          "url": "https://huggingface.co/api/resolve-cache/spaces/pgoel90/Question_Generation_Application/315f097a863188b446c4384bda28a3753f02faa0/ML_test.pdf?download=true&etag=%2234c9477e3a06c5a93fa53aba85d089699171185f%22"
+        },
+        {
+          "title": "Built a local runtime for running VLA models on real robot arms",
+          "url": "https://www.reddit.com/r/AskRobotics/comments/1vdr5gd/built_a_local_runtime_for_running_vla_models_on/"
+        },
+        {
+          "title": "Confused on where to start with Sim2Real / VLA / RL pipelines—Can you share open-source GitHub repos or blueprints to study?",
+          "url": "https://www.reddit.com/r/reinforcementlearning/comments/1u86ijk/confused_on_where_to_start_with_sim2real_vla_rl/"
+        },
+        {
+          "title": "24th INTERNATIONAL INDUSTRIAL",
+          "url": "https://www.eurosis.org/conf/isc/2026/files/ISC2026_FINAL_VERSION.pdf"
+        },
+        {
+          "title": "RealMirror: A Comprehensive, Open-Source Vision-Language-Action Platform for Embodied AI",
+          "url": "https://terminators2025.github.io/RealMirror.github.io/assets/ICRA26_2835_MS-3.pdf"
+        },
+        {
+          "title": "Seeking Prior Projects or Advice on Sim-to-Real RL for WLKATA Mirobot using Isaac Lab",
+          "url": "https://www.reddit.com/r/reinforcementlearning/comments/1rv5vi2/seeking_prior_projects_or_advice_on_simtoreal_rl/"
+        },
+        {
+          "title": "Solo dev building an open benchmark arena for robotic manipulation policies — first working demo (block stacking, client-side physics sim)",
+          "url": "https://www.reddit.com/r/robots/comments/1vt0xre/solo_dev_building_an_open_benchmark_arena_for/"
+        },
+        {
+          "title": "Seeking Prior Projects or Advice on Sim-to-Real RL for WLKATA Mirobot using Isaac Lab",
+          "url": "https://www.reddit.com/r/IsaacSim/comments/1rv5mbd/seeking_prior_projects_or_advice_on_simtoreal_rl/"
+        },
+        {
+          "title": "Awesome VLA Study — structured 14-week reading guide for Vision-Language-Action models (30 papers, foundations → frontier)",
+          "url": "https://www.reddit.com/r/robotics/comments/1r92v69/awesome_vla_study_structured_14week_reading_guide/"
+        },
+        {
+          "title": "\"Robotics Breakthrough: Reinforcement Learning Scales Vision-Action Skills\"",
+          "url": "https://www.reddit.com/r/singularity/comments/1ngrh7x"
+        }
+      ],
+      "access_scope": "search results only unless independently opened in another record",
+      "reported_internal_error": false
+    },
+    {
+      "id": "ECO-002",
+      "accessed_date": "2026-09-23",
+      "tool": "web.run",
+      "request": {
+        "search_query": [
+          {
+            "q": "site:github.com VLA \"act_unisteer\""
+          },
+          {
+            "q": "site:github.com \"VLA\" \"online RL\" \"2026\" \"real\" -awesome"
+          },
+          {
+            "q": "site:github.com \"robot\" \"harness\" \"learning\" \"2026\" -awesome"
+          },
+          {
+            "q": "site:huggingface.co/blog \"LeRobot\" \"0.6\""
+          }
+        ]
+      },
+      "result_pages": [
+        {
+          "title": "add release 0.6 logo · lerobot/LeRobot-branding at 2544f93",
+          "url": "https://huggingface.co/spaces/lerobot/LeRobot-branding/commit/2544f9318a7d4b9dbfe4f9331dfd840236f5bae2"
+        },
+        {
+          "title": "Using Dataset Tools · Hugging Face",
+          "url": "https://huggingface.co/docs/lerobot/using_dataset_tools"
+        },
+        {
+          "title": "Human-In-the-Loop Data Collection · Hugging Face",
+          "url": "https://huggingface.co/docs/lerobot/main/hil_data_collection"
+        },
+        {
+          "title": "GR00T Policy · Hugging Face",
+          "url": "https://huggingface.co/docs/lerobot/main/groot"
+        },
+        {
+          "title": "GitHub - PRIME-RL/SimpleVLA-RL: [ICLR 2026] SimpleVLA-RL: Scaling VLA Training via Reinforcement Learning · GitHub",
+          "url": "https://github.com/PRIME-RL/SimpleVLA-RL"
+        },
+        {
+          "title": "GitHub - cocacola-lab/awesome-embodied-rsi: A curated list of Embodied Recursive Self-Improvement (Embodied RSI) research, systems, benchmarks, and industry updates. · GitHub",
+          "url": "https://github.com/cocacola-lab/awesome-embodied-rsi"
+        },
+        {
+          "title": "exla-ai/openpie-0.6 · Hugging Face",
+          "url": "https://huggingface.co/exla-ai/openpie-0.6"
+        },
+        {
+          "title": "README.md · NeoteAIEmbodied/OpenNeoData at main",
+          "url": "https://huggingface.co/datasets/NeoteAIEmbodied/OpenNeoData/blob/main/README.md?code=true"
+        },
+        {
+          "title": " | # Make sure you have git-lfs installed",
+          "url": "https://git-lfs.com"
+        },
+        {
+          "title": "GitHub - scy-v/VLA-Precision: VLA-Precision: Asymmetric Co-Bootstrapping for Efficient Real-World Online RL of Vision-Language-Action Models · GitHub",
+          "url": "https://github.com/scy-v/VLA-Precision"
+        },
+        {
+          "title": "awesome-vla-2026/README.md at main · miracle-techlink/awesome-vla-2026 · GitHub",
+          "url": "https://github.com/miracle-techlink/awesome-vla-2026/blob/main/README.md"
+        },
+        {
+          "title": "GitHub - guanweifan/awesome-efficient-vla: 🔥 A curated roadmap to the Efficient VLA landscape. We’re keeping this list live—contribute your latest work! · GitHub",
+          "url": "https://github.com/guanweifan/awesome-efficient-vla"
+        },
+        {
+          "title": "RoboHarness/README.md at main · LZY-1021/RoboHarness · GitHub",
+          "url": "https://github.com/LZY-1021/RoboHarness/blob/main/README.md"
+        }
+      ],
+      "access_scope": "search results only unless independently opened in another record",
+      "reported_internal_error": false
+    },
+    {
+      "id": "ECO-003",
+      "accessed_date": "2026-09-23",
+      "tool": "web.run",
+      "request": {
+        "search_query": [
+          {
+            "q": "\"UniSteer\" robot github"
+          },
+          {
+            "q": "\"VLA-Precision\""
+          },
+          {
+            "q": "site:github.com RLinf RLinf releases v0.3 \"real\""
+          },
+          {
+            "q": "site:github.com huggingface lerobot \"v0.6.1\""
+          }
+        ]
+      },
+      "result_pages": [
+        {
+          "title": "VLA-Precision",
+          "url": "https://vla-precision.github.io/"
+        },
+        {
+          "title": "Releases · huggingface/lerobot · GitHub",
+          "url": "https://github.com/huggingface/lerobot/releases"
+        },
+        {
+          "title": "GitHub - RLinf/RLinf: RLinf: Reinforcement Learning Infrastructure for Embodied and Agentic AI · GitHub",
+          "url": "https://github.com/RLinf/RLinf"
+        },
+        {
+          "title": "VLA-Precision: Asymmetric Co-Bootstrapping for Efficient Real-World Online RL of Vision-Language-Action Models",
+          "url": "https://arxiv.org/abs/2609.04355"
+        },
+        {
+          "title": "GitHub - microsoft/UniSteer: A on-robot reinforcement learning framework for steering vision-language-action models (VLAs) · GitHub",
+          "url": "https://github.com/microsoft/UniSteer"
+        },
+        {
+          "title": "RLinf Roadmap · Issue #1322 · RLinf/RLinf · GitHub",
+          "url": "https://github.com/RLinf/RLinf/issues/1322"
+        },
+        {
+          "title": "GitHub - VinRobotics/vla.cpp: A unified inference runtime for VLA models. · GitHub",
+          "url": "https://github.com/VinRobotics/vla.cpp"
+        },
+        {
+          "title": "VLA-Precision: Efficient Online RL for Vision-Language-Action",
+          "url": "https://www.emergentmind.com/papers/2609.04355"
+        },
+        {
+          "title": "uestion: How to integrate a new robot arm into RLinf? · Issue #1370 · RLinf/RLinf · GitHub",
+          "url": "https://github.com/RLinf/RLinf/issues/1370"
+        },
+        {
+          "title": "banana-in-pot-experiments/docs/FM_JOINT_MODEL_CARD.md at main · Bigenlight/banana-in-pot-experiments · GitHub",
+          "url": "https://github.com/Bigenlight/banana-in-pot-experiments/blob/main/docs/FM_JOINT_MODEL_CARD.md"
+        },
+        {
+          "title": "robotics-course-companion/module-03-robot-learning/README.md at main · kpachhai/robotics-course-companion · GitHub",
+          "url": "https://github.com/kpachhai/robotics-course-companion/blob/main/module-03-robot-learning/README.md"
+        },
+        {
+          "title": "VLA-Precision Framework: La Inteligencia Artificial Logra un Rotundo 98.3% de Precisión en Múltiples Tareas Robóticas -",
+          "url": "https://roboticahoy.com/vla-precision-framework-exito-tareas-roboticas"
+        },
+        {
+          "title": "RLinf/AGENTS.md at main · RLinf/RLinf · GitHub",
+          "url": "https://github.com/RLinf/RLinf/blob/main/AGENTS.md"
+        },
+        {
+          "title": "VLBI with the SKA",
+          "url": "https://astron.nl/skanl2018/Documents/SKA_NL_science_2018_paragi.pdf"
+        },
+        {
+          "title": "UK & Ireland Distributor",
+          "url": "https://device.report/m/7f2d53b2889a287549767280669d9d451df8cc98936a1f810c2aa584a33fa00b.pdf"
+        },
+        {
+          "title": "DIGITALMULTIMETER",
+          "url": "https://cdn6.louis.de/manual/10091913_Rothewald_Digital-Multimeter_PAC_2323_ANL_24_01_WEB.pdf"
+        },
+        {
+          "title": "1.2 Very Large Array (VLA)",
+          "url": "https://dspace.library.uvic.ca/bitstream/handle/1828/9278/Seyfollahi_Alireza_MASc_2018.pdf"
+        },
+        {
+          "title": "Microsoft Word - VLA_White_Paper v 2.1_2010-07-01.doc",
+          "url": "https://goknight.com/content/documentation/VLA_White_Paper%20v%202.1_2010-07-01.pdf"
+        },
+        {
+          "title": "VLA304-6E",
+          "url": "https://www.thk.pl/dopobrania/vla.pdf"
+        },
+        {
+          "title": "Unified Noise Steering for Efficient Human-Guided VLA Adaptation",
+          "url": "https://arxiv.org/abs/2605.10821"
+        },
+        {
+          "title": "UniSteer: Text-Guided Flow Matching in Activation Space for Versatile LLM Steering",
+          "url": "https://arxiv.org/abs/2605.30076"
+        }
+      ],
+      "access_scope": "search results only unless independently opened in another record",
+      "reported_internal_error": false
+    },
+    {
+      "id": "ECO-004",
+      "accessed_date": "2026-09-23",
+      "tool": "web.run",
+      "request": {
+        "open": [
+          {
+            "ref_id": "https://github.com/scy-v/VLA-Precision"
+          },
+          {
+            "ref_id": "https://github.com/microsoft/UniSteer"
+          },
+          {
+            "ref_id": "https://github.com/huggingface/lerobot/releases/tag/v0.6.1"
+          },
+          {
+            "ref_id": "https://github.com/PRIME-RL/SimpleVLA-RL"
+          }
+        ]
+      },
+      "result_pages": [
+        {
+          "title": "GitHub - scy-v/VLA-Precision: VLA-Precision: Asymmetric Co-Bootstrapping for Efficient Real-World Online RL of Vision-Language-Action Models · GitHub",
+          "url": "https://github.com/scy-v/VLA-Precision"
+        },
+        {
+          "title": "GitHub - microsoft/UniSteer: A on-robot reinforcement learning framework for steering vision-language-action models (VLAs) · GitHub",
+          "url": "https://github.com/microsoft/UniSteer"
+        },
+        {
+          "title": "Release Release v0.6.1 · huggingface/lerobot · GitHub",
+          "url": "https://github.com/huggingface/lerobot/releases/tag/v0.6.1"
+        },
+        {
+          "title": "GitHub - PRIME-RL/SimpleVLA-RL: [ICLR 2026] SimpleVLA-RL: Scaling VLA Training via Reinforcement Learning · GitHub",
+          "url": "https://github.com/PRIME-RL/SimpleVLA-RL"
+        }
+      ],
+      "access_scope": "page extraction/find/click; not clone or execution",
+      "reported_internal_error": false
+    },
+    {
+      "id": "ECO-005",
+      "accessed_date": "2026-09-23",
+      "tool": "web.run",
+      "request": {
+        "search_query": [
+          {
+            "q": "site:pi.website 2026 September reinforcement openpi models release"
+          },
+          {
+            "q": "site:developer.nvidia.com/blog 2026 GR00T N1.7 reinforcement learning release"
+          },
+          {
+            "q": "site:deepmind.google robotics 2026 open weights code policy"
+          },
+          {
+            "q": "site:github.com \"Tsinghua\" \"real-world\" \"RL\" \"VLA\""
+          }
+        ]
+      },
+      "result_pages": [
+        {
+          "title": "Develop Humanoid Robot Policies End-to-End with NVIDIA Isaac GR00T | NVIDIA Technical Blog",
+          "url": "https://developer.nvidia.com/blog/develop-humanoid-robot-policies-end-to-end-with-nvidia-isaac-gr00t/"
+        },
+        {
+          "title": "Recent posts for: “GR00T”",
+          "url": "https://developer.nvidia.com/blog/recent-posts/?products=GR00T"
+        },
+        {
+          "title": "Mastering Agentic Techniques: AI Agent Reinforcement Learning | NVIDIA Technical Blog",
+          "url": "https://developer.nvidia.com/blog/mastering-agentic-techniques-ai-agent-reinforcement-learning/"
+        },
+        {
+          "title": "EARLY ACCESS: Isaac GR00T N1.7 - Open Reasoning VLA model for Humanoid Robotics - Announcements - NVIDIA Developer Forums",
+          "url": "https://forums.developer.nvidia.com/t/early-access-isaac-gr00t-n1-7-open-reasoning-vla-model-for-humanoid-robotics/366916"
+        },
+        {
+          "title": "Isaac GR00T - Generalist Robot 00 Technology | NVIDIA Developer",
+          "url": "https://developer.nvidia.com/isaac/gr00t"
+        },
+        {
+          "title": "Accelerate Generalist Humanoid Robot Development with NVIDIA Isaac GR00T N1 | NVIDIA Technical Blog",
+          "url": "https://developer.nvidia.com/blog/accelerate-generalist-humanoid-robot-development-with-nvidia-isaac-gr00t-n1/"
+        },
+        {
+          "title": "R²D²: Training Generalist Robots with NVIDIA Research Workflows and World Foundation Models | NVIDIA Technical Blog",
+          "url": "https://developer.nvidia.com/blog/?p=103382"
+        },
+        {
+          "title": "Advancing Humanoid Robot Sight and Skill Development with NVIDIA Project GR00T | NVIDIA Technical Blog",
+          "url": "https://developer.nvidia.com/blog/?p=91333"
+        },
+        {
+          "title": "Tag: JetPack | NVIDIA Technical Blog",
+          "url": "https://developer.nvidia.com/blog/tag/jetpack/"
+        },
+        {
+          "title": "Getting Started with Edge AI on NVIDIA Jetson: LLMs, VLMs, and Foundation Models for Robotics | NVIDIA Technical Blog",
+          "url": "https://developer.nvidia.com/blog/?p=110310"
+        },
+        {
+          "title": "GitHub - zhourui9813/TwinRL: Official Repository of \"TwinRL-VLA: Digital Twin-Driven Reinforcement Learning for Real-World Robotic Manipulation\" · GitHub",
+          "url": "https://github.com/zhourui9813/TwinRL"
+        },
+        {
+          "title": "Category: Agentic AI / Generative AI | NVIDIA Technical Blog",
+          "url": "https://developer.nvidia.com/blog/category/generative-ai/"
+        }
+      ],
+      "access_scope": "search results only unless independently opened in another record",
+      "reported_internal_error": false
+    },
+    {
+      "id": "ECO-006",
+      "accessed_date": "2026-09-23",
+      "tool": "web.run",
+      "request": {
+        "search_query": [
+          {
+            "q": "site:pi.website/blog \"2026\""
+          },
+          {
+            "q": "site:deepmind.google/blog \"robotics\" \"2026\""
+          },
+          {
+            "q": "site:github.com \"AgiBot\" \"reinforcement\" \"2026\""
+          },
+          {
+            "q": "site:github.com \"CAS\" \"VLA\" \"online\""
+          }
+        ]
+      },
+      "result_pages": [
+        {
+          "title": "News — Google DeepMind",
+          "url": "https://deepmind.google/blog/"
+        },
+        {
+          "title": "Physical Intelligence (π) – Blog",
+          "url": "https://www.pi.website/blog"
+        },
+        {
+          "title": "Gemini Robotics 2 brings whole body intelligence to robots — Google DeepMind",
+          "url": "https://deepmind.google/blog/gemini-robotics-2-brings-whole-body-intelligence-to-robots/"
+        },
+        {
+          "title": "Gemini Robotics ER 1.6: Enhanced Embodied Reasoning — Google DeepMind",
+          "url": "https://deepmind.google/blog/gemini-robotics-er-1-6/"
+        },
+        {
+          "title": "A Steerable Model with Emergent Capabilities",
+          "url": "https://www.pi.website/blog/pi07"
+        },
+        {
+          "title": "AI in Indian Education: Atal Innovation Mission and Google launch ATL Saathi — Google DeepMind",
+          "url": "https://deepmind.google/blog/empowering-indias-next-generation-of-innovators-with-atl-saathi/"
+        },
+        {
+          "title": "News — Google DeepMind",
+          "url": "https://deepmind.google/blog/page/2/"
+        },
+        {
+          "title": "Our partnership with the UK government — Google DeepMind",
+          "url": "https://deepmind.google/blog/strengthening-our-partnership-with-the-uk-government-to-support-prosperity-and-security-in-the-ai-era/"
+        },
+        {
+          "title": "The Physical Intelligence Layer",
+          "url": "https://www.pi.website/blog/partner"
+        },
+        {
+          "title": "Google DeepMind Accelerator — Robotics, EMEA — Google DeepMind",
+          "url": "https://deepmind.google/accelerators/robotics/"
+        },
+        {
+          "title": "Model cards — Google DeepMind",
+          "url": "https://deepmind.google/models/model-cards/"
+        },
+        {
+          "title": "D4RT: Unified, Fast 4D Scene Reconstruction & Tracking — Google DeepMind",
+          "url": "https://deepmind.google/blog/d4rt-teaching-ai-to-see-the-world-in-four-dimensions/"
+        },
+        {
+          "title": "ACKNOWLEDGMENTS",
+          "url": "https://www.pi.website/download/rlt.pdf"
+        },
+        {
+          "title": "[45] GigaBrain Team, Boyuan Wang, Chaojun Ni, Guan Huang, Guosheng Zhao, Hao Li, Jie Li, Jindi Lv, Jingyu Liu, Lv Feng, et al. Gigabrain-0.5 m*: a vla that learns from world model-based reinforcement learning. *arXiv preprint arXiv:2602.12099*, 2026.",
+          "url": "https://www.pi.website/download/Mem.pdf"
+        },
+        {
+          "title": "[12] Haoyan Zhen, Xiaowen Qiu, Peihao Chen, Jincheng Yang, Xin Yan, Yilun Du, Yining Hong, and Chuang Gan. 3d-vla: 3d vision-language-action generative world model. *arXiv preprint arXiv:2409.09631*, 2024.",
+          "url": "https://www.pi.website/download/pi07.pdf"
+        }
+      ],
+      "access_scope": "search results only unless independently opened in another record",
+      "reported_internal_error": false
+    },
+    {
+      "id": "ECO-007",
+      "accessed_date": "2026-09-23",
+      "tool": "web.run",
+      "request": {
+        "search_query": [
+          {
+            "q": "具身 在线强化学习 开源 清华 中科院 2026 github"
+          },
+          {
+            "q": "智元 星动纪元 自变量 蚂蚁 灵波 开源 强化学习 VLA 2026"
+          }
+        ]
+      },
+      "result_pages": [
+        {
+          "title": "Awesome-VLA/supp.md at main · KwanWaiPang/Awesome-VLA · GitHub",
+          "url": "https://github.com/KwanWaiPang/Awesome-VLA/blob/main/supp.md"
+        },
+        {
+          "title": "RLinf/README.zh-CN.md at main · RLinf/RLinf · GitHub",
+          "url": "https://github.com/RLinf/RLinf/blob/main/README.zh-CN.md"
+        },
+        {
+          "title": "GitHub - loongOpen/Unity-RL-Playground: Reinforcement Learning & Robot Simulation & Embodied Intelligence · GitHub",
+          "url": "https://github.com/loongOpen/Unity-RL-Playground"
+        },
+        {
+          "title": "清华电子系×中国信通院联合发布《具身智能发展报告（2025）》 汪玉解读具身智能与强化学习协同新路径-清华大学电子工程系",
+          "url": "https://www.ee.tsinghua.edu.cn/info/1076/4984.htm"
+        },
+        {
+          "title": "GitHub - datawhalechina/every-embodied: 仅需Python基础，从0构建自己的具身智能机器人；从0逐步构建VLA/OpenVLA/SmolVLA/Pi0， 深入理解具身智能 · GitHub",
+          "url": "https://github.com/datawhalechina/every-embodied/"
+        },
+        {
+          "title": "新闻详情",
+          "url": "https://www.dzh.com.cn/index/detail?mod=txs&url=%2Fwap%2Fdata%2Fnews%2Ftxs%2F2026%2F07%2F531569.json"
+        },
+        {
+          "title": "蚂蚁具身智能明牌了：做大脑，和宇树们错位竞争 - 智源社区",
+          "url": "https://hub.baai.ac.cn/view/52219"
+        },
+        {
+          "title": "清华大学具身智能与机器人研究院",
+          "url": "https://eir.tsinghua.edu.cn/"
+        },
+        {
+          "title": "Join Us | Embodied Decision Intelligence Lab (EDI Lab)",
+          "url": "https://thusigs-edi-lab.github.io/contact/"
+        },
+        {
+          "title": "星动纪元（Robot Era） · 估值¥100亿 — RobotScope",
+          "url": "https://robotscope.net/companies/star-era/"
+        },
+        {
+          "title": "GitHub - datawhalechina/dive-into-embodied-ai: 从零到一搭建一台具身智能机器人:深入强化学习、World-Model、VLA 等智能决策方法的工程落地,贯穿仿真环境、控制器、运动规划、感知系统等技能树模块,并在真实项目中跑通\"决策—控制—感知\"完整链路。 · GitHub",
+          "url": "https://github.laiyagushi.com/datawhalechina/dive-into-embodied-ai"
+        },
+        {
+          "title": "蚂蚁集团组织了一支「物理AI特工队」：蚂蚁灵波具身路线的优势与困顿",
+          "url": "https://news.marsbit.co/20260722193013668869.html"
+        },
+        {
+          "title": "没有幻灯片标题",
+          "url": "https://pdf.dfcfw.com/pdf/H3_AP202508091724252221_1.pdf?1754816055000.pdf="
+        },
+        {
+          "title": "ûлõƬ�",
+          "url": "https://pdf.dfcfw.com/pdf/H3_AP202512031792751519_1.pdf?1764747951000.pdf="
+        },
+        {
+          "title": "CX20260114C",
+          "url": "https://ssw.gxrb.com.cn/newspaper/epaper/gxrb/2026-01-14/004/gxrb20260114004.pdf"
+        }
+      ],
+      "access_scope": "search results only unless independently opened in another record",
+      "reported_internal_error": false
+    },
+    {
+      "id": "ECO-008",
+      "accessed_date": "2026-09-23",
+      "tool": "web.run",
+      "request": {
+        "search_query": [
+          {
+            "q": "site:github.com/huggingface/lerobot/issues \"RL\" \"2026\" \"bug\""
+          },
+          {
+            "q": "site:github.com/RLinf/RLinf/issues \"real\" \"2026\""
+          },
+          {
+            "q": "site:github.com/Physical-Intelligence/openpi/issues \"pi0.5\" \"failure\""
+          },
+          {
+            "q": "site:github.com/robbyant \"lingbot-vla\""
+          }
+        ]
+      },
+      "result_pages": [
+        {
+          "title": "GitHub - Robbyant/lingbot-vla: A Pragmatic VLA Foundation Model · GitHub",
+          "url": "https://github.com/Robbyant/lingbot-vla"
+        },
+        {
+          "title": "Robbyant · GitHub",
+          "url": "https://github.com/Robbyant"
+        },
+        {
+          "title": "GitHub - RLinf/RLinf: RLinf: Reinforcement Learning Infrastructure for Embodied and Agentic AI · GitHub",
+          "url": "https://github.com/RLinf/RLinf"
+        },
+        {
+          "title": "examples/convert_jax_model_to_pytorch.py silently drops LoRA adapter weights for LoRA-finetuned checkpoints · Issue #958 · Physical-Intelligence/openpi · GitHub",
+          "url": "https://github.com/Physical-Intelligence/openpi/issues/958"
+        },
+        {
+          "title": "cfg.validate() in lerobot/rl/learner.py is conflict with cfg = handle_resume_logic(cfg) in the same function `def train(cfg: TrainRLServerPipelineConfig, job_name: str | None = None)` · Issue #3584 · huggingface/lerobot · GitHub",
+          "url": "https://github.com/huggingface/lerobot/issues/3584"
+        },
+        {
+          "title": "RLinf Roadmap · Issue #1322 · RLinf/RLinf · GitHub",
+          "url": "https://github.com/RLinf/RLinf/issues/1322"
+        },
+        {
+          "title": "Robotics_Notebooks/sources/repos/lingbot-vla-v2.md at main · ImChong/Robotics_Notebooks · GitHub",
+          "url": "https://github.com/ImChong/Robotics_Notebooks/blob/main/sources/repos/lingbot-vla-v2.md"
+        },
+        {
+          "title": "Robotwin-radeon-cloud/Reproduce_Guide.md at main · ZiguanWang/Robotwin-radeon-cloud · GitHub",
+          "url": "https://github.com/ZiguanWang/Robotwin-radeon-cloud/blob/main/Reproduce_Guide.md"
+        },
+        {
+          "title": "FlashRT Pi0.5 FP8 LIBERO Results on RTX 4090 / SM89 and FP8 NT Autotune Issue · Issue #105 · flashrt-project/FlashRT · GitHub",
+          "url": "https://github.com/flashrt-project/FlashRT/issues/105"
+        },
+        {
+          "title": "openroboto-subnet/docs/SUBNET_OVERVIEW.md at main · openroboto-ai/openroboto-subnet · GitHub",
+          "url": "https://github.com/openroboto-ai/openroboto-subnet/blob/main/docs/SUBNET_OVERVIEW.md"
+        },
+        {
+          "title": "GitHub - jiangyurong609/twinRL-lingbot-vla: twinRL implementation for lingbot-vla · GitHub",
+          "url": "https://github.com/jiangyurong609/twinRL-lingbot-vla"
+        },
+        {
+          "title": "2026 BRAND GUIDELINES — LAYOUT",
+          "url": "https://brand.github.com/GitHub-BrandGuidelines-2026.pdf"
+        }
+      ],
+      "access_scope": "search results only unless independently opened in another record",
+      "reported_internal_error": false
+    },
+    {
+      "id": "ECO-009",
+      "accessed_date": "2026-09-23",
+      "tool": "web.run",
+      "request": {
+        "open": [
+          {
+            "ref_id": "https://github.com/Physical-Intelligence/openpi/issues/958"
+          },
+          {
+            "ref_id": "https://github.com/huggingface/lerobot/pull/4232"
+          },
+          {
+            "ref_id": "https://github.com/microsoft/UniSteer/pulls"
+          },
+          {
+            "ref_id": "https://github.com/Robbyant/lingbot-vla-v2"
+          }
+        ]
+      },
+      "result_pages": [
+        {
+          "title": "examples/convert_jax_model_to_pytorch.py silently drops LoRA adapter weights for LoRA-finetuned checkpoints · Issue #958 · Physical-Intelligence/openpi · GitHub",
+          "url": "https://github.com/Physical-Intelligence/openpi/issues/958"
+        },
+        {
+          "title": "refactor(types): change module name by imstevenpmwork · Pull Request #4232 · huggingface/lerobot · GitHub",
+          "url": "https://github.com/huggingface/lerobot/pull/4232"
+        },
+        {
+          "title": "Pull requests · microsoft/UniSteer · GitHub",
+          "url": "https://github.com/microsoft/UniSteer/pulls"
+        },
+        {
+          "title": "GitHub - Robbyant/lingbot-vla-v2: From Foundation to Application · GitHub",
+          "url": "https://github.com/Robbyant/lingbot-vla-v2"
+        }
+      ],
+      "access_scope": "page extraction/find/click; not clone or execution",
+      "reported_internal_error": false
+    },
+    {
+      "id": "ECO-010",
+      "accessed_date": "2026-09-23",
+      "tool": "web.run",
+      "request": {
+        "open": [
+          {
+            "ref_id": "https://github.com/huggingface/lerobot/pull/4223"
+          },
+          {
+            "ref_id": "https://github.com/Physical-Intelligence/openpi/pull/960"
+          },
+          {
+            "ref_id": "https://huggingface.co/nvidia/GR00T-N1.7-3B"
+          },
+          {
+            "ref_id": "https://huggingface.co/Robbyant/lingbot-vla-v2-6b"
+          }
+        ]
+      },
+      "result_pages": [
+        {
+          "title": "fix(rtc): prevent violent robot jumps from delay mis-estimation in chunk merging by circle-jin · Pull Request #4223 · huggingface/lerobot · GitHub",
+          "url": "https://github.com/huggingface/lerobot/pull/4223"
+        },
+        {
+          "title": "Add LoRA-aware JAX-to-PyTorch checkpoint conversion by Ret1ehS · Pull Request #960 · Physical-Intelligence/openpi · GitHub",
+          "url": "https://github.com/Physical-Intelligence/openpi/pull/960"
+        },
+        {
+          "title": "nvidia/GR00T-N1.7-3B · Hugging Face",
+          "url": "https://huggingface.co/nvidia/GR00T-N1.7-3B"
+        }
+      ],
+      "access_scope": "page extraction/find/click; not clone or execution",
+      "reported_internal_error": true
+    },
+    {
+      "id": "ECO-011",
+      "accessed_date": "2026-09-23",
+      "tool": "web.run",
+      "request": {
+        "find": [
+          {
+            "ref_id": "turn1137view3",
+            "pattern": "Hugging"
+          },
+          {
+            "ref_id": "turn1137view3",
+            "pattern": "reinforcement"
+          },
+          {
+            "ref_id": "turn1140view2",
+            "pattern": "License"
+          }
+        ],
+        "response_length": "long"
+      },
+      "result_pages": [
+        {
+          "title": "GitHub - Robbyant/lingbot-vla-v2: From Foundation to Application · GitHub",
+          "url": "https://github.com/Robbyant/lingbot-vla-v2"
+        },
+        {
+          "title": "GitHub - Robbyant/lingbot-vla-v2: From Foundation to Application · GitHub",
+          "url": "https://github.com/Robbyant/lingbot-vla-v2"
+        },
+        {
+          "title": "nvidia/GR00T-N1.7-3B · Hugging Face",
+          "url": "https://huggingface.co/nvidia/GR00T-N1.7-3B"
+        }
+      ],
+      "access_scope": "page extraction/find/click; not clone or execution",
+      "reported_internal_error": false
+    },
+    {
+      "id": "ECO-012",
+      "accessed_date": "2026-09-23",
+      "tool": "web.run",
+      "request": {
+        "search_query": [
+          {
+            "q": "\"Dexbotic\" \"RLinf\" \"real\""
+          },
+          {
+            "q": "\"OpenDM\" \"DM0.5\" github"
+          },
+          {
+            "q": "site:huggingface.co/spaces/lerobot \"visualize\""
+          },
+          {
+            "q": "site:huggingface.co/datasets \"VLA-Precision\" OR \"UniSteer\""
+          }
+        ],
+        "response_length": "long"
+      },
+      "result_pages": [
+        {
+          "title": "GitHub - dexmal/opendm: An Open-World Foundation Model for General-Purpose Embodied Intelligence. · GitHub",
+          "url": "https://github.com/dexmal/opendm"
+        },
+        {
+          "title": "Using Dataset Tools · Hugging Face",
+          "url": "https://huggingface.co/docs/lerobot/using_dataset_tools"
+        },
+        {
+          "title": "opendm/README.zh-CN.md at main · dexmal/opendm · GitHub",
+          "url": "https://github.com/dexmal/opendm/blob/main/README.zh-CN.md"
+        },
+        {
+          "title": "Will Historical Context Fusion and Dynamic Action Matching be open-sourced? · Issue #2 · dexmal/opendm · GitHub",
+          "url": "https://github.com/dexmal/opendm/issues/2"
+        },
+        {
+          "title": "lerobot (LeRobot)",
+          "url": "https://huggingface.co/lerobot/spaces"
+        },
+        {
+          "title": "lerobot/visualize_dataset · feat: local dataset paths, API route, and versioned fetch routing",
+          "url": "https://huggingface.co/spaces/lerobot/visualize_dataset/discussions/4"
+        },
+        {
+          "title": "Visualize Dataset (v2.0+ latest dataset format) - a Hugging Face Space by lerobot",
+          "url": "https://huggingface.co/spaces/lerobot/visualize_dataset"
+        },
+        {
+          "title": "RLinf/README.md at main · RLinf/RLinf · GitHub",
+          "url": "https://github.com/RLinf/RLinf/blob/main/README.md"
+        },
+        {
+          "title": "visualize_dataset_html.py · IPEC-COMMUNITY/openx_lerobot_visualizer at main",
+          "url": "https://huggingface.co/spaces/IPEC-COMMUNITY/openx_lerobot_visualizer/blob/main/visualize_dataset_html.py"
+        },
+        {
+          "title": "人类示教问题 · Issue #10 · dexmal/opendm · GitHub",
+          "url": "https://github.com/dexmal/opendm/issues/10"
+        },
+        {
+          "title": "README.md · lerobot/visualize_dataset at refs/pr/6",
+          "url": "https://huggingface.co/spaces/lerobot/visualize_dataset/blob/refs%2Fpr%2F6/README.md"
+        },
+        {
+          "title": "Spaces - Hugging Face",
+          "url": "https://huggingface.co/spaces?category=data-visualization"
+        },
+        {
+          "title": "<visual_element id=\"e1\">",
+          "url": "https://huggingface.co/spaces/Rahatara/rag_ColPali_Qwen2VL/resolve/main/textureme.pdf?download=true"
+        },
+        {
+          "title": "ally aren’t important. If you want to make the most of your limited time and energy, it pays to focus on completing the tasks that will make the biggest difference first, before spending your time and energy on anything else. A Most Important Task (MIT) is a critical task that will create the most important results you’re looking to achieve. Everything on your plate is not critically important, so don’t treat everything on your task list equally. By taking a few minutes to identify a few tasks as particularly important, you’ll make it easier to focus on achieving them first. At the beginning of every day, create a list of two or three MITs, then focus on getting them done as quickly as possible. Keep this list separate from your general to-do list or task tracking system. I typically use a 3 × 5 index card or David Seah’s “Emergent Task Planner,”7 a free downloadable PDF that makes it easy to plan your day. When creating your list of MITs, it’s useful to ask a Self-Elicitation question : “What are the two or three most important things that I need to do today? What are the things that—if I got them done today—would make a huge difference?” Write only those tasks on your MIT list, then try to get them done first thing in the morning. Combining this technique with Parkinson’s Law (discussed later) by setting an artificial deadline is extremely effective. If you set a goal to have all of your MITs done by 10:00 a.m., you’ll be amazed at how quickly you can complete the day’s most important tasks. Having a list of two or three MITs helps you maintain a Monodeal state by giving you permission to say no to interruptions that aren’t as important. If you’re working on your MITs and someone calls you, it’s easier to ignore the call or tell the caller, “I’m working under deadline—I’ll get back to you later.” By definition, everything that’s not an MIT is not as important, so it’s easier to say no to noncritical interruptions. Achieve your MITs as quickly as possible, and then you’ll have the rest of the day to handle anything else that comes up. SHARE THIS CONCEPT: http://book.personalmba.com/most-importanttasks/ Goals Setting a vague goal is like walking into a restaurant and saying, “I’m hungry. I want some food.” You’ll stay hungry until you order something. —STEVE PAVLINA, AUTHOR OF PERSONAL DEVELOPMENT FOR SMART PEOPLE AND BLOGGER AT STEVEPAVLINA.COM Much has been made in business literature about the importance of having Goals. Well-formed Goals accomplish two things: they help you visualize what you want and make you excited about achieving it. A Goal is a statement that clarifies precisely what you want to achieve, which makes it easy for your brain to use Mental Simulation to Visualize what achieving that Goal looks like. If the End Result you’re looking for is vague or fuzzy, you’re making it difficult for your mind’s automatic planning systems to find ways to get what you want. Well-formed Goals also play a key role in Motivation—the more clearly defined your Goal, the easier it is to get excited about doing the things required to get what you want. Fuzzy Goals like: “I want to climb a mountain” aren’t very helpful, because they don’t give your brain any material to work with. Which mountain? Where? When? Why? Without answers to these questions, you probably won’t do anything at all. Well-formed Goals pass the “Everest Test.” Useful Goals look like this: “I want to climb to the summit of Mount Everest before my fortieth birthday, and take a panoramic picture to frame on my wall as a trophy.” This Goal is easy for your brain to simulate—Mount Everest is in Nepal, so you’ll have to arrange travel. You’ll also have to improve your climbing skills, find a guide, buy equipment, purchase a suitable panoramic camera, etc. Once you make a conscious decision to achieve the Goal, your mind automatically starts finding ways to get it done. Goals are most useful if they’re Framed in a Positive, Immediate, Concrete, Specific (PICS) format: Positive refers to Motivation—your Goal should be something you move toward, not away from. Goals like “I don’t want to be fat any more” are a recipe for Threat Lockdown—you’re reinforcing the negative instead of using Reinterpretation to change your mind’s prediction to get excited about improving. For best results, eliminate Conflicts first, then move toward what you want to achieve. Immediate refers to time scale: your Goals should be things that you decide to make progress on now, not “someday” or “eventually.” If you don’t want to commit to working on a particular Goal now, put it on your someday/maybe list and focus on something else. Concrete means you’re able to see the results in the real world. Goals are achievements—you should know when you’ve accomplished what you set out to achieve. Setting Goals like “I want to be happy” won’t work because they’re not concrete—how would you know when you’re done? When you reach the top of Mount Everest, you’ve achieved something concrete in the real world—that’s concrete. Specific means you’re able to define exactly what, when, and where you’re going to achieve your Goal. Climbing Mount Everest on a certain date in the near future is specific, which makes it easy for your mind to plan exactly how you’ll go about accomplishing it. For best effect, your Goals should be under your control. Goals like “losing twenty pounds” are soul crushing because they’re not directly under your control—losing weight is a result, not an effort. If your weight randomly moves up a few pounds on a given day, it’s easy to feel defeated, even though you had no choice in the matter. For best results, make your Goals actions that are within your Focus of Control (discussed later), like doing a minimum of thirty minutes of exercise every day and control",
+          "url": "https://huggingface.co/spaces/Tien09/personal_mba2/resolve/main/source_documents/The%20Personal%20MBA.pdf"
+        },
+        {
+          "title": "abc.md                                                                 2025-07-03",
+          "url": "https://huggingface.co/spaces/rrizwan98/google-adk-flows-agent/resolve/main/abc.pdf?download=true"
+        },
+        {
+          "title": "<visual_element id=\"e1\">",
+          "url": "https://huggingface.co/spaces/Rahatara/rag_ColPali_Qwen2VL/resolve/main/defecttwin.pdf?download=true"
+        },
+        {
+          "title": "Architecture Design",
+          "url": "https://huggingface.co/spaces/Shreyashchawda12/Health_Consulting_Chatbot/resolve/main/Architecture_Design_document.pdf?download=true"
+        }
+      ],
+      "access_scope": "search results only unless independently opened in another record",
+      "reported_internal_error": false
+    },
+    {
+      "id": "ECO-013",
+      "accessed_date": "2026-09-23",
+      "tool": "web.run",
+      "request": {
+        "open": [
+          {
+            "ref_id": "https://github.com/dexmal/opendm"
+          },
+          {
+            "ref_id": "https://github.com/dexmal/dexbotic"
+          },
+          {
+            "ref_id": "https://huggingface.co/robbyant/lingbot-vla-v2-6b"
+          },
+          {
+            "ref_id": "https://huggingface.co/spaces/lerobot/visualize_dataset"
+          },
+          {
+            "ref_id": "https://huggingface.co/datasets/NeoteAIEmbodied/OpenNeoData"
+          },
+          {
+            "ref_id": "https://huggingface.co/exla-ai/openpie-0.6"
+          }
+        ]
+      },
+      "result_pages": [
+        {
+          "title": "GitHub - dexmal/opendm: An Open-World Foundation Model for General-Purpose Embodied Intelligence. · GitHub",
+          "url": "https://github.com/dexmal/opendm"
+        },
+        {
+          "title": "GitHub - dexmal/dexbotic: Dexbotic: Open-Source Vision-Language-Action Toolbox · GitHub",
+          "url": "https://github.com/dexmal/dexbotic"
+        },
+        {
+          "title": "robbyant/lingbot-vla-v2-6b · Hugging Face",
+          "url": "https://huggingface.co/robbyant/lingbot-vla-v2-6b"
+        },
+        {
+          "title": "Visualize Dataset (v2.0+ latest dataset format) - a Hugging Face Space by lerobot",
+          "url": "https://huggingface.co/spaces/lerobot/visualize_dataset"
+        },
+        {
+          "title": "NeoteAIEmbodied/OpenNeoData · Datasets at Hugging Face",
+          "url": "https://huggingface.co/datasets/NeoteAIEmbodied/OpenNeoData"
+        },
+        {
+          "title": "exla-ai/openpie-0.6 · Hugging Face",
+          "url": "https://huggingface.co/exla-ai/openpie-0.6"
+        }
+      ],
+      "access_scope": "page extraction/find/click; not clone or execution",
+      "reported_internal_error": false
+    },
+    {
+      "id": "ECO-014",
+      "accessed_date": "2026-09-23",
+      "tool": "web.run",
+      "request": {
+        "find": [
+          {
+            "ref_id": "turn1147view1",
+            "pattern": "RLinf"
+          },
+          {
+            "ref_id": "turn1147view4",
+            "pattern": "License"
+          },
+          {
+            "ref_id": "turn1147view5",
+            "pattern": "Parameters"
+          },
+          {
+            "ref_id": "turn1147view2",
+            "pattern": "License"
+          },
+          {
+            "ref_id": "turn1137view2",
+            "pattern": "Open"
+          }
+        ],
+        "response_length": "long"
+      },
+      "result_pages": [
+        {
+          "title": "GitHub - dexmal/dexbotic: Dexbotic: Open-Source Vision-Language-Action Toolbox · GitHub",
+          "url": "https://github.com/dexmal/dexbotic"
+        },
+        {
+          "title": "NeoteAIEmbodied/OpenNeoData · Datasets at Hugging Face",
+          "url": "https://huggingface.co/datasets/NeoteAIEmbodied/OpenNeoData"
+        },
+        {
+          "title": "L96:     `# Make sure you have git-lfs installed",
+          "url": "https://git-lfs.com"
+        },
+        {
+          "title": "exla-ai/openpie-0.6 · Hugging Face",
+          "url": "https://huggingface.co/exla-ai/openpie-0.6"
+        },
+        {
+          "title": "robbyant/lingbot-vla-v2-6b · Hugging Face",
+          "url": "https://huggingface.co/robbyant/lingbot-vla-v2-6b"
+        },
+        {
+          "title": "Pull requests · microsoft/UniSteer · GitHub",
+          "url": "https://github.com/microsoft/UniSteer/pulls"
+        }
+      ],
+      "access_scope": "page extraction/find/click; not clone or execution",
+      "reported_internal_error": false
+    },
+    {
+      "id": "ECO-015",
+      "accessed_date": "2026-09-23",
+      "tool": "web.run",
+      "request": {
+        "search_query": [
+          {
+            "q": "site:bair.berkeley.edu/blog 2026 robot reinforcement learning"
+          },
+          {
+            "q": "site:stanford.edu 2026 robot \"reinforcement\" \"open\""
+          },
+          {
+            "q": "site:github.com \"real-world\" \"reinforcement\" \"Chinese Academy\""
+          },
+          {
+            "q": "site:github.com \"UniSteer\" \"reproduce\""
+          }
+        ]
+      },
+      "result_pages": [
+        {
+          "title": "The Berkeley Artificial Intelligence Research Blog",
+          "url": "https://bair.berkeley.edu/blog/future/"
+        },
+        {
+          "title": "End-to-End Deep Reinforcement Learning without Reward Engineering – The Berkeley Artificial Intelligence Research Blog",
+          "url": "https://bair.berkeley.edu/blog/2019/05/28/end-to-end/"
+        },
+        {
+          "title": "Robots that Learn to Adapt – The Berkeley Artificial Intelligence Research Blog",
+          "url": "https://bair.berkeley.edu/blog/2019/05/06/robot-adapt/"
+        },
+        {
+          "title": "The Ingredients of Real World Robotic Reinforcement Learning – The Berkeley Artificial Intelligence Research Blog",
+          "url": "https://bair.berkeley.edu/blog/2020/04/27/ingredients/"
+        },
+        {
+          "title": "Model-based Reinforcement Learning with Neural Network Dynamics – The Berkeley Artificial Intelligence Research Blog",
+          "url": "https://bair.berkeley.edu/blog/2017/11/30/model-based-rl/"
+        },
+        {
+          "title": "Data-Driven Deep Reinforcement Learning – The Berkeley Artificial Intelligence Research Blog",
+          "url": "https://bair.berkeley.edu/blog/2019/12/05/bear/"
+        },
+        {
+          "title": "RECON: Learning to Explore the Real World with a Ground Robot – The Berkeley Artificial Intelligence Research Blog",
+          "url": "https://bair.berkeley.edu/blog/2021/11/03/recon/"
+        },
+        {
+          "title": "One-Shot Imitation from Watching Videos – The Berkeley Artificial Intelligence Research Blog",
+          "url": "https://bair.berkeley.edu/blog/2018/06/28/daml/"
+        },
+        {
+          "title": "Goal Representations for Instruction Following – The Berkeley Artificial Intelligence Research Blog",
+          "url": "https://bair.berkeley.edu/blog/2023/10/17/grif/"
+        },
+        {
+          "title": "Physically Realistic Attacks on Deep Reinforcement Learning – The Berkeley Artificial Intelligence Research Blog",
+          "url": "https://bair.berkeley.edu/blog/2020/03/27/attacks/"
+        },
+        {
+          "title": "🏆 2026 BEHAVIOR Challenge - BEHAVIOR",
+          "url": "https://behavior.stanford.edu/challenge/index.html"
+        },
+        {
+          "title": "Learning to Learn with Probabilistic Task Embeddings – The Berkeley Artificial Intelligence Research Blog",
+          "url": "https://bair.berkeley.edu/blog/2019/06/10/pearl/"
+        },
+        {
+          "title": "cs224r_intro",
+          "url": "https://cs224r.stanford.edu/spring_2023/slides/cs224r_intro.pdf"
+        },
+        {
+          "title": "Deep Reinforcement Learning with Action Chunks.",
+          "url": "https://cs224r.stanford.edu/projects/pdfs/final_report.pdf"
+        },
+        {
+          "title": "Surreal: Open-Source Reinforcement Learning Framework and Robot Manipulation Benchmark",
+          "url": "https://ai.stanford.edu/~yukez/papers/corl2018surreal.pdf"
+        },
+        {
+          "title": "Have we met?  MDP Based Speaker ID for Robot Dialogue",
+          "url": "https://ai.stanford.edu/~ang/papers/is06-havewemetmdp.pdf"
+        },
+        {
+          "title": "Best Acti",
+          "url": "https://bair.berkeley.edu/static/blog/tactile/diagram.pdf"
+        }
+      ],
+      "access_scope": "search results only unless independently opened in another record",
+      "reported_internal_error": false
+    },
+    {
+      "id": "ECO-016",
+      "accessed_date": "2026-09-23",
+      "tool": "web.run",
+      "request": {
+        "open": [
+          {
+            "ref_id": "https://github.com/huggingface/lerobot/pull/4398"
+          },
+          {
+            "ref_id": "https://github.com/huggingface/lerobot/pull/4122"
+          },
+          {
+            "ref_id": "https://github.com/microsoft/UniSteer/releases"
+          },
+          {
+            "ref_id": "https://github.com/scy-v/VLA-Precision/releases"
+          },
+          {
+            "ref_id": "https://github.com/RLinf/RLinf/issues/1370"
+          }
+        ]
+      },
+      "result_pages": [
+        {
+          "title": "fix(rollout): feed fresh observation to the engine on DAgger resume by ZWQ106 · Pull Request #4398 · huggingface/lerobot · GitHub",
+          "url": "https://github.com/huggingface/lerobot/pull/4398"
+        },
+        {
+          "title": "fix(rtc): action keys ordering and chunking logic by Maximellerbach · Pull Request #4122 · huggingface/lerobot · GitHub",
+          "url": "https://github.com/huggingface/lerobot/pull/4122"
+        },
+        {
+          "title": "Releases · microsoft/UniSteer · GitHub",
+          "url": "https://github.com/microsoft/UniSteer/releases"
+        },
+        {
+          "title": "Releases · scy-v/VLA-Precision · GitHub",
+          "url": "https://github.com/scy-v/VLA-Precision/releases"
+        },
+        {
+          "title": "uestion: How to integrate a new robot arm into RLinf? · Issue #1370 · RLinf/RLinf · GitHub",
+          "url": "https://github.com/RLinf/RLinf/issues/1370"
+        }
+      ],
+      "access_scope": "page extraction/find/click; not clone or execution",
+      "reported_internal_error": false
+    },
+    {
+      "id": "ECO-017",
+      "accessed_date": "2026-09-23",
+      "tool": "web.run",
+      "request": {
+        "open": [
+          {
+            "ref_id": "https://huggingface.co/blog/lerobot-release-v060"
+          },
+          {
+            "ref_id": "https://github.com/huggingface/lerobot/issues/3747"
+          }
+        ],
+        "click": [
+          {
+            "ref_id": "turn1150view0",
+            "id": 115
+          }
+        ],
+        "response_length": "long"
+      },
+      "result_pages": [
+        {
+          "title": "LeRobot v0.6.0: Imagine, Evaluate, Improve",
+          "url": "https://huggingface.co/blog/lerobot-release-v060"
+        },
+        {
+          "title": "DAGGER resume: RTC engine uses stale observation after correction, causing snap-back · Issue #3747 · huggingface/lerobot · GitHub",
+          "url": "https://github.com/huggingface/lerobot/issues/3747"
+        },
+        {
+          "title": "dexbotic/docs/RLinfAsRLBackend.md at main · dexmal/dexbotic · GitHub",
+          "url": "https://github.com/dexmal/dexbotic/blob/main/docs/RLinfAsRLBackend.md"
+        }
+      ],
+      "access_scope": "page extraction/find/click; not clone or execution",
+      "reported_internal_error": false
+    },
+    {
+      "id": "ECO-018",
+      "accessed_date": "2026-09-23",
+      "tool": "web.run",
+      "request": {
+        "open": [
+          {
+            "ref_id": "turn1162view2",
+            "lineno": 170
+          },
+          {
+            "ref_id": "turn1156view2",
+            "lineno": 127
+          },
+          {
+            "ref_id": "turn1156view3",
+            "lineno": 120
+          },
+          {
+            "ref_id": "turn1162view1",
+            "lineno": 145
+          }
+        ],
+        "response_length": "long"
+      },
+      "result_pages": [
+        {
+          "title": "dexbotic/docs/RLinfAsRLBackend.md at main · dexmal/dexbotic · GitHub",
+          "url": "https://github.com/dexmal/dexbotic/blob/main/docs/RLinfAsRLBackend.md"
+        },
+        {
+          "title": "Releases · microsoft/UniSteer · GitHub",
+          "url": "https://github.com/microsoft/UniSteer/releases"
+        },
+        {
+          "title": "Releases · scy-v/VLA-Precision · GitHub",
+          "url": "https://github.com/scy-v/VLA-Precision/releases"
+        },
+        {
+          "title": "DAGGER resume: RTC engine uses stale observation after correction, causing snap-back · Issue #3747 · huggingface/lerobot · GitHub",
+          "url": "https://github.com/huggingface/lerobot/issues/3747"
+        }
+      ],
+      "access_scope": "page extraction/find/click; not clone or execution",
+      "reported_internal_error": false
+    },
+    {
+      "id": "ECO-019",
+      "accessed_date": "2026-09-23",
+      "tool": "web.run",
+      "request": {
+        "open": [
+          {
+            "ref_id": "https://github.com/huggingface/lerobot/pull/4452"
+          },
+          {
+            "ref_id": "https://github.com/huggingface/lerobot/pull/4454"
+          }
+        ],
+        "response_length": "short"
+      },
+      "result_pages": [
+        {
+          "title": "fix(rollout): align sync and rtc action/state ordering by Maximellerbach · Pull Request #4452 · huggingface/lerobot · GitHub",
+          "url": "https://github.com/huggingface/lerobot/pull/4452"
+        },
+        {
+          "title": "fix(rtc): chunk-splice jump and mean-action seam by Maximellerbach · Pull Request #4454 · huggingface/lerobot · GitHub",
+          "url": "https://github.com/huggingface/lerobot/pull/4454"
+        }
+      ],
+      "access_scope": "page extraction/find/click; not clone or execution",
+      "reported_internal_error": false
+    },
+    {
+      "id": "ECO-020",
+      "accessed_date": "2026-09-23",
+      "tool": "web.run",
+      "request": {
+        "find": [
+          {
+            "ref_id": "turn1169view1",
+            "pattern": "Merged"
+          },
+          {
+            "ref_id": "turn1169view1",
+            "pattern": "What changed"
+          },
+          {
+            "ref_id": "turn1169view1",
+            "pattern": "4223"
+          },
+          {
+            "ref_id": "turn1169view1",
+            "pattern": "Sep"
+          }
+        ],
+        "response_length": "long"
+      },
+      "result_pages": [
+        {
+          "title": "fix(rtc): chunk-splice jump and mean-action seam by Maximellerbach · Pull Request #4454 · huggingface/lerobot · GitHub",
+          "url": "https://github.com/huggingface/lerobot/pull/4454"
+        },
+        {
+          "title": "fix(rtc): chunk-splice jump and mean-action seam by Maximellerbach · Pull Request #4454 · huggingface/lerobot · GitHub",
+          "url": "https://github.com/huggingface/lerobot/pull/4454"
+        },
+        {
+          "title": "fix(rtc): chunk-splice jump and mean-action seam by Maximellerbach · Pull Request #4454 · huggingface/lerobot · GitHub",
+          "url": "https://github.com/huggingface/lerobot/pull/4454"
+        },
+        {
+          "title": "fix(rtc): chunk-splice jump and mean-action seam by Maximellerbach · Pull Request #4454 · huggingface/lerobot · GitHub",
+          "url": "https://github.com/huggingface/lerobot/pull/4454"
+        }
+      ],
+      "access_scope": "page extraction/find/click; not clone or execution",
+      "reported_internal_error": false
+    }
+  ]
+}
+

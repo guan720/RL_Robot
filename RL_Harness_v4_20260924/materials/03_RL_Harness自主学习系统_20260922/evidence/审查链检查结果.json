@@ -1,0 +1,12 @@
+{
+  "scope": "review records and file hashes only",
+  "clean_rounds": [
+    "R03",
+    "R04",
+    "R05"
+  ],
+  "required": 3,
+  "rounds_checked": 5,
+  "reports_checked": 15,
+  "errors": []
+}

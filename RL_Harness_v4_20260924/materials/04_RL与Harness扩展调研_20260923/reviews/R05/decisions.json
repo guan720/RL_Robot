@@ -1,0 +1,14 @@
+{
+  "round": "R05",
+  "root_verdict": "NEEDS_REVISION",
+  "reviews": [
+    {"file":"review_rl.md","agent":"/root/v3r05_rl","verdict":"PASS","questions":10},
+    {"file":"review_harness.md","agent":"/root/v3r05_harness","verdict":"PASS","questions":10},
+    {"file":"review_evidence.md","agent":"/root/v3r05_evidence","verdict":"PASS","questions":12}
+  ],
+  "required_issues": [],
+  "accepted_extensions": ["OpenETA admitted to same-budget general Harness comparison after additional fixed-source audit", "Harness VLA/RPent identity and neighboring artifact release boundaries incorporated", "Hardware-brand emphasis removed from core compatibility matrix"],
+  "root_assessment": "All three independent reviews passed. Root accepted source-backed extensions that change candidate coverage and comparison inputs. Therefore this round does not count as a clean frozen-version pass; restart after the new freeze. Two bounded source checks are supplementary, not extra formal review rounds.",
+  "consecutive_passes": 0,
+  "scope": "Design and source review only; empirical gates remain unexecuted"
+}

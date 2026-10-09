@@ -1,0 +1,40 @@
+{
+  "renderer": "Mermaid 10.9.3 in local headless Chrome",
+  "library_source": "https://cdn.jsdelivr.net/npm/mermaid@10.9.3/dist/mermaid.min.js",
+  "library_sha256": "5a8ec91820bd55afef049068489369910e5d6ce70c8103952f27e29d3e76e8bc",
+  "figures": [
+    {
+      "source": "assets/01_总体框架.mmd",
+      "svg": "assets/01_总体框架.svg",
+      "png": "assets/01_总体框架.png",
+      "viewBox": "-8 -8 608.69873046875 922",
+      "source_sha256": "2957f7e79f38238a3d0025fc00e02e128ce3e7748a9206b3eb9cbe304b1e918b",
+      "svg_sha256": "d584a1d4381af55eade0ba317d8a7f61e18ce11c4e8cd82b35e8c3db913aec0e",
+      "renderer_parse": "PASS",
+      "visual_review": "PASS",
+      "visual_review_record": "qa/visual_review.json"
+    },
+    {
+      "source": "assets/02_任务循环.mmd",
+      "svg": "assets/02_任务循环.svg",
+      "png": "assets/02_任务循环.png",
+      "viewBox": "-8 -8 795.25390625 1025",
+      "source_sha256": "07b1a60cc69a32ad2a09399d85443009c7ba7c39b4171d0be004956cde546d83",
+      "svg_sha256": "844c242b492a35865a1450d90c8dbf13ff3274367dc5bd977771d9553a28c5f4",
+      "renderer_parse": "PASS",
+      "visual_review": "PASS",
+      "visual_review_record": "qa/visual_review.json"
+    },
+    {
+      "source": "assets/03_验证路线.mmd",
+      "svg": "assets/03_验证路线.svg",
+      "png": "assets/03_验证路线.png",
+      "viewBox": "-8 -8 233.3125 478",
+      "source_sha256": "590ff1e4ee77382457bf9d8a02c3b3d22e8ac8e6c275080b6b6d7a72cd632e6d",
+      "svg_sha256": "911a6bf7ffad4217156f8b96894e5952c4fb39b7385434dded99b182832ac98c",
+      "renderer_parse": "PASS",
+      "visual_review": "PASS",
+      "visual_review_record": "qa/visual_review.json"
+    }
+  ]
+}

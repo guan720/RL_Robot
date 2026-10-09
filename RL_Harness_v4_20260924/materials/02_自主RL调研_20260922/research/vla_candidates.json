@@ -1,0 +1,311 @@
+[
+  {
+    "id": "RECAP",
+    "name": "π*0.6 / RECAP",
+    "year": 2025,
+    "type": "VLA批量迭代RL后训练；非完整无人系统",
+    "algorithm": "汇集演示、自主试验、专家纠正，训练分布型价值模型估计优势，用优势条件的策略提取更新VLA；连续动作以flow matching学习，非直接把流策略套token PPO。训练是collect-retrain-repeat，不是每步即时在线更新。",
+    "autonomy": "可利用机器人自己产生的成功和失败轨迹；衣物折叠消融中两轮仅采自主轨迹、无动作纠正；未消除奖励标签与场景复位。",
+    "remaining_human": "论文结论明确：reward feedback、interventions、episode resets仍需要人。初始大规模预训练与任务示范也不可忽略。",
+    "real_evidence": "真实咖啡、衣物折叠、盒子装配；折衣两轮各在4台机器人采300轨迹；装盒每轮600自主试验+360干预试验。数小时连续执行演示是部署证据，不等于无人训练。",
+    "open_source": "方法/报告公开；官方Physical-Intelligence/openpi公开π0/π0.5等基座但当前README未给π*0.6/RECAP完整训练发布；未核到官方RL权重、数据、复位整套发布。第三方openpie等不可算官方复现。",
+    "repo_urls": [
+      "https://github.com/Physical-Intelligence/openpi"
+    ],
+    "paper_urls": [
+      "https://arxiv.org/abs/2511.14759",
+      "https://www.physicalintelligence.company/download/pistar06.pdf"
+    ],
+    "project_url": "https://www.pi.website/blog/pistar06",
+    "institutions": [
+      "Physical Intelligence"
+    ],
+    "limitations": "工业规模和机构影响力强，但未提供可直接复现的完整官方RECAP栈；人类在环是论文明确限制。openpi仓库影响力不能归因于RECAP实现。",
+    "fit": "方法参照高优先；若目标马上搭建少值守真机训练，则优先有真实部署代码的候选，RECAP不单独入首轮工程落地。"
+  },
+  {
+    "id": "RLinf-USER",
+    "name": "RLinf-USER",
+    "year": 2026,
+    "type": "真实机器人在线学习基础设施/harness",
+    "algorithm": "机器人与GPU统一资源管理，异步actor/learner、回放、跨网络通信及权重同步；原USER论文实测CNN SAC/RLPD、小型生成策略SAC-Flow、π0 HG-DAgger。当前框架另提供π0.5 RLT真机配置和STEAM/RECAP离线后训练，不能倒推为原论文的实验。",
+    "autonomy": "减少训练进程、数据流、多机资源、断点恢复等软件运维；奖励来源可插拔；本身不等于自动物理复位算法。",
+    "remaining_human": "附录明确Cap Tightening人工脚踏板成功标签+人工复位，Pick-and-Place人工奖励+人工复位；π0 HG-DAgger训练期间依赖人接管，不能标成VLA自主RL实验。",
+    "real_evidence": "Franka与ARX机械臂；插销、插充电器、旋盖、搬物、桌面整理；双Franka并行约2500秒收敛示例。SAC可无示范但固定几何规则奖励；RLPD常用20/40示范。",
+    "open_source": "官方RLinf/RLinf有训练、真实机器人环境和配置，Apache-2.0；当前有π0.5 RLT Franka两阶段实现、STEAM/RECAP离线流程。Piper明确仅硬件检查、暂无受支持的任务训练；双臂需自行接入。基座权重依赖上游；未提供通用自主复位权重。项目标记RSS2026接收USER。",
+    "repo_urls": [
+      "https://github.com/RLinf/RLinf"
+    ],
+    "paper_urls": [
+      "https://arxiv.org/abs/2602.07837",
+      "https://arxiv.org/html/2602.07837v2"
+    ],
+    "project_url": "https://rlinf-user.github.io/",
+    "institutions": [
+      "清华大学",
+      "无问芯穹",
+      "北京理工大学",
+      "浙江大学",
+      "中关村学院",
+      "上海人工智能实验室"
+    ],
+    "limitations": "系统可靠性与无人值守不同；原USER论文π0是交互模仿。较新的RLT/STEAM支持须独立注明任务和模型证据；模型、算法、硬件各自出现在支持列表不表示任意组合已实机验证。",
+    "fit": "多机器人、异构硬件、边缘云异步训练的基础设施高优先；须另配复位、恢复、奖励验证器。"
+  },
+  {
+    "id": "PLD",
+    "name": "Probe, Learn, Distill (PLD)",
+    "year": 2025,
+    "type": "残差RL专家到VLA的自生成数据蒸馏",
+    "algorithm": "冻结VLA，离策略RL训练轻量残差策略；先让基座运行至其常见失败状态，再由专家完成/恢复以采集与部署分布一致的数据；最后SFT/LoRA蒸馏回通用VLA。",
+    "autonomy": "无需额外专家遥操生成后训练数据；cube借3D打印桌完成自动复位/RL/SFT；双YAM把GPU插拔拆成四阶段闭环，用奖励分类器驱动状态机。",
+    "remaining_human": "真实Franka先采200条遥操轨迹；每任务要训练成功/失败分类器并补假阳性；peg随机化仍由人移动孔位；任务分解、工装和初始设置由人设计。",
+    "real_evidence": "Franka两任务在线无接管约2小时达100%，每任务30次评估；双YAM每子任务最多8小时训练，蒸馏后GPU插拔闭环至少1小时无人帮助，允许失败重试，不是每阶段单次100%。",
+    "open_source": "论文、项目视频公开（ICLR2026）；原PLD项目页未发现独立完整训练仓库。关联官方NVlabs/ENPIRE现已提供PLD runtime actor/learner实现和CLI，Apache-2.0，来自minimal_policy@81988f0；这补足可执行真机RL路径，但不证明原论文全部任务、数据、权重和SFT飞轮都一比一发布。",
+    "repo_urls": [
+      "https://github.com/NVlabs/ENPIRE"
+    ],
+    "paper_urls": [
+      "https://arxiv.org/abs/2511.00091",
+      "https://arxiv.org/html/2511.00091v1"
+    ],
+    "project_url": "https://wenlixiao.com/self-improve-VLA-PLD",
+    "institutions": [
+      "NVIDIA",
+      "Carnegie Mellon University",
+      "UC Berkeley",
+      "UT Austin"
+    ],
+    "limitations": "论文自动化范围依任务工装而变化；相关ENPIRE实现不等于原论文全任务复现包。Franka成功率样本有限，循环成功与单次成功不同。",
+    "fit": "后续恢复经验回流VLA的参考；原法明确借基础策略非零成功启动，Franka先200条示范SFT，不作为当前弱策略少示范抓放的第一冷启动基线。见07。"
+  },
+  {
+    "id": "ConRFT",
+    "name": "ConRFT / HIL-ConRFT",
+    "year": 2025,
+    "type": "VLA策略头一致性RL后训练，人类在环",
+    "algorithm": "视觉编码器及 transformer backbone 冻结，训练 consistency 动作头与 critic；离线 Cal-ConRFT 用20–30条示范的BC与校准Q学习初始化；在线 HIL-ConRFT 混合示范、自主转移和接管纠正，BC目标为数据动作而非冻结VLA默认输出。主要工程为Octo/HIL-SERL。",
+    "autonomy": "预训练VLA减少在线样本/接管需求；自动二值任务奖励分类器；不以免接管为目标，接管是训练方案组成部分。",
+    "remaining_human": "每任务约20初始示范，人工纠正/安全接管；八任务有六项Human reset，仅Open Drawer与Open Toaster两项Script reset；奖励分类器需人工准备数据。",
+    "real_evidence": "8个真实操作任务，45–90分钟在线微调，作者报告平均96.3%成功；最终每任务20次评估，训练成功曲线可能含人工帮助，须与无接管评估分开。",
+    "open_source": "cccedric/conrft，Apache-2.0；含训练/采示范/奖励分类器脚本、Franka控制server/gym、安装指南；依赖定制Octo fork与JAX/CUDA版本。完整论文任务权重和数据未核实齐备；RSS2025正式论文。",
+    "repo_urls": [
+      "https://github.com/cccedric/conrft",
+      "https://github.com/cccedric/octo"
+    ],
+    "paper_urls": [
+      "https://arxiv.org/abs/2502.05450",
+      "https://arxiv.org/html/2502.05450v2"
+    ],
+    "project_url": "https://cccedric.github.io/conrft/",
+    "institutions": [
+      "中国科学院自动化研究所",
+      "中国科学院大学"
+    ],
+    "limitations": "作者明确讨论奖励分类器被利用的风险；多数任务仍人工复位；高成功率不证明自学习劳动成本低。",
+    "fit": "当前 VLA-only 弱策略的已有方法基线；不是近零在线或无人复位保证。官方 Octo/Franka，π0.5表征与松灵双臂需移植。最新10报告将UniSteer列条件性预检候选、POCO列原生flow研究升级、EXPO-FT列有效初始化后的备选；候选不自动优于本基线。"
+  },
+  {
+    "id": "SimpleVLA-RL",
+    "name": "SimpleVLA-RL",
+    "year": 2025,
+    "type": "VLA仿真在线RL及sim2real；真机RL扩展待更完整披露",
+    "algorithm": "veRL上的VLA GRPO：相同初始条件多轨迹组相对优势、0/1终局奖励、动态采样、提高上clip阈值与采样温度；实际训练目标去掉KL项。OpenVLA/OpenVLA-OFT。",
+    "autonomy": "仿真可批量自动rollout/reward/reset，减少真机示范；未证明真机持续自主复位。",
+    "remaining_human": "仿真资产、任务规则和训练配置；真机环境布置/复位未量化。2026-01官方README称实现真实RL且有自动恢复，但仍写Blog coming soon，不能代替协议与代码。",
+    "real_evidence": "论文§5.3实际为sim2real：每任务1000仿真示范SFT+1000仿真场景RL，无真实示范；双Piper4任务各50试验，平均17.5%→38.5%。正文个别任务名/数值与表6不一致，优先引用表6总平均并标缺口。",
+    "open_source": "PRIME-RL/SimpleVLA-RL，MIT；GRPO/rollout/sim配置和HF模型集合公开；README现支持LIBERO/RoboTwin，完整真机训练与无人reset包未核实。仓库标ICLR2026。",
+    "repo_urls": [
+      "https://github.com/PRIME-RL/SimpleVLA-RL"
+    ],
+    "paper_urls": [
+      "https://arxiv.org/abs/2509.09674",
+      "https://arxiv.org/html/2509.09674v1"
+    ],
+    "project_url": "https://github.com/PRIME-RL/SimpleVLA-RL",
+    "institutions": [
+      "清华大学等PRIME-RL合作团队",
+      "上海交通大学",
+      "北京大学",
+      "香港大学",
+      "上海人工智能实验室"
+    ],
+    "limitations": "同状态多次rollout很适合仿真，实体精准重置会昂贵；论文实测不能写成无人真机在线学习。",
+    "fit": "仿真预训练/先筛选算法高优先；面向真机减少值守的首轮不优先。"
+  },
+  {
+    "id": "GR-RL",
+    "name": "GR-RL",
+    "year": 2025,
+    "type": "通用VLA专精化：离线过滤+在线噪声空间RL",
+    "algorithm": "用分布型TD3+BC critic估计任务进度筛掉示范次优片段；双臂形态镜像增强；在线训练51.5M噪声预测器引导flow动作头，并蒸馏noise-space critic避免穿过flow反传。",
+    "autonomy": "模型通过自主试错探索修复精密动作；线上回放刻意不混遥操动作以降低执行动力学差异；论文未给完整自动reset系统。",
+    "remaining_human": "GR-3大规模先验和任务示范；需标注retry关键帧以构造失败样本；现场复位、奖励判定劳动和无值守时长未充分披露。",
+    "real_evidence": "ByteMini-v2轮式双臂机器人真机穿鞋带，作者报告83.3%整体成功；移动底盘存在不等于实测移动操作RL。",
+    "open_source": "官方技术报告和项目视频公开；未核到官方GR-RL训练代码/权重/数据/复位代码，勿将其他GR系列代码等同本算法开源。",
+    "repo_urls": [],
+    "paper_urls": [
+      "https://arxiv.org/abs/2512.01801",
+      "https://arxiv.org/html/2512.01801v1"
+    ],
+    "project_url": "https://seed.bytedance.com/gr_rl",
+    "institutions": [
+      "ByteDance Seed"
+    ],
+    "limitations": "单一高难任务展示强化专精能力；开源与自主训练操作证据不足；机构声望不替代独立复现。",
+    "fit": "精密/柔性双臂操作的算法参考；不宜作为直接部署的开源无人RL选项。"
+  },
+  {
+    "id": "GigaBrain-RAMP",
+    "name": "GigaBrain-0.5M* / RAMP",
+    "year": 2026,
+    "type": "世界模型条件VLA迭代RL，人类在环",
+    "algorithm": "世界模型预测未来状态/价值，策略以其预测及优势条件学习；真实环境自主执行与专家纠正混合，再迭代更新世界模型和VLA。是价值条件策略提取路线，不等同世界模型里大规模无人工想象PPO。",
+    "autonomy": "能从自主rollout中学习；HIL数据收集工具处理接管边界；没有消除专家纠正。",
+    "remaining_human": "超过1万小时机器人数据先验，世界模型训练约4千小时数据；真实rollout含明确专家干预；现场复位/标注/无值守时长未充分披露。",
+    "real_evidence": "真实操作和长时任务、多任务对比及内部消融；作者报告RAMP优于RECAP/AWR。不能把GigaBrain-0.1榜单排名等同0.5M* RL的独立评价。",
+    "open_source": "open-gigaai/giga-brain-0有真实训练/推理代码、基座权重，Apache-2.0；当前仓库已演进至0.7。0.5M*相关新闻为technical report release，未核到对应完整RAMP真机RL/世界模型训练/复位管线发布，版本必须分开。",
+    "repo_urls": [
+      "https://github.com/open-gigaai/giga-brain-0"
+    ],
+    "paper_urls": [
+      "https://arxiv.org/abs/2602.12099",
+      "https://arxiv.org/html/2602.12099v1"
+    ],
+    "project_url": "https://gigabrain05m.github.io/",
+    "institutions": [
+      "GigaAI / GigaBrain Team，合作署名以报告为准"
+    ],
+    "limitations": "基座开放不等于特定RL方案全开源；自改进闭环包含HIL；数据/计算规模与普通实验室差距大。",
+    "fit": "大型VLA/世界模型研发路线参考；低人工小规模真机选型排在轻量RL与可复位系统之后。"
+  },
+  {
+    "id": "GRAPE",
+    "name": "GRAPE",
+    "year": 2024,
+    "type": "VLA轨迹偏好优化/自动偏好构造；不是完整在线无复位RL",
+    "algorithm": "VLM分解阶段、定位关键点并生成时空约束成本，给成功/失败轨迹排序；以轨迹级TPO/DPO类目标LoRA更新OpenVLA。",
+    "autonomy": "减少人工偏好标注及逐条筛选；能按安全、效率或成功目标对齐；偏好数据仍需采样和任务起点匹配。",
+    "remaining_human": "目标/约束设计与调参；采轨迹/实机复位与值守无系统性消除证据；README要求人工改beta和threshold确保奖励分量平衡。",
+    "real_evidence": "真实桌面操作+Simpler/LIBERO；作者报告域内/未见任务相对成功率提升51.79%/58.20%，不是百分点、也不是跨论文统一基准；未披露无人连续训练小时。",
+    "open_source": "aiming-lab/GRAPE，MIT；TPO-LoRA、采样/偏好生成和HF检查点公开；README明确真实环境guided-cost支持later，虽有Real-World cost目录，仍不能称完整真机自主训练发布；当前示例仅单GPU、batch=1轨迹对。",
+    "repo_urls": [
+      "https://github.com/aiming-lab/GRAPE"
+    ],
+    "paper_urls": [
+      "https://arxiv.org/abs/2411.19309"
+    ],
+    "project_url": "https://grape-vla.github.io/",
+    "institutions": [
+      "UNC Chapel Hill",
+      "University of Washington",
+      "University of Chicago"
+    ],
+    "limitations": "更接近偏好对齐组件；生成成本存在感知误差/奖励利用；无需人标偏好不能推出无需人在现场。",
+    "fit": "作为RL之后的轨迹筛选/偏好对齐备选；不是用户要求的复位/接管消除主方案。"
+  },
+  {
+    "id": "RL-100",
+    "name": "RL-100",
+    "year": 2025,
+    "type": "扩散/流视觉动作策略的迭代离线RL+在线微调",
+    "algorithm": "人工示范BC初始化；不断执行、并入数据并迭代离线RL，最后小预算在线策略梯度/PPO式微调；单步蒸馏减推理延迟，仓库也支持IDQL式提取与flow变体。非必须VLA。",
+    "autonomy": "训练策略自主采集大量新数据，降低追加专家示范；OPE门控迭代发布思路可用于harness；复位和恢复仍明确是待解决问题。",
+    "remaining_human": "初始示范、现场任务布置、复位、部分人类指导和checkpoint流程；论文future work才列自主reset政策/脚本/工装。",
+    "real_evidence": "arXiv v2七任务，平均每任务115示范(1.8h)+566迭代离线rollout(6.5h)+434在线rollout(5.6h)；商场榨汁约7h执行演示，不等于7h无人训练。项目/仓库标Science Robotics2026。",
+    "open_source": "Lei-Kun/RL-100，Apache-2.0；含offline/online策略训练、数据并入、真实控制相关工具和Adroit smoke-test数据。README真实任务配置仍有reserved/planned条目；数据README许可尚待finalize文字与repo Apache许可须分开。",
+    "repo_urls": [
+      "https://github.com/Lei-Kun/RL-100"
+    ],
+    "paper_urls": [
+      "https://arxiv.org/abs/2510.14830",
+      "https://arxiv.org/html/2510.14830v2"
+    ],
+    "project_url": "https://lei-kun.github.io/RL-100/",
+    "institutions": [
+      "清华大学，Huazhe Xu团队及合作作者（见论文署名）"
+    ],
+    "limitations": "可靠任务执行证据强于无人训练证据；不同版本任务数量与措辞变化，应冻结版本。完整硬件和reset recipe仍需检查。",
+    "fit": "真实生成策略RL与性能基线高优先；若接受自己补自动复位，可列工程候选，否则不满足少值守闭环要求。"
+  },
+  {
+    "id": "RoboReward",
+    "name": "RoboReward 4B/8B",
+    "year": 2026,
+    "type": "自动奖励模型组件；真机RL使用DSRL",
+    "algorithm": "Qwen3-VL从任务文字+机器人视频预测1–5终局进度；用OXE成功轨迹反事实指令/时间裁剪造负样本，并结合RoboArena自然失败。奖励模型自身监督训练；下游DSRL-SAC改变冻结扩散策略的噪声。",
+    "autonomy": "减少每回合人工判成功/进度；8B在真机RL中零样本用作reward，无目标任务奖励再微调。",
+    "remaining_human": "基座策略示范预训练；机器人复位仍未在本工作解决；训练数据含人类示范、RoboArena评分；评测集人工核验。",
+    "real_evidence": "WidowX两个任务，各6000步+20次base rollout热启动，20试验评估。搬猴子5%→50%、开抽屉10%→80%；人工奖励对照75%/90%，说明自动奖励仍有可见差距。",
+    "open_source": "HF teetone/RoboReward-4B、RoboReward-8B与数据公开；模型卡CC-BY-4.0；HELM评测入口公开。没有独立官方专用真机RL+reset完整仓库证据，勿用stanford-crfm/helm总体stars替代本模型影响力。",
+    "repo_urls": [],
+    "paper_urls": [
+      "https://arxiv.org/abs/2601.00675",
+      "https://arxiv.org/html/2601.00675v1"
+    ],
+    "project_url": "https://crfm.stanford.edu/helm/robo-reward-bench/",
+    "institutions": [
+      "Stanford University",
+      "UC Berkeley"
+    ],
+    "limitations": "原稿旧3B/7B与当前4B/8B版本不可混用；进度/终局错误会影响学习；是奖励组件，不是复位或安全系统。",
+    "fit": "自动奖励基线高优先；与Robometer、本任务分类器、人工留出标签并测，不能未经校验独立决定长期运行。"
+  },
+  {
+    "id": "Robometer",
+    "name": "Robometer + robometer-policy-learning",
+    "year": 2026,
+    "type": "自动进度/成功/偏好奖励模型及真实RL接入",
+    "algorithm": "帧级进度/成功监督与跨轨迹偏好双目标；RBM-1M(100万轨迹、21本体)同时利用成功/失败。真实RL用DSRL+冻结π0、异步回放重标奖励，奖励预测同时用于终止和阶段切换。",
+    "autonomy": "消除人工回合奖励、阶段成功判定与部分失败检测；真实控制/训练/reward server接口已经公开。",
+    "remaining_human": "论文明确physical scene resets仍需人；初始策略训练/场景布置、阈值和任务定义仍需工程人员；奖励源数据不是无人从零。",
+    "real_evidence": "真实DROID单阶段/两阶段RL，10000环境步约40分钟；单阶段π0 20%→85%(RoboReward55%)，两阶段20%→70%(RoboReward20%)；不能跨论文用这些数值证明所有任务更好。",
+    "open_source": "robometer/robometer及robometer-policy-learning公开奖励训练、SAC/IQL/DSRL、Franka/DROID与WidowX接口、远程奖励服务；4B HF模型Apache-2.0。奖励主仓README挂MIT徽章但根LICENSE URL返回404，需澄清；policy-learning/main/LICENSE已核实MIT，Copyright2026Robometer，不能合并标两仓许可未知。RBM-1M项目链接仍Coming Soon，OOD数据已链接。RSS2026。",
+    "repo_urls": [
+      "https://github.com/robometer/robometer",
+      "https://github.com/robometer/robometer-policy-learning"
+    ],
+    "paper_urls": [
+      "https://arxiv.org/abs/2603.02115",
+      "https://arxiv.org/html/2603.02115v1"
+    ],
+    "project_url": "https://robometer.github.io/",
+    "institutions": [
+      "USC",
+      "UT Dallas",
+      "MIT",
+      "University of Washington",
+      "Ai2",
+      "NVIDIA"
+    ],
+    "limitations": "自动仅是成功/阶段切换，仍人工物理复位；全训练数据发布和奖励主仓代码许可存在可核查缺口，policy-learning代码已核MIT。",
+    "fit": "最值得与自主复位harness组合验证的奖励候选之一；它提供可审查的真实RL接口，但不单独构成免值守方案。"
+  },
+  {
+    "id": "DenseReward",
+    "name": "DenseReward",
+    "year": 2026,
+    "type": "失败合成驱动的dense奖励组件",
+    "algorithm": "在仿真用阶段/扰动机制自动生成真实动力学失败与稠密标签，训练视频语言进度奖励；下游仿真PPO与真机DSRL，真机冻结π0仅调噪声策略。",
+    "autonomy": "减少奖励训练的人工失败采集/逐帧标注；不能由此推出下游RL不需reset或任务终局判据。",
+    "remaining_human": "仿真任务阶段/扰动及奖励构造；基座数据；实体复位/成功终局信号来源未充分报告。真机奖励仍保留task completion二值锚点。",
+    "real_evidence": "DROID/Franka Research3两任务，论文写20k/10k训练steps约20/10 rollout，每策略仅10次评估；添加奖励后叠杯40%→80%、球入篮30%→70%。这是DSRL有无DenseReward对照，不应直接写成基础π0提升。",
+    "open_source": "官网Code指向dense-reward/dense-reward，2026-09-22打开明确空仓；HF数据densereward/DenseReward和两个4B模型存在，数据卡Apache-2.0；未下载比对发布数据与论文全量覆盖，不由卡片样本数推断全部数据已开放。训练、复位和完整下游RL代码尚未公开可核实。",
+    "repo_urls": [
+      "https://github.com/dense-reward/dense-reward"
+    ],
+    "paper_urls": [
+      "https://arxiv.org/abs/2607.13033",
+      "https://arxiv.org/html/2607.13033v1"
+    ],
+    "project_url": "https://dense-reward.github.io/",
+    "institutions": [
+      "UNC Chapel Hill",
+      "Carnegie Mellon University",
+      "上海交通大学",
+      "Amazon AWS AI"
+    ],
+    "limitations": "新预印本、真实评估每任务10次、无自主复位证据；训练steps与物理rollout数量不可直接换算墙钟；开源声明与空仓实际状态不同。",
+    "fit": "奖励模型前沿观察/离线比较，待代码与更大样本实机验证后升级，暂不作为主RL落地。"
+  }
+]

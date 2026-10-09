@@ -1,0 +1,611 @@
+ (https://raw.githubusercontent.com/huggingface/lerobot/7e241bd630a3719a56157a497ce5d08f244784f1/src/lerobot/rollout/inference/rtc.py)
+citeturn1205view0 [wordlim: 200] Crawled: today; Content type: text/plain; Source: open({"ref_id":"https://raw.githubusercontent.com/huggingface/lerobot/7e241bd630a3719a56157a497ce5d08f244784f1/src/lerobot/rollout/inference/rtc.py","lineno":null}); Total lines: 344
+L0: # Copyright 2025 The HuggingFace Inc. team. All rights reserved.
+L1: #
+L2: # Licensed under the Apache License, Version 2.0 (the "License");
+L3: # you may not use this file except in compliance with the License.
+L4: # You may obtain a copy of the License at
+L5: #
+L6: #     http://www.apache.org/licenses/LICENSE-2.0
+L7: #
+L8: # Unless required by applicable law or agreed to in writing, software
+L9: # distributed under the License is distributed on an "AS IS" BASIS,
+L10: # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+L11: # See the License for the specific language governing permissions and
+L12: # limitations under the License.
+L13: """Real-Time Chunking inference engine.
+L14: 
+L15: A background thread produces action chunks asynchronously via
+L16: :meth:`policy.predict_action_chunk`.  The main control loop polls
+L17: ``get_action`` for the next ready action; observations flow the other
+L18: way via ``notify_observation``.
+L19: """
+L20: 
+L21: from __future__ import annotations
+L22: 
+L23: import inspect
+L24: import logging
+L25: import math
+L26: import time
+L27: import traceback
+L28: from threading import Event, Lock, Thread
+L29: from typing import Any
+L30: 
+L31: import torch
+L32: from lerobot.policies.pretrained import PreTrainedPolicy
+L33: from lerobot.policies.rtc import ActionQueue, LatencyTracker, reanchor_relative_rtc_prefix
+L34: from lerobot.policies.rtc.configuration_rtc import RTCConfig
+L35: from lerobot.policies.utils import prepare_observation_for_inference
+L36: from lerobot.processor import (
+L37:     NormalizerProcessorStep,
+L38:     PolicyProcessorPipeline,
+L39:     RelativeActionsProcessorStep,
+L40: )
+L41: from lerobot.utils.feature_utils import build_dataset_frame
+L42: from ..robot_wrapper import ThreadSafeRobot
+L43: from .base import InferenceEngine
+L44: 
+L45: logger = logging.getLogger(__name__)
+L46: # How long the RTC loop sleeps when paused, idle, or backpressured by a full queue.
+L47: _RTC_IDLE_SLEEP_S: float = 0.01
+L48: # Backoff between transient inference errors (per consecutive failure).
+L49: _RTC_ERROR_RETRY_DELAY_S: float = 0.5
+L50: # Consecutive transient errors tolerated before giving up and propagating shutdown.
+L51: _RTC_MAX_CONSECUTIVE_ERRORS: int = 10
+L52: # Hard timeout for joining the RTC thread on stop().
+L53: _RTC_JOIN_TIMEOUT_S: float = 3.0
+L54: # ---------------------------------------------------------------------------
+L55: # RTC helpers
+L56: # ---------------------------------------------------------------------------
+L57: 
+L58: 
+L59: def supports_rtc_inference(policy: PreTrainedPolicy) -> bool:
+L60:     """Whether a policy declares RTC support and accepts the RTC call shape."""
+L61:     supports_rtc = getattr(policy, "supports_rtc", None)
+L62:     if not callable(supports_rtc) or not supports_rtc():
+L63:         return False
+L64:     try:
+L65:         inspect.signature(policy.predict_action_chunk).bind(
+L66:             object(),
+L67:             inference_delay=0,
+L68:             prev_chunk_left_over=None,
+L69:         )
+L70:     except (TypeError, ValueError):
+L71:         return False
+L72:     return True
+L73: 
+L74: def _normalize_prev_actions_length(prev_actions: torch.Tensor, target_steps: int) -> torch.Tensor:
+L75:     """Pad or truncate RTC prefix actions to a fixed length for stable compiled inference."""
+L76:     if prev_actions.ndim != 2:
+L77:         raise ValueError(f"Expected 2D [T, A] tensor, got shape={tuple(prev_actions.shape)}")
+L78:     steps, action_dim = prev_actions.shape
+L79:     if steps == target_steps:
+L80:         return prev_actions
+L81:     if steps > target_steps:
+L82:         return prev_actions[:target_steps]
+L83:     padded = torch.zeros((target_steps, action_dim), dtype=prev_actions.dtype, device=prev_actions.device)
+L84:     padded[:steps] = prev_actions
+L85:     return padded
+L86: # ---------------------------------------------------------------------------
+L87: # RTCInferenceEngine
+L88: # ---------------------------------------------------------------------------
+L89: 
+L90: 
+L91: class RTCInferenceEngine(InferenceEngine):
+L92:     """Async RTC inference: a background thread produces action chunks.
+L93:     ``get_action`` pops the next action from the shared queue (or
+L94:     returns ``None`` if the queue is empty).  The main loop should call
+L95:     ``notify_observation`` every tick and ``pause``/``resume`` around
+L96:     human-intervention phases.
+L97:     """
+L98:     def __init__(
+L99:         self,
+L100:         policy: PreTrainedPolicy,
+L101:         preprocessor: PolicyProcessorPipeline,
+L102:         postprocessor: PolicyProcessorPipeline,
+L103:         robot_wrapper: ThreadSafeRobot,
+L104:         rtc_config: RTCConfig,
+L105:         hw_features: dict,
+L106:         task: str,
+L107:         fps: float,
+L108:         device: str | None,
+L109:         use_torch_compile: bool = False,
+L110:         compile_warmup_inferences: int = 2,
+L111:         rtc_queue_threshold: int = 30,
+L112:         shutdown_event: Event | None = None,
+L113:     ) -> None:
+L114:         self._policy = policy
+L115:         self._preprocessor = preprocessor
+L116:         self._postprocessor = postprocessor
+L117:         self._robot = robot_wrapper
+L118:         self._rtc_config = rtc_config
+L119:         self._hw_features = hw_features
+L120:         self._task = task
+L121:         self._fps = fps
+L122:         self._device = device or "cpu"
+L123:         self._use_torch_compile = use_torch_compile
+L124:         self._compile_warmup_inferences = compile_warmup_inferences
+L125:         self._rtc_queue_threshold = rtc_queue_threshold
+L126:         self._action_queue: ActionQueue | None = None
+L127:         self._obs_holder: dict[str, Any] = {}
+L128:         self._obs_lock = Lock()
+L129:         self._policy_active = Event()
+L130:         self._compile_warmup_done = Event()
+L131:         self._shutdown_event = Event()
+L132:         self._rtc_error = Event()
+L133:         self._global_shutdown_event = shutdown_event
+L134:         self._rtc_thread: Thread | None = None
+L135:         if not self._use_torch_compile:
+L136:             self._compile_warmup_done.set()
+L137:             logger.info("RTCInferenceEngine initialized (torch.compile disabled, no warmup needed)")
+L138:         else:
+L139:             logger.info(
+L140:                 "RTCInferenceEngine initialized (torch.compile enabled, %d warmup inferences)",
+L141:                 compile_warmup_inferences,
+L142:             )
+L143:         # Processor introspection for relative-action re-anchoring.
+L144:         self._relative_step = next(
+L145:             (s for s in preprocessor.steps if isinstance(s, RelativeActionsProcessorStep) and s.enabled),
+L146:             None,
+L147:         )
+L148:         self._normalizer_step = next(
+L149:             (s for s in preprocessor.steps if isinstance(s, NormalizerProcessorStep)),
+L150:             None,
+L151:         )
+L152:         if self._relative_step is not None:
+L153:             if self._relative_step.action_names is None:
+L154:                 cfg_names = getattr(policy.config, "action_feature_names", None)
+L155:                 if cfg_names:
+L156:                     self._relative_step.action_names = list(cfg_names)
+L157:                 else:
+L158:                     self._relative_step.action_names = [
+L159:                         k for k in robot_wrapper.action_features if k.endswith(".pos")
+L160:                     ]
+L161:             logger.info("Relative actions enabled: RTC prefix will be re-anchored")
+L162:     # ------------------------------------------------------------------
+L163:     # Lifecycle
+L164:     # ------------------------------------------------------------------
+L165: 
+L166:     @property
+L167:     def ready(self) -> bool:
+L168:         """True once torch.compile warmup is complete (or immediately if compile is disabled)."""
+L169:         return self._compile_warmup_done.is_set()
+L170:     @property
+L171:     def failed(self) -> bool:
+L172:         """True if the RTC background thread exited due to an unrecoverable error."""
+L173:         return self._rtc_error.is_set()
+L174: 
+L175:     @property
+L176:     def action_queue(self) -> ActionQueue | None:
+L177:         """The shared action queue between the RTC thread and the main loop."""
+L178:         return self._action_queue
+L179:     def start(self) -> None:
+L180:         """Launch the RTC background thread."""
+L181:         self._action_queue = ActionQueue(self._rtc_config)
+L182:         self._obs_holder = {
+L183:             "obs": None,
+L184:             "robot_type": self._robot.robot_type,
+L185:         }
+L186:         self._shutdown_event.clear()
+L187:         self._rtc_thread = Thread(
+L188:             target=self._rtc_loop,
+L189:             daemon=True,
+L190:             name="RTCInference",
+L191:         )
+L192:         self._rtc_thread.start()
+L193:         logger.info("RTC inference thread started")
+L194:     def stop(self) -> None:
+L195:         """Signal the RTC thread to stop and wait for it."""
+L196:         logger.info("Stopping RTC inference thread...")
+L197:         self._shutdown_event.set()
+L198:         self._policy_active.clear()
+L199:         if self._rtc_thread is not None and self._rtc_thread.is_alive():
+L200:             self._rtc_thread.join(timeout=_RTC_JOIN_TIMEOUT_S)
+L201:             if self._rtc_thread.is_alive():
+L202:                 logger.warning("RTC thread did not join within %.1fs", _RTC_JOIN_TIMEOUT_S)
+L203:             else:
+L204:                 logger.info("RTC inference thread stopped")
+L205:             self._rtc_thread = None
+L206:     def pause(self) -> None:
+L207:         """Pause the RTC background thread."""
+L208:         logger.info("Pausing RTC inference thread")
+L209:         self._policy_active.clear()
+L210: 
+L211:     def resume(self) -> None:
+L212:         """Resume the RTC background thread."""
+L213:         logger.info("Resuming RTC inference thread")
+L214:         self._policy_active.set()
+L215:     def reset(self) -> None:
+L216:         """Reset the policy, processors, and action queue."""
+L217:         logger.info("Resetting RTC inference state (policy + processors + queue)")
+L218:         self._policy.reset()
+L219:         self._preprocessor.reset()
+L220:         self._postprocessor.reset()
+L221:         if self._action_queue is not None:
+L222:             self._action_queue.clear()
+L223:     # ------------------------------------------------------------------
+L224:     # Action production (called from main thread)
+L225:     # ------------------------------------------------------------------
+L226: 
+L227:     def get_action(self, obs_frame: dict | None) -> torch.Tensor | None:
+L228:         """Pop the next action from the RTC queue (ignores ``obs_frame``)."""
+L229:         if self._action_queue is None:
+L230:             return None
+L231:         return self._action_queue.get()
+L232:     def notify_observation(self, obs: dict) -> None:
+L233:         """Publish the latest observation for the RTC thread to consume."""
+L234:         with self._obs_lock:
+L235:             self._obs_holder["obs"] = obs
+L236: 
+L237:     # ------------------------------------------------------------------
+L238:     # RTC: background inference thread
+L239:     # ------------------------------------------------------------------
+L240:     def _rtc_loop(self) -> None:
+L241:         """Background thread that generates action chunks via RTC."""
+L242:         try:
+L243:             latency_tracker = LatencyTracker()
+L244:             time_per_chunk = 1.0 / self._fps
+L245:             policy_device = torch.device(self._device)
+L246: 
+L247:             warmup_required = max(1, self._compile_warmup_inferences) if self._use_torch_compile else 0
+L248:             inference_count = 0
+L249:             consecutive_errors = 0
+L250:             while not self._shutdown_event.is_set():
+L251:                 if not self._policy_active.is_set():
+L252:                     time.sleep(_RTC_IDLE_SLEEP_S)
+L253:                     continue
+L254: 
+L255:                 queue = self._action_queue
+L256:                 with self._obs_lock:
+L257:                     obs = self._obs_holder.get("obs")
+L258:                 if queue is None or obs is None:
+L259:                     time.sleep(_RTC_IDLE_SLEEP_S)
+L260:                     continue
+L261:                 if queue.qsize() <= self._rtc_queue_threshold:
+L262:                     try:
+L263:                         current_time = time.perf_counter()
+L264:                         idx_before = queue.get_action_index()
+L265:                         prev_actions = queue.get_left_over()
+L266: 
+L267:                         latency = latency_tracker.max()
+L268:                         delay = math.ceil(latency / time_per_chunk) if latency else 0
+L269:                         obs_batch = build_dataset_frame(self._hw_features, obs, prefix="observation")
+L270:                         obs_batch = prepare_observation_for_inference(
+L271:                             obs_batch, policy_device, self._task, self._robot.robot_type
+L272:                         )
+L273:                         obs_batch["task"] = [self._task]
+L274: 
+L275:                         preprocessed = self._preprocessor(obs_batch)
+L276:                         if prev_actions is not None and self._relative_step is not None:
+L277:                             # Rebase against the raw cached state so the leftover tail stays in
+L278:                             # the training-time coordinate frame.
+L279:                             raw_state = self._relative_step.get_cached_state()
+L280:                             if raw_state is not None:
+L281:                                 prev_abs = queue.get_processed_left_over()
+L282:                                 if prev_abs is not None and prev_abs.numel() > 0:
+L283:                                     prev_actions = reanchor_relative_rtc_prefix(
+L284:                                         prev_actions_absolute=prev_abs,
+L285:                                         current_state=raw_state,
+L286:                                         relative_step=self._relative_step,
+L287:                                         normalizer_step=self._normalizer_step,
+L288:                                         policy_device=policy_device,
+L289:                                     )
+L290:                         if prev_actions is not None:
+L291:                             prev_actions = _normalize_prev_actions_length(
+L292:                                 prev_actions, target_steps=self._rtc_config.execution_horizon
+L293:                             )
+L294: 
+L295:                         actions = self._policy.predict_action_chunk(
+L296:                             preprocessed, inference_delay=delay, prev_chunk_left_over=prev_actions
+L297:                         )
+L298:                         original = actions.squeeze(0).clone()
+L299:                         processed = self._postprocessor(actions).squeeze(0)
+L300:                         new_latency = time.perf_counter() - current_time
+L301:                         new_delay = math.ceil(new_latency / time_per_chunk)
+L302:                         inference_count += 1
+L303:                         consecutive_errors = 0
+L304:                         is_warmup = self._use_torch_compile and inference_count <= warmup_required
+L305:                         if is_warmup:
+L306:                             latency_tracker.reset()
+L307:                         else:
+L308:                             latency_tracker.add(new_latency)
+L309: 
+L310:                         queue.merge(original, processed, new_delay, idx_before)
+L311:                         if (
+L312:                             is_warmup
+L313:                             and inference_count >= warmup_required
+L314:                             and not self._compile_warmup_done.is_set()
+L315:                         ):
+L316:                             self._compile_warmup_done.set()
+L317:                             logger.info("Compile warmup complete (%d inferences)", inference_count)
+L318: 
+L319:                         logger.debug("RTC inference latency=%.2fs, queue=%d", new_latency, queue.qsize())
+L320:                     except Exception as e:
+L321:                         consecutive_errors += 1
+L322:                         logger.error(
+L323:                             "RTC inference error (%d/%d): %s",
+L324:                             consecutive_errors,
+L325:                             _RTC_MAX_CONSECUTIVE_ERRORS,
+L326:                             e,
+L327:                         )
+L328:                         logger.debug(traceback.format_exc())
+L329:                         if consecutive_errors >= _RTC_MAX_CONSECUTIVE_ERRORS:
+L330:                             # Persistent failure: stop retrying and propagate shutdown.
+L331:                             raise
+L332:                         time.sleep(_RTC_ERROR_RETRY_DELAY_S)
+L333:                 else:
+L334:                     time.sleep(_RTC_IDLE_SLEEP_S)
+L335:         except Exception as e:
+L336:             logger.error("Fatal error in RTC thread: %s", e)
+L337:             logger.error(traceback.format_exc())
+L338:             self._rtc_error.set()
+L339:             # Unblock any warmup waiters so the main loop doesn't spin forever
+L340:             self._compile_warmup_done.set()
+L341:             # Signal the top-level shutdown so strategies exit their control loops
+L342:             if self._global_shutdown_event is not None:
+L343:                 self._global_shutdown_event.set()
+--------------------------------------------------------------------------------
+ (https://raw.githubusercontent.com/Physical-Intelligence/openpi/215abfb217dbac7d5f1273282331b9b1866c0479/src/openpi/models_pytorch/gemma_pytorch.py)
+citeturn1205view1 [wordlim: 200] Crawled: today; Content type: text/plain; Source: open({"ref_id":"https://raw.githubusercontent.com/Physical-Intelligence/openpi/215abfb217dbac7d5f1273282331b9b1866c0479/src/openpi/models_pytorch/gemma_pytorch.py","lineno":null}); Total lines: 253
+L0: from typing import Literal
+L1: 
+L2: import torch
+L3: from torch import nn
+L4: from transformers import GemmaForCausalLM
+L5: from transformers import PaliGemmaForConditionalGeneration
+L6: from transformers.models.auto import CONFIG_MAPPING
+L7: from transformers.models.gemma import modeling_gemma
+L8: 
+L9: class PaliGemmaWithExpertModel(nn.Module):
+L10:     def __init__(
+L11:         self,
+L12:         vlm_config,
+L13:         action_expert_config,
+L14:         use_adarms=None,
+L15:         precision: Literal["bfloat16", "float32"] = "bfloat16",
+L16:     ):
+L17:         if use_adarms is None:
+L18:             use_adarms = [False, False]
+L19:         super().__init__()
+L20:         vlm_config_hf = CONFIG_MAPPING["paligemma"]()
+L21:         vlm_config_hf._vocab_size = 257152  # noqa: SLF001
+L22:         vlm_config_hf.image_token_index = 257152
+L23:         vlm_config_hf.text_config.hidden_size = vlm_config.width
+L24:         vlm_config_hf.text_config.intermediate_size = vlm_config.mlp_dim
+L25:         vlm_config_hf.text_config.num_attention_heads = vlm_config.num_heads
+L26:         vlm_config_hf.text_config.head_dim = vlm_config.head_dim
+L27:         vlm_config_hf.text_config.num_hidden_layers = vlm_config.depth
+L28:         vlm_config_hf.text_config.num_key_value_heads = vlm_config.num_kv_heads
+L29:         vlm_config_hf.text_config.hidden_activation = "gelu_pytorch_tanh"
+L30:         vlm_config_hf.text_config.torch_dtype = "float32"
+L31:         vlm_config_hf.text_config.vocab_size = 257152
+L32:         vlm_config_hf.text_config.use_adarms = use_adarms[0]
+L33:         vlm_config_hf.text_config.adarms_cond_dim = vlm_config.width if use_adarms[0] else None
+L34:         vlm_config_hf.vision_config.intermediate_size = 4304
+L35:         vlm_config_hf.vision_config.projection_dim = 2048
+L36:         vlm_config_hf.vision_config.projector_hidden_act = "gelu_fast"
+L37:         vlm_config_hf.vision_config.torch_dtype = "float32"
+L38:         action_expert_config_hf = CONFIG_MAPPING["gemma"](
+L39:             head_dim=action_expert_config.head_dim,
+L40:             hidden_size=action_expert_config.width,
+L41:             intermediate_size=action_expert_config.mlp_dim,
+L42:             num_attention_heads=action_expert_config.num_heads,
+L43:             num_hidden_layers=action_expert_config.depth,
+L44:             num_key_value_heads=action_expert_config.num_kv_heads,
+L45:             vocab_size=257152,
+L46:             hidden_activation="gelu_pytorch_tanh",
+L47:             torch_dtype="float32",
+L48:             use_adarms=use_adarms[1],
+L49:             adarms_cond_dim=action_expert_config.width if use_adarms[1] else None,
+L50:         )
+L51:         self.paligemma = PaliGemmaForConditionalGeneration(config=vlm_config_hf)
+L52:         self.gemma_expert = GemmaForCausalLM(config=action_expert_config_hf)
+L53:         self.gemma_expert.model.embed_tokens = None
+L54: 
+L55:         self.to_bfloat16_for_selected_params(precision)
+L56:     def to_bfloat16_for_selected_params(self, precision: Literal["bfloat16", "float32"] = "bfloat16"):
+L57:         if precision == "bfloat16":
+L58:             self.to(dtype=torch.bfloat16)
+L59:         elif precision == "float32":
+L60:             self.to(dtype=torch.float32)
+L61:             return
+L62:         else:
+L63:             raise ValueError(f"Invalid precision: {precision}")
+L64:         params_to_keep_float32 = [
+L65:             "vision_tower.vision_model.embeddings.patch_embedding.weight",
+L66:             "vision_tower.vision_model.embeddings.patch_embedding.bias",
+L67:             "vision_tower.vision_model.embeddings.position_embedding.weight",
+L68:             "input_layernorm",
+L69:             "post_attention_layernorm",
+L70:             "model.norm",
+L71:         ]
+L72:         for name, param in self.named_parameters():
+L73:             if any(selector in name for selector in params_to_keep_float32):
+L74:                 param.data = param.data.to(dtype=torch.float32)
+L75: 
+L76:     def embed_image(self, image: torch.Tensor):
+L77:         return self.paligemma.model.get_image_features(image)
+L78: 
+L79:     def embed_language_tokens(self, tokens: torch.Tensor):
+L80:         return self.paligemma.language_model.embed_tokens(tokens)
+L81:     def forward(
+L82:         self,
+L83:         attention_mask: torch.Tensor | None = None,
+L84:         position_ids: torch.LongTensor | None = None,
+L85:         past_key_values: list[torch.FloatTensor] | None = None,
+L86:         inputs_embeds: list[torch.FloatTensor] | None = None,
+L87:         use_cache: bool | None = None,
+L88:         adarms_cond: list[torch.Tensor] | None = None,
+L89:     ):
+L90:         if adarms_cond is None:
+L91:             adarms_cond = [None, None]
+L92:         if inputs_embeds[1] is None:
+L93:             prefix_output = self.paligemma.language_model.forward(
+L94:                 inputs_embeds=inputs_embeds[0],
+L95:                 attention_mask=attention_mask,
+L96:                 position_ids=position_ids,
+L97:                 past_key_values=past_key_values,
+L98:                 use_cache=use_cache,
+L99:                 adarms_cond=adarms_cond[0] if adarms_cond is not None else None,
+L100:             )
+L101:             prefix_past_key_values = prefix_output.past_key_values
+L102:             prefix_output = prefix_output.last_hidden_state
+L103:             suffix_output = None
+L104:         elif inputs_embeds[0] is None:
+L105:             suffix_output = self.gemma_expert.model.forward(
+L106:                 inputs_embeds=inputs_embeds[1],
+L107:                 attention_mask=attention_mask,
+L108:                 position_ids=position_ids,
+L109:                 past_key_values=past_key_values,
+L110:                 use_cache=use_cache,
+L111:                 adarms_cond=adarms_cond[1] if adarms_cond is not None else None,
+L112:             )
+L113:             suffix_output = suffix_output.last_hidden_state
+L114:             prefix_output = None
+L115:             prefix_past_key_values = None
+L116:         else:
+L117:             models = [self.paligemma.language_model, self.gemma_expert.model]
+L118:             num_layers = self.paligemma.config.text_config.num_hidden_layers
+L119:             # Check if gradient checkpointing is enabled for any of the models
+L120:             use_gradient_checkpointing = (
+L121:                 hasattr(self.gemma_expert.model, "gradient_checkpointing")
+L122:                 and self.gemma_expert.model.gradient_checkpointing
+L123:                 and self.training
+L124:             ) or (hasattr(self, "gradient_checkpointing") and self.gradient_checkpointing and self.training)
+L125:             # Force enable gradient checkpointing if we're in training mode and the model supports it
+L126:             if self.training and hasattr(self.gemma_expert.model, "gradient_checkpointing"):
+L127:                 if not self.gemma_expert.model.gradient_checkpointing:
+L128:                     print("Forcing gradient checkpointing to be enabled for Gemma expert model")
+L129:                     self.gemma_expert.model.gradient_checkpointing = True
+L130:                 use_gradient_checkpointing = True
+L131:             # Debug gradient checkpointing status
+L132:             if hasattr(self, "_debug_gc_printed") and not self._debug_gc_printed:
+L133:                 print(f"Gemma expert model gradient checkpointing: {use_gradient_checkpointing}")
+L134:                 print(f"Model training mode: {self.training}")
+L135:                 print(
+L136:                     f"Gemma expert model has gradient_checkpointing attr: {hasattr(self.gemma_expert.model, 'gradient_checkpointing')}"
+L137:                 )
+L138:                 if hasattr(self.gemma_expert.model, "gradient_checkpointing"):
+L139:                     print(
+L140:                         f"Gemma expert model gradient_checkpointing value: {self.gemma_expert.model.gradient_checkpointing}"
+L141:                     )
+L142:                 self._debug_gc_printed = True
+L143:             # Define the complete layer computation function for gradient checkpointing
+L144:             def compute_layer_complete(layer_idx, inputs_embeds, attention_mask, position_ids, adarms_cond):
+L145:                 models = [self.paligemma.language_model, self.gemma_expert.model]
+L146:                 query_states = []
+L147:                 key_states = []
+L148:                 value_states = []
+L149:                 gates = []
+L150:                 for i, hidden_states in enumerate(inputs_embeds):
+L151:                     layer = models[i].layers[layer_idx]
+L152:                     hidden_states, gate = layer.input_layernorm(hidden_states, cond=adarms_cond[i])  # noqa: PLW2901
+L153:                     gates.append(gate)
+L154:                     input_shape = hidden_states.shape[:-1]
+L155:                     hidden_shape = (*input_shape, -1, layer.self_attn.head_dim)
+L156:                     query_state = layer.self_attn.q_proj(hidden_states).view(hidden_shape).transpose(1, 2)
+L157:                     key_state = layer.self_attn.k_proj(hidden_states).view(hidden_shape).transpose(1, 2)
+L158:                     value_state = layer.self_attn.v_proj(hidden_states).view(hidden_shape).transpose(1, 2)
+L159:                     query_states.append(query_state)
+L160:                     key_states.append(key_state)
+L161:                     value_states.append(value_state)
+L162: 
+L163:                 # Concatenate and process attention
+L164:                 query_states = torch.cat(query_states, dim=2)
+L165:                 key_states = torch.cat(key_states, dim=2)
+L166:                 value_states = torch.cat(value_states, dim=2)
+L167:                 dummy_tensor = torch.zeros(
+L168:                     query_states.shape[0],
+L169:                     query_states.shape[2],
+L170:                     query_states.shape[-1],
+L171:                     device=query_states.device,
+L172:                     dtype=query_states.dtype,
+L173:                 )
+L174:                 cos, sin = self.paligemma.model.language_model.rotary_emb(dummy_tensor, position_ids)
+L175:                 query_states, key_states = modeling_gemma.apply_rotary_pos_emb(
+L176:                     query_states, key_states, cos, sin, unsqueeze_dim=1
+L177:                 )
+L178:                 batch_size = query_states.shape[0]
+L179:                 scaling = self.paligemma.language_model.layers[layer_idx].self_attn.scaling
+L180:                 # Attention computation
+L181:                 att_output, _ = modeling_gemma.eager_attention_forward(
+L182:                     self.paligemma.language_model.layers[layer_idx].self_attn,
+L183:                     query_states,
+L184:                     key_states,
+L185:                     value_states,
+L186:                     attention_mask,
+L187:                     scaling,
+L188:                 )
+L189:                 # Get head_dim from the current layer, not from the model
+L190:                 head_dim = self.paligemma.language_model.layers[layer_idx].self_attn.head_dim
+L191:                 att_output = att_output.reshape(batch_size, -1, 1 * 8 * head_dim)
+L192:                 # Process layer outputs
+L193:                 outputs_embeds = []
+L194:                 start_pos = 0
+L195:                 for i, hidden_states in enumerate(inputs_embeds):
+L196:                     layer = models[i].layers[layer_idx]
+L197:                     end_pos = start_pos + hidden_states.shape[1]
+L198:                     if att_output.dtype != layer.self_attn.o_proj.weight.dtype:
+L199:                         att_output = att_output.to(layer.self_attn.o_proj.weight.dtype)
+L200:                     out_emb = layer.self_attn.o_proj(att_output[:, start_pos:end_pos])
+L201:                     # first residual
+L202:                     out_emb = modeling_gemma._gated_residual(hidden_states, out_emb, gates[i])  # noqa: SLF001
+L203:                     after_first_residual = out_emb.clone()
+L204:                     out_emb, gate = layer.post_attention_layernorm(out_emb, cond=adarms_cond[i])
+L205:                     # Convert to bfloat16 if the next layer (mlp) uses bfloat16
+L206:                     if layer.mlp.up_proj.weight.dtype == torch.bfloat16:
+L207:                         out_emb = out_emb.to(dtype=torch.bfloat16)
+L208:                     out_emb = layer.mlp(out_emb)
+L209:                     # second residual
+L210:                     out_emb = modeling_gemma._gated_residual(after_first_residual, out_emb, gate)  # noqa: SLF001
+L211:                     outputs_embeds.append(out_emb)
+L212:                     start_pos = end_pos
+L213: 
+L214:                 return outputs_embeds
+L215:             # Process all layers with gradient checkpointing if enabled
+L216:             for layer_idx in range(num_layers):
+L217:                 if use_gradient_checkpointing:
+L218:                     inputs_embeds = torch.utils.checkpoint.checkpoint(
+L219:                         compute_layer_complete,
+L220:                         layer_idx,
+L221:                         inputs_embeds,
+L222:                         attention_mask,
+L223:                         position_ids,
+L224:                         adarms_cond,
+L225:                         use_reentrant=False,
+L226:                         preserve_rng_state=False,
+L227:                     )
+L228:                 else:
+L229:                     inputs_embeds = compute_layer_complete(
+L230:                         layer_idx, inputs_embeds, attention_mask, position_ids, adarms_cond
+L231:                     )
+L232:                 # Old code removed - now using compute_layer_complete function above
+L233:             # final norm
+L234:             # Define final norm computation function for gradient checkpointing
+L235:             def compute_final_norms(inputs_embeds, adarms_cond):
+L236:                 outputs_embeds = []
+L237:                 for i, hidden_states in enumerate(inputs_embeds):
+L238:                     out_emb, _ = models[i].norm(hidden_states, cond=adarms_cond[i])
+L239:                     outputs_embeds.append(out_emb)
+L240:                 return outputs_embeds
+L241:             # Apply gradient checkpointing to final norm if enabled
+L242:             if use_gradient_checkpointing:
+L243:                 outputs_embeds = torch.utils.checkpoint.checkpoint(
+L244:                     compute_final_norms, inputs_embeds, adarms_cond, use_reentrant=False, preserve_rng_state=False
+L245:                 )
+L246:             else:
+L247:                 outputs_embeds = compute_final_norms(inputs_embeds, adarms_cond)
+L248:             prefix_output = outputs_embeds[0]
+L249:             suffix_output = outputs_embeds[1]
+L250:             prefix_past_key_values = None
+L251: 
+L252:         return [prefix_output, suffix_output], prefix_past_key_values
+--------------------------------------------------------------------------------
+LICENSE · nvidia/GR00T-N1.7-3B at 2fc962b973bccdd5d8ce4f67cc63b264d6886495 (https://huggingface.co/nvidia/GR00T-N1.7-3B/blob/2fc962b973bccdd5d8ce4f67cc63b264d6886495/LICENSE)
+citeturn1205view2 [wordlim: 200] Crawled: today; Content type: text/html; Source: open({"ref_id":"https://huggingface.co/nvidia/GR00T-N1.7-3B/blob/2fc962b973bccdd5d8ce4f67cc63b264d6886495/LICENSE","lineno":null}); Total lines: 144
+L0: [Input: Search models, datasets, users...]
+L1: 
+L2:   * cite0†Models L3:   * cite1†Datasets L4:   * cite2†Spaces --------------------------------------------------------------------------------
+Internal Error ()
+citeturn1205view3 [wordlim: 200] Source: open({"ref_id":"https://api.github.com/repos/dexmal/dexbotic/branches/main","lineno":null}); Total lines: 1
+

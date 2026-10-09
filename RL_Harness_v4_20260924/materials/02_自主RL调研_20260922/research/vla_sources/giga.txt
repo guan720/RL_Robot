@@ -1,0 +1,2807 @@
+GigaBrain-0.5M*: a VLA That Learns From World Model-Based Reinforcement Learning
+Report GitHub Issue
+×
+Title:
+Content selection saved. Describe the issue below:
+Description:
+Submit without GitHub
+Submit in GitHub
+arXiv is now an independent nonprofit!
+Learn more
+×
+Back to arXiv
+Why HTML?
+Report Issue
+Back to Abstract
+Download PDF
+Abstract
+1
+Introduction
+2
+Related Works
+2.1
+Vision-Language-Action Models
+2.2
+World Models for Policy Models
+2.3
+Reinforcement Learning for Vision-Language-Action Models
+3
+GigaBrain-0.5M*
+3.1
+GigaBrain-0.5
+3.2
+RAMP
+3.2.1
+RAMP Formulation
+3.2.2
+The RAMP Implementation
+4
+Experiment
+4.1
+Foundation Model Performance
+4.2
+RAMP Performance
+5
+Conclusion and Future Work
+References
+License: CC BY 4.0
+arXiv:2602.12099v1 [cs.CV] 12 Feb 2026
+GigaBrain-0.5M*: a VLA That Learns From World Model-Based Reinforcement Learning
+GigaAI
+Project Page:
+https://gigabrain05m.github.io
+GigaBrain Team (alphabetical order)
+:
+Boyuan Wang
+Chaojun Ni
+Guan Huang
+Guosheng Zhao
+Hao Li
+Jie Li
+Jindi Lv
+Affiliation:
+Jingyu Liu,
+Lv Feng,
+Mingming Yu,
+Peng Li,
+Qiuping Deng,
+Tianze Liu,
+Xinyu Zhou,
+Xinze Chen,
+Xiaofeng Wang,
+Affiliation:
+Yang Wang,
+Yifan Li,
+Yifei Nie,
+Yilong Li,
+Yukun Zhou,
+Yun Ye,
+Zhichao Liu,
+Zheng Zhu
+Abstract
+Vision-language-action (VLA) models that directly predict multi-step action chunks from current observations face inherent limitations due to constrained scene understanding and weak future anticipation capabilities. In contrast, video world models pre-trained on web-scale video corpora exhibit robust spatiotemporal reasoning and accurate future prediction, making them a natural foundation for enhancing VLA learning. Therefore, we propose
+GigaBrain-0.5M*
+, a VLA model trained via world model-based reinforcement learning. Built upon
+GigaBrain-0.5
+, which is pre-trained on over 10,000 hours of robotic manipulation data, whose intermediate version currently ranks first on the international RoboChallenge benchmark.
+GigaBrain-0.5M*
+further integrates world model-based reinforcement learning via
+RAMP
+(Reinforcement leArning via world Model-conditioned Policy) to enable robust cross-task adaptation. Empirical results demonstrate that
+RAMP
+achieves substantial performance gains over the RECAP baseline, yielding improvements of approximately 30% on challenging tasks including
+Laundry Folding
+,
+Box Packing
+, and
+Espresso Preparation
+. Critically,
+GigaBrain-0.5M
+∗
+exhibits reliable long-horizon execution, consistently accomplishing complex manipulation tasks without failure as validated by real-world deployment videos on our
+project page
+.
+Figure 1
+:
+GigaBrain-0.5M*
+is a world model-conditioned VLA trained via world model-based reinforcement learning. Pretrained on multimodal, robot manipulation, and web video data, it enables self-improvement through human-in-the-loop (HIL) rollout that generates diverse training data for continual training.
+\abscontent
+1
+Introduction
+Recent advances in vision-language-action (VLA) models
+(
+Black et al., 2024
+;
+Intelligence et al., 2025b
+;
+Bu et al., 2025
+;
+Bjorck et al., 2025
+;
+Cheang et al., 2025
+;
+Zhai et al., 2025
+;
+Jiang et al., 2025a
+;
+Team et al., 2025a
+)
+have demonstrated compelling results in understanding instructions, perceiving environments, and executing complex manipulation. Nevertheless, a fundamental limitation persists in mainstream VLA architectures: their reliance on myopic observations for long-horizon action planning, this shortcoming stems from an architectural bias toward reactive control rather than prospective planning. Conversely, foundation world models trained on massive-scale video corpora have demonstrated remarkable proficiency in forecasting plausible future states, such predictive priors offer a pathway to endow VLAs with foresight.
+Therefore, we introduce
+GigaBrain-0.5M*
+, a VLA model trained via world model-based reinforcement learning.
+Specifically,
+GigaBrain-0.5M*
+extends
+GigaBrain-0.5M
+(our latest VLA pre-trained on over 10K hours of real-world robotic interaction data) with
+RAMP
+(Reinforcement leArning via world Model-conditioned Policy). The
+RAMP
+pipeline operates in four iterative stages: (1) The world model is pretrained with large-scale robot manipulation data to predict value and future states. (2) The policy is fine-tuned by conditioning actions on the world model’s predicted value and future state. (3) Deploy the policy in real environments, producing robot rollout data with human-in-the-loop intervention. (4) Continual training world model and policy with rollout data. This iterative training paradigm enables self-improvement.
+Therefore, we introduce
+GigaBrain-0.5M*
+, a VLA model trained via world model-based reinforcement learning. Specifically,
+GigaBrain-0.5M*
+extends
+GigaBrain-0.5M
+(our latest VLA pretrained on over 10K hours of real-world robotic interaction data) by integrating
+RAMP
+(Reinforcement leArning via world Model-conditioned Policy). The
+RAMP
+framework follows an iterative four-stage training paradigm. First, the world model is pretrained on large-scale robot manipulation data to forecast future states and associated value. Second, the policy undergoes fine-tuning by conditioning its action selection on the world model’s predicted futures and value estimates. Third, the conditioned policy is deployed in physical environments to collect rollout trajectories under human-in-the-loop intervention. Fourth, both the world model and policy are jointly refined using the curated rollout dataset. This iterative training paradigm enables continual learning and self-improvement. The proposed
+RAMP
+is inspired by RECAP in
+π
+0.6
+∗
+\pi^{*}_{0.6}
+(
+Intelligence et al., 2025a
+)
+, as both approaches utilize additional information as conditions for the VLA model. However, RECAP only uses sparse advantages (0 or 1) as input, providing limited information gain. In contrast, our proposed
+RAMP
+leverages future states predicted by a well-pretrained world model, yielding substantial information gain. Furthermore, we theoretically verify that RECAP is a special case of
+RAMP
+.
+In our experiments, we first conduct comprehensive internal evaluations to assess the performance of
+GigaBrain-0.5
+against strong baselines, including
+π
+0.5
+\pi_{0.5}
+(
+Intelligence et al., 2025b
+)
+and GigaBrain-0
+(
+Team et al., 2025a
+)
+. Our method achieves state-of-the-art success rates across a diverse suite of manipulation tasks, with particularly pronounced advantages on challenging deformable object manipulation and long-horizon procedural tasks. Furthermore, an intermediate version of
+GigaBrain-0.5
+secured the top position on the public RoboChallenge benchmark leaderboard
+(
+RoboChallenge Team,
+)
+.
+We additionally perform extensive ablation studies to analyze the impact of different reinforcement learning algorithms on real-robot performance. Results demonstrate that our proposed
+RAMP
+significantly outperforms alternative approaches such as AWR
+(
+Peng et al., 2019
+)
+and RECAP
+(
+Intelligence et al., 2025a
+)
+, yielding superior multi-task generalization and markedly improved sample efficiency during policy learning.
+Notably,
+GigaBrain-0.5M*
+exhibits robust long-horizon reasoning capabilities, seamlessly executing complex sequential tasks, including laundry folding, box packing and espresso preparation, without interruption over extended interaction horizons.
+2
+Related Works
+2.1
+Vision-Language-Action Models
+Recent progress in foundation language models has catalyzed the development of VLA models
+(
+O’Neill et al., 2024
+;
+Team et al., 2024
+;
+Kim et al., 2024
+;
+Black et al., 2024
+;
+Pertsch et al., 2025
+;
+Intelligence et al., 2025b
+;
+Doshi et al., 2024
+;
+Wang et al., 2024a
+;
+Liu et al., 2024
+;
+Qu et al., 2025
+;
+Li et al., 2024
+;
+Bjorck et al., 2025
+;
+Cheang et al., 2025
+;
+Team et al., 2025a
+;
+Ni et al., 2025a
+)
+, which pursue enhanced cross-task and cross-embodiment generalization by jointly scaling model parameters and training corpora. Such systems commonly leverage frozen or fine-tuned vision-language backbones
+(
+Bai et al., 2025
+;
+Beyer et al., 2024
+;
+Peng et al., 2023
+;
+Liu et al., 2023
+;
+Alayrac et al., 2022
+;
+Steiner et al., 2024
+;
+Marafioti et al., 2025
+)
+to process heterogeneous sensory inputs and produce executable motor commands, employing either autoregressive tokenization strategies or continuous action spaces formulated through flow-based generative paradigms
+(
+Lipman et al., 2022
+;
+Liu, 2022
+)
+.
+Although contemporary VLAs incorporate extensive cross-embodiment datasets
+(
+O’Neill et al., 2024
+;
+Khazatsky et al., 2024
+;
+Dasari et al., 2019
+;
+Walke et al., 2023
+;
+Ebert et al., 2021
+)
+alongside large-scale proprietary archives to bolster generalization capabilities, a fundamental limitation persists in their capacity for temporally extended reasoning. Specifically, these models exhibit a tendency to condition action generation predominantly on immediate observation inputs when addressing long-horizon manipulation tasks.
+2.2
+World Models for Policy Models
+Recent breakthroughs in world modeling
+(
+Kong et al., 2024
+;
+Wang et al., 2025
+;
+Alhaija et al., 2025
+;
+Agarwal et al., 2025
+;
+Assran et al., 2025
+;
+Liao et al., 2025
+;
+Jiang et al., 2025b
+;
+Jang et al., 2025
+)
+have accelerated the adoption of generated data to bridge the simulation-to-reality gap in embodied AI systems
+(
+Zhu et al., 2024
+)
+. In autonomous driving, world models are leveraged to generate corner cases data
+(
+Wang et al., 2024b
+;
+Zhao et al., 2025b
+;
+Hu et al., 2023
+;
+Russell et al., 2025
+;
+Gao et al., 2023
+;
+Gao et al., 2024
+;
+Ren et al., 2025
+)
+and construct traffic situations
+(
+Zhao et al., 2024
+;
+Ni et al., 2024
+;
+Zhao et al., 2025a
+;
+Ni et al., 2025b
+)
+.
+In embodied robotics contexts, techniques such as
+(
+Team et al., 2025b
+)
+harness world-model-generated samples, spanning texture-varied scenes
+(
+Dong et al., 2025
+;
+Liu et al., 2025
+;
+Yuan et al., 2025
+)
+, multi-viewpoint renderings
+(
+Xu et al., 2025
+)
+, and ego-centric translations
+(
+Li et al., 2025a
+)
+, to enrich the training data of VLA models.
+A distinct paradigm involves forecasting future visual trajectories via world models (e.g., DreamGen
+(
+Jang et al., 2025
+)
+and ViDAR
+Feng et al. (2025)
+), subsequently inferring executable motor commands through Inverse Dynamics Models (IDMs). The efficacy of such pipelines critically hinges on the visual fidelity and physical plausibility of generated sequences.
+Beyond data generation, emerging approaches investigate tighter integration between world models and policy learning. Methods like
+(
+Cen et al., 2025
+;
+Li et al., 2025b
+;
+Wang et al., 2024b
+;
+Bi et al., 2025
+;
+Li et al., 2026
+;
+Pai et al., 2025
+)
+fuse latent representations from predictive world models with policy networks to improve sample efficiency and generalization. More ambitiously, frameworks such as
+(
+Kim et al., 2026
+)
+bypass explicit policy networks altogether, directly mapping world model predictions to action sequences.
+2.3
+Reinforcement Learning for Vision-Language-Action Models
+Imitation learning policies suffer from compounding errors due to distribution shift
+Ross et al. (2011)
+, inherently limiting their performance to the quality of the demonstration data. While DAgger and its variants
+Kelly et al. (2019)
+;
+Jang et al. (2022)
+mitigate this issue through online expert interventions, they still rely on continuous human supervision and lack mechanisms for autonomous policy improvement.
+To transcend the limitations of imitation learning, reinforcement learning has been widely adopted for robotic policy optimization. Traditional approaches employ on-policy algorithms
+Schulman et al. (2017)
+or off-policy methods
+Kalashnikov et al. (2018)
+to refine policies through environment interaction. Recent works extend these paradigms to VLA models via direct policy gradient optimization
+Tan et al. (2025)
+;
+Lu et al. (2025)
+or residual policy learning on frozen backbones
+Guo et al. (2025)
+. However, scaling policy gradient methods to large-scale VLAs remains challenging due to training instability and sample inefficiency.
+An emerging direction circumvents explicit policy gradient computation by conditioning action generation on value signals, encompassing reward-conditioned policies
+Kumar et al. (2019)
+, and advantage-conditioned formulations
+Kuba et al. (2023)
+;
+Wu et al. (2023)
+. Recently,
+π
+0.6
+∗
+\pi^{*}_{0.6}
+Intelligence et al. (2025a)
+introduced the RECAP framework, demonstrating that advantage-conditioned reinforcement learning enables VLAs to attain high performance on downstream tasks through on-robot data collection. This motivates us to explore world model-based reinforcement learning, where a world model jointly predicts value and future states to serve as rich policy conditions.
+3
+GigaBrain-0.5M*
+Building upon our foundation VLA model
+GigaBrain-0.5
+, we introduce
+GigaBrain-0.5M*
+, an enhanced policy model that integrates world model-based RL:
+RAMP
+(Reinforcement leArning via world Model-conditioned Policy). This section first details the architecture and pre-training data composition of
+GigaBrain-0.5
+. We then present
+RAMP
+, a training methodology that harnesses world model predictions to iteratively refine policy behavior through experience and corrective feedback signals.
+3.1
+GigaBrain-0.5
+GigaBrain-0.5
+inherits the end-to-end VLA architecture of GigaBrain-0
+(
+Team et al., 2025a
+)
+, designed to map visual observations and language instructions to action sequences for bi-manual robots.
+It employs a mixture-of-transformers
+(
+Liang et al., 2024
+)
+backbone, utilizing a pre-trained PaliGemma-2
+(
+Steiner et al., 2024
+)
+vision-language model (VLM) to encode multimodal inputs and an action Diffusion Transformer (DiT)
+(
+Peebles and Xie, 2023
+)
+with flow matching
+(
+Lipman et al., 2022
+)
+to predict action chunks.
+To enhance reasoning capabilities,
+GigaBrain-0.5
+generates an Embodied Chain-of-Thought (Embodied CoT) consisting of autoregressive subgoal language, discrete action tokens
+(
+Pertsch et al., 2025
+)
+, and 2D manipulation trajectories
+𝐭
+1
+:
+10
+\mathbf{t}_{1:10}
+. While language and discrete tokens are decoded via the VLM head, the 2D trajectory is regressed from learnable tokens through a lightweight GRU decoder. In this version, depth information and 2D trajectories are treated as optional states, allowing the model to adapt to varied sensor modalities and task requirements.
+All components are jointly optimized under a unified objective:
+ℒ
+=
+𝔼
+𝒟
+,
+τ
+,
+ϵ
+[
+−
+∑
+j
+=
+1
+n
+−
+1
+M
+CoT
+,
+j
+log
+p
+θ
+(
+x
+j
++
+1
+∣
+x
+1
+:
+j
+)
++
+‖
+ϵ
+−
+a
+chunk
+−
+f
+θ
+(
+a
+chunk
+τ
+,
+ϵ
+)
+‖
+2
++
+λ
+‖
+GRU
+(
+𝐭
+^
+1
+:
+10
+)
+−
+𝐭
+1
+:
+10
+‖
+2
+]
+,
+\mathcal{L}=\mathbb{E}_{\mathcal{D},\tau,\epsilon}\left[-\sum_{j=1}^{n-1}M_{\text{CoT},j}\log p_{\theta}\left(x_{j+1}\mid x_{1:j}\right)+\left\|\epsilon-a_{\text{chunk}}-f_{\theta}\left(a_{\text{chunk}}^{\tau,\epsilon}\right)\right\|^{2}+\lambda\left\|\text{GRU}(\hat{\mathbf{t}}_{1:10})-\mathbf{t}_{1:10}\right\|^{2}\right],
+(1)
+where
+𝒟
+\mathcal{D}
+is the training dataset and
+M
+CoT
+,
+j
+∈
+{
+0
+,
+1
+}
+M_{\text{CoT},j}\in\{0,1\}
+is a per-token mask indicating whether position
+j
+j
+belongs to the CoT reasoning stream (subgoal language or discrete actions). For the diffusion process,
+τ
+∈
+[
+0
+,
+1
+]
+\tau\in[0,1]
+is the flow-matching timestep,
+ϵ
+∼
+𝒩
+⁡
+(
+0
+,
+𝐈
+)
+\epsilon\sim\mathcal{N}(0,\mathbf{I})
+is Gaussian noise, and
+a
+chunk
+τ
+,
+ϵ
+=
+τ
+⋅
+a
+chunk
++
+(
+1
+−
+τ
+)
+⋅
+ϵ
+a_{\text{chunk}}^{\tau,\epsilon}=\tau\cdot a_{\text{chunk}}+(1-\tau)\cdot\epsilon
+denotes the noised action chunk. The terms
+𝐭
+^
+1
+:
+10
+\hat{\mathbf{t}}_{1:10}
+and
+𝐭
+1
+:
+10
+\mathbf{t}_{1:10}
+represent predicted and ground-truth trajectory keypoints, balanced by hyperparameter
+λ
+\lambda
+.
+Notably, Knowledge Insulation
+(
+Driess et al., 2025
+)
+inherently prevents optimization interference between the language and action prediction terms.
+Figure 2
+:
+Overview of
+RAMP
+.
+The
+RAMP
+framework operates through a four-stage pipeline. (1)
+World Model Pre-training
+establishes a unified representation space for both future state prediction and value estimation. (2)
+Policy Training with World Model Condition
+initializes the
+GigaBrain-0.5
+policy with explicit world model conditioning. (3)
+Human-in-the-Loop Rollout (HILR) Data Collection
+generates diverse and high-quality trajectories through autonomous execution followed by expert corrections. (4)
+Continual Training with Rollout Data
+updates the policy using the annotated trajectory data, incorporating both successful demonstrations and corrective signals. This tightly integrated closed-loop process facilitates continuous policy refinement and self-improvement.
+3.2
+RAMP
+In this section, we first formulate the proposed
+RAMP
+framework and demonstrate that RECAP
+(
+Intelligence et al., 2025a
+)
+is a special case within this formulation. Subsequently, we detail the implementation of
+RAMP
+, which encompasses four iterative training stages: (1) World Model Pre-training, (2) Policy Pre-training, (3) Human-in-the-Loop Rollout (HILR) Data Collection, and (4) Policy Training with Rollout Data.
+3.2.1
+RAMP Formulation
+To derive a scalable training objective that leverages world model latents, we extend the KL-regularized reinforcement learning framework to our augmented state space
+𝐒
+=
+(
+𝐨
+,
+𝐳
+,
+l
+)
+\mathbf{S}=(\mathbf{o},\mathbf{z},l)
+, where
+𝐳
+\mathbf{z}
+represents the latent representation extracted by the world model. Our goal is to maximize expected returns while constraining the policy
+π
+\pi
+from deviating from a reference policy
+π
+ref
+(
+⋅
+|
+𝐒
+)
+\pi_{\text{ref}}(\cdot|\mathbf{S})
+via KL divergence. Drawing on standard results in regularized reinforcement learning, the closed-form solution for the optimal policy is given by
+(
+Intelligence et al., 2025a
+)
+:
+π
+^
+​
+(
+a
+|
+𝐒
+)
+∝
+π
+ref
+​
+(
+a
+|
+𝐒
+)
+​
+exp
+⁡
+(
+A
+π
+ref
+​
+(
+𝐒
+,
+a
+)
+β
+)
+.
+\hat{\pi}(a|\mathbf{S})\propto\pi_{\text{ref}}(a|\mathbf{S})\exp\left(\frac{A^{\pi_{\text{ref}}}(\mathbf{S},a)}{\beta}\right).
+(2)
+To mitigate the numerical instability associated with directly estimating the exponential advantage term, we introduce a binary improvement indicator
+I
+I
+and assume that the probability of observing an improvement event
+p
+⁡
+(
+I
+|
+a
+,
+𝐒
+)
+p(I|a,\mathbf{S})
+is proportional to the exponential advantage of the action. By applying Bayes’ theorem, we reformulate this intractable advantage term as a ratio of conditional probabilities:
+exp
+⁡
+(
+A
+π
+ref
+​
+(
+𝐒
+,
+a
+)
+/
+β
+)
+∝
+π
+ref
+​
+(
+a
+|
+I
+,
+𝐒
+)
+/
+π
+ref
+​
+(
+a
+|
+𝐒
+)
+\exp(A^{\pi_{\text{ref}}}(\mathbf{S},a)/\beta)\propto\pi_{\text{ref}}(a|I,\mathbf{S})/\pi_{\text{ref}}(a|\mathbf{S})
+. Substituting this ratio back into the optimal policy equation re-expresses
+π
+^
+\hat{\pi}
+as a composition of the unconditional distribution and the conditional improvement distribution. Consequently, we parameterize a neural network
+π
+θ
+\pi_{\theta}
+to simultaneously fit these distributions, resulting in the final training objective of minimizing the weighted negative log-likelihood:
+ℒ
+⁡
+(
+θ
+)
+=
+𝔼
+D
+​
+[
+−
+log
+⁡
+π
+θ
+​
+(
+a
+|
+𝐨
+,
+𝐳
+,
+l
+)
+−
+α
+​
+log
+⁡
+π
+θ
+​
+(
+a
+|
+I
+,
+𝐨
+,
+𝐳
+t
+,
+l
+)
+]
+,
+\mathcal{L}(\theta)=\mathbb{E}_{D}\left[-\log\pi_{\theta}(a|\mathbf{o},\mathbf{z},l)-\alpha\log\pi_{\theta}(a|I,\mathbf{o},\mathbf{z}_{t},l)\right],
+(3)
+where
+I
+=
+𝟙
+[
+A
+(
+𝐨
+,
+𝐳
+,
+l
+,
+a
+)
+>
+ϵ
+]
+I=\mathds{1}[A(\mathbf{o},\mathbf{z},l,a)>\epsilon]
+serves as the improvement signal.
+The explicit inclusion of the latent state
+z
+z
+in this objective is not merely a structural choice, but a theoretical necessity. To justify this design, we examine the relationship between our approach
+RAMP
+and existing methods like RECAP
+(
+Intelligence et al., 2025a
+)
+from a probabilistic perspective. We establish the intrinsic connection between these two paradigms.
+From a probabilistic modeling perspective, we theoretically establish the intrinsic connection between
+RAMP
+and RECAP, demonstrating that RECAP is essentially a degenerate special case of
+RAMP
+where information about future latent states is ignored. Specifically, the policy form of RECAP,
+π
+⁡
+(
+a
+|
+o
+,
+I
+)
+\pi(a|o,I)
+, is mathematically equivalent to the marginal distribution of the
+RAMP
+policy
+π
+⁡
+(
+a
+|
+𝐨
+,
+𝐳
+,
+I
+)
+\pi(a|\mathbf{o},\mathbf{z},I)
+over the latent future state
+𝐳
+\mathbf{z}
+:
+π
+R
+​
+E
+​
+C
+​
+A
+​
+P
+​
+(
+a
+|
+𝐨
+,
+I
+)
+=
+∫
+z
+π
+R
+​
+A
+​
+M
+​
+P
+​
+(
+a
+|
+𝐨
+,
+𝐳
+,
+I
+)
+​
+p
+​
+(
+𝐳
+|
+𝐨
+,
+I
+)
+​
+𝑑
+𝐳
+.
+\pi_{RECAP}(a|\mathbf{o},I)=\int_{z}\pi_{RAMP}(a|\mathbf{o},\mathbf{z},I)p(\mathbf{z}|\mathbf{o},I)d\mathbf{z}.
+(4)
+This implies that RECAP effectively learns an
+average policy
+that must implicitly integrate over and compromise across all possible future evolutions without specific guidance. In contrast,
+RAMP
+eliminates this uncertainty by explicitly conditioning on the world model’s prediction
+𝐳
+\mathbf{z}
+, transforming the problem from an
+average guess
+of the future into precise planning targeting a specific physical state.
+Furthermore, from an information-theoretic standpoint, the introduction of the spatio-temporal latent
+𝐳
+\mathbf{z}
+provides significant Information Gain for action generation. While RECAP relies solely on a sparse binary advantage signal (
+I
+∈
+{
+0
+,
+1
+}
+I\in\{0,1\}
+) for coarse credit assignment,
+RAMP
+leverages
+𝐳
+\mathbf{z}
+to inject dense geometric structures and physical dynamics priors, thereby significantly reducing the conditional entropy of action generation
+H
+⁡
+(
+a
+|
+𝐨
+,
+𝐳
+,
+I
+)
+≤
+H
+⁡
+(
+a
+|
+𝐨
+,
+I
+)
+H(a|\mathbf{o},\mathbf{z},I)\leq H(a|\mathbf{o},I)
+.
+3.2.2
+The RAMP Implementation
+RAMP
+enables VLA models to learn from experiences by incorporating world model guidance, throughout the entire training lifecycle. Spanning from large-scale offline pre-training to multi-round iterative fine-tuning on autonomous rollout data, our approach achieves progressive policy improvement. As illustrated in Fig.
+2
+, the pipeline is structured into four progressive stages:
+Stage 1: World Model Pre-training.
+The initial phase establishes a world model
+𝒲
+ϕ
+\mathcal{W}_{\phi}
+capable of jointly predicting future visual states and value estimates. Following the methodology of
+Intelligence et al. (2025a)
+, we derive sparse rewards from episode-level success labels such that the value function corresponds to the negative expected steps-to-completion. Specifically, the reward function is defined as:
+r
+t
+=
+{
+0
+if
+​
+t
+=
+T
+​
+and episode succeeds
+,
+−
+C
+fail
+if
+​
+t
+=
+T
+​
+and episode fails
+,
+−
+1
+otherwise
+,
+r_{t}=\begin{cases}0&\text{if }t=T\text{ and episode succeeds},\\
+-C_{\text{fail}}&\text{if }t=T\text{ and episode fails},\\
+-1&\text{otherwise},\end{cases}
+(5)
+where
+T
+T
+denotes the terminal timestep of the episode and
+C
+fail
+C_{\text{fail}}
+is a large positive constant chosen to ensure that failed episodes receive substantially lower cumulative returns than successful ones. This sparse reward formulation encourages policies to minimize execution time while prioritizing task completion over partial progress. Following the latent frame injection strategy
+(
+Kim et al., 2026
+)
+, we embed the value signal as an additional latent frame that is concatenated with the visual latent state before being fed into the world model. This approach requires no architectural modifications to the underlying Diffusion Transformer. Specifically, future visual observations
+{
+𝐨
+t
++
+i
+}
+i
+∈
+{
+12
+,
+24
+,
+36
+,
+48
+}
+\{\mathbf{o}_{t+i}\}_{i\in\{12,24,36,48\}}
+are first encoded into spatiotemporal visual latents
+𝐳
+t
+∈
+ℝ
+H
+′
+×
+W
+′
+×
+C
+′
+\mathbf{z}_{t}\in\mathbb{R}^{H^{\prime}\times W^{\prime}\times C^{\prime}}
+using a pre-trained VAE. Concurrently, scalar and low-dimensional auxiliary signals, including the current value estimate
+v
+t
+∈
+ℝ
+v_{t}\in\mathbb{R}
+and proprioceptive state
+𝐩
+t
+∈
+ℝ
+d
+\mathbf{p}_{t}\in\mathbb{R}^{d}
+, are transformed via a spatial tiling projection
+Ψ
+⁡
+(
+⋅
+)
+\Psi(\cdot)
+. This projection replicates and broadcasts the low-dimensional vectors across the spatial dimensions to match the shape of the visual latents. The complete latent state is then constructed as:
+𝐬
+t
+=
+[
+𝐳
+t
+;
+Ψ
+⁡
+(
+v
+t
+)
+;
+Ψ
+⁡
+(
+𝐩
+t
+)
+]
+,
+\mathbf{s}_{t}=\big[\mathbf{z}_{t}\,;\,\Psi(v_{t})\,;\,\Psi(\mathbf{p}_{t})\big],
+(6)
+where
+[
+⋅
+;
+⋅
+]
+[\cdot\,;\,\cdot]
+denotes channel-wise concatenation. This unified representation enables the world model to jointly reason about visual dynamics, task progress (via value), and robot kinematics within a single forward pass.
+We adopt Wan2.2
+(
+Wang et al., 2025
+)
+as the backbone architecture for our world model
+𝒲
+ϕ
+\mathcal{W}_{\phi}
+. The model is trained via flow matching
+(
+Lipman et al., 2022
+)
+. By treating future visual states and value estimates as temporally extended video frames, the DiT backbone naturally leverages its spatiotemporal self-attention mechanisms to model the relationship between current observations, actions, and future task outcomes:
+ℒ
+WM
+=
+𝔼
+𝒟
+,
+τ
+,
+ϵ
+​
+[
+‖
+𝒲
+ϕ
+​
+(
+𝐬
+future
+τ
+,
+ϵ
+)
+−
+(
+𝐬
+future
+−
+ϵ
+)
+‖
+2
+]
+,
+\mathcal{L}_{\text{WM}}=\mathbb{E}_{\mathcal{D},\tau,\epsilon}\left[\left\|\mathcal{W}_{\phi}\big(\mathbf{s}_{\text{future}}^{\tau,\epsilon}\big)-(\mathbf{s}_{\text{future}}-\epsilon)\right\|^{2}\right],
+(7)
+where
+𝐬
+future
+τ
+,
+ϵ
+=
+τ
+​
+𝐬
+future
++
+(
+1
+−
+τ
+)
+​
+ϵ
+\mathbf{s}_{\text{future}}^{\tau,\epsilon}=\tau\mathbf{s}_{\text{future}}+(1-\tau)\epsilon
+denotes the linear interpolation between source noise
+ϵ
+∼
+𝒩
+⁡
+(
+0
+,
+𝐈
+)
+\epsilon\sim\mathcal{N}(0,\mathbf{I})
+and the ground-truth latent state sequence
+𝐬
+future
+\mathbf{s}_{\text{future}}
+, with
+τ
+∼
+𝒰
+⁡
+(
+0
+,
+1
+)
+\tau\sim\mathcal{U}(0,1)
+. The target term
+(
+𝐬
+future
+−
+ϵ
+)
+(\mathbf{s}_{\text{future}}-\epsilon)
+corresponds to the constant-velocity vector field along the Optimal Transport path between noise and data distributions. We utilize 4K hours real robot manipulation data to train the world model, the data distribution is visualized in Fig.
+3
+.
+Stage 2: Policy Training with World Model Conditioning.
+The second phase initializes the policy from the pretrained
+GigaBrain-0.5
+checkpoint and further fine-tunes it with world model conditioning. Training details are provided in Sec.
+4.2
+. Specifically, the policy receives two auxiliary signals predicted by the world model
+𝒲
+ϕ
+\mathcal{W}_{\phi}
+: (1) future state tokens
+𝐳
+future
+\mathbf{z}_{\text{future}}
+, and (2) value estimates
+v
+t
+v_{t}
+. Future state tokens are projected via a lightweight MLP to align their dimensionality with the policy’s visual encoder outputs. Value estimates are transformed into action advantages using
+n
+n
+-step temporal difference estimation:
+A
+⁡
+(
+𝐬
+t
+,
+a
+t
+)
+=
+∑
+k
+=
+0
+n
+−
+1
+γ
+k
+​
+r
+t
++
+k
++
+γ
+n
+​
+v
+t
++
+n
+−
+v
+t
+,
+A(\mathbf{s}_{t},a_{t})=\sum_{k=0}^{n-1}\gamma^{k}r_{t+k}+\gamma^{n}v_{t+n}-v_{t},
+(8)
+where
+v
+t
+v_{t}
+and
+v
+t
++
+n
+v_{t+n}
+denote value predictions for states
+𝐬
+t
+\mathbf{s}_{t}
+and
+𝐬
+t
++
+n
+\mathbf{s}_{t+n}
+respectively, and
+γ
+\gamma
+is the discount factor. To simplify conditioning while preserving preference structure, advantages are discretized into a binary indicator
+I
+=
+𝟙
+​
+(
+A
+⁡
+(
+𝐬
+t
+,
+a
+t
+)
+>
+ϵ
+)
+I=\mathds{1}\big(A(\mathbf{s}_{t},a_{t})>\epsilon\big)
+with threshold
+ϵ
+\epsilon
+. The policy is then trained to generate actions conditioned on the tuple
+(
+I
+,
+𝐳
+)
+(I,\mathbf{z})
+by minimizing the supervised fine-tuning objective defined in Eq.
+3
+.
+To prevent over-reliance on synthetic world model signals and ensure flexible deployment, we adopt two complementary strategies during training. First, the world model performs only a single denoising step during inference to minimize computational overhead. Second, we implement stochastic attention masking that randomly suppresses world model tokens with probability
+p
+=
+0.2
+p=0.2
+during training. This forces the policy to maintain robust performance even when world model inputs are partially or fully unavailable, enabling an efficient inference mode that bypasses world model conditioning.
+Stage 3: Human-in-the-Loop Rollout Data Collection.
+In the third phase, we deploy the policy to collect trajectories through human-in-the-loop rollouts. The resulting dataset comprises a hybrid mixture of autonomous executions and expert interventions. Autonomous rollouts exhibit a significantly reduced action distribution gap compared to conventional teleoperation, since the policy generates actions in its native distribution rather than mimicking human demonstrations, thereby providing more effective supervision signals for VLA learning. However, autonomous execution inevitably encounters failure modes requiring human correction. To mitigate temporal discontinuities introduced by manual interventions, we developed a human-in-the-loop rollout data collection software that automatically detects and removes transitional artifacts at intervention boundaries. This smoothing mechanism ensures temporal coherence across the entire trajectory, producing a clean, continuous dataset that facilitates stable policy updates in the subsequent training stage while preserving the pedagogical value of expert corrections.
+Stage 4: Continual Training with Rollout Data.
+In this stage, we fine-tune the policy using the curated HILR dataset to master complex long-horizon behaviors emerging from the diverse mixture of autonomous executions and expert corrections. Crucially, to prevent advantages collapse toward zero (
+A
+⁡
+(
+𝐬
+t
+,
+a
+t
+)
+≈
+0
+A(\mathbf{s}_{t},a_{t})\approx 0
+), the world model
+𝒲
+ϕ
+\mathcal{W}_{\phi}
+is jointly trained with HILR dataset and base data.
+For the policy training, consistent with Stage 2, we maintain stochastic attention masking with masking probability
+p
+=
+0.2
+p=0.2
+applied to both the advantage indicator
+I
+I
+and future latent tokens
+𝐳
+future
+\mathbf{z}_{\text{future}}
+. This regularization serves dual purposes: (1) it prevents policy over-reliance on world model signals by forcing robustness to missing conditioning inputs, and (2) it ensures architectural and training consistency between pretraining and fine-tuning phases, avoiding distributional shift at inference time.
+The rollout–annotation–training cycle operates iteratively, establishing a self-improving closed loop: as the policy improves, its autonomous rollouts cover increasingly complex and successful behaviors, which in turn generate higher-quality training data for subsequent iterations.
+Inference.
+During deployment, we enforce an optimistic control strategy by fixing the advantage indicator to
+I
+=
+1
+I=1
+.
+Regarding the latent condition
+𝐳
+\mathbf{z}
+, the architectural decoupling facilitated by stochastic masking enables two flexible execution modes: (1) an efficient mode, where the world model is bypassed to maximize inference frequency. In this setting, the attention mask is configured to render the future latent tokens invisible to the policy, compelling it to act based solely on current observations; (2) and a standard mode, where the world model actively generates
+𝐳
+\mathbf{z}
+to provide dense look-ahead guidance. In this setting, the attention mask permits full visibility of the predicted future states, allowing the policy to leverage the prospective context for complex, long-horizon planning.
+4
+Experiment
+In this section, we first evaluate the performance of our foundation model,
+GigaBrain-0.5
+. On internal robotic evaluation, our model demonstrates robust capability in executing long-horizon, complex procedures such as box packing and coffee preparation. On the public benchmark RoboChallenge
+(
+RoboChallenge Team,
+)
+, our foundation model also achieves superior performance compared to
+π
+0.5
+\pi_{0.5}
+(
+Intelligence et al., 2025b
+)
+.
+Next, we compare our world model-based reinforcement learning approach,
+RAMP
+, against established RL baselines including AWR
+(
+Peng et al., 2019
+)
+and RECAP
+Intelligence et al. (2025a)
+. Experimental results confirm that
+RAMP
+exhibits significantly higher sample efficiency and stronger multi-task generalization capability.
+Finally, we conduct ablation studies to analyze the contribution of the value prediction module within our world model, quantitatively validating its importance for policy learning and task success.
+Figure 3
+:
+Data distribution of the pre-training stage of
+GigaBrain-0.5
+.
+4.1
+Foundation Model Performance
+Pre-training Details.
+GigaBrain-0.5
+is pre-trained on a diverse dataset exceeding 10,000 hours, comprising over 6,000 hours of world model-generated data and approximately 4,000 hours of real-robot collected data. The detailed data composition is illustrated in Fig.
+3
+. We train
+GigaBrain-0.5
+using our training framework GigaTrain
+1
+1
+1
+https://github.com/open-gigaai/giga-train
+with a batch size of 3,072 for 100,000 optimization steps. To reduce per-GPU memory consumption, we employ Fully Sharded Data Parallel (FSDP) v2, applying sharding selectively to all
+SiglipEncoderLayer
+modules and only the first 16 layers of
+Gemma2DecoderLayerWithExpert
+.
+Post-training Details.
+To evaluate the performance of
+GigaBrain-0.5
+on physical robots, we collect task-specific demonstration data on the target robot platform and perform post-training to adapt the model to each task. We conduct comprehensive evaluations on eight internally designed tasks and additionally post-trained the model on 30 tasks from the public benchmark RoboChallenge. Details of the RoboChallenge tasks and evaluation protocol are described in
+(
+RoboChallenge Team,
+)
+. Our eight internal evaluation tasks include
+Juice Preparation
+,
+Box Moving
+,
+Table Bussing
+,
+Paper Towel Preparation
+,
+Laundry Folding
+,
+Laundry Collection
+,
+Box Packing
+, and
+Espresso Preparation
+. Demonstration videos for these tasks are showcased on our project page. For each task, we performed post-training with a batch size of 256 for 20,000 optimization steps.
+Figure 4
+:
+Performance of
+GigaBrain-0.5
+on internal evaluation.
+Figure 5
+:
+Deployment of
+GigaBrain-0.5
+on PiPER arms for real-world
+Box Packing
+.
+Figure 6
+:
+Deployment of
+GigaBrain-0.5
+on the G1 humanoid robot for real-world
+Box Moving
+.
+Figure 7
+:
+Deployment of
+GigaBrain-0.5
+on PiPER arms for real-world
+Espresso Preparation
+.
+Figure 8
+:
+Deployment of
+GigaBrain-0.5
+on the G1 humanoid robot for real-world
+Juice Preparation
+.
+Figure 9
+:
+Deployment of
+GigaBrain-0.5
+on the G1 humanoid robot for real-world
+Laundry Collection
+.
+Figure 10
+:
+Deployment of
+GigaBrain-0.5
+on PiPER arms for real-world
+Laundry Folding
+.
+Figure 11
+:
+Deployment of
+GigaBrain-0.5
+on PiPER arms for real-world
+Paper Towel Preparation
+.
+Figure 12
+:
+Deployment of
+GigaBrain-0.5
+on the G1 humanoid robot for real-world
+Table Bussing
+.
+Internal Evaluation.
+In our experiments, we benchmark
+GigaBrain-0.5
+against several strong baselines, including
+π
+0
+\pi_{0}
+(
+Black et al., 2024
+)
+,
+π
+0.5
+\pi_{0.5}
+, and GigaBrain-0
+(
+Team et al., 2025a
+)
+. The results are summarized in Fig.
+4
+.
+GigaBrain-0.5
+achieves consistent and substantial improvements over its predecessor GigaBrain-0
+(
+Team et al., 2025a
+)
+across all evaluated tasks, attaining the highest success rate in every case, with particularly notable gains in complex multi-step procedures. For instance, in
+Juice Preparation
+, a task requiring sequential ingredient handling and mixing,
+GigaBrain-0.5
+achieves a 100% success rate, surpassing GigaBrain-0’s 90%. For challenging tasks such as
+Box Packing
+and
+Espresso Preparation
+,
+GigaBrain-0.5
+improves success rates by 10% and 20% respectively over
+π
+0.5
+\pi_{0.5}
+. Similarly, on highly dexterous manipulation tasks (
+Paper Towel Preparation
+,
+Laundry Folding
+, and
+Laundry Collection
+),
+GigaBrain-0.5
+achieves success rates exceeding 80%, outperforming
+π
+0.5
+\pi_{0.5}
+by 15%, 5%, and 10% respectively. Additionally, we visualize eight tasks in Fig.
+5
+-Fig.
+12
+.
+RoboChallenge Evaluation.
+Beyond our internal task evaluations, we also conduct comprehensive assessments on the RoboChallenge
+(
+RoboChallenge Team,
+)
+benchmark. RoboChallenge represents the world’s first large-scale embodied AI evaluation platform featuring real-robot testing. The platform has established standardized remote evaluation protocols across a cluster of 20 physical robots spanning four major platforms (UR5, Franka, ARX5, and ALOHA). It further provides the open-sourced dataset (736 GB) encompassing 30 standardized manipulation tasks. Detailed task specifications and evaluation methodologies are provided in
+(
+RoboChallenge Team,
+)
+. An intermediate iteration model (GigaBrain-0.1) currently ranks first on the leaderboard as of February 9, 2026, achieving an average success rate of 51.67%, an improvement of 9% over
+π
+0.5
+\pi_{0.5}
+(42.67%).
+4.2
+RAMP Performance
+In this section, we address three core questions through systematic empirical evaluation: (1) Does world model-based value prediction offer superior accuracy and efficiency compared to the VLM-based approach employed in
+π
+0.6
+∗
+\pi^{*}_{0.6}
+? (2) Does world model conditioning enhance cross-task generalization capabilities of vision-language-action policies? (3) How does our proposed
+RAMP
+algorithm compare against alternative reinforcement learning methods in real-robot settings?
+Value Prediction Performance.
+To evaluate the efficacy of world model-based value prediction, we conduct comparisons against a VLM-based baseline
+(
+Intelligence et al., 2025a
+)
+and our world model-based method. For value prediction in the VLM, we insert a learnable
+[CLS]
+token at the end of the visual token sequence to aggregate global scene representations, the hidden state of this token is then projected through a regression head to produce a scalar value prediction in
+[
+0
+,
+1
+]
+[0,1]
+. The model is optimized with mean squared error.
+Both VLM-based and world model-based value predictors are trained on identical pretraining data and evaluated on a validation set comprising approximately 1 million frames across the eight manipulation tasks illustrated in Fig.
+4
+. We assess prediction quality using four complementary metrics: MAE, MSE, RMSE (all lower is better), and Kendall’s tau rank correlation coefficient (higher is better, with 1 indicating perfect rank preservation). Results averaged across all tasks are summarized in Tab.
+1
+.
+Our analysis reveals three key findings. First, despite employing a lightweight VLM
+(
+Intelligence et al., 2025a
+)
+, the VLM-based approach incurs the highest per-frame inference latency (0.32 s, on A800 GPU) due to the computational overhead of the SigLIP
+(
+Zhai et al., 2023
+)
+visual encoder. Second, the world model variant predicting value alone achieves the fastest inference (0.11 s) but suffers from degraded prediction accuracy (MAE=0.0838, Kendall=0.7288), suggesting that value-only modeling fails to fully exploit the future prediction capabilities inherent in world models. Third, our proposed joint prediction scheme, simultaneously forecasting value and future states, strikes an optimal balance. It achieves the highest Kendall’s tau (0.8018) and lowest MAE (0.0621) while maintaining competitive inference speed (0.25 s). This demonstrates that leveraging future state prediction provides crucial contextual grounding for accurate value estimation. Qualitative value prediction visualizations for representative tasks are provided in Fig.
+13
+.
+Figure 13
+:
+Value prediction visualization from the world model. The
+orange
+bounding box highlights a value drop during a
+Laundry Folding
+task when a green garment interferes with the folding process, the predicted value recovers after the manipulator successfully removes the obstruction.
+Table 1
+:
+Performance comparison of different value prediction methods.
+Model
+Inference Time (s)
+MAE
+↓
+\downarrow
+MSE
+↓
+\downarrow
+RMSE
+↓
+\downarrow
+Kendall
+↑
+\uparrow
+VLM-based
+0.32
+0.0683
+0.0106
+0.1029
+0.7972
+WM-based (value only)
+0.11
+0.0838
+0.0236
+0.1433
+0.7288
+WM-based (state+value)
+0.25
+0.0621
+0.0099
+0.0989
+0.8018
+World Model Conditioning for Policy Learning.
+To evaluate whether world model conditioning enhances multi-task generalization, we conduct a controlled comparison between single-task and multi-task training regimes. We select four representative manipulation tasks for evaluation:
+Table Bussing
+,
+Laundry Folding
+,
+Paper Towel Preparation
+, and
+Box Packing
+. To ensure a fair comparison and isolate the effect of world model conditioning, we train all policies exclusively on the Stage-2 dataset from
+RAMP
+without incorporating any generated rollout data.
+For single-task training, each policy is trained independently for 20000 steps with a batch size of 256. For multi-task training, we uniformly mix data from all four tasks and train a single policy for 60000 steps using the same batch size.
+Our experimental results, as illustrated in Figure
+14
+, demonstrate that the world model condition approach consistently outperforms the baseline across both single-task and multi-task training scenarios. Specifically, incorporating the world model yields substantial performance gains in all evaluated tasks, with significant improvements consistently observed throughout the entire training trajectory from 5,000 to 20,000 steps. Notably, the performance enhancement is particularly pronounced in the multi-task setting, where the success rate gap between the world model approach and the baseline widens progressively during training, achieving up to
+∼
+\sim
+30% higher success rates in tasks like
+Box Packing
+at step 20000. This indicates that the world model condition effectively facilitates knowledge transfer across multiple tasks while maintaining robust performance gains in single-task scenarios.
+Figure 14
+:
+Comparison of single-task and multi-task performance with and without world model conditions.
+Comparison with RL Baselines.
+We benchmark
+RAMP
+against state-of-the-art RL baselines.
+•
+GigaBrain-0.5
++
+AWR
+(
+Peng et al., 2019
+)
+: An offline RL baseline that fine-tunes the
+GigaBrain-0.5
+policy using weighted imitation learning, utilizing rollouts generated by the current policy.
+•
+GigaBrain-0.5
++
+RECAP
+(
+Intelligence et al., 2025a
+)
+: An advantage-conditioned offline RL approach that extends the
+GigaBrain-0.5
+backbone with an advantage input, serving as an ablated variant of our method without state prediction.
+•
+GigaBrain-0.5
++
+RAMP
+(
+GigaBrain-0.5M*
+): The proposed Reinforcement learning via world Model-conditioned Policy framework, which conditions the
+GigaBrain-0.5
+policy on both the predicted value and future state latents to optimize long-horizon task performance.
+Our
+RAMP
+framework establishes top performance across all three highly challenging manipulation tasks:
+Box Packing
+,
+Espresso Preparation
+, and
+Laundry Folding
+. As quantified in Fig.
+15
+,
+RAMP
+achieves near-perfect success rates on all evaluated tasks, significantly outperforming all baseline methods (
+GigaBrain-0.5
+,
+GigaBrain-0.5
++AWR, and
+GigaBrain-0.5
++RECAP). Notably,
+RAMP
+demonstrates particularly substantial gains on
+Box Packing
+and
+Espresso Preparation
+, where it surpasses the RECAP baseline by approximately 30% points.
+Critically, the
+GigaBrain-0.5M
+∗
+model (i.e.,
+GigaBrain-0.5
+integrated with our
+RAMP
+framework) exhibits robust and consistent task execution capabilities, achieving reliable success in real-world deployment as empirically validated by the supplementary execution videos on our project page. This unprecedented performance across multiple complex manipulation tasks underscores the effectiveness of
+RAMP
+in solving challenging real-world robotics problems.
+Figure 15
+:
+Comparison of different RL methods.
+5
+Conclusion and Future Work
+In this work, we present
+GigaBrain-0.5
+and its world model-enhanced successor
+GigaBrain-0.5M*
+, advancing the frontier of VLA learning through large-scale pretraining and model-based RL.
+GigaBrain-0.5
+, pretrained on over 10,000 hours of diverse robotic data, demonstrates state-of-the-art performance across eight internal manipulation tasks and 30 standardized tasks on the RoboChallenge benchmark, achieving a 51.67% average success rate and securing the top position on the public leaderboard. Building upon this strong foundation,
+GigaBrain-0.5M*
+introduces a novel world model-conditioned architecture that leverages future state prediction to overcome the limited anticipation capabilities inherent in conventional VLA models. By integrating model-based reinforcement learning through
+RAMP
+, our approach achieves robust cross-task generalization and reliably executes complex long-horizon tasks such as sequential box packing and espresso preparation. Looking ahead, the
+GigaBrain
+series will investigate more efficient utilization of model rollout data to maximize the informational value of synthetic trajectories while minimizing computational overhead. Furthermore, we aim to explore more scalable self-evolution paradigms that enable autonomous data curation, policy refinement, and world model updating through closed-loop interaction.
+References
+[1]
+N. Agarwal, A. Ali, M. Bala, Y. Balaji, E. Barker, T. Cai, P. Chattopadhyay, Y. Chen, Y. Cui, Y. Ding,
+et al.
+(2025)
+Cosmos world foundation model platform for physical ai
+.
+arXiv preprint arXiv:2501.03575
+.
+Cited by:
+§2.2
+.
+[2]
+J. Alayrac, J. Donahue, P. Luc, A. Miech, I. Barr, Y. Hasson, K. Lenc, A. Mensch, K. Millican, M. Reynolds,
+et al.
+(2022)
+Flamingo: a visual language model for few-shot learning
+.
+NeurIPS
+.
+Cited by:
+§2.1
+.
+[3]
+H. A. Alhaija, J. Alvarez, M. Bala, T. Cai, T. Cao, L. Cha, J. Chen, M. Chen, F. Ferroni, S. Fidler,
+et al.
+(2025)
+Cosmos-transfer1: conditional world generation with adaptive multimodal control
+.
+arXiv preprint arXiv:2503.14492
+.
+Cited by:
+§2.2
+.
+[4]
+M. Assran, A. Bardes, D. Fan, Q. Garrido, R. Howes, M. Muckley, A. Rizvi, C. Roberts, K. Sinha, A. Zholus,
+et al.
+(2025)
+V-jepa 2: self-supervised video models enable understanding, prediction and planning
+.
+arXiv preprint arXiv:2506.09985
+.
+Cited by:
+§2.2
+.
+[5]
+S. Bai, K. Chen, X. Liu, J. Wang, W. Ge, S. Song, K. Dang, P. Wang, S. Wang, J. Tang,
+et al.
+(2025)
+Qwen2. 5-vl technical report
+.
+arXiv preprint arXiv:2502.13923
+.
+Cited by:
+§2.1
+.
+[6]
+L. Beyer, A. Steiner, A. S. Pinto, A. Kolesnikov, X. Wang, D. Salz, M. Neumann, I. Alabdulmohsin, M. Tschannen, E. Bugliarello,
+et al.
+(2024)
+Paligemma: a versatile 3b vlm for transfer
+.
+arXiv preprint arXiv:2407.07726
+.
+Cited by:
+§2.1
+.
+[7]
+H. Bi, H. Tan, S. Xie, Z. Wang, S. Huang, H. Liu, R. Zhao, Y. Feng, C. Xiang, Y. Rong,
+et al.
+(2025)
+Motus: a unified latent action world model
+.
+arXiv preprint arXiv:2512.13030
+.
+Cited by:
+§2.2
+.
+[8]
+J. Bjorck, F. Castañeda, N. Cherniadev, X. Da, R. Ding, L. Fan, Y. Fang, D. Fox, F. Hu, S. Huang,
+et al.
+(2025)
+Gr00t n1: an open foundation model for generalist humanoid robots
+.
+arXiv preprint arXiv:2503.14734
+.
+Cited by:
+§1
+,
+§2.1
+.
+[9]
+K. Black, N. Brown, D. Driess, A. Esmail, M. Equi, C. Finn, N. Fusai, L. Groom, K. Hausman, B. Ichter,
+et al.
+(2024)
+π
+0
+\pi_{0}
+: A vision-language-action flow model for general robot control
+.
+arXiv preprint arXiv:2410.24164
+.
+Cited by:
+§1
+,
+§2.1
+,
+§4.1
+.
+[10]
+Q. Bu, J. Cai, L. Chen, X. Cui, Y. Ding, S. Feng, S. Gao, X. He, X. Hu, X. Huang,
+et al.
+(2025)
+Agibot world colosseo: a large-scale manipulation platform for scalable and intelligent embodied systems
+.
+arXiv preprint arXiv:2503.06669
+.
+Cited by:
+§1
+.
+[11]
+J. Cen, C. Yu, H. Yuan, Y. Jiang, S. Huang, J. Guo, X. Li, Y. Song, H. Luo, F. Wang,
+et al.
+(2025)
+WorldVLA: towards autoregressive action world model
+.
+arXiv preprint arXiv:2506.21539
+.
+Cited by:
+§2.2
+.
+[12]
+C. Cheang, S. Chen, Z. Cui, Y. Hu, L. Huang, T. Kong, H. Li, Y. Li, Y. Liu, X. Ma,
+et al.
+(2025)
+Gr-3 technical report
+.
+arXiv preprint arXiv:2507.15493
+.
+Cited by:
+§1
+,
+§2.1
+.
+[13]
+S. Dasari, F. Ebert, S. Tian, S. Nair, B. Bucher, K. Schmeckpeper, S. Singh, S. Levine, and C. Finn
+(2019)
+Robonet: large-scale multi-robot learning
+.
+arXiv preprint arXiv:1910.11215
+.
+Cited by:
+§2.1
+.
+[14]
+Z. Dong, X. Wang, Z. Zhu, Y. Wang, Y. Wang, Y. Zhou, B. Wang, C. Ni, R. Ouyang, W. Qin,
+et al.
+(2025)
+EMMA: generalizing real-world robot manipulation via generative visual transfer
+.
+arXiv preprint arXiv:2509.22407
+.
+Cited by:
+§2.2
+.
+[15]
+R. Doshi, H. Walke, O. Mees, S. Dasari, and S. Levine
+(2024)
+Scaling cross-embodied learning: one policy for manipulation, navigation, locomotion and aviation
+.
+arXiv preprint arXiv:2408.11812
+.
+Cited by:
+§2.1
+.
+[16]
+D. Driess, J. T. Springenberg, B. Ichter, L. Yu, A. Li-Bell, K. Pertsch, A. Z. Ren, H. Walke, Q. Vuong, L. X. Shi,
+et al.
+(2025)
+Knowledge insulating vision-language-action models: train fast, run fast, generalize better
+.
+arXiv preprint arXiv:2505.23705
+.
+Cited by:
+§3.1
+.
+[17]
+F. Ebert, Y. Yang, K. Schmeckpeper, B. Bucher, G. Georgakis, K. Daniilidis, C. Finn, and S. Levine
+(2021)
+Bridge data: boosting generalization of robotic skills with cross-domain datasets
+.
+arXiv preprint arXiv:2109.13396
+.
+Cited by:
+§2.1
+.
+[18]
+Y. Feng, H. Tan, X. Mao, G. Liu, S. Huang, C. Xiang, H. Su, and J. Zhu
+(2025)
+Generalist bimanual manipulation via foundation video diffusion models
+.
+arXiv preprint arXiv:2507.12898
+.
+Cited by:
+§2.2
+.
+[19]
+R. Gao, K. Chen, E. Xie, L. Hong, Z. Li, D. Yeung, and Q. Xu
+(2023)
+Magicdrive: street view generation with diverse 3d geometry control
+.
+arXiv preprint arXiv:2310.02601
+.
+Cited by:
+§2.2
+.
+[20]
+S. Gao, J. Yang, L. Chen, K. Chitta, Y. Qiu, A. Geiger, J. Zhang, and H. Li
+(2024)
+Vista: a generalizable driving world model with high fidelity and versatile controllability
+.
+arXiv preprint arXiv:2405.17398
+.
+Cited by:
+§2.2
+.
+[21]
+Y. Guo, J. Zhang, X. Chen, X. Ji, Y. Wang, Y. Hu, and J. Chen
+(2025)
+Improving vision-language-action model with online reinforcement learning
+.
+arXiv preprint
+arXiv:2501.16664
+.
+Cited by:
+§2.3
+.
+[22]
+A. Hu, L. Russell, H. Yeo, Z. Murez, G. Fedoseev, A. Kendall, J. Shotton, and G. Corrado
+(2023)
+Gaia-1: a generative world model for autonomous driving
+.
+arXiv preprint arXiv:2309.17080
+.
+Cited by:
+§2.2
+.
+[23]
+P. Intelligence, A. Amin, R. Aniceto, A. Balakrishna, K. Black, K. Conley, G. Connors, J. Darpinian, K. Dhabalia, J. DiCarlo,
+et al.
+(2025)
+π
+0.6
+∗
+\pi^{*}_{0.6}
+: A vla that learns from experience
+.
+arXiv preprint arXiv:2511.14759
+.
+Cited by:
+§1
+,
+§1
+,
+§2.3
+,
+§3.2.1
+,
+§3.2.1
+,
+§3.2.2
+,
+§3.2
+,
+2nd item
+,
+§4.2
+,
+§4.2
+,
+§4
+.
+[24]
+P. Intelligence, K. Black, N. Brown, J. Darpinian, K. Dhabalia, D. Driess, A. Esmail, M. Equi, C. Finn, N. Fusai,
+et al.
+(2025)
+π
+0.5
+\pi_{0.5}
+: A vision-language-action model with open-world generalization
+.
+arXiv preprint arXiv:2504.16054
+.
+Cited by:
+§1
+,
+§1
+,
+§2.1
+,
+§4
+.
+[25]
+E. Jang, A. Irpan, M. Khansari, D. Kappler, F. Ebert, C. Lynch, S. Levine, and C. Finn
+(2022)
+Bc-z: zero-shot task generalization with robotic imitation learning
+.
+In
+CoRL
+,
+Cited by:
+§2.3
+.
+[26]
+J. Jang, S. Ye, Z. Lin, J. Xiang, J. Bjorck, Y. Fang, F. Hu, S. Huang, K. Kundalia, Y. Lin,
+et al.
+(2025)
+DreamGen: unlocking generalization in robot learning through video world models
+.
+arXiv preprint arXiv:2505.12705
+.
+Cited by:
+§2.2
+.
+[27]
+T. Jiang, T. Yuan, Y. Liu, C. Lu, J. Cui, X. Liu, S. Cheng, J. Gao, H. Xu, and H. Zhao
+(2025)
+Galaxea open-world dataset and g0 dual-system vla model
+.
+arXiv preprint arXiv:2509.00576
+.
+Cited by:
+§1
+.
+[28]
+Y. Jiang, S. Chen, S. Huang, L. Chen, P. Zhou, Y. Liao, X. He, C. Liu, H. Li, M. Yao,
+et al.
+(2025)
+Enerverse-ac: envisioning embodied environments with action condition
+.
+arXiv preprint arXiv:2505.09723
+.
+Cited by:
+§2.2
+.
+[29]
+D. Kalashnikov, A. Irpan, P. Pastor, J. Ibarz, A. Herzog, E. Jang, D. Quillen, E. Holly, M. Kalakrishnan, V. Vanhoucke,
+et al.
+(2018)
+QT-Opt: scalable deep reinforcement learning for vision-based robotic manipulation
+.
+arXiv preprint arXiv:1806.10293
+.
+Cited by:
+§2.3
+.
+[30]
+M. Kelly, C. Sidrane, K. Driggs-Campbell, and M. J. Kochenderfer
+(2019)
+HG-dagger: interactive imitation learning with human experts
+.
+In
+ICRA
+,
+Cited by:
+§2.3
+.
+[31]
+A. Khazatsky, K. Pertsch, S. Nair, A. Balakrishna, S. Dasari, S. Karamcheti, S. Nasiriany, M. K. Srirama, L. Y. Chen, K. Ellis,
+et al.
+(2024)
+Droid: a large-scale in-the-wild robot manipulation dataset
+.
+arXiv preprint arXiv:2403.12945
+.
+Cited by:
+§2.1
+.
+[32]
+M. J. Kim, Y. Gao, T. Lin, Y. Lin, Y. Ge, G. Lam, P. Liang, S. Song, M. Liu, C. Finn,
+et al.
+(2026)
+Cosmos policy: fine-tuning video models for visuomotor control and planning
+.
+arXiv preprint arXiv:2601.16163
+.
+Cited by:
+§2.2
+,
+§3.2.2
+.
+[33]
+M. J. Kim, K. Pertsch, S. Karamcheti, T. Xiao, A. Balakrishna, S. Nair, R. Rafailov, E. Foster, G. Lam, P. Sanketi,
+et al.
+(2024)
+Openvla: an open-source vision-language-action model
+.
+arXiv preprint arXiv:2406.09246
+.
+Cited by:
+§2.1
+.
+[34]
+W. Kong, Q. Tian, Z. Zhang, R. Min, Z. Dai, J. Zhou, J. Xiong, X. Li, B. Wu, J. Zhang,
+et al.
+(2024)
+Hunyuanvideo: a systematic framework for large video generative models
+.
+arXiv preprint arXiv:2412.03603
+.
+Cited by:
+§2.2
+.
+[35]
+J. G. Kuba, P. Abbeel, and S. Levine
+(2023)
+Advantage-conditioned diffusion: offline rl via generalization
+.
+Cited by:
+§2.3
+.
+[36]
+A. Kumar, X. B. Peng, and S. Levine
+(2019)
+Reward-conditioned policies
+.
+CoRR
+abs/1912.13465
+.
+Cited by:
+§2.3
+.
+[37]
+H. Li, I. Zhang, R. Ouyang, X. Wang, Z. Zhu, Z. Yang, Z. Zhang, B. Wang, C. Ni, W. Qin,
+et al.
+(2025)
+MimicDreamer: aligning human and robot demonstrations for scalable vla training
+.
+arXiv preprint arXiv:2509.22199
+.
+Cited by:
+§2.2
+.
+[38]
+L. Li, Q. Zhang, Y. Luo, S. Yang, R. Wang, F. Han, M. Yu, Z. Gao, N. Xue, X. Zhu, Y. Shen, and Y. Xu
+(2026)
+Causal world modeling for robot control
+.
+External Links:
+2601.21998
+Cited by:
+§2.2
+.
+[39]
+Q. Li, Y. Liang, Z. Wang, L. Luo, X. Chen, M. Liao, F. Wei, Y. Deng, S. Xu, Y. Zhang,
+et al.
+(2024)
+Cogact: a foundational vision-language-action model for synergizing cognition and action in robotic manipulation
+.
+arXiv preprint arXiv:2411.19650
+.
+Cited by:
+§2.1
+.
+[40]
+Y. Li, S. Shang, W. Liu, B. Zhan, H. Wang, Y. Wang, Y. Chen, X. Wang, Y. An, C. Tang,
+et al.
+(2025)
+DriveVLA-w0: world models amplify data scaling law in autonomous driving
+.
+arXiv preprint arXiv:2510.12796
+.
+Cited by:
+§2.2
+.
+[41]
+W. Liang, L. Yu, L. Luo, S. Iyer, N. Dong, C. Zhou, G. Ghosh, M. Lewis, W. Yih, L. Zettlemoyer,
+et al.
+(2024)
+Mixture-of-transformers: a sparse and scalable architecture for multi-modal foundation models
+.
+arXiv preprint arXiv:2411.04996
+.
+Cited by:
+§3.1
+.
+[42]
+Y. Liao, P. Zhou, S. Huang, D. Yang, S. Chen, Y. Jiang, Y. Hu, J. Cai, S. Liu, J. Luo,
+et al.
+(2025)
+Genie envisioner: a unified world foundation platform for robotic manipulation
+.
+arXiv preprint arXiv:2508.05635
+.
+Cited by:
+§2.2
+.
+[43]
+Y. Lipman, R. T. Chen, H. Ben-Hamu, M. Nickel, and M. Le
+(2022)
+Flow matching for generative modeling
+.
+arXiv preprint arXiv:2210.02747
+.
+Cited by:
+§2.1
+,
+§3.1
+,
+§3.2.2
+.
+[44]
+H. Liu, C. Li, Q. Wu, and Y. J. Lee
+(2023)
+Visual instruction tuning
+.
+NeurIPS
+.
+Cited by:
+§2.1
+.
+[45]
+L. Liu, X. Wang, G. Zhao, K. Li, W. Qin, J. Qiu, Z. Zhu, G. Huang, and Z. Su
+(2025)
+RoboTransfer: geometry-consistent video diffusion for robotic visual policy transfer
+.
+arXiv preprint arXiv:2505.23171
+.
+Cited by:
+§2.2
+.
+[46]
+Q. Liu
+(2022)
+Rectified flow: a marginal preserving approach to optimal transport
+.
+arXiv preprint arXiv:2209.14577
+.
+Cited by:
+§2.1
+.
+[47]
+S. Liu, L. Wu, B. Li, H. Tan, H. Chen, Z. Wang, K. Xu, H. Su, and J. Zhu
+(2024)
+Rdt-1b: a diffusion foundation model for bimanual manipulation
+.
+arXiv preprint arXiv:2410.07864
+.
+Cited by:
+§2.1
+.
+[48]
+G. Lu, W. Guo, C. Zhang, Y. Zhou, H. Jiang, Z. Gao, Y. Tang, and Z. Wang
+(2025)
+VLA-rl: towards masterful and general robotic manipulation with scalable reinforcement learning
+.
+arXiv preprint
+arXiv:2505.18719
+.
+Cited by:
+§2.3
+.
+[49]
+A. Marafioti, O. Zohar, M. Farré, M. Noyan, E. Bakouch, P. Cuenca, C. Zakka, L. B. Allal, A. Lozhkov, N. Tazi, V. Srivastav, J. Lochner, H. Larcher, M. Morlon, L. Tunstall, L. von Werra, and T. Wolf
+(2025)
+SmolVLM: redefining small and efficient multimodal models
+.
+arXiv preprint arXiv:2504.05299
+.
+Cited by:
+§2.1
+.
+[50]
+C. Ni, C. Chen, X. Wang, Z. Zhu, W. Zheng, B. Wang, T. Chen, G. Zhao, H. Li, Z. Dong,
+et al.
+(2025)
+SwiftVLA: unlocking spatiotemporal dynamics for lightweight vla models at minimal overhead
+.
+arXiv preprint arXiv:2512.00903
+.
+Cited by:
+§2.1
+.
+[51]
+C. Ni, G. Zhao, X. Wang, Z. Zhu, W. Qin, X. Chen, G. Jia, G. Huang, and W. Mei
+(2025)
+ReconDreamer-rl: enhancing reinforcement learning via diffusion-based scene reconstruction
+.
+arXiv preprint arXiv:2508.08170
+.
+Cited by:
+§2.2
+.
+[52]
+C. Ni, G. Zhao, X. Wang, Z. Zhu, W. Qin, G. Huang, C. Liu, Y. Chen, Y. Wang, X. Zhang,
+et al.
+(2024)
+ReconDreamer: crafting world models for driving scene reconstruction via online restoration
+.
+arXiv preprint arXiv:2411.19548
+.
+Cited by:
+§2.2
+.
+[53]
+A. O’Neill, A. Rehman, A. Maddukuri, A. Gupta, A. Padalkar, A. Lee, A. Pooley, A. Gupta, A. Mandlekar, A. Jain,
+et al.
+(2024)
+Open x-embodiment: robotic learning datasets and rt-x models: open x-embodiment collaboration 0
+.
+In
+ICRA
+,
+Cited by:
+§2.1
+.
+[54]
+J. Pai, L. Achenbach, V. Montesinos, B. Forrai, O. Mees, and E. Nava
+(2025)
+Mimic-video: video-action models for generalizable robot control beyond vlas
+.
+arXiv preprint arXiv:2512.15692
+.
+Cited by:
+§2.2
+.
+[55]
+W. Peebles and S. Xie
+(2023)
+Scalable diffusion models with transformers
+.
+In
+ICCV
+,
+Cited by:
+§3.1
+.
+[56]
+X. B. Peng, A. Kumar, G. Zhang, and S. Levine
+(2019)
+Advantage-weighted regression: simple and scalable off-policy reinforcement learning
+.
+arXiv preprint arXiv:1910.00177
+.
+Cited by:
+§1
+,
+1st item
+,
+§4
+.
+[57]
+Z. Peng, W. Wang, L. Dong, Y. Hao, S. Huang, S. Ma, and F. Wei
+(2023)
+Kosmos-2: grounding multimodal large language models to the world
+.
+arXiv preprint arXiv:2306.14824
+.
+Cited by:
+§2.1
+.
+[58]
+K. Pertsch, K. Stachowicz, B. Ichter, D. Driess, S. Nair, Q. Vuong, O. Mees, C. Finn, and S. Levine
+(2025)
+Fast: efficient action tokenization for vision-language-action models
+.
+arXiv preprint arXiv:2501.09747
+.
+Cited by:
+§2.1
+,
+§3.1
+.
+[59]
+D. Qu, H. Song, Q. Chen, Y. Yao, X. Ye, Y. Ding, Z. Wang, J. Gu, B. Zhao, D. Wang,
+et al.
+(2025)
+SpatialVLA: exploring spatial representations for visual-language-action model
+.
+arXiv preprint arXiv:2501.15830
+.
+Cited by:
+§2.1
+.
+[60]
+X. Ren, Y. Lu, T. Cao, R. Gao, S. Huang, A. Sabour, T. Shen, T. Pfaff, J. Z. Wu, R. Chen,
+et al.
+(2025)
+Cosmos-drive-dreams: scalable synthetic driving data generation with world foundation models
+.
+arXiv preprint arXiv:2506.09042
+.
+Cited by:
+§2.2
+.
+[61]
+RoboChallenge Team
+External Links:
+Link
+Cited by:
+§1
+,
+§4.1
+,
+§4.1
+,
+§4
+.
+[62]
+S. Ross, G. Gordon, and D. Bagnell
+(2011)
+A reduction of imitation learning and structured prediction to no-regret online learning
+.
+In
+AISTATS
+,
+pp. 627–635
+.
+Cited by:
+§2.3
+.
+[63]
+L. Russell, A. Hu, L. Bertoni, G. Fedoseev, J. Shotton, E. Arani, and G. Corrado
+(2025)
+Gaia-2: a controllable multi-view generative world model for autonomous driving
+.
+arXiv preprint arXiv:2503.20523
+.
+Cited by:
+§2.2
+.
+[64]
+J. Schulman, F. Wolski, P. Dhariwal, A. Radford, and O. Klimov
+(2017)
+Proximal policy optimization algorithms
+.
+arXiv preprint arXiv:1707.06347
+.
+Cited by:
+§2.3
+.
+[65]
+A. Steiner, A. S. Pinto, M. Tschannen, D. Keysers, X. Wang, Y. Bitton, A. Gritsenko, M. Minderer, A. Sherbondy, S. Long,
+et al.
+(2024)
+Paligemma 2: a family of versatile vlms for transfer
+.
+arXiv preprint arXiv:2412.03555
+.
+Cited by:
+§2.1
+,
+§3.1
+.
+[66]
+S. Tan, K. Dou, Y. Zhao, and P. Krähenbühl
+(2025)
+Interactive post-training for vision-language-action models
+.
+arXiv preprint
+arXiv:2505.17016
+.
+Cited by:
+§2.3
+.
+[67]
+G. Team, A. Ye, B. Wang, C. Ni, G. Huang, G. Zhao, H. Li, J. Li, J. Zhu, L. Feng,
+et al.
+(2025)
+Gigabrain-0: a world model-powered vision-language-action model
+.
+arXiv preprint arXiv:2510.19430
+.
+Cited by:
+§1
+,
+§1
+,
+§2.1
+,
+§3.1
+,
+§4.1
+.
+[68]
+G. Team, A. Ye, B. Wang, C. Ni, G. Huang, G. Zhao, H. Li, J. Zhu, K. Li, M. Xu,
+et al.
+(2025)
+Gigaworld-0: world models as data engine to empower embodied ai
+.
+arXiv preprint arXiv:2511.19861
+.
+Cited by:
+§2.2
+.
+[69]
+O. M. Team, D. Ghosh, H. Walke, K. Pertsch, K. Black, O. Mees, S. Dasari, J. Hejna, T. Kreiman, C. Xu,
+et al.
+(2024)
+Octo: an open-source generalist robot policy
+.
+arXiv preprint arXiv:2405.12213
+.
+Cited by:
+§2.1
+.
+[70]
+H. R. Walke, K. Black, T. Z. Zhao, Q. Vuong, C. Zheng, P. Hansen-Estruch, A. W. He, V. Myers, M. J. Kim, M. Du,
+et al.
+(2023)
+Bridgedata v2: a dataset for robot learning at scale
+.
+In
+CoRL
+,
+Cited by:
+§2.1
+.
+[71]
+A. Wang, B. Ai, B. Wen, C. Mao, C. Xie, D. Chen, F. Yu, H. Zhao, J. Yang, J. Zeng,
+et al.
+(2025)
+Wan: open and advanced large-scale video generative models
+.
+arXiv preprint arXiv:2503.20314
+.
+Cited by:
+§2.2
+,
+§3.2.2
+.
+[72]
+L. Wang, X. Chen, J. Zhao, and K. He
+(2024)
+Scaling proprioceptive-visual learning with heterogeneous pre-trained transformers
+.
+NeurIPS
+.
+Cited by:
+§2.1
+.
+[73]
+X. Wang, Z. Zhu, G. Huang, X. Chen, J. Zhu, and J. Lu
+(2024)
+DriveDreamer: towards real-world-drive world models for autonomous driving
+.
+In
+ECCV
+,
+Cited by:
+§2.2
+.
+[74]
+Y. Wu, X. Wang, and M. Hamaya
+(2023)
+Elastic decision transformer
+.
+In
+NeurIPS
+,
+Cited by:
+§2.3
+.
+[75]
+Y. Xu, J. Yang, X. Wang, Y. Chen, Z. Zhu, B. Fang, G. Huang, X. Chen, Y. Ye, Q. Zhang,
+et al.
+(2025)
+EgoDemoGen: novel egocentric demonstration generation enables viewpoint-robust manipulation
+.
+arXiv preprint arXiv:2509.22578
+.
+Cited by:
+§2.2
+.
+[76]
+C. Yuan, S. Joshi, S. Zhu, H. Su, H. Zhao, and Y. Gao
+(2025)
+RoboEngine: plug-and-play robot data augmentation with semantic robot segmentation and background generation
+.
+arXiv preprint arXiv:2505.18738
+.
+Cited by:
+§2.2
+.
+[77]
+A. Zhai, B. Liu, B. Fang, C. Cai, E. Ma, E. Yin, H. Wang, H. Zhou, J. Wang, L. Shi,
+et al.
+(2025)
+Igniting vlms toward the embodied space
+.
+arXiv preprint arXiv:2509.11766
+.
+Cited by:
+§1
+.
+[78]
+X. Zhai, B. Mustafa, A. Kolesnikov, and L. Beyer
+(2023)
+Sigmoid loss for language image pre-training
+.
+In
+ICCV
+,
+Cited by:
+§4.2
+.
+[79]
+G. Zhao, C. Ni, X. Wang, Z. Zhu, X. Zhang, Y. Wang, G. Huang, X. Chen, B. Wang, Y. Zhang,
+et al.
+(2024)
+Drivedreamer4d: world models are effective data machines for 4d driving scene representation
+.
+arXiv preprint arXiv:2410.13571
+.
+Cited by:
+§2.2
+.
+[80]
+G. Zhao, X. Wang, C. Ni, Z. Zhu, W. Qin, G. Huang, and X. Wang
+(2025)
+Recondreamer++: harmonizing generative and reconstructive models for driving scene representation
+.
+arXiv preprint arXiv:2503.18438
+.
+Cited by:
+§2.2
+.
+[81]
+G. Zhao, X. Wang, Z. Zhu, X. Chen, G. Huang, X. Bao, and X. Wang
+(2025)
+Drivedreamer-2: llm-enhanced world models for diverse driving video generation
+.
+In
+AAAI
+,
+Cited by:
+§2.2
+.
+[82]
+Z. Zhu, X. Wang, W. Zhao, C. Min, N. Deng, M. Dou, Y. Wang, B. Shi, K. Wang, C. Zhang,
+et al.
+(2024)
+Is sora a world simulator? a comprehensive survey on general world models and beyond
+.
+arXiv preprint arXiv:2405.03520
+.
+Cited by:
+§2.2
+.
+Experimental support, please
+view the build logs
+for errors. Generated by
+L
+A
+T
+E
+xml
+.
+Instructions for reporting errors
+We are continuing to improve HTML versions of papers, and your feedback helps enhance accessibility and mobile
+      support. To report errors in the HTML that will help us improve conversion and rendering, choose any of the
+      methods listed below:
+Click the "Report Issue"
+(
+)
+button, located in the page header.
+Tip:
+You can select the relevant text first, to include it in your report.
+Our team has already identified
+the following issues
+. We appreciate your time reviewing and reporting rendering errors we
+      may not have found yet. Your efforts will help us improve the HTML versions for all readers, because disability
+      should not be a barrier to accessing research. Thank you for your continued support in championing open access for
+      all.
+Have a free development cycle? Help support accessibility at arXiv! Our collaborators at LaTeXML maintain a
+list of packages that need conversion
+, and welcome
+developer contributions
+.
+We gratefully acknowledge support from
+        our
+major funders
+,
+member institutions
+,
+,
+        and all contributors.
+About
+·
+Help
+·
+Contact
+·
+Subscribe
+·
+Copyright
+·
+Privacy
+·
+Accessibility
+·
+Operational Status
+(opens in new tab)
+Major funding support from

@@ -1,0 +1,19 @@
+flowchart TB
+    A["设置当前目标<br/>确认合法起态"] --> P["共享 policy 尝试<br/>持续观察执行过程"]
+    P --> J{"Harness 核验<br/>当前进展与结果"}
+    J -->|完成| N["记录任务结果<br/>确认反向起态"]
+    N -->|起态可用：刷新目标与队列| A
+    J -->|可继续| P
+    J -->|局部错误| C["确认控制权交接<br/>Harness 执行纠正"]
+    C --> K{"新鲜状态<br/>可继续当前任务？"}
+    K -->|是| P
+    K -->|否：终止本回合| R["独立记录异常恢复<br/>不可恢复则结束窗口"]
+    N -->|反向起态不可用| R
+    J -->|严重异常或等待超预算| R
+    R -->|恢复成功并确认合法起态| A
+    classDef task fill:#e7efff,stroke:#416bb5,color:#152d51,stroke-width:1.5px;
+    classDef harness fill:#e0f3ef,stroke:#278373,color:#153f37,stroke-width:1.5px;
+    classDef boundary fill:#fff1d9,stroke:#b9842b,color:#513a17,stroke-width:1.5px;
+    class A,P,N task;
+    class J,C,K harness;
+    class R boundary;

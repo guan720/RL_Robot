@@ -1,0 +1,84 @@
+openpi_policy_type: pi05
+device: cuda
+multi_gpu: false
+gpu_id: 0
+seed: 42
+debug: false
+
+mode: offline
+max_updates_total: 25000
+max_epochs: 0
+global_batch_size: 8
+per_device_batch_size: 1
+
+name: pi05_spoon_warmup
+log_dir: ./outputs/pi05_spoon_warmup
+checkpoint_dir: ${log_dir}/checkpoint
+optimizer_checkpoint_dir: ${log_dir}/optimizer_checkpoint
+log_freq: 16
+save_model_freq: 100
+save_model_start: 0
+save_optimizer_freq: 0
+save_optimizer_on_final: false
+
+use_amp: true
+use_bf16: true
+use_torch_compile: false
+empty_cache_freq: 10
+max_grad_norm: 1.0
+num_workers: 4
+pin_memory: true
+
+init_ckpt: ""
+openpi_tokenizer_path: google/paligemma-3b-pt-224
+load_pretrained_weights: false
+openpi_train_hparam_source: config
+train_vlm: true
+lora: false
+
+action_lr: 5e-5
+action_weight_decay: 0.0
+action_lr_scheduler:
+  first_cycle_steps: 10000000
+  min_lr: 1e-8
+  warmup_steps: 200
+vlm_lr: 5e-5
+vlm_weight_decay: 0.0
+vlm_lr_scheduler:
+  first_cycle_steps: 10000000
+  min_lr: 1e-8
+  warmup_steps: 200
+
+horizon_steps: 50
+control_replan_interval: 10
+action_dim: 7
+proprio_dim: 7
+use_wrist: true
+num_inference_steps: 10
+gradient_checkpointing: false
+freeze_vision_encoder: false
+
+resume_checkpoint_path: ""
+resume_optimizer: false
+save_optimizer: false
+
+data:
+  finetune:
+    overwrite_stats: piper_stack
+    state_normalization_mode: QUANTILES
+    action_normalization_mode: QUANTILES
+    data_path: .
+    stats_data_path: .
+    proprio_type: poseulerg
+    action_type: poseulerg
+    wrist_key: wrist_image_crop
+    image_key: primary_image_crop
+    state_hist_size: 1
+    min_valid_action: 2
+    min_valid_state: 1
+    force_regenerate_meta: false
+    plot_hist: false
+    use_img_aug: true
+    load_rl_meta: false
+    require_rl_meta: false
+    use_gripper_master: true

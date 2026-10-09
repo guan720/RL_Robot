@@ -1,0 +1,26 @@
+{
+  "notice": "Archived absolute paths are provenance only; package operation uses relative paths.",
+  "mapped_file_fields": [
+    {
+      "original_file_field": "D:\\2026文件\\codex备份\\tools-20260921-ICL-本体感知\\具身_harness_RSI_RL\\06_三轮递进调研与方案复审_20260923\\research\\S3\\evidence\\validation\\abc_deploy__recording__export.py",
+      "package_path": "materials/06_三轮递进调研与方案复审_20260923/research/S3/evidence/validation/abc_deploy__recording__export.py",
+      "sha256": "4a1cb6047d3c4a3db581dbe27ad8b815721d9059dba0d60bb417a60563c4704a"
+    },
+    {
+      "original_file_field": "D:\\2026文件\\codex备份\\tools-20260921-ICL-本体感知\\具身_harness_RSI_RL\\06_三轮递进调研与方案复审_20260923\\research\\S3\\evidence\\validation\\abc_abc_minimal__checkpointing.py",
+      "package_path": "materials/06_三轮递进调研与方案复审_20260923/research/S3/evidence/validation/abc_abc_minimal__checkpointing.py",
+      "sha256": "754e87f9083fab6a06f1abca79a53cd544cd9b53fbcabf3b367a255d2fa7847d"
+    },
+    {
+      "original_file_field": "D:\\2026文件\\codex备份\\tools-20260921-ICL-本体感知\\具身_harness_RSI_RL\\06_三轮递进调研与方案复审_20260923\\research\\S3\\evidence\\validation\\abc_deploy__README.md",
+      "package_path": "materials/06_三轮递进调研与方案复审_20260923/research/S3/evidence/validation/abc_deploy__README.md",
+      "sha256": "ba5192f1f51cba802e797f5ef655ced1479995935a373e7f47f3aa96605eb6b2"
+    },
+    {
+      "original_file_field": "D:\\2026文件\\codex备份\\tools-20260921-ICL-本体感知\\具身_harness_RSI_RL\\06_三轮递进调研与方案复审_20260923\\research\\S3\\evidence\\validation\\abc_abc_minimal__dataloader.py",
+      "package_path": "materials/06_三轮递进调研与方案复审_20260923/research/S3/evidence/validation/abc_abc_minimal__dataloader.py",
+      "sha256": "0ff6ae74cc50a52b286f025e82043f47f955cf4149a0132cb83a0d1f8990e8a7"
+    }
+  ],
+  "background_not_required": "Historical embodied-scientist paths are read-only background provenance and are not package dependencies."
+}

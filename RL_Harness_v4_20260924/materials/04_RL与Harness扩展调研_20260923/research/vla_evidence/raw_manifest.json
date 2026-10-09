@@ -1,0 +1,106 @@
+[
+  {
+    "repo": "pd-perry/expo-ft",
+    "path": "README.md",
+    "url": "https://raw.githubusercontent.com/pd-perry/expo-ft/main/README.md",
+    "error": "URLError(TimeoutError('_ssl.c:1063: The handshake operation timed out'))"
+  },
+  {
+    "repo": "pd-perry/expo-ft",
+    "path": "LICENSE",
+    "url": "https://raw.githubusercontent.com/pd-perry/expo-ft/main/LICENSE",
+    "error": "TimeoutError('The read operation timed out')"
+  },
+  {
+    "repo": "pd-perry/expo-ft",
+    "path": "expo_ft/agents/alg/realtime_expo_ft.py",
+    "url": "https://raw.githubusercontent.com/pd-perry/expo-ft/main/expo_ft/agents/alg/realtime_expo_ft.py",
+    "bytes": 56949,
+    "sha256": "b888d236e997c09d401ec6d075237976ddccfb1de8712d71eac196f83d79d471",
+    "fetched_utc": "2026-09-23T09:30:10.050899+00:00"
+  },
+  {
+    "repo": "pd-perry/expo-ft",
+    "path": "expo_ft/agents/alg/expo_ft.py",
+    "url": "https://raw.githubusercontent.com/pd-perry/expo-ft/main/expo_ft/agents/alg/expo_ft.py",
+    "error": "ConnectionResetError(10054, '远程主机强迫关闭了一个现有的连接。', None, 10054, None)"
+  },
+  {
+    "repo": "pd-perry/expo-ft",
+    "path": "expo_ft/utils/loop_utils.py",
+    "url": "https://raw.githubusercontent.com/pd-perry/expo-ft/main/expo_ft/utils/loop_utils.py",
+    "bytes": 11010,
+    "sha256": "3cc3dbc1e88e551fe58e154dfe9ab3a35de78625019b70b010ce60461d0fbcb9",
+    "fetched_utc": "2026-09-23T09:30:09.314472+00:00"
+  },
+  {
+    "repo": "pd-perry/expo-ft",
+    "path": "expo_ft/data/batch_processor.py",
+    "url": "https://raw.githubusercontent.com/pd-perry/expo-ft/main/expo_ft/data/batch_processor.py",
+    "bytes": 6025,
+    "sha256": "468767873a27601fb0393651e7756afd9b673157623c1843c036134a547eb196",
+    "fetched_utc": "2026-09-23T09:30:09.537195+00:00"
+  },
+  {
+    "repo": "pd-perry/expo-ft",
+    "path": "expo_ft/data/replay_buffer.py",
+    "url": "https://raw.githubusercontent.com/pd-perry/expo-ft/main/expo_ft/data/replay_buffer.py",
+    "error": "URLError(TimeoutError('_ssl.c:1063: The handshake operation timed out'))"
+  },
+  {
+    "repo": "pd-perry/expo-ft",
+    "path": "train_pi_robo.py",
+    "url": "https://raw.githubusercontent.com/pd-perry/expo-ft/main/train_pi_robo.py",
+    "error": "TimeoutError('The read operation timed out')"
+  },
+  {
+    "repo": "pd-perry/expo-ft",
+    "path": "train_pi_robo_async.py",
+    "url": "https://raw.githubusercontent.com/pd-perry/expo-ft/main/train_pi_robo_async.py",
+    "error": "URLError(TimeoutError(10060, '由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。', None, 10060, None))"
+  },
+  {
+    "repo": "pd-perry/expo-ft",
+    "path": "configs/model/realtime_expo_ft_pi_config.py",
+    "url": "https://raw.githubusercontent.com/pd-perry/expo-ft/main/configs/model/realtime_expo_ft_pi_config.py",
+    "error": "URLError(TimeoutError(10060, '由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。', None, 10060, None))"
+  },
+  {
+    "repo": "pd-perry/expo-ft",
+    "path": "configs/task/dynamic_pick.py",
+    "url": "https://raw.githubusercontent.com/pd-perry/expo-ft/main/configs/task/dynamic_pick.py",
+    "error": "URLError(TimeoutError(10060, '由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。', None, 10060, None))"
+  },
+  {
+    "repo": "pd-perry/expo-ft",
+    "path": "scripts/dynamic_pick/train_policy.sh",
+    "url": "https://raw.githubusercontent.com/pd-perry/expo-ft/main/scripts/dynamic_pick/train_policy.sh",
+    "error": "URLError(TimeoutError(10060, '由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。', None, 10060, None))"
+  },
+  {
+    "repo": "sylvestf/WCM",
+    "path": "README.md",
+    "url": "https://raw.githubusercontent.com/sylvestf/WCM/main/README.md",
+    "error": "ConnectionResetError(10054, '远程主机强迫关闭了一个现有的连接。', None, 10054, None)"
+  },
+  {
+    "repo": "sylvestf/WCM",
+    "path": "LICENSE",
+    "url": "https://raw.githubusercontent.com/sylvestf/WCM/main/LICENSE",
+    "error": "TimeoutError('The read operation timed out')"
+  },
+  {
+    "repo": "LiangSu8899/FlashRT",
+    "path": "training/README.md",
+    "url": "https://raw.githubusercontent.com/LiangSu8899/FlashRT/main/training/README.md",
+    "error": "URLError(TimeoutError('_ssl.c:1063: The handshake operation timed out'))"
+  },
+  {
+    "repo": "LiangSu8899/FlashRT",
+    "path": "docs/rl_inference.md",
+    "url": "https://raw.githubusercontent.com/LiangSu8899/FlashRT/main/docs/rl_inference.md",
+    "bytes": 25899,
+    "sha256": "62006e48fbdb8b09b01aa23a05dd48a9fb818d3bc37dc466d89e88136e9a7d04",
+    "fetched_utc": "2026-09-23T09:32:21.240033+00:00"
+  }
+]

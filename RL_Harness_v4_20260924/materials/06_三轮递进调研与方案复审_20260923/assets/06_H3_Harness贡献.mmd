@@ -1,0 +1,15 @@
+flowchart TB
+    S["训练贡献实验<br/>同一初始 policy · 同一 learner · 相同资源上限"]
+    S --> F["固定程序库<br/>使用已有纠正与恢复能力<br/>继续采样和训练"]
+    S --> G["允许程序扩展<br/>受限试验 → 验证发布<br/>记录监督、交互及练习机会"]
+    F --> E["冻结两组训练所得 policy<br/>撤去 Harness 任务内动作辅助<br/>共同留出起态与固定判据"]
+    G --> E
+    E --> J["核心结论<br/>policy 独立能力是否提高<br/>达到同等能力的人工与总成本是否下降"]
+    D["运行归因诊断：单独冻结，不训练<br/>旧／新 policy × 旧／新 Harness 四组<br/>另测两个 policy 无动作辅助"] -.辅助解释.-> J
+    J --> N["程序扩展只能改善救场？<br/>则报告系统收益，不宣称 policy 学习收益"]
+    classDef common fill:#eef2f6,stroke:#65788c,color:#22394c;
+    classDef learn fill:#e7efff,stroke:#416bb5,color:#152d51;
+    classDef result fill:#e0f3ef,stroke:#278373,color:#153f37;
+    class S,D common;
+    class F,G learn;
+    class E,J,N result;

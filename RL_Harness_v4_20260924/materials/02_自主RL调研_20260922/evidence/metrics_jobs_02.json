@@ -1,0 +1,140 @@
+[
+  {
+    "id": "SERL",
+    "kind": "openalex_search",
+    "expected_title": "SERL: A Software Suite for Sample-Efficient Robotic Reinforcement Learning",
+    "url": "https://api.openalex.org/works?search=SERL%3A%20A%20Software%20Suite%20for%20Sample-Efficient%20Robotic%20Reinforcement%20Learning&per-page=4"
+  },
+  {
+    "id": "AutoSERL",
+    "kind": "openalex_search",
+    "expected_title": "One Demonstration Is Enough for Real-World Robotic Reinforcement Learning",
+    "url": "https://api.openalex.org/works?search=One%20Demonstration%20Is%20Enough%20for%20Real-World%20Robotic%20Reinforcement%20Learning&per-page=4"
+  },
+  {
+    "id": "RLPD",
+    "kind": "openalex_search",
+    "expected_title": "Efficient Online Reinforcement Learning with Offline Data",
+    "url": "https://api.openalex.org/works?search=Efficient%20Online%20Reinforcement%20Learning%20with%20Offline%20Data&per-page=4"
+  },
+  {
+    "id": "DayDreamer",
+    "kind": "openalex_search",
+    "expected_title": "DayDreamer: World Models for Physical Robot Learning",
+    "url": "https://api.openalex.org/works?search=DayDreamer%3A%20World%20Models%20for%20Physical%20Robot%20Learning&per-page=4"
+  },
+  {
+    "id": "TD-MPC2",
+    "kind": "openalex_search",
+    "expected_title": "TD-MPC2: Scalable, Robust World Models for Continuous Control",
+    "url": "https://api.openalex.org/works?search=TD-MPC2%3A%20Scalable%2C%20Robust%20World%20Models%20for%20Continuous%20Control&per-page=4"
+  },
+  {
+    "id": "FLaRe",
+    "kind": "openalex_search",
+    "expected_title": "FLaRe: Achieving Masterful and Adaptive Robot Policies with Large-Scale Reinforcement Learning Fine-Tuning",
+    "url": "https://api.openalex.org/works?search=FLaRe%3A%20Achieving%20Masterful%20and%20Adaptive%20Robot%20Policies%20with%20Large-Scale%20Reinforcement%20Learning%20Fine-Tuning&per-page=4"
+  },
+  {
+    "id": "DSRL",
+    "kind": "openalex_search",
+    "expected_title": "Steering Your Diffusion Policy with Latent Space Reinforcement Learning",
+    "url": "https://api.openalex.org/works?search=Steering%20Your%20Diffusion%20Policy%20with%20Latent%20Space%20Reinforcement%20Learning&per-page=4"
+  },
+  {
+    "id": "RoboFuME",
+    "kind": "openalex_search",
+    "expected_title": "Robot Fine-Tuning Made Easy: Pre-Training Rewards and Policies for Autonomous Real-World Reinforcement Learning",
+    "url": "https://api.openalex.org/works?search=Robot%20Fine-Tuning%20Made%20Easy%3A%20Pre-Training%20Rewards%20and%20Policies%20for%20Autonomous%20Real-World%20Reinforcement%20Learning&per-page=4"
+  },
+  {
+    "id": "MEDAL",
+    "kind": "openalex_search",
+    "expected_title": "Reset-Free Reinforcement Learning with Demonstrations",
+    "url": "https://api.openalex.org/works?search=Reset-Free%20Reinforcement%20Learning%20with%20Demonstrations&per-page=4"
+  },
+  {
+    "id": "MTRF",
+    "kind": "openalex_search",
+    "expected_title": "Reset-Free Reinforcement Learning via Multi-Task Learning: Learning Dexterous Manipulation Behaviors without Human Intervention",
+    "url": "https://api.openalex.org/works?search=Reset-Free%20Reinforcement%20Learning%20via%20Multi-Task%20Learning%3A%20Learning%20Dexterous%20Manipulation%20Behaviors%20without%20Human%20Intervention&per-page=4"
+  },
+  {
+    "id": "R3L",
+    "kind": "openalex_search",
+    "expected_title": "Reset-Free Reinforcement Learning with Learned Exploration",
+    "url": "https://api.openalex.org/works?search=Reset-Free%20Reinforcement%20Learning%20with%20Learned%20Exploration&per-page=4"
+  },
+  {
+    "id": "RISC",
+    "kind": "openalex_search",
+    "expected_title": "Intelligent Switching in Reset-Free Reinforcement Learning",
+    "url": "https://api.openalex.org/works?search=Intelligent%20Switching%20in%20Reset-Free%20Reinforcement%20Learning&per-page=4"
+  },
+  {
+    "id": "ARIEL",
+    "kind": "openalex_search",
+    "expected_title": "Autonomous Reinforcement Learning via Subgoal Curricula",
+    "url": "https://api.openalex.org/works?search=Autonomous%20Reinforcement%20Learning%20via%20Subgoal%20Curricula&per-page=4"
+  },
+  {
+    "id": "FARL",
+    "kind": "openalex_search",
+    "expected_title": "Failure-Aware RL: Reliable Offline-to-Online Reinforcement Learning with Self-Recovery for Real-World Manipulation",
+    "url": "https://api.openalex.org/works?search=Failure-Aware%20RL%3A%20Reliable%20Offline-to-Online%20Reinforcement%20Learning%20with%20Self-Recovery%20for%20Real-World%20Manipulation&per-page=4"
+  },
+  {
+    "id": "UniIntervene",
+    "kind": "openalex_search",
+    "expected_title": "UniIntervene: Agentic Intervention for Efficient Real-World Reinforcement Learning",
+    "url": "https://api.openalex.org/works?search=UniIntervene%3A%20Agentic%20Intervention%20for%20Efficient%20Real-World%20Reinforcement%20Learning&per-page=4"
+  },
+  {
+    "id": "RLinf-USER",
+    "kind": "openalex_search",
+    "expected_title": "RLinf-USER: A Unified and Extensible System for Real-World Online Policy Learning in Embodied AI",
+    "url": "https://api.openalex.org/works?search=RLinf-USER%3A%20A%20Unified%20and%20Extensible%20System%20for%20Real-World%20Online%20Policy%20Learning%20in%20Embodied%20AI&per-page=4"
+  },
+  {
+    "id": "RL-100",
+    "kind": "openalex_search",
+    "expected_title": "RL-100: Performant Robotic Manipulation with Real-World Reinforcement Learning",
+    "url": "https://api.openalex.org/works?search=RL-100%3A%20Performant%20Robotic%20Manipulation%20with%20Real-World%20Reinforcement%20Learning&per-page=4"
+  },
+  {
+    "id": "ConRFT",
+    "kind": "openalex_search",
+    "expected_title": "ConRFT: A Reinforced Fine-tuning Method for VLA Models via Consistency Policy",
+    "url": "https://api.openalex.org/works?search=ConRFT%3A%20A%20Reinforced%20Fine-tuning%20Method%20for%20VLA%20Models%20via%20Consistency%20Policy&per-page=4"
+  },
+  {
+    "id": "SimpleVLA-RL",
+    "kind": "openalex_search",
+    "expected_title": "SimpleVLA-RL: Scaling VLA Training via Reinforcement Learning",
+    "url": "https://api.openalex.org/works?search=SimpleVLA-RL%3A%20Scaling%20VLA%20Training%20via%20Reinforcement%20Learning&per-page=4"
+  },
+  {
+    "id": "PLD",
+    "kind": "openalex_search",
+    "expected_title": "Self-Improving Vision-Language-Action Models with Data Generation via Residual RL",
+    "url": "https://api.openalex.org/works?search=Self-Improving%20Vision-Language-Action%20Models%20with%20Data%20Generation%20via%20Residual%20RL&per-page=4"
+  },
+  {
+    "id": "RECAP",
+    "kind": "openalex_search",
+    "expected_title": "From Learning to Doing: Reinforcement Learning with Experience and Corrections",
+    "url": "https://api.openalex.org/works?search=From%20Learning%20to%20Doing%3A%20Reinforcement%20Learning%20with%20Experience%20and%20Corrections&per-page=4"
+  },
+  {
+    "id": "SOAR",
+    "kind": "openalex_search",
+    "expected_title": "Autonomous Improvement of Instruction Following Skills via Foundation Models",
+    "url": "https://api.openalex.org/works?search=Autonomous%20Improvement%20of%20Instruction%20Following%20Skills%20via%20Foundation%20Models&per-page=4"
+  },
+  {
+    "id": "LeaveNoTrace",
+    "kind": "openalex_search",
+    "expected_title": "Leave no Trace: Learning to Reset for Safe and Autonomous Reinforcement Learning",
+    "url": "https://api.openalex.org/works?search=Leave%20no%20Trace%3A%20Learning%20to%20Reset%20for%20Safe%20and%20Autonomous%20Reinforcement%20Learning&per-page=4"
+  }
+]

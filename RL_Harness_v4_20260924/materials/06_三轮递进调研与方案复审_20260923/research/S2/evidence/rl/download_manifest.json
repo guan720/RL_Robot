@@ -1,0 +1,1169 @@
+[
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": ".pre-commit-config.yaml",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/.pre-commit-config.yaml",
+    "local": "fluxdagger_git\\text\\.pre-commit-config.yaml",
+    "status": "ok",
+    "bytes": 1498,
+    "sha256": "d75929ea9d6822c345abb8e330fe911be684b1aea7a533c7dacf8c19f739ae4f"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "LICENSE",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/LICENSE",
+    "local": "fluxdagger_git\\text\\LICENSE",
+    "status": "ok",
+    "bytes": 11357,
+    "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "README.md",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/README.md",
+    "local": "fluxdagger_git\\text\\README.md",
+    "status": "ok",
+    "bytes": 7292,
+    "sha256": "08da3104dd44982c1298f6e6c219b75fc9582ec592a22ec4789bf246b377258f"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "docs/README.md",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/docs/README.md",
+    "local": "fluxdagger_git\\text\\docs\\README.md",
+    "status": "ok",
+    "bytes": 26040,
+    "sha256": "b1dfce044873b2f2a22e72623397cd5da9373e95ae290466506cf2011fbaff68"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "requirements.txt",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/requirements.txt",
+    "local": "fluxdagger_git\\text\\requirements.txt",
+    "status": "ok",
+    "bytes": 305,
+    "sha256": "ec29e0449fb3931cea8ddc692cdd8135b9d0385bfcd4111cd95ff6eb688b3e8e"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/CMakeLists.txt",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/CMakeLists.txt",
+    "local": "fluxdagger_git\\text\\src\\CMakeLists.txt",
+    "status": "ok",
+    "bytes": 2538,
+    "sha256": "11831ed80fdc9f71c093743d7af83f08981a6cd56c483364b7d9d08a58b6a967"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger/CMakeLists.txt",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger/CMakeLists.txt",
+    "local": "fluxdagger_git\\text\\src\\dagger\\CMakeLists.txt",
+    "status": "ok",
+    "bytes": 916,
+    "sha256": "8cebc730239861df43fc236511fb09f0f07a4e827bdb0c074515826a220dfb24"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger/config/default.yaml",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger/config/default.yaml",
+    "local": "fluxdagger_git\\text\\src\\dagger\\config\\default.yaml",
+    "status": "ok",
+    "bytes": 4973,
+    "sha256": "8b6ef79ea6f5a929ca52a3f39e301350ddae3a0d0ae8f81d83fc9d86ece71728"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger/dagger/__init__.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger/dagger/__init__.py",
+    "local": "fluxdagger_git\\text\\src\\dagger\\dagger\\__init__.py",
+    "status": "ok",
+    "bytes": 1524,
+    "sha256": "be8435610f0c3390f964466a9a6f6d78a1471a7aabf9076aa31e2069ea7e0763"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger/dagger/collectors/__init__.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger/dagger/collectors/__init__.py",
+    "local": "fluxdagger_git\\text\\src\\dagger\\dagger\\collectors\\__init__.py",
+    "status": "ok",
+    "bytes": 776,
+    "sha256": "8da33b5b23c125c40bd1478f64f6c1d10894614cc72549b975fa0e513220a2de"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger/dagger/collectors/sync_frame_collector.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger/dagger/collectors/sync_frame_collector.py",
+    "local": "fluxdagger_git\\text\\src\\dagger\\dagger\\collectors\\sync_frame_collector.py",
+    "status": "ok",
+    "bytes": 24851,
+    "sha256": "cfdd8e6d6a4a131d30dd00b8c2cbaa2e20dc3c546ec9fb64a97fc4cfc45aae89"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger/dagger/hardware/__init__.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger/dagger/hardware/__init__.py",
+    "local": "fluxdagger_git\\text\\src\\dagger\\dagger\\hardware\\__init__.py",
+    "status": "ok",
+    "bytes": 717,
+    "sha256": "66885e54eb863ed468a7d7937965715a2abf24fd8a1c417a039e730aa8176de6"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger/dagger/hardware/piper_arm.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger/dagger/hardware/piper_arm.py",
+    "local": "fluxdagger_git\\text\\src\\dagger\\dagger\\hardware\\piper_arm.py",
+    "status": "ok",
+    "bytes": 16724,
+    "sha256": "90bce7d3feae2a43f5cea7d2509ee85a329fec7545f034bacbe20343e0054c00"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger/dagger/infra/__init__.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger/dagger/infra/__init__.py",
+    "local": "fluxdagger_git\\text\\src\\dagger\\dagger\\infra\\__init__.py",
+    "status": "ok",
+    "bytes": 1255,
+    "sha256": "fac8feb64e121e40c534429315278fd7136e07361c78911f5a33cc2a81c2c404"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger/dagger/infra/async_worker.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger/dagger/infra/async_worker.py",
+    "local": "fluxdagger_git\\text\\src\\dagger\\dagger\\infra\\async_worker.py",
+    "status": "ok",
+    "bytes": 5264,
+    "sha256": "9aafeb646a09ebc357b8f2605109d5da89e49e3b65e03403947d1819099c44c1"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger/dagger/infra/dagger_log.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger/dagger/infra/dagger_log.py",
+    "local": "fluxdagger_git\\text\\src\\dagger\\dagger\\infra\\dagger_log.py",
+    "status": "ok",
+    "bytes": 3550,
+    "sha256": "405047ef83b9510cc10afa22f8baefb4572d38b2adc840488fda6f48f1dc55ab"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger/dagger/infra/frame_sync.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger/dagger/infra/frame_sync.py",
+    "local": "fluxdagger_git\\text\\src\\dagger\\dagger\\infra\\frame_sync.py",
+    "status": "ok",
+    "bytes": 21201,
+    "sha256": "7f62321da81049b2b6a3684f07ce721b6dc1f58c53956c27c9889ab1a56ec398"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger/dagger/infra/ros_observation_buffer.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger/dagger/infra/ros_observation_buffer.py",
+    "local": "fluxdagger_git\\text\\src\\dagger\\dagger\\infra\\ros_observation_buffer.py",
+    "status": "ok",
+    "bytes": 13326,
+    "sha256": "17e12a3dfc6e14b888a30a27cf399fc0fdcd70475de5f193ee4dff0929292bee"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger/dagger/reward_models/__init__.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger/dagger/reward_models/__init__.py",
+    "local": "fluxdagger_git\\text\\src\\dagger\\dagger\\reward_models\\__init__.py",
+    "status": "failed",
+    "error": "<urlopen error _ssl.c:1063: The handshake operation timed out>"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger/dagger/reward_models/base.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger/dagger/reward_models/base.py",
+    "local": "fluxdagger_git\\text\\src\\dagger\\dagger\\reward_models\\base.py",
+    "status": "ok",
+    "bytes": 1976,
+    "sha256": "25256a4c56845b6e590f68e40111b4bd086c34d2ca1e4cd8e2a6da4c61ca4c65"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger/dagger/reward_models/qwen3_reward.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger/dagger/reward_models/qwen3_reward.py",
+    "local": "fluxdagger_git\\text\\src\\dagger\\dagger\\reward_models\\qwen3_reward.py",
+    "status": "failed",
+    "error": "<urlopen error _ssl.c:1063: The handshake operation timed out>"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger/dagger/runtime_config.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger/dagger/runtime_config.py",
+    "local": "fluxdagger_git\\text\\src\\dagger\\dagger\\runtime_config.py",
+    "status": "ok",
+    "bytes": 17450,
+    "sha256": "edc5af213f965a9ca4787d4fa052b8ec2783b00cb3904110c826961a3a660541"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger/launch/dagger.launch",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger/launch/dagger.launch",
+    "local": "fluxdagger_git\\text\\src\\dagger\\launch\\dagger.launch",
+    "status": "ok",
+    "bytes": 7527,
+    "sha256": "a65db5f8de76dbe59a31f8faddc6970dd92433adee57ed4cb47769a09da8c44d"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger/launch/dagger_with_reward.launch",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger/launch/dagger_with_reward.launch",
+    "local": "fluxdagger_git\\text\\src\\dagger\\launch\\dagger_with_reward.launch",
+    "status": "failed",
+    "error": "<urlopen error _ssl.c:1063: The handshake operation timed out>"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger/package.xml",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger/package.xml",
+    "local": "fluxdagger_git\\text\\src\\dagger\\package.xml",
+    "status": "ok",
+    "bytes": 663,
+    "sha256": "ffff04fdf3fca7ec1b1469ffb9f6f5d9637e93ba81076b0bcea4d5cb1c90e0ad"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger/scripts/arm_node.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger/scripts/arm_node.py",
+    "local": "fluxdagger_git\\text\\src\\dagger\\scripts\\arm_node.py",
+    "status": "ok",
+    "bytes": 12255,
+    "sha256": "7c603316fdb35de3a2a20c8edd93c27b1d861f21c4178aa545b37b742d5b09ea"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger/scripts/dagger_collector_node.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger/scripts/dagger_collector_node.py",
+    "local": "fluxdagger_git\\text\\src\\dagger\\scripts\\dagger_collector_node.py",
+    "status": "ok",
+    "bytes": 29705,
+    "sha256": "3cb28346b8cbdc0ef967e26b94ecc816a785e0aa4b46511974ea3a16c070a0f5"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger/scripts/dagger_controller_node.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger/scripts/dagger_controller_node.py",
+    "local": "fluxdagger_git\\text\\src\\dagger\\scripts\\dagger_controller_node.py",
+    "status": "ok",
+    "bytes": 18955,
+    "sha256": "4a3a29fa1da0be2d36075b8f32c57ba920ccd2d70027b2838e51442c3aaea62b"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger/scripts/qwen3_reward_node.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger/scripts/qwen3_reward_node.py",
+    "local": "fluxdagger_git\\text\\src\\dagger\\scripts\\qwen3_reward_node.py",
+    "status": "ok",
+    "bytes": 6066,
+    "sha256": "ed04ca2785d7105c2de47694d172cbe7a099d6a00030ca3e92720e30d61a1896"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger/scripts/sync_observation_node.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger/scripts/sync_observation_node.py",
+    "local": "fluxdagger_git\\text\\src\\dagger\\scripts\\sync_observation_node.py",
+    "status": "failed",
+    "error": "The read operation timed out"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger/setup.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger/setup.py",
+    "local": "fluxdagger_git\\text\\src\\dagger\\setup.py",
+    "status": "ok",
+    "bytes": 1149,
+    "sha256": "c1835e518efac176be67035d0fb2f568ae67b20c424ebda4e64ba6e65e05df24"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger_msgs/CMakeLists.txt",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger_msgs/CMakeLists.txt",
+    "local": "fluxdagger_git\\text\\src\\dagger_msgs\\CMakeLists.txt",
+    "status": "ok",
+    "bytes": 576,
+    "sha256": "7e5465c6c014af56cb4e98da071b248bdac601b3c547a8d0bccdc41a7fbb537a"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger_msgs/msg/ArmStatus.msg",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger_msgs/msg/ArmStatus.msg",
+    "local": "fluxdagger_git\\text\\src\\dagger_msgs\\msg\\ArmStatus.msg",
+    "status": "ok",
+    "bytes": 234,
+    "sha256": "d62588887473921f5def94a4d6cbaf0f118a8d05b43e78dcdbc71a7cf8d36c46"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger_msgs/msg/EpisodeInfo.msg",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger_msgs/msg/EpisodeInfo.msg",
+    "local": "fluxdagger_git\\text\\src\\dagger_msgs\\msg\\EpisodeInfo.msg",
+    "status": "ok",
+    "bytes": 111,
+    "sha256": "c65396fdf8127c3014769dfaf63a070df1c75e9dd762398ebda935b0e064d63e"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger_msgs/msg/GlobalState.msg",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger_msgs/msg/GlobalState.msg",
+    "local": "fluxdagger_git\\text\\src\\dagger_msgs\\msg\\GlobalState.msg",
+    "status": "ok",
+    "bytes": 169,
+    "sha256": "6c95bf7ff684d036b802066d70a1499597d49949b7f63e994f39968998ad667d"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger_msgs/msg/InputRequest.msg",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger_msgs/msg/InputRequest.msg",
+    "local": "fluxdagger_git\\text\\src\\dagger_msgs\\msg\\InputRequest.msg",
+    "status": "ok",
+    "bytes": 212,
+    "sha256": "4c7f06a96410a44b0d6ac6c4e7b95f34c7188139faf89a8faee266702813cfbe"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger_msgs/msg/InputResult.msg",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger_msgs/msg/InputResult.msg",
+    "local": "fluxdagger_git\\text\\src\\dagger_msgs\\msg\\InputResult.msg",
+    "status": "ok",
+    "bytes": 148,
+    "sha256": "158c8c499d777714d19a30065697bd4a9e7a9263b2924957ba8a6e56b12201fd"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger_msgs/msg/RewardSignal.msg",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger_msgs/msg/RewardSignal.msg",
+    "local": "fluxdagger_git\\text\\src\\dagger_msgs\\msg\\RewardSignal.msg",
+    "status": "ok",
+    "bytes": 187,
+    "sha256": "98f3bbeaa422c599f7ea40c1a72fdb64b76d2e5c23295443886340009f53d68a"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger_msgs/msg/SyncedObservation.msg",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger_msgs/msg/SyncedObservation.msg",
+    "local": "fluxdagger_git\\text\\src\\dagger_msgs\\msg\\SyncedObservation.msg",
+    "status": "ok",
+    "bytes": 436,
+    "sha256": "fdd9f0194511d8ff14a901d88fe2c5c0b20b36383e34b963c9da5f176840fc48"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "src/dagger_msgs/package.xml",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/src/dagger_msgs/package.xml",
+    "local": "fluxdagger_git\\text\\src\\dagger_msgs\\package.xml",
+    "status": "ok",
+    "bytes": 704,
+    "sha256": "b1bfd98716bb9b2a98a1cdf66e055abd7b4f352f6a3ee4edd05d15c51ecf187c"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "tools/data_processing/episode_utils.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/tools/data_processing/episode_utils.py",
+    "local": "fluxdagger_git\\text\\tools\\data_processing\\episode_utils.py",
+    "status": "ok",
+    "bytes": 7366,
+    "sha256": "66f41731c3e940c7fb9b5e166db2b8fd8619e5239799aa60459de1c3ee6fd937"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "tools/data_processing/parquet_to_mp4_npy.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/tools/data_processing/parquet_to_mp4_npy.py",
+    "local": "fluxdagger_git\\text\\tools\\data_processing\\parquet_to_mp4_npy.py",
+    "status": "ok",
+    "bytes": 16866,
+    "sha256": "9ae0cd74bd17bf79b52b3e69bd7380e3f11cf0a060e2ebea3dec8b13cb8dc464"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "tools/data_processing/split_parquet_by_mode.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/tools/data_processing/split_parquet_by_mode.py",
+    "local": "fluxdagger_git\\text\\tools\\data_processing\\split_parquet_by_mode.py",
+    "status": "failed",
+    "error": "The read operation timed out"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "tools/hardware/piper_initial_pose.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/tools/hardware/piper_initial_pose.py",
+    "local": "fluxdagger_git\\text\\tools\\hardware\\piper_initial_pose.py",
+    "status": "ok",
+    "bytes": 2137,
+    "sha256": "29f90d14fdd284311c9c755fba0204fc77340db53b91be38a1a006e18f428e54"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "tools/hardware/piper_set_slave.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/tools/hardware/piper_set_slave.py",
+    "local": "fluxdagger_git\\text\\tools\\hardware\\piper_set_slave.py",
+    "status": "ok",
+    "bytes": 1460,
+    "sha256": "3fbc77f6010a91c2e59ef526d1b3c84aef396de62dd340348f482f889521262b"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "tools/replay_qpos_npy.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/tools/replay_qpos_npy.py",
+    "local": "fluxdagger_git\\text\\tools\\replay_qpos_npy.py",
+    "status": "ok",
+    "bytes": 4226,
+    "sha256": "1bd40039e2c549bd4512d1a4f4e1afd89575c13803806955782856fc669baa9d"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "tools/reward_inference/qwen3_reward_inference.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/tools/reward_inference/qwen3_reward_inference.py",
+    "local": "fluxdagger_git\\text\\tools\\reward_inference\\qwen3_reward_inference.py",
+    "status": "ok",
+    "bytes": 9005,
+    "sha256": "d530214f8fc2d29c01a462cf7d606ca9b183430dbe0ab338b47fabeeacb02543"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "tools/visualize/visualize_parquet.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/tools/visualize/visualize_parquet.py",
+    "local": "fluxdagger_git\\text\\tools\\visualize\\visualize_parquet.py",
+    "status": "ok",
+    "bytes": 34882,
+    "sha256": "b74af774c9af05c0480ff64415232f8805fa2332df0b5dac588a4500e029e413"
+  },
+  {
+    "repo": "FluxVLA/FluxDAgger",
+    "sha": "b3bf6175d865c41605c00f01aa3b5b0a5deda1e9",
+    "path": "tools/visualize/visualize_ros_reward.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxDAgger/b3bf6175d865c41605c00f01aa3b5b0a5deda1e9/tools/visualize/visualize_ros_reward.py",
+    "local": "fluxdagger_git\\text\\tools\\visualize\\visualize_ros_reward.py",
+    "status": "ok",
+    "bytes": 26483,
+    "sha256": "6dd4c6a292dc580d95cbeb30cfa190f5f150f900a95cbcfaaef349a60923d0cf"
+  },
+  {
+    "repo": "FluxVLA/FluxVLA",
+    "sha": "3fe5d10cf56ae33787baf58efaf12bfbce2393d0",
+    "path": "LICENSE",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxVLA/3fe5d10cf56ae33787baf58efaf12bfbce2393d0/LICENSE",
+    "local": "fluxvla_git\\text\\LICENSE",
+    "status": "ok",
+    "bytes": 11364,
+    "sha256": "cecd2666198765099a98b1a70308c0e8e48f784d727778874eabb937ca191c4f"
+  },
+  {
+    "repo": "FluxVLA/FluxVLA",
+    "sha": "3fe5d10cf56ae33787baf58efaf12bfbce2393d0",
+    "path": "README.md",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxVLA/3fe5d10cf56ae33787baf58efaf12bfbce2393d0/README.md",
+    "local": "fluxvla_git\\text\\README.md",
+    "status": "ok",
+    "bytes": 70008,
+    "sha256": "8f382d7929e6ab2652e0f70d8337ce78fd6c9c670b2d05a7a9a7bf1d90cfb31f"
+  },
+  {
+    "repo": "FluxVLA/FluxVLA",
+    "sha": "3fe5d10cf56ae33787baf58efaf12bfbce2393d0",
+    "path": "configs/arm/arm_clip_aloha_example.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxVLA/3fe5d10cf56ae33787baf58efaf12bfbce2393d0/configs/arm/arm_clip_aloha_example.py",
+    "local": "fluxvla_git\\text\\configs\\arm\\arm_clip_aloha_example.py",
+    "status": "failed",
+    "error": "<urlopen error _ssl.c:1063: The handshake operation timed out>"
+  },
+  {
+    "repo": "FluxVLA/FluxVLA",
+    "sha": "3fe5d10cf56ae33787baf58efaf12bfbce2393d0",
+    "path": "docs/arm.md",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxVLA/3fe5d10cf56ae33787baf58efaf12bfbce2393d0/docs/arm.md",
+    "local": "fluxvla_git\\text\\docs\\arm.md",
+    "status": "failed",
+    "error": "[WinError 10054] 远程主机强迫关闭了一个现有的连接。"
+  },
+  {
+    "repo": "FluxVLA/FluxVLA",
+    "sha": "3fe5d10cf56ae33787baf58efaf12bfbce2393d0",
+    "path": "fluxvla/datasets/arm_dataset.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxVLA/3fe5d10cf56ae33787baf58efaf12bfbce2393d0/fluxvla/datasets/arm_dataset.py",
+    "local": "fluxvla_git\\text\\fluxvla\\datasets\\arm_dataset.py",
+    "status": "ok",
+    "bytes": 7345,
+    "sha256": "5032e21a0361a58d2cf90f902d2fa3faccca995e7f0b14c7df9393304fae289d"
+  },
+  {
+    "repo": "FluxVLA/FluxVLA",
+    "sha": "3fe5d10cf56ae33787baf58efaf12bfbce2393d0",
+    "path": "fluxvla/engines/runners/base_train_runner.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxVLA/3fe5d10cf56ae33787baf58efaf12bfbce2393d0/fluxvla/engines/runners/base_train_runner.py",
+    "local": "fluxvla_git\\text\\fluxvla\\engines\\runners\\base_train_runner.py",
+    "status": "ok",
+    "bytes": 46896,
+    "sha256": "01f626efbec2467d3d0b454fdeaf287e13290c12fec18c87ecb318b045254f6f"
+  },
+  {
+    "repo": "FluxVLA/FluxVLA",
+    "sha": "3fe5d10cf56ae33787baf58efaf12bfbce2393d0",
+    "path": "fluxvla/engines/runners/ddp_train_runner.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxVLA/3fe5d10cf56ae33787baf58efaf12bfbce2393d0/fluxvla/engines/runners/ddp_train_runner.py",
+    "local": "fluxvla_git\\text\\fluxvla\\engines\\runners\\ddp_train_runner.py",
+    "status": "ok",
+    "bytes": 41220,
+    "sha256": "545aa2267a696bd160357be836c4e30c1a3655d6f4b92d46f43c7d49b47b41f1"
+  },
+  {
+    "repo": "FluxVLA/FluxVLA",
+    "sha": "3fe5d10cf56ae33787baf58efaf12bfbce2393d0",
+    "path": "fluxvla/engines/runners/serving/ros_server.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxVLA/3fe5d10cf56ae33787baf58efaf12bfbce2393d0/fluxvla/engines/runners/serving/ros_server.py",
+    "local": "fluxvla_git\\text\\fluxvla\\engines\\runners\\serving\\ros_server.py",
+    "status": "ok",
+    "bytes": 58962,
+    "sha256": "34ae7e9c45aefc6c17f2e4dff754e06bb04e8b5f3e1c8fbabcc63f1cb13f30ab"
+  },
+  {
+    "repo": "FluxVLA/FluxVLA",
+    "sha": "3fe5d10cf56ae33787baf58efaf12bfbce2393d0",
+    "path": "fluxvla/engines/runners/serving/serve.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxVLA/3fe5d10cf56ae33787baf58efaf12bfbce2393d0/fluxvla/engines/runners/serving/serve.py",
+    "local": "fluxvla_git\\text\\fluxvla\\engines\\runners\\serving\\serve.py",
+    "status": "ok",
+    "bytes": 5102,
+    "sha256": "d2dc9cdb829c348a2511adfaaf7609bfaad8582a3b729f23d5160659d4e2e867"
+  },
+  {
+    "repo": "FluxVLA/FluxVLA",
+    "sha": "3fe5d10cf56ae33787baf58efaf12bfbce2393d0",
+    "path": "fluxvla/models/vlas/arm_reward_model.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxVLA/3fe5d10cf56ae33787baf58efaf12bfbce2393d0/fluxvla/models/vlas/arm_reward_model.py",
+    "local": "fluxvla_git\\text\\fluxvla\\models\\vlas\\arm_reward_model.py",
+    "status": "ok",
+    "bytes": 16293,
+    "sha256": "a516f54748e646b9b99f9c046628e9ff6b28c6901776e3761eb4cd5decc88b1d"
+  },
+  {
+    "repo": "FluxVLA/FluxVLA",
+    "sha": "3fe5d10cf56ae33787baf58efaf12bfbce2393d0",
+    "path": "fluxvla/models/vlas/pi05_flowmatching.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxVLA/3fe5d10cf56ae33787baf58efaf12bfbce2393d0/fluxvla/models/vlas/pi05_flowmatching.py",
+    "local": "fluxvla_git\\text\\fluxvla\\models\\vlas\\pi05_flowmatching.py",
+    "status": "ok",
+    "bytes": 6126,
+    "sha256": "14721dfed9c6b3c10f573376aaac099f0d1b23e1b3203626370e56f31f12e0ef"
+  },
+  {
+    "repo": "FluxVLA/FluxVLA",
+    "sha": "3fe5d10cf56ae33787baf58efaf12bfbce2393d0",
+    "path": "fluxvla/models/vlas/pi05_flowmatching_inference.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxVLA/3fe5d10cf56ae33787baf58efaf12bfbce2393d0/fluxvla/models/vlas/pi05_flowmatching_inference.py",
+    "local": "fluxvla_git\\text\\fluxvla\\models\\vlas\\pi05_flowmatching_inference.py",
+    "status": "ok",
+    "bytes": 26216,
+    "sha256": "ef51954adc9434d615adb6dee5bdb11873967fdd07bc276a92331daf975bf64a"
+  },
+  {
+    "repo": "FluxVLA/FluxVLA",
+    "sha": "3fe5d10cf56ae33787baf58efaf12bfbce2393d0",
+    "path": "fluxvla/models/vlas/pi05_flowmatching_inference_rtc.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxVLA/3fe5d10cf56ae33787baf58efaf12bfbce2393d0/fluxvla/models/vlas/pi05_flowmatching_inference_rtc.py",
+    "local": "fluxvla_git\\text\\fluxvla\\models\\vlas\\pi05_flowmatching_inference_rtc.py",
+    "status": "ok",
+    "bytes": 34186,
+    "sha256": "db952409d16eaa25fdb0c0771b395988e190d7b95e1722c7ef328da159f8f5a0"
+  },
+  {
+    "repo": "FluxVLA/FluxVLA",
+    "sha": "3fe5d10cf56ae33787baf58efaf12bfbce2393d0",
+    "path": "fluxvla/weighters/arm_rabc.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxVLA/3fe5d10cf56ae33787baf58efaf12bfbce2393d0/fluxvla/weighters/arm_rabc.py",
+    "local": "fluxvla_git\\text\\fluxvla\\weighters\\arm_rabc.py",
+    "status": "ok",
+    "bytes": 13982,
+    "sha256": "266cb5284d5f66023e4705e554858442fd03ddac71f78262fd363290296f60b2"
+  },
+  {
+    "repo": "FluxVLA/FluxVLA",
+    "sha": "3fe5d10cf56ae33787baf58efaf12bfbce2393d0",
+    "path": "requirements-base.txt",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxVLA/3fe5d10cf56ae33787baf58efaf12bfbce2393d0/requirements-base.txt",
+    "local": "fluxvla_git\\text\\requirements-base.txt",
+    "status": "ok",
+    "bytes": 761,
+    "sha256": "31fc1ce32d001a0c20bfc863f51dd465fa12186e9f69e2b60cdee6163e670e9c"
+  },
+  {
+    "repo": "FluxVLA/FluxVLA",
+    "sha": "3fe5d10cf56ae33787baf58efaf12bfbce2393d0",
+    "path": "scripts/compute_arm_awbc_progress.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxVLA/3fe5d10cf56ae33787baf58efaf12bfbce2393d0/scripts/compute_arm_awbc_progress.py",
+    "local": "fluxvla_git\\text\\scripts\\compute_arm_awbc_progress.py",
+    "status": "ok",
+    "bytes": 6677,
+    "sha256": "fdfde7374a7f9c1e46de44a0a060288c83b9b64c3f8b2928a5b64dbfa3afa1ac"
+  },
+  {
+    "repo": "FluxVLA/FluxVLA",
+    "sha": "3fe5d10cf56ae33787baf58efaf12bfbce2393d0",
+    "path": "scripts/infer_arm_progress.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxVLA/3fe5d10cf56ae33787baf58efaf12bfbce2393d0/scripts/infer_arm_progress.py",
+    "local": "fluxvla_git\\text\\scripts\\infer_arm_progress.py",
+    "status": "ok",
+    "bytes": 32760,
+    "sha256": "7cdb99c52ad4924f2d340b927617d4f21b49367a1975d272bdde43f282276f9f"
+  },
+  {
+    "repo": "FluxVLA/FluxVLA",
+    "sha": "3fe5d10cf56ae33787baf58efaf12bfbce2393d0",
+    "path": "scripts/ros_inference_server.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxVLA/3fe5d10cf56ae33787baf58efaf12bfbce2393d0/scripts/ros_inference_server.py",
+    "local": "fluxvla_git\\text\\scripts\\ros_inference_server.py",
+    "status": "ok",
+    "bytes": 3195,
+    "sha256": "c2a13bd4dd0ec9df93f4637c4252cc4a6e8e6ccf81c09ab4ca7c3cc092697222"
+  },
+  {
+    "repo": "FluxVLA/FluxVLA",
+    "sha": "3fe5d10cf56ae33787baf58efaf12bfbce2393d0",
+    "path": "scripts/train.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxVLA/3fe5d10cf56ae33787baf58efaf12bfbce2393d0/scripts/train.py",
+    "local": "fluxvla_git\\text\\scripts\\train.py",
+    "status": "ok",
+    "bytes": 17407,
+    "sha256": "606db311c5e57071a309d502bd7dc8801119f64355c66fde842882e7f8f76267"
+  },
+  {
+    "repo": "FluxVLA/FluxVLA",
+    "sha": "3fe5d10cf56ae33787baf58efaf12bfbce2393d0",
+    "path": "tools/arm_awbc/README.md",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxVLA/3fe5d10cf56ae33787baf58efaf12bfbce2393d0/tools/arm_awbc/README.md",
+    "local": "fluxvla_git\\text\\tools\\arm_awbc\\README.md",
+    "status": "ok",
+    "bytes": 12916,
+    "sha256": "44cd0baf6a6c21dc601082dbb83178b5d6054539596b62a16e2cb22e2914318c"
+  },
+  {
+    "repo": "FluxVLA/FluxVLA",
+    "sha": "3fe5d10cf56ae33787baf58efaf12bfbce2393d0",
+    "path": "tools/arm_awbc/progress_reconstruction.py",
+    "url": "https://raw.githubusercontent.com/FluxVLA/FluxVLA/3fe5d10cf56ae33787baf58efaf12bfbce2393d0/tools/arm_awbc/progress_reconstruction.py",
+    "local": "fluxvla_git\\text\\tools\\arm_awbc\\progress_reconstruction.py",
+    "status": "failed",
+    "error": "<urlopen error _ssl.c:1063: The handshake operation timed out>"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "8ea9abc9e26fabc1ec585cc1fe027e65fc67b517",
+    "path": "LICENSE",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/8ea9abc9e26fabc1ec585cc1fe027e65fc67b517/LICENSE",
+    "local": "futurertc_real_git\\text\\LICENSE",
+    "status": "ok",
+    "bytes": 1133,
+    "sha256": "43c072732eb0407514b249bb66b42e55adfd642ba0c8778e77d6ea78abcee0b8"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "8ea9abc9e26fabc1ec585cc1fe027e65fc67b517",
+    "path": "README.md",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/8ea9abc9e26fabc1ec585cc1fe027e65fc67b517/README.md",
+    "local": "futurertc_real_git\\text\\README.md",
+    "status": "ok",
+    "bytes": 11109,
+    "sha256": "d8c23f2aaeffdf15a45359eef7b889a34c642b3a9850fee0495d779f6f0bb6a8"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "8ea9abc9e26fabc1ec585cc1fe027e65fc67b517",
+    "path": "infer/cobot-magic-real/README.md",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/8ea9abc9e26fabc1ec585cc1fe027e65fc67b517/infer/cobot-magic-real/README.md",
+    "local": "futurertc_real_git\\text\\infer\\cobot-magic-real\\README.md",
+    "status": "ok",
+    "bytes": 1705,
+    "sha256": "88cfba463543de5a74a7478c2eee06598f4c1d7276cea333f644aced8325159e"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "8ea9abc9e26fabc1ec585cc1fe027e65fc67b517",
+    "path": "infer/cobot-magic-real/control_arm_server.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/8ea9abc9e26fabc1ec585cc1fe027e65fc67b517/infer/cobot-magic-real/control_arm_server.py",
+    "local": "futurertc_real_git\\text\\infer\\cobot-magic-real\\control_arm_server.py",
+    "status": "ok",
+    "bytes": 2531,
+    "sha256": "11579c5e9b9ef0fbaa1398c30acf611a5855ac5c4e72942a3c00acd99fc4670f"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "8ea9abc9e26fabc1ec585cc1fe027e65fc67b517",
+    "path": "infer/cobot-magic-real/deploy.sh",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/8ea9abc9e26fabc1ec585cc1fe027e65fc67b517/infer/cobot-magic-real/deploy.sh",
+    "local": "futurertc_real_git\\text\\infer\\cobot-magic-real\\deploy.sh",
+    "status": "ok",
+    "bytes": 39,
+    "sha256": "2c94019e00fc518c715cfa65d2cd072d823fdd7610c31911548a21353efe8541"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "8ea9abc9e26fabc1ec585cc1fe027e65fc67b517",
+    "path": "infer/cobot-magic-real/deploy_policy_local_ours_batch_test.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/8ea9abc9e26fabc1ec585cc1fe027e65fc67b517/infer/cobot-magic-real/deploy_policy_local_ours_batch_test.py",
+    "local": "futurertc_real_git\\text\\infer\\cobot-magic-real\\deploy_policy_local_ours_batch_test.py",
+    "status": "ok",
+    "bytes": 34619,
+    "sha256": "9757d8acfd892c3867416320b1a6db2f1640372abf00935e86a94c561c2f7640"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "8ea9abc9e26fabc1ec585cc1fe027e65fc67b517",
+    "path": "infer/cobot-magic-real/reset.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/8ea9abc9e26fabc1ec585cc1fe027e65fc67b517/infer/cobot-magic-real/reset.py",
+    "local": "futurertc_real_git\\text\\infer\\cobot-magic-real\\reset.py",
+    "status": "failed",
+    "error": "<urlopen error _ssl.c:1063: The handshake operation timed out>"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "8ea9abc9e26fabc1ec585cc1fe027e65fc67b517",
+    "path": "infer/openpi/deploy_policy_server_ours_local.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/8ea9abc9e26fabc1ec585cc1fe027e65fc67b517/infer/openpi/deploy_policy_server_ours_local.py",
+    "local": "futurertc_real_git\\text\\infer\\openpi\\deploy_policy_server_ours_local.py",
+    "status": "ok",
+    "bytes": 18904,
+    "sha256": "cc07ed16dc2eb7ab420185a6f843e865d261f912c08454b2faeb1260d80cdc72"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "8ea9abc9e26fabc1ec585cc1fe027e65fc67b517",
+    "path": "infer/ours_pi05/__init__.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/8ea9abc9e26fabc1ec585cc1fe027e65fc67b517/infer/ours_pi05/__init__.py",
+    "local": "futurertc_real_git\\text\\infer\\ours_pi05\\__init__.py",
+    "status": "ok",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "8ea9abc9e26fabc1ec585cc1fe027e65fc67b517",
+    "path": "infer/ours_pi05/action_space.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/8ea9abc9e26fabc1ec585cc1fe027e65fc67b517/infer/ours_pi05/action_space.py",
+    "local": "futurertc_real_git\\text\\infer\\ours_pi05\\action_space.py",
+    "status": "ok",
+    "bytes": 3246,
+    "sha256": "54ce079da85a200d77911bcd048c2cec002a683b9abbc82a87d530fbdbb04277"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "8ea9abc9e26fabc1ec585cc1fe027e65fc67b517",
+    "path": "infer/ours_pi05/deploy_protocol.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/8ea9abc9e26fabc1ec585cc1fe027e65fc67b517/infer/ours_pi05/deploy_protocol.py",
+    "local": "futurertc_real_git\\text\\infer\\ours_pi05\\deploy_protocol.py",
+    "status": "ok",
+    "bytes": 8258,
+    "sha256": "2b49a17a4790ce658b19e31880ebaab3429d100fc4a264b91c80967fbc779d3b"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "8ea9abc9e26fabc1ec585cc1fe027e65fc67b517",
+    "path": "infer/ours_pi05/models/__init__.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/8ea9abc9e26fabc1ec585cc1fe027e65fc67b517/infer/ours_pi05/models/__init__.py",
+    "local": "futurertc_real_git\\text\\infer\\ours_pi05\\models\\__init__.py",
+    "status": "ok",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "8ea9abc9e26fabc1ec585cc1fe027e65fc67b517",
+    "path": "infer/ours_pi05/models/corrector.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/8ea9abc9e26fabc1ec585cc1fe027e65fc67b517/infer/ours_pi05/models/corrector.py",
+    "local": "futurertc_real_git\\text\\infer\\ours_pi05\\models\\corrector.py",
+    "status": "ok",
+    "bytes": 2935,
+    "sha256": "8588db73cba836b7859463ef371e881bbe145a20be42ec35017d7a64dc899bcb"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "8ea9abc9e26fabc1ec585cc1fe027e65fc67b517",
+    "path": "infer/ours_pi05/models/predictor.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/8ea9abc9e26fabc1ec585cc1fe027e65fc67b517/infer/ours_pi05/models/predictor.py",
+    "local": "futurertc_real_git\\text\\infer\\ours_pi05\\models\\predictor.py",
+    "status": "ok",
+    "bytes": 19463,
+    "sha256": "efbee157e461f1e06fe9b28650b08f2da2e60d7a93686d4ddba5f120ee2f13c2"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "8ea9abc9e26fabc1ec585cc1fe027e65fc67b517",
+    "path": "infer/ours_pi05/openpi_bridge.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/8ea9abc9e26fabc1ec585cc1fe027e65fc67b517/infer/ours_pi05/openpi_bridge.py",
+    "local": "futurertc_real_git\\text\\infer\\ours_pi05\\openpi_bridge.py",
+    "status": "ok",
+    "bytes": 13215,
+    "sha256": "1319ad33e4052a5a6aa5d50c944c08ba7e7260d2509ab2cd9e69da7e3f8504fd"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "8ea9abc9e26fabc1ec585cc1fe027e65fc67b517",
+    "path": "train/ours_pi05/__init__.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/8ea9abc9e26fabc1ec585cc1fe027e65fc67b517/train/ours_pi05/__init__.py",
+    "local": "futurertc_real_git\\text\\train\\ours_pi05\\__init__.py",
+    "status": "ok",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "8ea9abc9e26fabc1ec585cc1fe027e65fc67b517",
+    "path": "train/ours_pi05/action_space.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/8ea9abc9e26fabc1ec585cc1fe027e65fc67b517/train/ours_pi05/action_space.py",
+    "local": "futurertc_real_git\\text\\train\\ours_pi05\\action_space.py",
+    "status": "failed",
+    "error": "<urlopen error _ssl.c:1063: The handshake operation timed out>"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "8ea9abc9e26fabc1ec585cc1fe027e65fc67b517",
+    "path": "train/ours_pi05/collect_latents.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/8ea9abc9e26fabc1ec585cc1fe027e65fc67b517/train/ours_pi05/collect_latents.py",
+    "local": "futurertc_real_git\\text\\train\\ours_pi05\\collect_latents.py",
+    "status": "ok",
+    "bytes": 13255,
+    "sha256": "4eb8c6301a5319be083d9ae2bcfb00819859206ddd7bf6dc9b2801474b412e67"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "8ea9abc9e26fabc1ec585cc1fe027e65fc67b517",
+    "path": "train/ours_pi05/dataset.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/8ea9abc9e26fabc1ec585cc1fe027e65fc67b517/train/ours_pi05/dataset.py",
+    "local": "futurertc_real_git\\text\\train\\ours_pi05\\dataset.py",
+    "status": "failed",
+    "error": "The read operation timed out"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "8ea9abc9e26fabc1ec585cc1fe027e65fc67b517",
+    "path": "train/ours_pi05/deploy_protocol.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/8ea9abc9e26fabc1ec585cc1fe027e65fc67b517/train/ours_pi05/deploy_protocol.py",
+    "local": "futurertc_real_git\\text\\train\\ours_pi05\\deploy_protocol.py",
+    "status": "ok",
+    "bytes": 8258,
+    "sha256": "2b49a17a4790ce658b19e31880ebaab3429d100fc4a264b91c80967fbc779d3b"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "8ea9abc9e26fabc1ec585cc1fe027e65fc67b517",
+    "path": "train/ours_pi05/eval_offline.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/8ea9abc9e26fabc1ec585cc1fe027e65fc67b517/train/ours_pi05/eval_offline.py",
+    "local": "futurertc_real_git\\text\\train\\ours_pi05\\eval_offline.py",
+    "status": "ok",
+    "bytes": 14424,
+    "sha256": "0108a8ea98013ca8121cb69717fca377edd265f20955fa2269b25552d3a94774"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "8ea9abc9e26fabc1ec585cc1fe027e65fc67b517",
+    "path": "train/ours_pi05/eval_openloop_episode.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/8ea9abc9e26fabc1ec585cc1fe027e65fc67b517/train/ours_pi05/eval_openloop_episode.py",
+    "local": "futurertc_real_git\\text\\train\\ours_pi05\\eval_openloop_episode.py",
+    "status": "ok",
+    "bytes": 13477,
+    "sha256": "4a42ca20bd6b7e9d953d0d95e2fb374d3f46563cbb34fafe108779e5d64c2d20"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "8ea9abc9e26fabc1ec585cc1fe027e65fc67b517",
+    "path": "train/ours_pi05/fast_loader.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/8ea9abc9e26fabc1ec585cc1fe027e65fc67b517/train/ours_pi05/fast_loader.py",
+    "local": "futurertc_real_git\\text\\train\\ours_pi05\\fast_loader.py",
+    "status": "ok",
+    "bytes": 7144,
+    "sha256": "fff50c706e24e0f4adfd880758e52a25ee3e49215e15974b9901ea64af9dd1ae"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "8ea9abc9e26fabc1ec585cc1fe027e65fc67b517",
+    "path": "train/ours_pi05/latent_bank.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/8ea9abc9e26fabc1ec585cc1fe027e65fc67b517/train/ours_pi05/latent_bank.py",
+    "local": "futurertc_real_git\\text\\train\\ours_pi05\\latent_bank.py",
+    "status": "ok",
+    "bytes": 5083,
+    "sha256": "5586717356ecca37202d0dd594143dac3815b1da4f429177f316144e307cd264"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "8ea9abc9e26fabc1ec585cc1fe027e65fc67b517",
+    "path": "train/ours_pi05/models/__init__.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/8ea9abc9e26fabc1ec585cc1fe027e65fc67b517/train/ours_pi05/models/__init__.py",
+    "local": "futurertc_real_git\\text\\train\\ours_pi05\\models\\__init__.py",
+    "status": "ok",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "8ea9abc9e26fabc1ec585cc1fe027e65fc67b517",
+    "path": "train/ours_pi05/models/corrector.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/8ea9abc9e26fabc1ec585cc1fe027e65fc67b517/train/ours_pi05/models/corrector.py",
+    "local": "futurertc_real_git\\text\\train\\ours_pi05\\models\\corrector.py",
+    "status": "ok",
+    "bytes": 2935,
+    "sha256": "8588db73cba836b7859463ef371e881bbe145a20be42ec35017d7a64dc899bcb"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "8ea9abc9e26fabc1ec585cc1fe027e65fc67b517",
+    "path": "train/ours_pi05/models/predictor.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/8ea9abc9e26fabc1ec585cc1fe027e65fc67b517/train/ours_pi05/models/predictor.py",
+    "local": "futurertc_real_git\\text\\train\\ours_pi05\\models\\predictor.py",
+    "status": "ok",
+    "bytes": 19463,
+    "sha256": "efbee157e461f1e06fe9b28650b08f2da2e60d7a93686d4ddba5f120ee2f13c2"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "8ea9abc9e26fabc1ec585cc1fe027e65fc67b517",
+    "path": "train/ours_pi05/openpi_bridge.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/8ea9abc9e26fabc1ec585cc1fe027e65fc67b517/train/ours_pi05/openpi_bridge.py",
+    "local": "futurertc_real_git\\text\\train\\ours_pi05\\openpi_bridge.py",
+    "status": "failed",
+    "error": "<urlopen error [WinError 10054] 远程主机强迫关闭了一个现有的连接。>"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "8ea9abc9e26fabc1ec585cc1fe027e65fc67b517",
+    "path": "train/ours_pi05/train_predictor.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/8ea9abc9e26fabc1ec585cc1fe027e65fc67b517/train/ours_pi05/train_predictor.py",
+    "local": "futurertc_real_git\\text\\train\\ours_pi05\\train_predictor.py",
+    "status": "ok",
+    "bytes": 9313,
+    "sha256": "cba9cb815a35a28731525d78005440006db268e771fe7f4e3f7fe18a5a481485"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "57310be57b13cb2284d25c9ab7f636e9cf77fa90",
+    "path": "LICENSE",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/57310be57b13cb2284d25c9ab7f636e9cf77fa90/LICENSE",
+    "local": "futurertc_libero_git\\text\\LICENSE",
+    "status": "ok",
+    "bytes": 1133,
+    "sha256": "43c072732eb0407514b249bb66b42e55adfd642ba0c8778e77d6ea78abcee0b8"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "57310be57b13cb2284d25c9ab7f636e9cf77fa90",
+    "path": "README.md",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/57310be57b13cb2284d25c9ab7f636e9cf77fa90/README.md",
+    "local": "futurertc_libero_git\\text\\README.md",
+    "status": "ok",
+    "bytes": 12024,
+    "sha256": "f70ab74e29c56bfa395fbaff63ce22fc73f33ea6d62b8886ae23fa535119e9a4"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "57310be57b13cb2284d25c9ab7f636e9cf77fa90",
+    "path": "corrector/train.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/57310be57b13cb2284d25c9ab7f636e9cf77fa90/corrector/train.py",
+    "local": "futurertc_libero_git\\text\\corrector\\train.py",
+    "status": "ok",
+    "bytes": 8294,
+    "sha256": "0de6bd03ab8d31a11d04d662ba278b9f21a35c3c2ee29a00026366278684e8ec"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "57310be57b13cb2284d25c9ab7f636e9cf77fa90",
+    "path": "eval/__init__.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/57310be57b13cb2284d25c9ab7f636e9cf77fa90/eval/__init__.py",
+    "local": "futurertc_libero_git\\text\\eval\\__init__.py",
+    "status": "ok",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "57310be57b13cb2284d25c9ab7f636e9cf77fa90",
+    "path": "eval/aggregate.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/57310be57b13cb2284d25c9ab7f636e9cf77fa90/eval/aggregate.py",
+    "local": "futurertc_libero_git\\text\\eval\\aggregate.py",
+    "status": "ok",
+    "bytes": 4024,
+    "sha256": "7b6800fb2091d0c8670d5881072df50ce075c31e1f569e3388dbdc2f79c7f453"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "57310be57b13cb2284d25c9ab7f636e9cf77fa90",
+    "path": "eval/async_env.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/57310be57b13cb2284d25c9ab7f636e9cf77fa90/eval/async_env.py",
+    "local": "futurertc_libero_git\\text\\eval\\async_env.py",
+    "status": "ok",
+    "bytes": 6789,
+    "sha256": "197a4416f7ed4111a0339134dd70721a404c6499649900f58bbe3cd954e86fbb"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "57310be57b13cb2284d25c9ab7f636e9cf77fa90",
+    "path": "eval/driver.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/57310be57b13cb2284d25c9ab7f636e9cf77fa90/eval/driver.py",
+    "local": "futurertc_libero_git\\text\\eval\\driver.py",
+    "status": "ok",
+    "bytes": 19173,
+    "sha256": "1a90d85f2fa327f97c60ade2ef0eae366a25c006f999d5ec1fe6fed4aa301464"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "57310be57b13cb2284d25c9ab7f636e9cf77fa90",
+    "path": "eval/metrics.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/57310be57b13cb2284d25c9ab7f636e9cf77fa90/eval/metrics.py",
+    "local": "futurertc_libero_git\\text\\eval\\metrics.py",
+    "status": "ok",
+    "bytes": 2666,
+    "sha256": "10fbd4133dd0f52e92b093e7bb1914df8b37f0e354e8e654c4c291006c21dae5"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "57310be57b13cb2284d25c9ab7f636e9cf77fa90",
+    "path": "eval/schedule.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/57310be57b13cb2284d25c9ab7f636e9cf77fa90/eval/schedule.py",
+    "local": "futurertc_libero_git\\text\\eval\\schedule.py",
+    "status": "ok",
+    "bytes": 2631,
+    "sha256": "960f76fd4c109f840d368e5687911036c960dc69b0d1029f5f9906ca4572efb0"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "57310be57b13cb2284d25c9ab7f636e9cf77fa90",
+    "path": "predictor/collect_latents.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/57310be57b13cb2284d25c9ab7f636e9cf77fa90/predictor/collect_latents.py",
+    "local": "futurertc_libero_git\\text\\predictor\\collect_latents.py",
+    "status": "ok",
+    "bytes": 8677,
+    "sha256": "8ef718d00fe9b6ef9221cae9d7a35bfff0e68b98be481a1f1c0f099bbc77fab4"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "57310be57b13cb2284d25c9ab7f636e9cf77fa90",
+    "path": "predictor/dataset.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/57310be57b13cb2284d25c9ab7f636e9cf77fa90/predictor/dataset.py",
+    "local": "futurertc_libero_git\\text\\predictor\\dataset.py",
+    "status": "ok",
+    "bytes": 11746,
+    "sha256": "ffc1f96950aaca8b7190da4c5c45397842724f919a0a351405dceab458fd55f5"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "57310be57b13cb2284d25c9ab7f636e9cf77fa90",
+    "path": "predictor/losses.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/57310be57b13cb2284d25c9ab7f636e9cf77fa90/predictor/losses.py",
+    "local": "futurertc_libero_git\\text\\predictor\\losses.py",
+    "status": "failed",
+    "error": "The read operation timed out"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "57310be57b13cb2284d25c9ab7f636e9cf77fa90",
+    "path": "predictor/policy_loss/pi05.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/57310be57b13cb2284d25c9ab7f636e9cf77fa90/predictor/policy_loss/pi05.py",
+    "local": "futurertc_libero_git\\text\\predictor\\policy_loss\\pi05.py",
+    "status": "ok",
+    "bytes": 4940,
+    "sha256": "5cdffccc83fae4c23717603cff55cf2792a67544b4a7124e70fff8a20edf7b27"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "57310be57b13cb2284d25c9ab7f636e9cf77fa90",
+    "path": "predictor/train.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/57310be57b13cb2284d25c9ab7f636e9cf77fa90/predictor/train.py",
+    "local": "futurertc_libero_git\\text\\predictor\\train.py",
+    "status": "ok",
+    "bytes": 17509,
+    "sha256": "4f85d204853e4e8487f4e835248c034caab4663efb6eae11a6f13c9adb4bec3b"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "c7381095d4aff16f121625500d377bc199ceb090",
+    "path": "LICENSE",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/c7381095d4aff16f121625500d377bc199ceb090/LICENSE",
+    "local": "futurertc_kinetix_git\\text\\LICENSE",
+    "status": "ok",
+    "bytes": 1133,
+    "sha256": "43c072732eb0407514b249bb66b42e55adfd642ba0c8778e77d6ea78abcee0b8"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "c7381095d4aff16f121625500d377bc199ceb090",
+    "path": "README.md",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/c7381095d4aff16f121625500d377bc199ceb090/README.md",
+    "local": "futurertc_kinetix_git\\text\\README.md",
+    "status": "ok",
+    "bytes": 6276,
+    "sha256": "8d1c1f4f02e4528b04c6c09d1c5798e473bcd3440087f047db732f13809fc97a"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "c7381095d4aff16f121625500d377bc199ceb090",
+    "path": "scripts/train_predictor.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/c7381095d4aff16f121625500d377bc199ceb090/scripts/train_predictor.py",
+    "local": "futurertc_kinetix_git\\text\\scripts\\train_predictor.py",
+    "status": "ok",
+    "bytes": 8249,
+    "sha256": "b3831daffbda6e437713d848eb88c8ecad4bd0854754780e1a6250909f38b1c1"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "c7381095d4aff16f121625500d377bc199ceb090",
+    "path": "src/motion_prior_handoff/predictor.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/c7381095d4aff16f121625500d377bc199ceb090/src/motion_prior_handoff/predictor.py",
+    "local": "futurertc_kinetix_git\\text\\src\\motion_prior_handoff\\predictor.py",
+    "status": "ok",
+    "bytes": 14866,
+    "sha256": "f084d4e06a01003eb20398d965400301a9967519cebde3c940d8623bd8264e36"
+  },
+  {
+    "repo": "JianghaiSCU/FutureRTC",
+    "sha": "c7381095d4aff16f121625500d377bc199ceb090",
+    "path": "src/motion_prior_handoff/rtc_env.py",
+    "url": "https://raw.githubusercontent.com/JianghaiSCU/FutureRTC/c7381095d4aff16f121625500d377bc199ceb090/src/motion_prior_handoff/rtc_env.py",
+    "local": "futurertc_kinetix_git\\text\\src\\motion_prior_handoff\\rtc_env.py",
+    "status": "ok",
+    "bytes": 4873,
+    "sha256": "76b60e6265925ae3484f3e7ef1bf6205ffdd0e76effcd8d4ece67f83af38d761"
+  }
+]

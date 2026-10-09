@@ -1,0 +1,68 @@
+[project]
+name = "unisteer"
+description = "Unified noise steering for human-guided VLA adaptation"
+dynamic = ["version"]
+authors = [{ name = "Microsoft Research" }]
+requires-python = ">=3.12,<3.13"
+readme = "README.md"
+dependencies = [
+    "lerobot",
+    "torch>=2.6,<2.11",
+    "torchvision>=0.21,<0.26",
+    "transformers>=4.57,<6",
+    "safetensors>=0.5,<1",
+    "omegaconf>=2.3,<3",
+    "loguru>=0.7,<1",
+    "einops>=0.8,<1",
+    "numpy>=1.26,<3",
+    "matplotlib>=3.9,<4",
+    "msgpack>=1.1,<2",
+    "requests>=2.32,<3",
+    "tqdm>=4.67,<5",
+    "huggingface-hub>=0.34,<2",
+    "pillow>=10,<13",
+    "flask>=3.1,<4",
+]
+
+
+[dependency-groups]
+test = ["pytest>=8.3,<9", "ruff>=0.16,<0.17"]
+
+[tool.uv]
+default-groups = ["test"]
+environments = ["sys_platform == 'linux'"]
+
+[tool.uv.sources]
+lerobot = { git = "https://github.com/huggingface/lerobot.git", rev = "c8ce413d738da15a2eed2d0832315779ea28cbf9" }
+
+[build-system]
+requires = ["hatchling", "uv-dynamic-versioning"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+source = "uv-dynamic-versioning"
+
+[tool.uv-dynamic-versioning]
+fallback-version = "0.0.0"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.format]
+skip-magic-trailing-comma = true
+docstring-code-format = true
+quote-style = "double"
+indent-style = "space"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]
+extend-select = ["I"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["src"]
+force-sort-within-sections = true
+split-on-trailing-comma = false

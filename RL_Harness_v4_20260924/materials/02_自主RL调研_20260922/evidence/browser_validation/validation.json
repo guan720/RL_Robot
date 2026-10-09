@@ -1,0 +1,10 @@
+{
+  "title": "自主具身 RL · 41 项方案筛选",
+  "candidates": 41,
+  "category_filter": "11/11",
+  "selection_filter": "1/1",
+  "csv_export": "passed; UTF-8 BOM; selected data and note present",
+  "default_selection_after_cleanup": 0,
+  "javascript_errors": [],
+  "scope": "Local HTML UI only; no robot or RL training executed"
+}

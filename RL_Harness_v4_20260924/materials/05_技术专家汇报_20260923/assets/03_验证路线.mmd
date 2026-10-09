@@ -1,0 +1,8 @@
+flowchart TB
+    A["A 可控与可纠正<br/>示范 · 评分 · 动作与时间"] -->|启动信息与纠正可信| B["B 最小学习闭环<br/>纠正 → 学习 → 独立评估"]
+    B -->|学习增益可测| C["C 连续正反练习<br/>扩大自主运行窗口"]
+    C -->|能力与人工成本共同改善| D["D 扩展覆盖<br/>程序积累 · 新机制消融"]
+    classDef stage fill:#e7efff,stroke:#416bb5,color:#152d51,stroke-width:1.5px;
+    classDef last fill:#e0f3ef,stroke:#278373,color:#153f37,stroke-width:1.5px;
+    class A,B,C stage;
+    class D last;

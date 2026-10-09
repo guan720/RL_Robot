@@ -1,0 +1,36 @@
+{
+  "round": "R04",
+  "frozen_utc": "2026-09-23T07:29:39.222815+00:00",
+  "files": [
+    {
+      "name": "README.md",
+      "bytes": 3053,
+      "sha256": "54de3e0814d7acd84f15ae6d96f71241d573f386d07903a14a829e34cf09afb2"
+    },
+    {
+      "name": "01_RL_Harness真机自主学习技术方案.md",
+      "bytes": 31678,
+      "sha256": "1a55df984684b6a20a931b6fc75bc948f908b2ef783b08637161614b96aee31b"
+    },
+    {
+      "name": "02_接口契约与开发验收.md",
+      "bytes": 39047,
+      "sha256": "ddfea7f7eb03fc5507671642293d9908516452d50294e3a9fecc2217e0346fe7"
+    },
+    {
+      "name": "06_异步动作时间轴与学习目标.md",
+      "bytes": 28768,
+      "sha256": "4f54c620e7abe01609cc51a6e900865a457ff49954dce86716076c51410010b4"
+    },
+    {
+      "name": "07_共享策略与异步RL联合选型证据.md",
+      "bytes": 29354,
+      "sha256": "b2543db157f61e197250a8b055eed8240daeb558b2892244c9cc882188bf9f9c"
+    },
+    {
+      "name": "09_RPent与Harness联合选型.md",
+      "bytes": 18000,
+      "sha256": "379d4223811b11a07ac21cc1817fddf7dc11c89a80b04716cd4fc010301e1bcf"
+    }
+  ]
+}

@@ -1,0 +1,173 @@
+[
+  {
+    "repo": "uzh-rpg/sitt",
+    "path": "README.md",
+    "commit": "13b7eca69aefea5e9e1e2076e214c04775ffb1bd",
+    "url": "https://raw.githubusercontent.com/uzh-rpg/sitt/13b7eca69aefea5e9e1e2076e214c04775ffb1bd/README.md",
+    "retrieved_at": "2026-09-23T14:08:24.204324+00:00",
+    "status": "failed",
+    "error": "URLError(TimeoutError('_ssl.c:1063: The handshake operation timed out'))"
+  },
+  {
+    "repo": "uzh-rpg/sitt",
+    "path": "LICENSE",
+    "commit": "13b7eca69aefea5e9e1e2076e214c04775ffb1bd",
+    "url": "https://raw.githubusercontent.com/uzh-rpg/sitt/13b7eca69aefea5e9e1e2076e214c04775ffb1bd/LICENSE",
+    "retrieved_at": "2026-09-23T14:08:24.205183+00:00",
+    "status": "failed",
+    "error": "URLError(TimeoutError('_ssl.c:1063: The handshake operation timed out'))"
+  },
+  {
+    "repo": "uzh-rpg/sitt",
+    "path": "color_maze/rl_scripts/on_policy_algorithm_toy.py",
+    "commit": "13b7eca69aefea5e9e1e2076e214c04775ffb1bd",
+    "url": "https://raw.githubusercontent.com/uzh-rpg/sitt/13b7eca69aefea5e9e1e2076e214c04775ffb1bd/color_maze/rl_scripts/on_policy_algorithm_toy.py",
+    "retrieved_at": "2026-09-23T14:08:24.205766+00:00",
+    "status": "failed",
+    "error": "URLError(TimeoutError('timed out'))"
+  },
+  {
+    "repo": "uzh-rpg/sitt",
+    "path": "color_maze/rl_scripts/ppo_toy.py",
+    "commit": "13b7eca69aefea5e9e1e2076e214c04775ffb1bd",
+    "url": "https://raw.githubusercontent.com/uzh-rpg/sitt/13b7eca69aefea5e9e1e2076e214c04775ffb1bd/color_maze/rl_scripts/ppo_toy.py",
+    "retrieved_at": "2026-09-23T14:08:24.206333+00:00",
+    "status": "failed",
+    "error": "URLError(TimeoutError('timed out'))"
+  },
+  {
+    "repo": "MaoPopovich/SafeEvolve",
+    "path": "README.md",
+    "commit": "94dc3693475a707a1a1fa34f0f09ec1dfcd0c87e",
+    "url": "https://raw.githubusercontent.com/MaoPopovich/SafeEvolve/94dc3693475a707a1a1fa34f0f09ec1dfcd0c87e/README.md",
+    "retrieved_at": "2026-09-23T14:08:24.206919+00:00",
+    "status": "failed",
+    "error": "URLError(TimeoutError('timed out'))"
+  },
+  {
+    "repo": "MaoPopovich/SafeEvolve",
+    "path": "LICENSE",
+    "commit": "94dc3693475a707a1a1fa34f0f09ec1dfcd0c87e",
+    "url": "https://raw.githubusercontent.com/MaoPopovich/SafeEvolve/94dc3693475a707a1a1fa34f0f09ec1dfcd0c87e/LICENSE",
+    "retrieved_at": "2026-09-23T14:08:24.211031+00:00",
+    "status": "failed",
+    "error": "TimeoutError('The read operation timed out')"
+  },
+  {
+    "repo": "MaoPopovich/SafeEvolve",
+    "path": "docs/reproduction.md",
+    "commit": "94dc3693475a707a1a1fa34f0f09ec1dfcd0c87e",
+    "url": "https://raw.githubusercontent.com/MaoPopovich/SafeEvolve/94dc3693475a707a1a1fa34f0f09ec1dfcd0c87e/docs/reproduction.md",
+    "retrieved_at": "2026-09-23T14:08:24.448406+00:00",
+    "status": "failed",
+    "error": "URLError(TimeoutError('timed out'))"
+  },
+  {
+    "repo": "MaoPopovich/SafeEvolve",
+    "path": "docs/method.md",
+    "commit": "94dc3693475a707a1a1fa34f0f09ec1dfcd0c87e",
+    "url": "https://raw.githubusercontent.com/MaoPopovich/SafeEvolve/94dc3693475a707a1a1fa34f0f09ec1dfcd0c87e/docs/method.md",
+    "retrieved_at": "2026-09-23T14:08:24.575912+00:00",
+    "status": "failed",
+    "error": "URLError(TimeoutError('timed out'))"
+  },
+  {
+    "repo": "MaoPopovich/SafeEvolve",
+    "path": "core/skillrl/reward_profiles.py",
+    "commit": "94dc3693475a707a1a1fa34f0f09ec1dfcd0c87e",
+    "url": "https://raw.githubusercontent.com/MaoPopovich/SafeEvolve/94dc3693475a707a1a1fa34f0f09ec1dfcd0c87e/core/skillrl/reward_profiles.py",
+    "retrieved_at": "2026-09-23T14:08:45.776741+00:00",
+    "status": "failed",
+    "error": "URLError(TimeoutError('timed out'))"
+  },
+  {
+    "repo": "MaoPopovich/SafeEvolve",
+    "path": "core/skillrl/phase3_barrier_hook.py",
+    "commit": "94dc3693475a707a1a1fa34f0f09ec1dfcd0c87e",
+    "url": "https://raw.githubusercontent.com/MaoPopovich/SafeEvolve/94dc3693475a707a1a1fa34f0f09ec1dfcd0c87e/core/skillrl/phase3_barrier_hook.py",
+    "retrieved_at": "2026-09-23T14:09:45.071760+00:00",
+    "status": "failed",
+    "error": "URLError(TimeoutError('timed out'))"
+  },
+  {
+    "repo": "MaoPopovich/SafeEvolve",
+    "path": "scripts/evaluation/README.md",
+    "commit": "94dc3693475a707a1a1fa34f0f09ec1dfcd0c87e",
+    "url": "https://raw.githubusercontent.com/MaoPopovich/SafeEvolve/94dc3693475a707a1a1fa34f0f09ec1dfcd0c87e/scripts/evaluation/README.md",
+    "retrieved_at": "2026-09-23T14:09:45.087279+00:00",
+    "status": "failed",
+    "error": "URLError(TimeoutError('timed out'))"
+  },
+  {
+    "repo": "ros-controls/ros2_control",
+    "path": "LICENSE",
+    "commit": "b0c14b5edca8d17fc2996be1909815e8fcb587c6",
+    "url": "https://raw.githubusercontent.com/ros-controls/ros2_control/b0c14b5edca8d17fc2996be1909815e8fcb587c6/LICENSE",
+    "retrieved_at": "2026-09-23T14:09:45.087503+00:00",
+    "status": "failed",
+    "error": "URLError(TimeoutError('_ssl.c:1063: The handshake operation timed out'))"
+  },
+  {
+    "repo": "ros-controls/ros2_control",
+    "path": "hardware_interface/src/resource_manager.cpp",
+    "commit": "b0c14b5edca8d17fc2996be1909815e8fcb587c6",
+    "url": "https://raw.githubusercontent.com/ros-controls/ros2_control/b0c14b5edca8d17fc2996be1909815e8fcb587c6/hardware_interface/src/resource_manager.cpp",
+    "retrieved_at": "2026-09-23T14:09:45.087685+00:00",
+    "status": "failed",
+    "error": "URLError(TimeoutError('timed out'))"
+  },
+  {
+    "repo": "ros-controls/ros2_control",
+    "path": "hardware_interface/include/hardware_interface/resource_manager.hpp",
+    "commit": "b0c14b5edca8d17fc2996be1909815e8fcb587c6",
+    "url": "https://raw.githubusercontent.com/ros-controls/ros2_control/b0c14b5edca8d17fc2996be1909815e8fcb587c6/hardware_interface/include/hardware_interface/resource_manager.hpp",
+    "retrieved_at": "2026-09-23T14:09:45.087873+00:00",
+    "status": "failed",
+    "error": "URLError(TimeoutError('timed out'))"
+  },
+  {
+    "repo": "boston-dynamics/spot-sdk",
+    "path": "LICENSE",
+    "commit": "04537ddafe0641d1751af3eb9e76cb785fc18594",
+    "url": "https://raw.githubusercontent.com/boston-dynamics/spot-sdk/04537ddafe0641d1751af3eb9e76cb785fc18594/LICENSE",
+    "retrieved_at": "2026-09-23T14:09:45.413608+00:00",
+    "status": "failed",
+    "error": "URLError(TimeoutError('_ssl.c:1063: The handshake operation timed out'))"
+  },
+  {
+    "repo": "boston-dynamics/spot-sdk",
+    "path": "protos/bosdyn/api/lease.proto",
+    "commit": "04537ddafe0641d1751af3eb9e76cb785fc18594",
+    "url": "https://raw.githubusercontent.com/boston-dynamics/spot-sdk/04537ddafe0641d1751af3eb9e76cb785fc18594/protos/bosdyn/api/lease.proto",
+    "retrieved_at": "2026-09-23T14:09:45.443745+00:00",
+    "status": "failed",
+    "error": "TimeoutError('The read operation timed out')"
+  },
+  {
+    "repo": "boston-dynamics/spot-sdk",
+    "path": "python/bosdyn-client/src/bosdyn/client/lease.py",
+    "commit": "04537ddafe0641d1751af3eb9e76cb785fc18594",
+    "url": "https://raw.githubusercontent.com/boston-dynamics/spot-sdk/04537ddafe0641d1751af3eb9e76cb785fc18594/python/bosdyn-client/src/bosdyn/client/lease.py",
+    "retrieved_at": "2026-09-23T14:10:05.785560+00:00",
+    "status": "failed",
+    "error": "URLError(TimeoutError('timed out'))"
+  },
+  {
+    "repo": "RLinf/RPent",
+    "path": "rpent/tools/toolkit.py",
+    "commit": "6ee706935d28646828f70372ef0099c769cfe0c2",
+    "url": "https://raw.githubusercontent.com/RLinf/RPent/6ee706935d28646828f70372ef0099c769cfe0c2/rpent/tools/toolkit.py",
+    "retrieved_at": "2026-09-23T14:10:05.800188+00:00",
+    "status": "failed",
+    "error": "URLError(TimeoutError('timed out'))"
+  },
+  {
+    "repo": "OpenMOSS/OpenETA",
+    "path": "agent/runtime/planner.py",
+    "commit": "7d4a0a1522ba8ebbd362bde880bad81d2a98f15e",
+    "url": "https://raw.githubusercontent.com/OpenMOSS/OpenETA/7d4a0a1522ba8ebbd362bde880bad81d2a98f15e/agent/runtime/planner.py",
+    "retrieved_at": "2026-09-23T14:10:25.466183+00:00",
+    "status": "failed",
+    "error": "URLError(TimeoutError('timed out'))"
+  }
+]

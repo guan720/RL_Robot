@@ -1,0 +1,12 @@
+{
+  "scope": "document integrity and recorded review-chain hashes only; no robotics execution",
+  "documents": 14,
+  "local_links": 137,
+  "source_urls": 299,
+  "errors": [],
+  "recorded_rounds": 11,
+  "completed_rounds": 11,
+  "distinct_review_agents": 33,
+  "consecutive_passes_same_inputs": 3,
+  "current_matches_passed_inputs": true
+}

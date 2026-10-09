@@ -1,0 +1,40 @@
+{
+  "width": 1078,
+  "bodyHeight": 11270,
+  "images": [
+    {
+      "loaded": true,
+      "width": 699,
+      "height": 1057
+    },
+    {
+      "loaded": true,
+      "width": 795,
+      "height": 1025
+    },
+    {
+      "loaded": true,
+      "width": 661,
+      "height": 484
+    },
+    {
+      "loaded": true,
+      "width": 652,
+      "height": 571
+    },
+    {
+      "loaded": true,
+      "width": 734,
+      "height": 595
+    },
+    {
+      "loaded": true,
+      "width": 483,
+      "height": 613
+    }
+  ],
+  "overflow": [],
+  "scope": "Local Chrome Markdown preview only; not all IDE renderers",
+  "source_sha256": "bec6bd4a9fbd4cbc69587442f77ad6f9a6a468859b54a758f5d6dd82d5ae724d",
+  "pass": true
+}

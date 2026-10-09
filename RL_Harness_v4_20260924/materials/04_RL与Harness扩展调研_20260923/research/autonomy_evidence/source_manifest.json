@@ -1,0 +1,60 @@
+[
+  {
+    "name": "autoserl_repo",
+    "url": "https://github.com/autoserl/AutoSERL",
+    "error": "HTTPSConnectionPool(host='github.com', port=443): Max retries exceeded with url: /autoserl/AutoSERL (Caused by ConnectTimeoutError(<HTTPSConnection(host='github.com', port=443) at 0x24cf5f14050>, 'Connection to github.com timed out. (connect timeout=40)'))"
+  },
+  {
+    "name": "hilrl_repo",
+    "url": "https://github.com/nuomizai/HIL-RL",
+    "error": "HTTPSConnectionPool(host='github.com', port=443): Max retries exceeded with url: /nuomizai/HIL-RL (Caused by ConnectTimeoutError(<HTTPSConnection(host='github.com', port=443) at 0x24cf5f18050>, 'Connection to github.com timed out. (connect timeout=40)'))"
+  },
+  {
+    "name": "uniintervene_site",
+    "url": "https://denghaoyuan123.github.io/UniIntervene-project/",
+    "status": 200,
+    "sha256": "45fe432adaf124ac10bd7e752cb6c6f7c780abde6d80afdf0f3aa9781549ae31",
+    "commit_candidates": []
+  },
+  {
+    "name": "autoserl_paper",
+    "url": "https://arxiv.org/html/2607.01651v1",
+    "error": "HTTPSConnectionPool(host='arxiv.org', port=443): Max retries exceeded with url: /html/2607.01651v1 (Caused by ConnectTimeoutError(<HTTPSConnection(host='arxiv.org', port=443) at 0x24cf5f18910>, 'Connection to arxiv.org timed out. (connect timeout=40)'))"
+  },
+  {
+    "name": "silri_paper",
+    "url": "https://arxiv.org/html/2512.24288v1",
+    "error": "HTTPSConnectionPool(host='arxiv.org', port=443): Max retries exceeded with url: /html/2512.24288v1 (Caused by ConnectTimeoutError(<HTTPSConnection(host='arxiv.org', port=443) at 0x24cf5f18a50>, 'Connection to arxiv.org timed out. (connect timeout=40)'))"
+  },
+  {
+    "name": "gains_paper",
+    "url": "https://arxiv.org/html/2608.15707v1",
+    "status": 200,
+    "sha256": "41e994402c5c983ea6c927bc50ed5f291fc4d1a59a3b465ac163cc09b6b78bf0",
+    "commit_candidates": []
+  },
+  {
+    "name": "uniintervene_paper",
+    "url": "https://arxiv.org/html/2606.12372v1",
+    "error": "HTTPSConnectionPool(host='arxiv.org', port=443): Max retries exceeded with url: /html/2606.12372v1 (Caused by ConnectTimeoutError(<HTTPSConnection(host='arxiv.org', port=443) at 0x24cf5e4f9d0>, 'Connection to arxiv.org timed out. (connect timeout=40)'))"
+  },
+  {
+    "name": "cronos_site",
+    "url": "https://embodiedai-ntu.github.io/cronos/index.html",
+    "status": 200,
+    "sha256": "cae3cb82e9044fec0e53749c087b03184468723d2ce35a19b0f26f17739fd3a1",
+    "commit_candidates": []
+  },
+  {
+    "name": "playworld_site",
+    "url": "https://robot-playworld.github.io/",
+    "status": 200,
+    "sha256": "6cf41bcd2f2071be8a50c7221175d18ee9068e0fb4d9ae4d84ef32c775b77ffb",
+    "commit_candidates": []
+  },
+  {
+    "name": "lwd_site",
+    "url": "https://finch.agibot.com/research/lwd",
+    "error": "HTTPSConnectionPool(host='finch.agibot.com', port=443): Max retries exceeded with url: /research/lwd (Caused by NameResolutionError(\"HTTPSConnection(host='finch.agibot.com', port=443): Failed to resolve 'finch.agibot.com' ([Errno 11001] getaddrinfo failed)\"))"
+  }
+]

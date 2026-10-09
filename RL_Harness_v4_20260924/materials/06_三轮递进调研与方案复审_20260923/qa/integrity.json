@@ -1,0 +1,12 @@
+{
+  "scope": "Document/source review only; no robot or training validation",
+  "errors": [],
+  "scientific_files": 564,
+  "local_links": 90,
+  "completed_rounds": 5,
+  "distinct_reviewers": 15,
+  "consecutive_passes_same_inputs": 5,
+  "current_matches_passed_inputs": true,
+  "historical_sources_unchanged": true,
+  "five_clean_rounds": true
+}

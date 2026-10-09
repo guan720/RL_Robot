@@ -1,0 +1,18 @@
+{
+  "round": "R07",
+  "root_verdict": "NEEDS_REVISION",
+  "reviews": [
+    {"file":"review_rl.md","agent":"/root/v3r07_rl","verdict":"PASS","questions":12},
+    {"file":"review_harness.md","agent":"/root/v3r07_harness","verdict":"PASS","questions":12},
+    {"file":"review_evidence.md","agent":"/root/v3r07_evidence","verdict":"PASS","questions":12}
+  ],
+  "required_issues": [],
+  "accepted_extensions": [
+    "Official RAPolicy repository and fixed implementation verified after optional discovery; promoted to priority native VLA challenger",
+    "Distinct inference-hold versus queue protocols, latent supervision and replay value boundaries added to design and research",
+    "Standalone projection-boundary wording clarified consistently with the existing authoritative interface"
+  ],
+  "root_assessment": "All three formal reviews passed. Two additional independent source/fit studies found substantive open code that changes candidate priority. Root read their full reports and independently read paper, fixed worker, offline latent and launcher. Scientific inputs were changed and must be refrozen; this round does not count toward clean passes.",
+  "consecutive_passes": 0,
+  "scope": "Design and source review only; empirical gates remain unexecuted"
+}

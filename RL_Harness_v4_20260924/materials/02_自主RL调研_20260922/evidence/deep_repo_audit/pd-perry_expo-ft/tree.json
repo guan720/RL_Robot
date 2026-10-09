@@ -1,0 +1,861 @@
+{
+  "sha": "803381fc3b4c91a0c47904f1b688fc5e35904f50",
+  "url": "https://api.github.com/repos/pd-perry/expo-ft/git/trees/803381fc3b4c91a0c47904f1b688fc5e35904f50",
+  "tree": [
+    {
+      "path": ".gitignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0919d145716dc9ade3cb11c46be2ad48a1a31898",
+      "size": 160,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/0919d145716dc9ade3cb11c46be2ad48a1a31898"
+    },
+    {
+      "path": ".python-version",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2c0733315e415bfb5e5b353f9996ecd964d395b2",
+      "size": 5,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/2c0733315e415bfb5e5b353f9996ecd964d395b2"
+    },
+    {
+      "path": "LICENSE",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5cf1cafb512be76fd53d890763b9d753d7c00a63",
+      "size": 1076,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/5cf1cafb512be76fd53d890763b9d753d7c00a63"
+    },
+    {
+      "path": "README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ac0ab0ec938519eb02ccf6052f74efbc506a6846",
+      "size": 26481,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/ac0ab0ec938519eb02ccf6052f74efbc506a6846"
+    },
+    {
+      "path": "client",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "71323d0f1b2fc7080227fd273c097930f2ac2ff7",
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/trees/71323d0f1b2fc7080227fd273c097930f2ac2ff7"
+    },
+    {
+      "path": "client/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "client/collect_data.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "43b8716f653418b06919ba357f24cecadb4ea82a",
+      "size": 12819,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/43b8716f653418b06919ba357f24cecadb4ea82a"
+    },
+    {
+      "path": "client/envs",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "e07098bb6c8fc8498448f3ef535d5008af4e4f2a",
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/trees/e07098bb6c8fc8498448f3ef535d5008af4e4f2a"
+    },
+    {
+      "path": "client/envs/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "client/envs/droid_env.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6e1e22bf1f1286476b2e82f609592630ed1e5a7a",
+      "size": 18230,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/6e1e22bf1f1286476b2e82f609592630ed1e5a7a"
+    },
+    {
+      "path": "client/envs/utils.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5cf3aae9a5dd04a85ee4a5fdb1218725651a1e6f",
+      "size": 946,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/5cf3aae9a5dd04a85ee4a5fdb1218725651a1e6f"
+    },
+    {
+      "path": "client/envs/zed_recorder.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d93dc25e1fb074d9bb8ac3d1393000440304a50e",
+      "size": 11258,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/d93dc25e1fb074d9bb8ac3d1393000440304a50e"
+    },
+    {
+      "path": "client/install_pyzed.sh",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "9ee157adfb3a169306096941bd5ab1b0c369fa76",
+      "size": 1901,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/9ee157adfb3a169306096941bd5ab1b0c369fa76"
+    },
+    {
+      "path": "client/pyproject.toml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1dab12cc937e429f6ef35d7cd0eece210151af86",
+      "size": 1331,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/1dab12cc937e429f6ef35d7cd0eece210151af86"
+    },
+    {
+      "path": "client/real_utils",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "5c6799aca610c60bd4920de2edd75b8a6ada09f2",
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/trees/5c6799aca610c60bd4920de2edd75b8a6ada09f2"
+    },
+    {
+      "path": "client/real_utils/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "client/real_utils/detector.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "eb25c4aef9afc7b00e1c42fcd141f5daba1dcbd5",
+      "size": 9720,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/eb25c4aef9afc7b00e1c42fcd141f5daba1dcbd5"
+    },
+    {
+      "path": "client/real_utils/spacemouse.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ff3caa4b1d3cc5db70df52d4640edac45a07fd5b",
+      "size": 5988,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/ff3caa4b1d3cc5db70df52d4640edac45a07fd5b"
+    },
+    {
+      "path": "client/real_utils/vis_utils.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "36fc88039ef341716ed96c46a9eefcd07c3a64c3",
+      "size": 1543,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/36fc88039ef341716ed96c46a9eefcd07c3a64c3"
+    },
+    {
+      "path": "client/run_client.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ea12cf5a2346a51505692edee3cfca994c7251ed",
+      "size": 15882,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/ea12cf5a2346a51505692edee3cfca994c7251ed"
+    },
+    {
+      "path": "client/uv.lock",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "60a829711bc5369af494351b6ac3f5a69ce4eb71",
+      "size": 536881,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/60a829711bc5369af494351b6ac3f5a69ce4eb71"
+    },
+    {
+      "path": "configs",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "2091911a84053263cb91b74d3d5fae6d441ca0a1",
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/trees/2091911a84053263cb91b74d3d5fae6d441ca0a1"
+    },
+    {
+      "path": "configs/model",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "8d2fe6e6c8fbfdb33a02e45eac50458b381573bb",
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/trees/8d2fe6e6c8fbfdb33a02e45eac50458b381573bb"
+    },
+    {
+      "path": "configs/model/dagger_pi_config.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e19c0849f51f9da8ff347c3182e4a2b625048202",
+      "size": 410,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/e19c0849f51f9da8ff347c3182e4a2b625048202"
+    },
+    {
+      "path": "configs/model/expo_ft_pi_config.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f9835974a7e608a4bee49d3fcb3718ca4220844d",
+      "size": 1352,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/f9835974a7e608a4bee49d3fcb3718ca4220844d"
+    },
+    {
+      "path": "configs/model/realtime_expo_ft_pi_config.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d74ec15ced71edc7c5d66b62a148e2fb4bec44e3",
+      "size": 1051,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/d74ec15ced71edc7c5d66b62a148e2fb4bec44e3"
+    },
+    {
+      "path": "configs/model/rtc_pi_config.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9885f2f8665488bd751a2d13fddfbdd22c0d2cde",
+      "size": 796,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/9885f2f8665488bd751a2d13fddfbdd22c0d2cde"
+    },
+    {
+      "path": "configs/model/sac_config.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fd16512c55abd5f47f73bdbeeef73d6e66b1af8e",
+      "size": 349,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/fd16512c55abd5f47f73bdbeeef73d6e66b1af8e"
+    },
+    {
+      "path": "configs/model/td_config.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f162085c00d6ce2d2944424b4ef1a9c8454184a1",
+      "size": 357,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/f162085c00d6ce2d2944424b4ef1a9c8454184a1"
+    },
+    {
+      "path": "configs/task",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "83ffd87845b03254402cd2447b55305b7d93615b",
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/trees/83ffd87845b03254402cd2447b55305b7d93615b"
+    },
+    {
+      "path": "configs/task/dynamic_pick.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fbcf0cbb908e3a6ffa976886f53ffe55eff1f503",
+      "size": 2348,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/fbcf0cbb908e3a6ffa976886f53ffe55eff1f503"
+    },
+    {
+      "path": "configs/task/light2.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "75ae1475f2f91d4b39dd1963bb9c6c5160ab4bc3",
+      "size": 1645,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/75ae1475f2f91d4b39dd1963bb9c6c5160ab4bc3"
+    },
+    {
+      "path": "configs/task/pick.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4309e8e98ccb945696cec4365f496399799bed5f",
+      "size": 1215,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/4309e8e98ccb945696cec4365f496399799bed5f"
+    },
+    {
+      "path": "configs/task/real_base.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b0ab22c28b13cf9b6cd982c414624476ecf08a7d",
+      "size": 1529,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/b0ab22c28b13cf9b6cd982c414624476ecf08a7d"
+    },
+    {
+      "path": "eval_droid_policy.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f0255fce2ec8cb396dd7f595dddf87ba98b98f43",
+      "size": 19842,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/f0255fce2ec8cb396dd7f595dddf87ba98b98f43"
+    },
+    {
+      "path": "expo_ft",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "54843c8ed5431e2edd6085f9af00ae48ba7d1620",
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/trees/54843c8ed5431e2edd6085f9af00ae48ba7d1620"
+    },
+    {
+      "path": "expo_ft/.DS_Store",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f03195069c8a019359c1fc473410ea1609143421",
+      "size": 6148,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/f03195069c8a019359c1fc473410ea1609143421"
+    },
+    {
+      "path": "expo_ft/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "expo_ft/agents",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "96cbcb2d23403dcd363b476972dccf34f6265b5c",
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/trees/96cbcb2d23403dcd363b476972dccf34f6265b5c"
+    },
+    {
+      "path": "expo_ft/agents/.DS_Store",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6f0e19d0c7a3f2b20b3c1ee5d8329501d8667aa0",
+      "size": 6148,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/6f0e19d0c7a3f2b20b3c1ee5d8329501d8667aa0"
+    },
+    {
+      "path": "expo_ft/agents/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6aaa3e9707f0e8d0ac2672e9bd2dfa24592c175d",
+      "size": 223,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/6aaa3e9707f0e8d0ac2672e9bd2dfa24592c175d"
+    },
+    {
+      "path": "expo_ft/agents/alg",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "30dc40cdd3b4e7a759b851785a2ccd246a41aeaf",
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/trees/30dc40cdd3b4e7a759b851785a2ccd246a41aeaf"
+    },
+    {
+      "path": "expo_ft/agents/alg/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7a30040b640eafb846e6afdb325e5f9ea92e1b4a",
+      "size": 614,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/7a30040b640eafb846e6afdb325e5f9ea92e1b4a"
+    },
+    {
+      "path": "expo_ft/agents/alg/agent.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2638f83df236b0733cc96b046397c3498382147b",
+      "size": 2899,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/2638f83df236b0733cc96b046397c3498382147b"
+    },
+    {
+      "path": "expo_ft/agents/alg/batch_utils.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a3304ca7ba9e6ee1c5c46c7c70b3b2c9491e7171",
+      "size": 4058,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/a3304ca7ba9e6ee1c5c46c7c70b3b2c9491e7171"
+    },
+    {
+      "path": "expo_ft/agents/alg/bc.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "673919df6beac2df54d3639dc8228082214b37f0",
+      "size": 9966,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/673919df6beac2df54d3639dc8228082214b37f0"
+    },
+    {
+      "path": "expo_ft/agents/alg/expo_ft.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1456132253b558995ea7356a773975543e9403d1",
+      "size": 41268,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/1456132253b558995ea7356a773975543e9403d1"
+    },
+    {
+      "path": "expo_ft/agents/alg/realtime_expo_ft.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3837972f07e165ca093551fe13d863580586a282",
+      "size": 56949,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/3837972f07e165ca093551fe13d863580586a282"
+    },
+    {
+      "path": "expo_ft/agents/alg/rtc.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b03994823381a3757663c13ecba0fa10b3ce06d3",
+      "size": 15174,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/b03994823381a3757663c13ecba0fa10b3ce06d3"
+    },
+    {
+      "path": "expo_ft/agents/vla",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "c05ab14c36565797cac8834bb38add8555042e67",
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/trees/c05ab14c36565797cac8834bb38add8555042e67"
+    },
+    {
+      "path": "expo_ft/agents/vla/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d54879191d58dd796a8dd5a59496f43f5d70ebfe",
+      "size": 167,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/d54879191d58dd796a8dd5a59496f43f5d70ebfe"
+    },
+    {
+      "path": "expo_ft/agents/vla/pi05.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0525a899f09accb6760a2b76ac8b9b5f9cb3ef1f",
+      "size": 28546,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/0525a899f09accb6760a2b76ac8b9b5f9cb3ef1f"
+    },
+    {
+      "path": "expo_ft/agents/vla/vla_base.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "91074d704d8e4be5771e68892c5f4f4f6d3d2c17",
+      "size": 2996,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/91074d704d8e4be5771e68892c5f4f4f6d3d2c17"
+    },
+    {
+      "path": "expo_ft/data",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "656eb9206e9d7c823ba972a9a3309e60263ccc7b",
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/trees/656eb9206e9d7c823ba972a9a3309e60263ccc7b"
+    },
+    {
+      "path": "expo_ft/data/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f833f63c38bc6a2c4f1bbff100be0a9ecb989266",
+      "size": 109,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/f833f63c38bc6a2c4f1bbff100be0a9ecb989266"
+    },
+    {
+      "path": "expo_ft/data/batch_processor.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "022764db97a15d7d7bc97a732f674290102e1a74",
+      "size": 6025,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/022764db97a15d7d7bc97a732f674290102e1a74"
+    },
+    {
+      "path": "expo_ft/data/dataset.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a0b737d51630f205d8efb3b35e18aff2bc97d09e",
+      "size": 1686,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/a0b737d51630f205d8efb3b35e18aff2bc97d09e"
+    },
+    {
+      "path": "expo_ft/data/replay_buffer.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9f98599112989f9e781a2ce744951abadb58965e",
+      "size": 30488,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/9f98599112989f9e781a2ce744951abadb58965e"
+    },
+    {
+      "path": "expo_ft/distributions",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "92c5af2b77d44a4abce96e9fbaf0eae070e5b909",
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/trees/92c5af2b77d44a4abce96e9fbaf0eae070e5b909"
+    },
+    {
+      "path": "expo_ft/distributions/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "61a24985d12f50ac53637db73bb9b0d22b2fa5e4",
+      "size": 66,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/61a24985d12f50ac53637db73bb9b0d22b2fa5e4"
+    },
+    {
+      "path": "expo_ft/distributions/tanh_normal.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ab4e3073e57e3d15fba65f56cc3f8b19cee93932",
+      "size": 1681,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/ab4e3073e57e3d15fba65f56cc3f8b19cee93932"
+    },
+    {
+      "path": "expo_ft/distributions/tanh_transformed.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e5ce6911ea621ddaad11bcfebe448027e4edee02",
+      "size": 963,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/e5ce6911ea621ddaad11bcfebe448027e4edee02"
+    },
+    {
+      "path": "expo_ft/env",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "eace68d21b70a75f8911590fa4900bd16991acdf",
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/trees/eace68d21b70a75f8911590fa4900bd16991acdf"
+    },
+    {
+      "path": "expo_ft/env/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "expo_ft/env/droid_utils.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5614fc802378f65ed4eb2178d048220d5c2e11e6",
+      "size": 3418,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/5614fc802378f65ed4eb2178d048220d5c2e11e6"
+    },
+    {
+      "path": "expo_ft/env/env_client.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bbc47ae1cbdb90e431fd072f46c211534a9a0e68",
+      "size": 11792,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/bbc47ae1cbdb90e431fd072f46c211534a9a0e68"
+    },
+    {
+      "path": "expo_ft/networks",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "3ebfbc6119112ad9ca5eca02c2bab69cc56c3da2",
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/trees/3ebfbc6119112ad9ca5eca02c2bab69cc56c3da2"
+    },
+    {
+      "path": "expo_ft/networks/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fdbea4bfb32c703c87e9e26c9e9e2d80fcc053c9",
+      "size": 346,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/fdbea4bfb32c703c87e9e26c9e9e2d80fcc053c9"
+    },
+    {
+      "path": "expo_ft/networks/encoders.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "39808d50b551a7efe1ca9f9eec97e8d92e8aa942",
+      "size": 3004,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/39808d50b551a7efe1ca9f9eec97e8d92e8aa942"
+    },
+    {
+      "path": "expo_ft/networks/ensemble.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ca105b398ca48bcab0edbde554fd3b8b114ebde0",
+      "size": 1352,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/ca105b398ca48bcab0edbde554fd3b8b114ebde0"
+    },
+    {
+      "path": "expo_ft/networks/mlp.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5db9f0404a3c0c6b386231ea6e0bf36eb2ec92c1",
+      "size": 1353,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/5db9f0404a3c0c6b386231ea6e0bf36eb2ec92c1"
+    },
+    {
+      "path": "expo_ft/networks/mlp_resnet.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "81061d800efc56e034fc827bcbf0aedce20760cb",
+      "size": 1048,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/81061d800efc56e034fc827bcbf0aedce20760cb"
+    },
+    {
+      "path": "expo_ft/networks/pixel_multiplexer.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7dda473c07a760a02ebb31681099c58f6dd881c7",
+      "size": 11652,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/7dda473c07a760a02ebb31681099c58f6dd881c7"
+    },
+    {
+      "path": "expo_ft/networks/state_action_value.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ed890c94ad38efedea652b3905e0cea577e58d3b",
+      "size": 910,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/ed890c94ad38efedea652b3905e0cea577e58d3b"
+    },
+    {
+      "path": "expo_ft/networks/temperature.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bb777fd50d1d0bf377a863a170fb028617a2d313",
+      "size": 352,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/bb777fd50d1d0bf377a863a170fb028617a2d313"
+    },
+    {
+      "path": "expo_ft/types.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c119c3118e138d08fc04e808f38cbba2be90a1db",
+      "size": 175,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/c119c3118e138d08fc04e808f38cbba2be90a1db"
+    },
+    {
+      "path": "expo_ft/utils",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "c324a7f423848bcfefe864b1cdb9f2540091b232",
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/trees/c324a7f423848bcfefe864b1cdb9f2540091b232"
+    },
+    {
+      "path": "expo_ft/utils/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "289234ad09349f3084b65819290b61ed60cd77e8",
+      "size": 574,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/289234ad09349f3084b65819290b61ed60cd77e8"
+    },
+    {
+      "path": "expo_ft/utils/augmentation.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f322ce58d97d7e9fa02ee17067cb827a9e459723",
+      "size": 3571,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/f322ce58d97d7e9fa02ee17067cb827a9e459723"
+    },
+    {
+      "path": "expo_ft/utils/log_utils.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a2e305dd4a7e170c147ea05a4451db2124d33ad0",
+      "size": 3678,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/a2e305dd4a7e170c147ea05a4451db2124d33ad0"
+    },
+    {
+      "path": "expo_ft/utils/loop_utils.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b81a7118508f2e675dcbc34605e87b5baeb1a474",
+      "size": 11010,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/b81a7118508f2e675dcbc34605e87b5baeb1a474"
+    },
+    {
+      "path": "expo_ft/utils/timer.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "60a140f543d5552d14652b764fb8d74e01c90de1",
+      "size": 1523,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/60a140f543d5552d14652b764fb8d74e01c90de1"
+    },
+    {
+      "path": "expo_ft/utils/train_utils.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "01eade3972c7b829551c9de00f348167eca8c9ac",
+      "size": 8805,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/01eade3972c7b829551c9de00f348167eca8c9ac"
+    },
+    {
+      "path": "pyproject.toml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e73b6bdcda853a32c69928f43b1a9729121b2460",
+      "size": 1320,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/e73b6bdcda853a32c69928f43b1a9729121b2460"
+    },
+    {
+      "path": "scripts",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f163bb0c40b2d172042c37335d1f966e7a4fb40c",
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/trees/f163bb0c40b2d172042c37335d1f966e7a4fb40c"
+    },
+    {
+      "path": "scripts/.DS_Store",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ba9b59b8f0da9b30cd9921e8e8de07f67d0a3d25",
+      "size": 6148,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/ba9b59b8f0da9b30cd9921e8e8de07f67d0a3d25"
+    },
+    {
+      "path": "scripts/convert_droid_data_to_lerobot.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f19326dce9ff662a400072729b924dc908c2639e",
+      "size": 19555,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/f19326dce9ff662a400072729b924dc908c2639e"
+    },
+    {
+      "path": "scripts/dynamic_pick",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f1baa957c111503ba24320a117b6645d53235014",
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/trees/f1baa957c111503ba24320a117b6645d53235014"
+    },
+    {
+      "path": "scripts/dynamic_pick/calculate_norm.sh",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "dc1bb0a30e9e2f3dccd1870966dd022e49c96a7f",
+      "size": 249,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/dc1bb0a30e9e2f3dccd1870966dd022e49c96a7f"
+    },
+    {
+      "path": "scripts/dynamic_pick/collect_data.sh",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "a1e751fcd4807459d161ca1122ae3fb5a821ec61",
+      "size": 282,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/a1e751fcd4807459d161ca1122ae3fb5a821ec61"
+    },
+    {
+      "path": "scripts/dynamic_pick/convert_data.sh",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "864a62e9e295ec8cbc9eddb7d24e9e50c2e6b74c",
+      "size": 433,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/864a62e9e295ec8cbc9eddb7d24e9e50c2e6b74c"
+    },
+    {
+      "path": "scripts/dynamic_pick/eval_policy.sh",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "31270e5f2c7457f42a4e7bd647b16341668b477f",
+      "size": 1063,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/31270e5f2c7457f42a4e7bd647b16341668b477f"
+    },
+    {
+      "path": "scripts/dynamic_pick/offline_train.sh",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "3812f85c6836b31461746c8ca8c10eb22e100904",
+      "size": 896,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/3812f85c6836b31461746c8ca8c10eb22e100904"
+    },
+    {
+      "path": "scripts/dynamic_pick/run_policy.sh",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "0ec4d3ea33e6c630140cd8a747078ec125db5904",
+      "size": 706,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/0ec4d3ea33e6c630140cd8a747078ec125db5904"
+    },
+    {
+      "path": "scripts/dynamic_pick/run_server.sh",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "60ea5000c8544c31bcbd5f1e6c12dc5ac644c36c",
+      "size": 1426,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/60ea5000c8544c31bcbd5f1e6c12dc5ac644c36c"
+    },
+    {
+      "path": "scripts/dynamic_pick/run_server_async.sh",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "27380c05b217c3ba27840fc0b2e24065d16fe79f",
+      "size": 1500,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/27380c05b217c3ba27840fc0b2e24065d16fe79f"
+    },
+    {
+      "path": "scripts/pick",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "629305f84042cfeb400e759aeb14467667f1e08b",
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/trees/629305f84042cfeb400e759aeb14467667f1e08b"
+    },
+    {
+      "path": "scripts/pick/calculate_norm.sh",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "e17aa8781500c0eaf33b0c6b3f8324a6c39df0ef",
+      "size": 246,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/e17aa8781500c0eaf33b0c6b3f8324a6c39df0ef"
+    },
+    {
+      "path": "scripts/pick/collect_data.sh",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "d44093f4adbc0e8b59a5eee09f960b5092716603",
+      "size": 219,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/d44093f4adbc0e8b59a5eee09f960b5092716603"
+    },
+    {
+      "path": "scripts/pick/convert_data.sh",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "5e4df989f332ad04d33758468fc766442dbc2120",
+      "size": 427,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/5e4df989f332ad04d33758468fc766442dbc2120"
+    },
+    {
+      "path": "scripts/pick/eval_policy.sh",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "ca7303e77258e032b8a006b76d3d1bddb8f16a97",
+      "size": 936,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/ca7303e77258e032b8a006b76d3d1bddb8f16a97"
+    },
+    {
+      "path": "scripts/pick/finetune_droid.sh",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "989250a8ee7ebb9b74fee38cd0507ce4b81a43c9",
+      "size": 604,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/989250a8ee7ebb9b74fee38cd0507ce4b81a43c9"
+    },
+    {
+      "path": "scripts/pick/run_policy.sh",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "f0bc3e0b95fb0e52bb114b304a5234a2eb32f9e3",
+      "size": 698,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/f0bc3e0b95fb0e52bb114b304a5234a2eb32f9e3"
+    },
+    {
+      "path": "scripts/pick/run_server.sh",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "1cb54393abfae4deba5044de84135e2dff2a013a",
+      "size": 1209,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/1cb54393abfae4deba5044de84135e2dff2a013a"
+    },
+    {
+      "path": "scripts/pick/run_server_async.sh",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "abfe74811cde9982d42b7a91713aa22b40fe4637",
+      "size": 1163,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/abfe74811cde9982d42b7a91713aa22b40fe4637"
+    },
+    {
+      "path": "train_offline_rtc.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e402460ba04ef6c4a483dfa0ca46c9fa71d262a6",
+      "size": 8821,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/e402460ba04ef6c4a483dfa0ca46c9fa71d262a6"
+    },
+    {
+      "path": "train_pi_robo.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4b42060932db82cc13a9d0d073036c4a986669f6",
+      "size": 20335,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/4b42060932db82cc13a9d0d073036c4a986669f6"
+    },
+    {
+      "path": "train_pi_robo_async.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4df218d03fc34b4f16fc549f0f61d264bb605ef6",
+      "size": 23210,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/4df218d03fc34b4f16fc549f0f61d264bb605ef6"
+    },
+    {
+      "path": "uv.lock",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8b81914ad3a3fd34b52883f74623ea121bd92337",
+      "size": 929093,
+      "url": "https://api.github.com/repos/pd-perry/expo-ft/git/blobs/8b81914ad3a3fd34b52883f74623ea121bd92337"
+    }
+  ],
+  "truncated": false
+}

@@ -1,0 +1,13 @@
+{
+  "round": "R01",
+  "root_verdict": "NEEDS_REVISION",
+  "reviews": [
+    {"file":"review_rl.md","agent":"/root/r01_rl","verdict":"PASS","questions":14},
+    {"file":"review_harness.md","agent":"/root/v3r01_harness","verdict":"PASS","questions":15},
+    {"file":"review_evidence.md","agent":"/root/v3r01_evidence","verdict":"NEEDS_REVISION","questions":12}
+  ],
+  "required_issue":"E1: RT-EXPO latency experimental conditions omitted",
+  "resolution":"Re-read Appendix VII-E.3, revised research and design comparison requirements; also incorporated RECAP 10-demo evidence and explicit actor-mask sampling caveat. Changes require a new frozen round.",
+  "consecutive_passes":0,
+  "scope":"Document/source review only; no implementation or real robot validation"
+}

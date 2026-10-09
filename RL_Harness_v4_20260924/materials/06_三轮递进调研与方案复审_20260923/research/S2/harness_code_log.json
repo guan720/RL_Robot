@@ -1,0 +1,1034 @@
+{
+  "schema_version": "1.0",
+  "round": "S2",
+  "topic": "Harness source / data chain",
+  "date": "2026-09-23",
+  "author_role": "S2 bounded source-audit agent",
+  "report": "harness_code.md",
+  "scope": {
+    "mode": "Official-source static audit with bounded text downloads and two trace excerpts",
+    "allowed_writes": [
+      "harness_code.md",
+      "harness_code_log.json",
+      "evidence/harness/**"
+    ],
+    "prior_material": "AGENTS; scientist START_HERE/ROLE/status/INDEX; round 06 contract; S1 root summary and harness_frontier; selected old 03/04 interface and source audits (read only)",
+    "not_performed": [
+      "No installation or execution of third-party repository code",
+      "No candidate unit tests, benchmark replay, training, or robot operation",
+      "No scientific-library UPDATE or goal mutation",
+      "No paper score replication or independent image outcome adjudication"
+    ],
+    "definition": "Independent deployment policy may include predeclared trained editor/Q. Disable GPT Harness live assistance for evaluation; frozen base does not imply absence of policy learning."
+  },
+  "initial_questions": [
+    "Does Forge persist intent before dispatch; how do HTTP return, cancellation, unknown and reconciliation connect?",
+    "Do one-task SQLite, endpoint concurrency and cross-tool physical-resource exclusion actually mean different things?",
+    "Does evidence freshness use sensor capture time or local receive time; is evidence/SQLite/physical execution one transaction?",
+    "What AGP labels, request/response associations and continuous trajectory assets actually ship now; are BC/TD windows constructible?",
+    "Does Harness-Zero REPLACE reach native execution and student loss; what do success filtering, exhausted budget and privileged context exclude?",
+    "Are SAGE runnable sources present and is GPT-Policy code reuse licensed?"
+  ],
+  "repositories": [
+    {
+      "id": "phy",
+      "repo": "PhyAgentOS/PhyAgentOS-core",
+      "sha": "90ac3f22b20aa25dbcc4e3a4333df8c1747af95c",
+      "identity": "commit and recursive tree SHA agree; tree complete",
+      "boundary": "Local agent/Forge bookkeeping reaches HTTP client. Gateway, Endpoint, Dora nodes and robot execution are separately distributed and were not obtained."
+    },
+    {
+      "id": "agp_code",
+      "repo": "agent-as-policy-2026/agent-as-policy",
+      "sha": "c6875d0457358dd54dd23f61355d21149d63ca64",
+      "identity": "commit and recursive tree SHA agree; tree complete",
+      "boundary": "Current code does not establish the collection commit of each historical trial; no connector/SDK execution verified."
+    },
+    {
+      "id": "hzero",
+      "repo": "metaevo-ai/harness-zero",
+      "sha": "aa63a7751997969c2880896f9df3098c7f650fe2",
+      "identity": "commit and recursive main tree SHA agree; tree complete. Extra pinned-tree API request failed HTTP 403; it is not counted as an independent success.",
+      "boundary": "Native execute calls backend.aexecute; concrete Harbor backend download failed. Software environment only, no robot transfer."
+    },
+    {
+      "id": "sage",
+      "repo": "giobin/SAGE",
+      "sha": "d0888cf2cf789b18dbba718509928f198680a9b7",
+      "identity": "commit and complete recursive tree agree; one LICENSE blob",
+      "boundary": "MIT license-only repository at read commit, no training implementation."
+    },
+    {
+      "id": "gpt_policy",
+      "repo": "cheng-haha/GPT-Policy",
+      "sha": "ab970d88bc5570d80a7b4f3e8d3ad97ebe65a007",
+      "identity": "commit API and pinned README; main/pinned README digests match",
+      "boundary": "README license pending; no deeper code-reuse audit."
+    }
+  ],
+  "hf": {
+    "repo": "Agent-as-Policy/agent-as-policy",
+    "observed_head": "c7ec31dd37b206cb2fa0e3952346c67f77aad41d",
+    "head_evidence": "Official current-branch commit link was opened",
+    "content_revision": "Access-time main web renderings only; direct API/download and pinned-revision file retrieval failed. No byte-level claim tying all viewed text to observed HEAD.",
+    "read": [
+      {
+        "url": "https://huggingface.co/datasets/Agent-as-Policy/agent-as-policy/blob/main/docs/LABELS.md",
+        "granularity": "LABELS prose and source breakdown, self-report extraction/review corrections; no parquet aggregation",
+        "finding": "162 scored, 27 reset; astra_self66, paper_code57, results_csv16, claude_review10, operator_review10, timed_out3. Externally sourced does not imply independent gold."
+      },
+      {
+        "url": "https://huggingface.co/datasets/Agent-as-Policy/agent-as-policy/blob/main/docs/SCHEMA.md",
+        "granularity": "Top-level schema, nested traces/calls, labels/timing/pose fields; known issues including missing joins and issue15 withdrawal",
+        "finding": "Continuous joints/alignment/actions parquet withdrawn 2026-09-15. Sparse pose_json remains; current release cannot directly provide low-level aligned BC/TD."
+      },
+      {
+        "url": "https://huggingface.co/datasets/Agent-as-Policy/agent-as-policy/blob/main/traces/20260905_000316_scatter_tools1_02.jsonl",
+        "granularity": "JSONL excerpts item3/4/5/7 and related observation/calibration geometry; reset example, not motion demonstration",
+        "finding": "Frames/capture1/id3; separate wrist/top frame_wall_time_ns differ 12.334342ms; metadata also has robot wall time, sequence and sparse joints."
+      },
+      {
+        "url": "https://huggingface.co/datasets/Agent-as-Policy/agent-as-policy/blob/main/traces/20260904_150034_paper_pyramid_01.jsonl",
+        "granularity": "JSONL excerpts items35-38 and43; no images, video or full episode replay",
+        "finding": "Explicit frames/gripper/move calls and bridge ids; move_ee target vs achieved pose, 5.0mm target error, 8.4s duration and completed bridge status distinguish intention from reported effect."
+      }
+    ]
+  },
+  "reading_records": [
+    {
+      "path": "phy/PhyAgentOS/agent/tools/forge_tool_api.py",
+      "granularity": "Selected full execute bodies of start/query/session, _ActionReadTool, cancel and finalization wrappers",
+      "symbols": [
+        "ForgeToolStartActionTool.execute",
+        "_ActionReadTool.execute"
+      ],
+      "claim": "Agent surface delegates coordinator/client paths; no physical execution implementation here."
+    },
+    {
+      "path": "phy/PhyAgentOS/forge/tool_client.py",
+      "granularity": "HTTP routing, response checks and exception handling for query/action/session/status/result/cancel",
+      "symbols": [
+        "ForgeToolClient",
+        "_request"
+      ],
+      "claim": "GET reconciliation and cancel acceptance are separate from robot terminal state."
+    },
+    {
+      "path": "phy/PhyAgentOS/forge/task.py",
+      "granularity": "Selected class/model definitions and full relevant store/coordinator methods, not all functions",
+      "symbols": [
+        "AgentTaskStore._initialize",
+        "AgentTaskStore.create",
+        "AgentTaskStore.update",
+        "start_action",
+        "observe_action",
+        "record_cancel_response",
+        "cancel_task",
+        "finalize_task",
+        "reconcile_nonterminal",
+        "_append_execution",
+        "_capture_before",
+        "_capture_after",
+        "_tool_status"
+      ],
+      "line_windows": [
+        "59",
+        "184-281",
+        "575-711",
+        "827-985",
+        "1015-1063",
+        "1103+",
+        "1206+",
+        "1235+",
+        "1396+"
+      ],
+      "claim": "Durable intent before POST, workspace-local single task, unknown accounting terminal, best-effort before, local terminal-response overwrite possibility before task finalization."
+    },
+    {
+      "path": "phy/PhyAgentOS/forge/binding.py",
+      "granularity": "Preview/freeze/validation and ToolSpec hash/readiness/runtime identity checks",
+      "claim": "Version/runtime binding does not acquire physical resources."
+    },
+    {
+      "path": "phy/PhyAgentOS/forge/observation.py",
+      "granularity": "Collector readiness, latest source state, websocket message decoding/time validation",
+      "symbols": [
+        "_ready",
+        "_handle_image_message"
+      ],
+      "line_windows": [
+        "120-230",
+        "261-313"
+      ],
+      "claim": "Sequence and local receive-time freshness do not prove post-action sensor exposure or cross-source alignment."
+    },
+    {
+      "path": "phy/PhyAgentOS/forge/evidence.py",
+      "granularity": "Writer artifact/snapshot/bundle and atomic file helpers",
+      "claim": "Per-file atomic writes and hashes; no distributed transaction with SQLite or physical execution."
+    },
+    {
+      "path": "phy/docs/forge/README.md",
+      "granularity": "Published boundaries, query/action/session contracts, invocation accounting, version binding, no cross-Tool Resource/Control lease"
+    },
+    {
+      "path": "phy/docs/forge/UNIFIED_TOOL_API.md",
+      "granularity": "Relevant unified API routing/status/cancellation/concurrency contract sections; not treated as executed server source"
+    },
+    {
+      "path": "phy/docs/en/01-framework-introduction.md",
+      "granularity": "Architecture, distribution boundaries and dependencies relevant to concrete nodes"
+    },
+    {
+      "path": "phy/pyproject.toml",
+      "granularity": "Project metadata, Python minimum and dependency declarations"
+    },
+    {
+      "path": "phy/LICENSE",
+      "granularity": "License text; MIT"
+    },
+    {
+      "path": "agp_code/scripts/build_trials_table.py",
+      "granularity": "Imports/schema context plus codex_steps, claude_steps, assemble and output schema bodies",
+      "symbols": [
+        "codex_steps",
+        "claude_steps",
+        "assemble"
+      ],
+      "line_windows": [
+        "148+",
+        "225+",
+        "291+"
+      ],
+      "claim": "ID joins or wall-clock reconstruction; text truncation and derived nested traces, not exact low-level causal replay."
+    },
+    {
+      "path": "agp_code/scripts/export_actions.py",
+      "granularity": "Export loop and output column construction",
+      "claim": "Current exporter source exists, but continuous assets are withdrawn; selected columns do not retain all command/feedback payload arrays."
+    },
+    {
+      "path": "agp_code/agp/server_real.py",
+      "granularity": "cmd_frames and _move_common plus surrounding argument/status handling",
+      "symbols": [
+        "cmd_frames",
+        "_move_common"
+      ],
+      "line_windows": [
+        "590+",
+        "726+"
+      ],
+      "claim": "Capture metadata and current motion transform/execute/reported-achieved path; current commit not bound to historical sample production."
+    },
+    {
+      "path": "agp_code/agp/robot_client.py",
+      "granularity": "CLI command-to-server request path selected reads; not full client audit"
+    },
+    {
+      "path": "agp_code/hardware-bridge/src/agp_yam_bridge/server.py",
+      "granularity": "_Handler.handle action/observation dispatch and execute_action delegation",
+      "claim": "Dispatch and response timestamps/status read, connector SDK path not exhaustively traced"
+    },
+    {
+      "path": "agp_code/hardware-bridge/src/agp_yam_bridge/motion.py",
+      "granularity": "Controller log and joint trajectory execution/feedback sections",
+      "symbols": [
+        "_log",
+        "_execute_joint_trajectory"
+      ],
+      "line_windows": [
+        "411+",
+        "473+",
+        "569+"
+      ],
+      "claim": "Raw command/feedback logging mechanism exists independently of current public data release."
+    },
+    {
+      "path": "agp_code/hardware-bridge/src/agp_yam_bridge/record.py",
+      "granularity": "Downloaded for adjacency; not relied upon for a substantive full-method conclusion",
+      "claim": "Retained evidence artifact, not counted as fully read."
+    },
+    {
+      "path": "agp_code/hardware-bridge/pyproject.toml",
+      "granularity": "Dependency and metadata declarations"
+    },
+    {
+      "path": "agp_code/LICENSE",
+      "granularity": "License text; Apache-2.0"
+    },
+    {
+      "path": "agp_code/NOTICE",
+      "granularity": "Full text; graph-as-policy Apache-2.0; i2rt MIT; separate HF CC-BY-4.0"
+    },
+    {
+      "path": "hzero/src/harness_zero/rollout.py",
+      "granularity": "Rollout command construction and teacher/student review-related config propagation"
+    },
+    {
+      "path": "hzero/src/harness_zero/harness.py",
+      "granularity": "build_graph and teacher/student/TrialStore wiring",
+      "symbols": [
+        "build_graph"
+      ]
+    },
+    {
+      "path": "hzero/src/harness_zero/student.py",
+      "granularity": "Native execute tool, model middleware review/replacement/recording and create_supervised_miniswe",
+      "symbols": [
+        "create_supervised_miniswe",
+        "HarnessReviewMiddleware"
+      ],
+      "claim": "Accepted native execute replaces candidate before executor; review appended before execution; exhausted replacement budget causes unreviewed PASS."
+    },
+    {
+      "path": "hzero/src/harness_zero/review.py",
+      "granularity": "ExecuteCall and ReviewSubmission validation and message conversion",
+      "claim": "Replacement uses student's native execute action schema, not teacher commentary."
+    },
+    {
+      "path": "hzero/src/harness_zero/store.py",
+      "granularity": "TrialStore creation and append_review serialization of context/original/accepted/review",
+      "claim": "Review event does not by itself prove execution success."
+    },
+    {
+      "path": "hzero/src/harness_zero/dataset_utils.py",
+      "granularity": "Trial reward/completion and session/event utilities used by SFT export",
+      "claim": "Source of inclusion gates; not independent reward validation"
+    },
+    {
+      "path": "hzero/src/harness_zero/sft.py",
+      "granularity": "build_sft_file loop, last-event full-context assembly, success/missing/exception filters and private marker check",
+      "symbols": [
+        "build_sft_file"
+      ],
+      "claim": "Default success-filtered full assistant transcript; not only corrected actions; no passing trajectory means no default sample."
+    },
+    {
+      "path": "hzero/src/harness_zero/train.py",
+      "granularity": "prepare_datums, reasoning leak and target-mask construction, training_eligible/max-length handling, train_positive_sft",
+      "symbols": [
+        "prepare_datums",
+        "train_positive_sft"
+      ],
+      "claim": "Cross-entropy/Adam via Tinker LoRA; reasoning loss mask does not remove text from subsequent model inputs; no robot TD chain."
+    },
+    {
+      "path": "hzero/src/harness_zero/tools.py",
+      "granularity": "Selected native execute tooling context; not concrete Harbor backend implementation"
+    },
+    {
+      "path": "hzero/src/harness_zero/cli.py",
+      "granularity": "CLI entry and configuration relevant to rollout/SFT/train; not exhaustive command audit"
+    },
+    {
+      "path": "hzero/src/harness_zero/teacher.py",
+      "granularity": "Downloaded auxiliary teacher context; no full-method correctness claim"
+    },
+    {
+      "path": "hzero/src/harness_zero/chatfmt.py",
+      "granularity": "Downloaded auxiliary formatter; no full-method correctness claim"
+    },
+    {
+      "path": "hzero/README.md",
+      "granularity": "Method workflow, benchmark/dependency requirements and three linked distilled model releases"
+    },
+    {
+      "path": "hzero/LICENSE",
+      "granularity": "License text; Apache-2.0"
+    },
+    {
+      "path": "sage/tree.json",
+      "granularity": "Complete recursive tree enumerated; exactly LICENSE blob"
+    },
+    {
+      "path": "sage/LICENSE",
+      "granularity": "License text; MIT"
+    },
+    {
+      "path": "gpt_policy/README_pinned.md",
+      "granularity": "Fixed README project/asset/license sections; preview license pending restriction"
+    },
+    {
+      "path": "gpt_policy/README.md",
+      "granularity": "Main copy only compared with pinned snapshot; same digest"
+    }
+  ],
+  "evidence_classes": [
+    {
+      "class": "source_static",
+      "examples": [
+        "Persist-intent ordering",
+        "Cancellation bookkeeping",
+        "Review replacement and SFT/loss construction"
+      ]
+    },
+    {
+      "class": "official_contract",
+      "examples": [
+        "Externally distributed Gateway/node responsibilities",
+        "Endpoint concurrency",
+        "HF withdrawal and label source descriptions"
+      ]
+    },
+    {
+      "class": "observed_source_sample",
+      "examples": [
+        "Two selected HF JSONL excerpts"
+      ],
+      "limit": "Source-reported events, not independently measured hardware facts"
+    },
+    {
+      "class": "static_counterexample",
+      "examples": [
+        "Late running may overwrite succeeded before task terminal",
+        "Unknown skipped by automatic reconciliation",
+        "Receive-late capture-old after image"
+      ],
+      "limit": "Not injected or reproduced; upstream constraints may exclude some sequences"
+    },
+    {
+      "class": "not_verified",
+      "examples": [
+        "Physical stop_ack",
+        "Cross-process resource lock in unavailable Gateway",
+        "Actual published model execution",
+        "Robot transfer",
+        "Paper success rates"
+      ]
+    }
+  ],
+  "new_vs_s1": [
+    "AGP current official SCHEMA withdraws continuous action/joint/alignment assets; previous availability assumptions must be withdrawn.",
+    "Phy core chain reaches HTTP boundary; intent durability and cancellation bookkeeping are concrete, physical backend promises are not source-verified.",
+    "Unknown accounting terminal, task-local duplicate guard and record terminal monotonicity produce specific S3 cases.",
+    "Observation after-ready checks receive time/sequence, not calibrated exposure time.",
+    "Harness-Zero records accepted native execute before execution, then success-filters full context for CE; exhausted budget PASS can be unreviewed.",
+    "Target loss masks do not remove privileged reasoning from subsequent conditioning; zero accepted-success trajectories provide no default SFT rows.",
+    "SAGE tree is license only; GPT-Policy reuse remains blocked by pending license."
+  ],
+  "decision": "Improve the RPent/unified-Gateway route by borrowing durable intent, runtime/version binding, reconciliation and native-action supervision boundaries. Do not replace the runtime merely because a project is named Gateway. Preserve one physical owner, causal facts, learning views and an independently evaluated declared deployment policy.",
+  "s3_questions": [
+    "Cross-tool/cross-workspace same-resource arbitration",
+    "Unknown execution surviving task failure and cross-task resend",
+    "Out-of-order running/succeeded/cancel/verdict",
+    "Capture-old/receive-new and sensor restart",
+    "Intent/evidence/SQLite/physical-action crash divergence",
+    "Local BC eligibility vs success/self-report/tool-ok",
+    "Privileged teacher context and noncausal chunk labels",
+    "Zero-success learning and GPT-assistance exit with learned editor/Q declared"
+  ],
+  "source_access_logs": [
+    "evidence/harness/fetch_manifest.jsonl",
+    "evidence/harness/web_evidence.json",
+    "evidence/harness/web_followups.json"
+  ],
+  "failed_or_bounded_access": [
+    "HF direct urllib/API/download and pinned-revision file web requests failed; access-time main renderings retained.",
+    "Initial selected single-insert trace retrieval failed; two other official trace excerpts were successfully read.",
+    "AGP scripts/export_traces.py download attempts failed; no substantive source claim relies on it.",
+    "Harness-Zero pinned tree extra API request failed HTTP403; already-obtained matching main recursive tree is complete.",
+    "Harness-Zero pyproject.toml retries, data/README.md, concrete Harbor backend.py and tests/test_ahd_review.py retrieval failed timeout/reset; no tests run.",
+    "Harness-Zero model card retries failed; S1 card information is explicitly inherited, not S2 reverified."
+  ],
+  "verification": {
+    "status": "passed",
+    "checked_at_utc": "2026-09-23T13:59:24.639245+00:00",
+    "checks": [
+      "UTF-8 JSON parses",
+      "All claimed local reading files exist",
+      "Markdown reference definitions resolve",
+      "Local report links resolve",
+      "Downloaded pinned source bytes compared to matching recursive tree Git blob hashes where available",
+      "Commit/tree identities and truncation checked"
+    ],
+    "repositories": [
+      {
+        "id": "phy",
+        "expected_sha": "90ac3f22b20aa25dbcc4e3a4333df8c1747af95c",
+        "commit_sha": "90ac3f22b20aa25dbcc4e3a4333df8c1747af95c",
+        "commit_matches": true,
+        "tree_sha": "90ac3f22b20aa25dbcc4e3a4333df8c1747af95c",
+        "tree_matches": true,
+        "tree_truncated": false,
+        "blob_count": 207
+      },
+      {
+        "id": "agp_code",
+        "expected_sha": "c6875d0457358dd54dd23f61355d21149d63ca64",
+        "commit_sha": "c6875d0457358dd54dd23f61355d21149d63ca64",
+        "commit_matches": true,
+        "tree_sha": "c6875d0457358dd54dd23f61355d21149d63ca64",
+        "tree_matches": true,
+        "tree_truncated": false,
+        "blob_count": 452
+      },
+      {
+        "id": "hzero",
+        "expected_sha": "aa63a7751997969c2880896f9df3098c7f650fe2",
+        "commit_sha": "aa63a7751997969c2880896f9df3098c7f650fe2",
+        "commit_matches": true,
+        "tree_sha": "aa63a7751997969c2880896f9df3098c7f650fe2",
+        "tree_matches": true,
+        "tree_truncated": false,
+        "blob_count": 19661
+      },
+      {
+        "id": "sage",
+        "expected_sha": "d0888cf2cf789b18dbba718509928f198680a9b7",
+        "commit_sha": "d0888cf2cf789b18dbba718509928f198680a9b7",
+        "commit_matches": true,
+        "tree_sha": "d0888cf2cf789b18dbba718509928f198680a9b7",
+        "tree_matches": true,
+        "tree_truncated": false,
+        "blob_count": 1
+      },
+      {
+        "id": "gpt_policy",
+        "expected_sha": "ab970d88bc5570d80a7b4f3e8d3ad97ebe65a007",
+        "commit_sha": "ab970d88bc5570d80a7b4f3e8d3ad97ebe65a007",
+        "commit_matches": true
+      }
+    ],
+    "source_snapshot_count": 47,
+    "git_blob_comparisons": 36,
+    "git_blob_mismatches": [],
+    "missing_reading_paths": [],
+    "undefined_markdown_references": [],
+    "local_links": [
+      {
+        "label": "harness_code_log.json",
+        "target": "harness_code_log.json",
+        "exists": true
+      },
+      {
+        "label": "evidence/harness",
+        "target": "evidence/harness",
+        "exists": true
+      },
+      {
+        "label": "RPent 历史审计",
+        "target": "../../../03_RL_Harness自主学习系统_20260922/09_RPent与Harness联合选型.md",
+        "exists": true
+      },
+      {
+        "label": "OpenETA 固定源码审计",
+        "target": "../../../04_RL与Harness扩展调研_20260923/reviews/R05/openeta_source_check.md",
+        "exists": true
+      }
+    ],
+    "third_party_runtime_tests": "not run",
+    "limits": "Static artifact checks are not benchmark, integration, concurrency, robot or policy-learning validation."
+  },
+  "downloaded_source_inventory": [
+    {
+      "local": "evidence/harness/phy/commit.json",
+      "bytes": 4453,
+      "sha256": "bddb9744457649101c483150e2b9be5f0060f2b3a5c8521c2a2f47e05fabb4bd",
+      "source_url": "https://api.github.com/repos/PhyAgentOS/PhyAgentOS-core/commits/main",
+      "accessed_at": "2026-09-23T13:37:03.738637+00:00"
+    },
+    {
+      "local": "evidence/harness/phy/docs/en/01-framework-introduction.md",
+      "bytes": 8630,
+      "sha256": "a1f9c710571fa59de352d439003ea833ef6a3cd1926c7afd47d1b53f275e6840",
+      "source_url": "https://raw.githubusercontent.com/PhyAgentOS/PhyAgentOS-core/90ac3f22b20aa25dbcc4e3a4333df8c1747af95c/docs/en/01-framework-introduction.md",
+      "accessed_at": "2026-09-23T13:38:45.899830+00:00",
+      "git_blob_sha": "e62ee6effec2781e72c097584c334c3d2fd2d4b0",
+      "tree_blob_sha": "e62ee6effec2781e72c097584c334c3d2fd2d4b0",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/phy/docs/forge/README.md",
+      "bytes": 10685,
+      "sha256": "b3237b30c483d71de4ee13d9b35791888139feac35f3275bf21a7ffb27323f33",
+      "source_url": "https://raw.githubusercontent.com/PhyAgentOS/PhyAgentOS-core/90ac3f22b20aa25dbcc4e3a4333df8c1747af95c/docs/forge/README.md",
+      "accessed_at": "2026-09-23T13:38:50.398206+00:00",
+      "git_blob_sha": "574d715905afb8e2089d70f57abf5f8769edba80",
+      "tree_blob_sha": "574d715905afb8e2089d70f57abf5f8769edba80",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/phy/docs/forge/UNIFIED_TOOL_API.md",
+      "bytes": 4509,
+      "sha256": "e99c52de053feabf180f8b2de2888e1d7771cf475655f389e9044ab0239f87de",
+      "source_url": "https://raw.githubusercontent.com/PhyAgentOS/PhyAgentOS-core/90ac3f22b20aa25dbcc4e3a4333df8c1747af95c/docs/forge/UNIFIED_TOOL_API.md",
+      "accessed_at": "2026-09-23T13:38:45.963118+00:00",
+      "git_blob_sha": "72653eb0daa1a330e53da007c849ab3657f3f3ff",
+      "tree_blob_sha": "72653eb0daa1a330e53da007c849ab3657f3f3ff",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/phy/LICENSE",
+      "bytes": 1079,
+      "sha256": "da8470824d766a8bb7a66827480d34700c662b62a965ab0d1a9e803ee5ef5303",
+      "source_url": "https://raw.githubusercontent.com/PhyAgentOS/PhyAgentOS-core/90ac3f22b20aa25dbcc4e3a4333df8c1747af95c/LICENSE",
+      "accessed_at": "2026-09-23T13:39:02.830107+00:00",
+      "git_blob_sha": "fd2502265470a95bf183027767a5da8e5dde20d7",
+      "tree_blob_sha": "fd2502265470a95bf183027767a5da8e5dde20d7",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/phy/PhyAgentOS/agent/tools/forge_tool_api.py",
+      "bytes": 13010,
+      "sha256": "0c9a52ed67d6998f84fcd079e63d7223c5d78ae36a23c74ee553ad54c1582d2c",
+      "source_url": "https://raw.githubusercontent.com/PhyAgentOS/PhyAgentOS-core/90ac3f22b20aa25dbcc4e3a4333df8c1747af95c/PhyAgentOS/agent/tools/forge_tool_api.py",
+      "accessed_at": "2026-09-23T13:38:42.137157+00:00",
+      "git_blob_sha": "babcd36001cfd23556e2764701ede9901081eae5",
+      "tree_blob_sha": "babcd36001cfd23556e2764701ede9901081eae5",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/phy/PhyAgentOS/forge/binding.py",
+      "bytes": 8940,
+      "sha256": "662d88799df0dca7d35ab46ec60377af5c675e6c4268dad81e854a63373cae80",
+      "source_url": "https://raw.githubusercontent.com/PhyAgentOS/PhyAgentOS-core/90ac3f22b20aa25dbcc4e3a4333df8c1747af95c/PhyAgentOS/forge/binding.py",
+      "accessed_at": "2026-09-23T13:38:42.516874+00:00",
+      "git_blob_sha": "0673d5ab7c2c16d17265335f65dfd1555bf34b19",
+      "tree_blob_sha": "0673d5ab7c2c16d17265335f65dfd1555bf34b19",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/phy/PhyAgentOS/forge/evidence.py",
+      "bytes": 13916,
+      "sha256": "b5a25bbff166468cb5e02bc69f2766bd97b77d5787e5d2c6f3c1ac79c46679cf",
+      "source_url": "https://raw.githubusercontent.com/PhyAgentOS/PhyAgentOS-core/90ac3f22b20aa25dbcc4e3a4333df8c1747af95c/PhyAgentOS/forge/evidence.py",
+      "accessed_at": "2026-09-23T13:38:42.489692+00:00",
+      "git_blob_sha": "4a2668f02ddeb9a71fe3e15253a08c635e2a26e0",
+      "tree_blob_sha": "4a2668f02ddeb9a71fe3e15253a08c635e2a26e0",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/phy/PhyAgentOS/forge/observation.py",
+      "bytes": 13465,
+      "sha256": "cf01f395b4e782d69f6b1e5a2ba5a6933d0eb0cbca3a5f2903dd70da7367c95f",
+      "source_url": "https://raw.githubusercontent.com/PhyAgentOS/PhyAgentOS-core/90ac3f22b20aa25dbcc4e3a4333df8c1747af95c/PhyAgentOS/forge/observation.py",
+      "accessed_at": "2026-09-23T13:38:42.140125+00:00",
+      "git_blob_sha": "15016e45519888be98f5f08d51e1075e53e2cb1f",
+      "tree_blob_sha": "15016e45519888be98f5f08d51e1075e53e2cb1f",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/phy/PhyAgentOS/forge/task.py",
+      "bytes": 55440,
+      "sha256": "be43aed7b5076c7b0f45e9293024bd8ac8026c18ffb79437a9aa7fb26032a603",
+      "source_url": "https://raw.githubusercontent.com/PhyAgentOS/PhyAgentOS-core/90ac3f22b20aa25dbcc4e3a4333df8c1747af95c/PhyAgentOS/forge/task.py",
+      "accessed_at": "2026-09-23T13:38:42.139014+00:00",
+      "git_blob_sha": "f05820143f5c0685d304b6a62dda8f454164426d",
+      "tree_blob_sha": "f05820143f5c0685d304b6a62dda8f454164426d",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/phy/PhyAgentOS/forge/tool_client.py",
+      "bytes": 10412,
+      "sha256": "d479b0f19de93061cee262b4e1309a0fe843c76db898f844a2476db91b132e42",
+      "source_url": "https://raw.githubusercontent.com/PhyAgentOS/PhyAgentOS-core/90ac3f22b20aa25dbcc4e3a4333df8c1747af95c/PhyAgentOS/forge/tool_client.py",
+      "accessed_at": "2026-09-23T13:38:42.138171+00:00",
+      "git_blob_sha": "83cfaea039f92cf1ce9ae53d5853759921dfa072",
+      "tree_blob_sha": "83cfaea039f92cf1ce9ae53d5853759921dfa072",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/phy/pyproject.toml",
+      "bytes": 3199,
+      "sha256": "e1b5f756bf8fbc4bb486f7cf122e8ca1cbc43153970588d3e89962422157ddeb",
+      "source_url": "https://raw.githubusercontent.com/PhyAgentOS/PhyAgentOS-core/90ac3f22b20aa25dbcc4e3a4333df8c1747af95c/pyproject.toml",
+      "accessed_at": "2026-09-23T13:38:54.598256+00:00",
+      "git_blob_sha": "037c2efa562e19355e353fb686e01fd486ee17e2",
+      "tree_blob_sha": "037c2efa562e19355e353fb686e01fd486ee17e2",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/phy/tree.json",
+      "bytes": 62091,
+      "sha256": "608db72e36b9900b4a680ce2236ec65138bb5c9a58807f1bf7ab292e7488892b",
+      "source_url": "https://api.github.com/repos/PhyAgentOS/PhyAgentOS-core/git/trees/main?recursive=1",
+      "accessed_at": "2026-09-23T13:37:03.739721+00:00"
+    },
+    {
+      "local": "evidence/harness/agp_code/agp/robot_client.py",
+      "bytes": 4061,
+      "sha256": "83b5af0a0aaca1f462d27101f9f04e82ef20b714280c1cab6a2b4b2633ca6f01",
+      "source_url": "https://raw.githubusercontent.com/agent-as-policy-2026/agent-as-policy/c6875d0457358dd54dd23f61355d21149d63ca64/agp/robot_client.py",
+      "accessed_at": "2026-09-23T13:39:05.787374+00:00",
+      "git_blob_sha": "db6a6a2ab6d7f179bc0878884d710acc1d287bac",
+      "tree_blob_sha": "db6a6a2ab6d7f179bc0878884d710acc1d287bac",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/agp_code/agp/server_real.py",
+      "bytes": 70140,
+      "sha256": "c7d58c420b6fd4e1275ff569d2300427da209a6bcc49f6b9032f6bf7b2ba4ba5",
+      "source_url": "https://raw.githubusercontent.com/agent-as-policy-2026/agent-as-policy/c6875d0457358dd54dd23f61355d21149d63ca64/agp/server_real.py",
+      "accessed_at": "2026-09-23T13:39:05.818245+00:00",
+      "git_blob_sha": "14025a9af379288647f2724d745d5d4abf9df677",
+      "tree_blob_sha": "14025a9af379288647f2724d745d5d4abf9df677",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/agp_code/commit.json",
+      "bytes": 4399,
+      "sha256": "bf1bc8f5e7b5a9d0a7b058074eae30409ab892d81df79075777047f5f295034f",
+      "source_url": "https://api.github.com/repos/agent-as-policy-2026/agent-as-policy/commits/main",
+      "accessed_at": "2026-09-23T13:37:03.740314+00:00"
+    },
+    {
+      "local": "evidence/harness/agp_code/hardware-bridge/pyproject.toml",
+      "bytes": 2217,
+      "sha256": "2815a90327639bdf868691abc6509c481cd9eb3b96d25f8e67b99d50db3b8e93",
+      "source_url": "https://raw.githubusercontent.com/agent-as-policy-2026/agent-as-policy/c6875d0457358dd54dd23f61355d21149d63ca64/hardware-bridge/pyproject.toml",
+      "accessed_at": "2026-09-23T13:39:18.130209+00:00",
+      "git_blob_sha": "096ca8e97fcbdabb45133cf419a88ac39cc661b4",
+      "tree_blob_sha": "096ca8e97fcbdabb45133cf419a88ac39cc661b4",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/agp_code/hardware-bridge/src/agp_yam_bridge/motion.py",
+      "bytes": 53653,
+      "sha256": "79ff38dfea8e2f7ee9714f1168112176ef19f966bfb6643c5162d46e28fcadf1",
+      "source_url": "https://raw.githubusercontent.com/agent-as-policy-2026/agent-as-policy/c6875d0457358dd54dd23f61355d21149d63ca64/hardware-bridge/src/agp_yam_bridge/motion.py",
+      "accessed_at": "2026-09-23T13:43:34.686503+00:00",
+      "git_blob_sha": "490ffebbfe11292461d3e31fd1c8c62cfdac2d59",
+      "tree_blob_sha": "490ffebbfe11292461d3e31fd1c8c62cfdac2d59",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/agp_code/hardware-bridge/src/agp_yam_bridge/record.py",
+      "bytes": 18293,
+      "sha256": "481077fb99428ebdd287c517566d3a8c6e05473c95baf4a12354dca10c77da6c",
+      "source_url": "https://raw.githubusercontent.com/agent-as-policy-2026/agent-as-policy/c6875d0457358dd54dd23f61355d21149d63ca64/hardware-bridge/src/agp_yam_bridge/record.py",
+      "accessed_at": "2026-09-23T13:39:07.251632+00:00",
+      "git_blob_sha": "66377966b3542859e63131ddf65f28c53180679c",
+      "tree_blob_sha": "66377966b3542859e63131ddf65f28c53180679c",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/agp_code/hardware-bridge/src/agp_yam_bridge/server.py",
+      "bytes": 10595,
+      "sha256": "13917cd9454895355dbd3cd30473ee68ca42890ab0c6eb40f775c009614bad1d",
+      "source_url": "https://raw.githubusercontent.com/agent-as-policy-2026/agent-as-policy/c6875d0457358dd54dd23f61355d21149d63ca64/hardware-bridge/src/agp_yam_bridge/server.py",
+      "accessed_at": "2026-09-23T13:39:07.015315+00:00",
+      "git_blob_sha": "87705fc309d2c9d6a74b195b7ada95740b247ead",
+      "tree_blob_sha": "87705fc309d2c9d6a74b195b7ada95740b247ead",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/agp_code/LICENSE",
+      "bytes": 11309,
+      "sha256": "e8117ad66060968f586572022e8da5d9e3d3dfbba8826f894460adbce6e291d5",
+      "source_url": "https://raw.githubusercontent.com/agent-as-policy-2026/agent-as-policy/c6875d0457358dd54dd23f61355d21149d63ca64/LICENSE",
+      "accessed_at": "2026-09-23T13:39:18.576047+00:00",
+      "git_blob_sha": "0167186e0cefa39e7fd370ee2ccebc6883e10baa",
+      "tree_blob_sha": "0167186e0cefa39e7fd370ee2ccebc6883e10baa",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/agp_code/NOTICE",
+      "bytes": 1021,
+      "sha256": "eae399411ad69f3eecdec94236361ad4a4bd63241726ed1d9cf739c661caa5c1",
+      "source_url": "https://raw.githubusercontent.com/agent-as-policy-2026/agent-as-policy/c6875d0457358dd54dd23f61355d21149d63ca64/NOTICE",
+      "accessed_at": "2026-09-23T13:39:19.381104+00:00",
+      "git_blob_sha": "ea90593fdaab09f53d0e08c51247a564cbe7b8d3",
+      "tree_blob_sha": "ea90593fdaab09f53d0e08c51247a564cbe7b8d3",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/agp_code/scripts/build_trials_table.py",
+      "bytes": 29060,
+      "sha256": "a5929611fd032e3a4ad113e6a8c7cdfeb8e0aa72a0bd24819152ade4df3ed256",
+      "source_url": "https://raw.githubusercontent.com/agent-as-policy-2026/agent-as-policy/c6875d0457358dd54dd23f61355d21149d63ca64/scripts/build_trials_table.py",
+      "accessed_at": "2026-09-23T13:39:04.396948+00:00",
+      "git_blob_sha": "a9904fdeda859f237726f6ee15b95b0da1a3a000",
+      "tree_blob_sha": "a9904fdeda859f237726f6ee15b95b0da1a3a000",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/agp_code/scripts/export_actions.py",
+      "bytes": 3248,
+      "sha256": "6f9b3a917496e97a9a448aef826ba23366437c0a336110a2c70ac6023a0ada4f",
+      "source_url": "https://raw.githubusercontent.com/agent-as-policy-2026/agent-as-policy/c6875d0457358dd54dd23f61355d21149d63ca64/scripts/export_actions.py",
+      "accessed_at": "2026-09-23T13:39:02.951659+00:00",
+      "git_blob_sha": "6fcf7e1c10661394fa95af8aa68036d81e01fea7",
+      "tree_blob_sha": "6fcf7e1c10661394fa95af8aa68036d81e01fea7",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/agp_code/tree.json",
+      "bytes": 185455,
+      "sha256": "3acd1a7b08d569863f208b569f5dda7c898f19e391a97886e39e4019b0b4a404",
+      "source_url": "https://api.github.com/repos/agent-as-policy-2026/agent-as-policy/git/trees/main?recursive=1",
+      "accessed_at": "2026-09-23T13:37:03.740844+00:00"
+    },
+    {
+      "local": "evidence/harness/hzero/commit.json",
+      "bytes": 6989,
+      "sha256": "0981661ba120681c12859379015cb20e0da2903d5e54729860923dbc44296ffa",
+      "source_url": "https://api.github.com/repos/metaevo-ai/harness-zero/commits/main",
+      "accessed_at": "2026-09-23T13:37:06.759889+00:00"
+    },
+    {
+      "local": "evidence/harness/hzero/LICENSE",
+      "bytes": 11341,
+      "sha256": "daad9983ba2333a9a3e6a3302bf0d637e642bbd2906d9c3900e3e1ef5857125b",
+      "source_url": "https://raw.githubusercontent.com/metaevo-ai/harness-zero/aa63a7751997969c2880896f9df3098c7f650fe2/LICENSE",
+      "accessed_at": "2026-09-23T13:43:27.449219+00:00",
+      "git_blob_sha": "3393e87d8183be2a8df691e816f0de22378462cd",
+      "tree_blob_sha": "3393e87d8183be2a8df691e816f0de22378462cd",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/hzero/README.md",
+      "bytes": 7762,
+      "sha256": "88be646f704a2359e753d071d3ae696c8d2ec702ba6c5569af82a546c8e43b6f",
+      "source_url": "https://raw.githubusercontent.com/metaevo-ai/harness-zero/aa63a7751997969c2880896f9df3098c7f650fe2/README.md",
+      "accessed_at": "2026-09-23T13:43:29.754359+00:00",
+      "git_blob_sha": "0437cfca20326a00b7f7cca3abbff13e7a3733d0",
+      "tree_blob_sha": "0437cfca20326a00b7f7cca3abbff13e7a3733d0",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/hzero/src/harness_zero/chatfmt.py",
+      "bytes": 7423,
+      "sha256": "b3230fcf553cb7163e2b1269e450e0c4592e3d900345b5e93a5e7b153ec48d1f",
+      "source_url": "https://raw.githubusercontent.com/metaevo-ai/harness-zero/aa63a7751997969c2880896f9df3098c7f650fe2/src/harness_zero/chatfmt.py",
+      "accessed_at": "2026-09-23T13:44:19.308708+00:00",
+      "git_blob_sha": "f138bba00bf806868dbd05f41d6b5d0ab0e77853",
+      "tree_blob_sha": "f138bba00bf806868dbd05f41d6b5d0ab0e77853",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/hzero/src/harness_zero/cli.py",
+      "bytes": 7669,
+      "sha256": "d159128588e2d77cd5af9a0d3ad40a8b20d631d948de1138d26c1139e5589ec5",
+      "source_url": "https://raw.githubusercontent.com/metaevo-ai/harness-zero/aa63a7751997969c2880896f9df3098c7f650fe2/src/harness_zero/cli.py",
+      "accessed_at": "2026-09-23T13:43:21.245641+00:00",
+      "git_blob_sha": "0ae978186a084c4820ae71e14696e2819525184a",
+      "tree_blob_sha": "0ae978186a084c4820ae71e14696e2819525184a",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/hzero/src/harness_zero/dataset_utils.py",
+      "bytes": 3943,
+      "sha256": "55b157e11b1e0b43edfa1e46f60958a8a49cb18ba412c0197ae402697e1bb3f7",
+      "source_url": "https://raw.githubusercontent.com/metaevo-ai/harness-zero/aa63a7751997969c2880896f9df3098c7f650fe2/src/harness_zero/dataset_utils.py",
+      "accessed_at": "2026-09-23T13:44:19.307720+00:00",
+      "git_blob_sha": "9dc9d01846aa4115112b2bc64ea2ae1733011eb4",
+      "tree_blob_sha": "9dc9d01846aa4115112b2bc64ea2ae1733011eb4",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/hzero/src/harness_zero/harness.py",
+      "bytes": 16747,
+      "sha256": "b29fe0d5692aae41cd40dd8bda397cc292b224c049435ef11fc339d44715b10f",
+      "source_url": "https://raw.githubusercontent.com/metaevo-ai/harness-zero/aa63a7751997969c2880896f9df3098c7f650fe2/src/harness_zero/harness.py",
+      "accessed_at": "2026-09-23T13:44:19.306416+00:00",
+      "git_blob_sha": "acef024a5fcb2ae7b7e366713f9d8b25295c53eb",
+      "tree_blob_sha": "acef024a5fcb2ae7b7e366713f9d8b25295c53eb",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/hzero/src/harness_zero/review.py",
+      "bytes": 4728,
+      "sha256": "34f33ee69c40f6a2776857317c91b445a3b949176524f0272f41c77c11f308cc",
+      "source_url": "https://raw.githubusercontent.com/metaevo-ai/harness-zero/aa63a7751997969c2880896f9df3098c7f650fe2/src/harness_zero/review.py",
+      "accessed_at": "2026-09-23T13:43:19.075388+00:00",
+      "git_blob_sha": "6cf045bc37d45eaf6b42e3c228230c7d9e2e5422",
+      "tree_blob_sha": "6cf045bc37d45eaf6b42e3c228230c7d9e2e5422",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/hzero/src/harness_zero/rollout.py",
+      "bytes": 9473,
+      "sha256": "5cd88d77d4e909b6bc55445d62eb96006464086ad49a7b4a9a7c33559a129183",
+      "source_url": "https://raw.githubusercontent.com/metaevo-ai/harness-zero/aa63a7751997969c2880896f9df3098c7f650fe2/src/harness_zero/rollout.py",
+      "accessed_at": "2026-09-23T13:43:19.074398+00:00",
+      "git_blob_sha": "82e35c2a7d1459022d2a2f1fc6f825aba2e59b05",
+      "tree_blob_sha": "82e35c2a7d1459022d2a2f1fc6f825aba2e59b05",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/hzero/src/harness_zero/sft.py",
+      "bytes": 2769,
+      "sha256": "128dcb8dac96178095bf1d239ea13b3b88fcf31cd82d8e6f55eb23e533a9d753",
+      "source_url": "https://raw.githubusercontent.com/metaevo-ai/harness-zero/aa63a7751997969c2880896f9df3098c7f650fe2/src/harness_zero/sft.py",
+      "accessed_at": "2026-09-23T13:43:19.075966+00:00",
+      "git_blob_sha": "d60cc7904ac6cafc7458d05a0d993ad7f148f257",
+      "tree_blob_sha": "d60cc7904ac6cafc7458d05a0d993ad7f148f257",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/hzero/src/harness_zero/store.py",
+      "bytes": 3711,
+      "sha256": "35bdb31536053b9ccd72b89d22cf894786ff98db31c17124516ccb735e33bc9c",
+      "source_url": "https://raw.githubusercontent.com/metaevo-ai/harness-zero/aa63a7751997969c2880896f9df3098c7f650fe2/src/harness_zero/store.py",
+      "accessed_at": "2026-09-23T13:44:19.307209+00:00",
+      "git_blob_sha": "5cef54590f1ad70adfb9bc94c8acbc66773f1313",
+      "tree_blob_sha": "5cef54590f1ad70adfb9bc94c8acbc66773f1313",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/hzero/src/harness_zero/student.py",
+      "bytes": 10227,
+      "sha256": "a8511b66db083ed0ec670862961681030ef9b06268375dd899f98d288159eecd",
+      "source_url": "https://raw.githubusercontent.com/metaevo-ai/harness-zero/aa63a7751997969c2880896f9df3098c7f650fe2/src/harness_zero/student.py",
+      "accessed_at": "2026-09-23T13:43:19.077042+00:00",
+      "git_blob_sha": "2365f3d26ab11a236a67c22b1e9470afb7b64b02",
+      "tree_blob_sha": "2365f3d26ab11a236a67c22b1e9470afb7b64b02",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/hzero/src/harness_zero/teacher.py",
+      "bytes": 16042,
+      "sha256": "8f47f699b046b34e616af1061e0cf83c6e87a06b2a19b1f5ed1b8e52f4d9946b",
+      "source_url": "https://raw.githubusercontent.com/metaevo-ai/harness-zero/aa63a7751997969c2880896f9df3098c7f650fe2/src/harness_zero/teacher.py",
+      "accessed_at": "2026-09-23T13:44:19.371232+00:00",
+      "git_blob_sha": "6fc7d2eafa51cbe0fb7708e2125170f01bcab9c5",
+      "tree_blob_sha": "6fc7d2eafa51cbe0fb7708e2125170f01bcab9c5",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/hzero/src/harness_zero/tools.py",
+      "bytes": 1000,
+      "sha256": "7926e5b13c88183b9a007dcfdf1b013653dc2693e09050f1470fe044b64f7ce1",
+      "source_url": "https://raw.githubusercontent.com/metaevo-ai/harness-zero/aa63a7751997969c2880896f9df3098c7f650fe2/src/harness_zero/tools.py",
+      "accessed_at": "2026-09-23T13:43:19.077712+00:00",
+      "git_blob_sha": "70d770181212631f60fab11f091bd18f2181e581",
+      "tree_blob_sha": "70d770181212631f60fab11f091bd18f2181e581",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/hzero/src/harness_zero/train.py",
+      "bytes": 14033,
+      "sha256": "53ef7dd4ad66cc53d049df07f66bcfe42cf6a1b1bd42ca44eda109e3a6e6e78c",
+      "source_url": "https://raw.githubusercontent.com/metaevo-ai/harness-zero/aa63a7751997969c2880896f9df3098c7f650fe2/src/harness_zero/train.py",
+      "accessed_at": "2026-09-23T13:43:19.076624+00:00",
+      "git_blob_sha": "e318b10252ba5bbee1afe54b5c7cabd07f028330",
+      "tree_blob_sha": "e318b10252ba5bbee1afe54b5c7cabd07f028330",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/hzero/tree.json",
+      "bytes": 7391014,
+      "sha256": "2de615e4a509294a2717d4b5b1493147a2f6ab5ce827f607ca65cd4c290fdaf8",
+      "source_url": "https://api.github.com/repos/metaevo-ai/harness-zero/git/trees/main?recursive=1",
+      "accessed_at": "2026-09-23T13:37:07.209883+00:00"
+    },
+    {
+      "local": "evidence/harness/sage/commit.json",
+      "bytes": 5544,
+      "sha256": "bbf692dadfcf376cd05855caeca6d2f60f740751b05c664194990410aff42501",
+      "source_url": "https://api.github.com/repos/giobin/SAGE/commits/main",
+      "accessed_at": "2026-09-23T13:37:05.632639+00:00"
+    },
+    {
+      "local": "evidence/harness/sage/LICENSE",
+      "bytes": 1063,
+      "sha256": "ffa5797a608acf0d803a52603248f1757442376c27202da2bb88839e13a3790f",
+      "source_url": "https://raw.githubusercontent.com/giobin/SAGE/d0888cf2cf789b18dbba718509928f198680a9b7/LICENSE",
+      "accessed_at": "2026-09-23T13:39:23.330480+00:00",
+      "git_blob_sha": "a69d1da053313e0cbed5a9a44b14968185286906",
+      "tree_blob_sha": "a69d1da053313e0cbed5a9a44b14968185286906",
+      "matches_fixed_tree": true
+    },
+    {
+      "local": "evidence/harness/sage/tree.json",
+      "bytes": 387,
+      "sha256": "b833f11f067ee2b52e9db1049ead5f26be26ccc98972ce170848df8a3c50a431",
+      "source_url": "https://api.github.com/repos/giobin/SAGE/git/trees/main?recursive=1",
+      "accessed_at": "2026-09-23T13:37:05.912258+00:00"
+    },
+    {
+      "local": "evidence/harness/gpt_policy/commit.json",
+      "bytes": 4702,
+      "sha256": "ea13b9716847621ce324f0b9002a600e68917723ead8086a224fd7453fcefe00",
+      "source_url": "https://api.github.com/repos/cheng-haha/GPT-Policy/commits/main",
+      "accessed_at": "2026-09-23T13:37:07.281119+00:00"
+    },
+    {
+      "local": "evidence/harness/gpt_policy/README.md",
+      "bytes": 10575,
+      "sha256": "07372fa70812b6b65678af67e13217898e1df627a6e8bc0163efe6da41c31fa5",
+      "source_url": "https://raw.githubusercontent.com/cheng-haha/GPT-Policy/main/README.md",
+      "accessed_at": "2026-09-23T13:37:07.519072+00:00"
+    },
+    {
+      "local": "evidence/harness/gpt_policy/README_pinned.md",
+      "bytes": 10575,
+      "sha256": "07372fa70812b6b65678af67e13217898e1df627a6e8bc0163efe6da41c31fa5",
+      "source_url": "https://raw.githubusercontent.com/cheng-haha/GPT-Policy/ab970d88bc5570d80a7b4f3e8d3ad97ebe65a007/README.md",
+      "accessed_at": "2026-09-23T13:43:46.258060+00:00"
+    }
+  ],
+  "fetch_summary": {
+    "attempts": 58,
+    "successes": 47,
+    "failures": 11,
+    "failed_attempts": [
+      {
+        "url": "https://raw.githubusercontent.com/agent-as-policy-2026/agent-as-policy/c6875d0457358dd54dd23f61355d21149d63ca64/scripts/export_traces.py",
+        "local": "agp_code/scripts/export_traces.py",
+        "accessed_at": "2026-09-23T13:39:03.210617+00:00",
+        "error": "The read operation timed out"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/agent-as-policy-2026/agent-as-policy/c6875d0457358dd54dd23f61355d21149d63ca64/hardware-bridge/src/agp_yam_bridge/motion.py",
+        "local": "agp_code/hardware-bridge/src/agp_yam_bridge/motion.py",
+        "accessed_at": "2026-09-23T13:39:08.655390+00:00",
+        "error": "<urlopen error _ssl.c:1063: The handshake operation timed out>"
+      },
+      {
+        "url": "https://api.github.com/repos/metaevo-ai/harness-zero/git/trees/aa63a7751997969c2880896f9df3098c7f650fe2?recursive=1",
+        "local": "hzero/tree_pinned.json",
+        "accessed_at": "2026-09-23T13:39:21.949158+00:00",
+        "error": "HTTP Error 403: rate limit exceeded"
+      },
+      {
+        "url": "https://huggingface.co/api/datasets/Agent-as-Policy/agent-as-policy",
+        "local": "agp_data/meta.json",
+        "accessed_at": "2026-09-23T13:37:03.776263+00:00",
+        "error": "<urlopen error [WinError 10060] 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。>"
+      },
+      {
+        "url": "https://huggingface.co/api/datasets/Agent-as-Policy/agent-as-policy/tree/main?recursive=true&limit=1000",
+        "local": "agp_data/tree.json",
+        "accessed_at": "2026-09-23T13:37:04.195991+00:00",
+        "error": "<urlopen error [WinError 10060] 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。>"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/metaevo-ai/harness-zero/aa63a7751997969c2880896f9df3098c7f650fe2/pyproject.toml",
+        "local": "hzero/pyproject.toml",
+        "accessed_at": "2026-09-23T13:43:22.943893+00:00",
+        "error": "<urlopen error _ssl.c:1063: The handshake operation timed out>"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/agent-as-policy-2026/agent-as-policy/c6875d0457358dd54dd23f61355d21149d63ca64/scripts/export_traces.py",
+        "local": "agp_code/scripts/export_traces.py",
+        "accessed_at": "2026-09-23T13:43:31.486121+00:00",
+        "error": "The read operation timed out"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/metaevo-ai/harness-zero/aa63a7751997969c2880896f9df3098c7f650fe2/pyproject.toml",
+        "local": "hzero/pyproject.toml",
+        "accessed_at": "2026-09-23T13:46:31.845020+00:00",
+        "error": "The read operation timed out"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/metaevo-ai/harness-zero/aa63a7751997969c2880896f9df3098c7f650fe2/data/README.md",
+        "local": "hzero/data/README.md",
+        "accessed_at": "2026-09-23T13:46:31.846996+00:00",
+        "error": "<urlopen error _ssl.c:1063: The handshake operation timed out>"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/metaevo-ai/harness-zero/aa63a7751997969c2880896f9df3098c7f650fe2/src/deepagents_harbor/backend.py",
+        "local": "hzero/src/deepagents_harbor/backend.py",
+        "accessed_at": "2026-09-23T13:46:31.848337+00:00",
+        "error": "<urlopen error _ssl.c:1063: The handshake operation timed out>"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/metaevo-ai/harness-zero/aa63a7751997969c2880896f9df3098c7f650fe2/tests/test_ahd_review.py",
+        "local": "hzero/tests/test_ahd_review.py",
+        "accessed_at": "2026-09-23T13:46:31.849875+00:00",
+        "error": "[WinError 10054] 远程主机强迫关闭了一个现有的连接。"
+      }
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "width": 1078,
+  "bodyHeight": 8033,
+  "images": [
+    {
+      "loaded": true,
+      "width": 609,
+      "height": 922
+    },
+    {
+      "loaded": true,
+      "width": 795,
+      "height": 1025
+    },
+    {
+      "loaded": true,
+      "width": 233,
+      "height": 478
+    }
+  ],
+  "overflow": [],
+  "scope": "Local Chrome Markdown preview only; not all IDE renderers",
+  "pass": true
+}

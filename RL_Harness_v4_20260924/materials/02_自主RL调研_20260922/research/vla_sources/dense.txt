@@ -1,0 +1,2492 @@
+DenseReward: Dense Reward Learning via Failure Synthesis for Robotic Manipulation
+Report GitHub Issue
+×
+Title:
+Content selection saved. Describe the issue below:
+Description:
+Submit without GitHub
+Submit in GitHub
+arXiv is now an independent nonprofit!
+Learn more
+×
+Back to arXiv
+Why HTML?
+Report Issue
+Back to Abstract
+Download PDF
+Abstract
+1
+Introduction
+2
+Related Work
+3
+Method
+3.1
+Automated Data Generation
+3.2
+Failure Synthesis
+3.3
+DenseReward Training
+4
+Experiments
+4.1
+Evaluating Reward Prediction
+4.2
+Evaluation in Model Predictive Control
+4.3
+Reinforcement Policy Learning with DenseReward
+Integrating DenseReward.
+4.4
+Policy Learning in the Real World
+Setup.
+RL Algorithm.
+Reward Integration.
+Results.
+4.5
+Ablation Studies
+5
+Conclusion
+References
+A
+Dataset Statistics
+B
+Validity Filtering
+C
+Model Predictive Control
+Overview.
+Action Space.
+Candidate Evaluation.
+Evaluation Metric.
+D
+DenseReward Models
+E
+Real-world Experiments
+License: CC BY 4.0
+arXiv:2607.13033v1 [cs.RO] 14 Jul 2026
+DenseReward: Dense Reward Learning via Failure Synthesis for Robotic Manipulation
+Yu Fang
+†
+†
+thanks:
+Equal contribution.
+Affiliation:
+University of North Carolina at Chapel Hill
+Wanxi Dong
+1
+1
+footnotemark:
+1
+Affiliation:
+University of North Carolina at Chapel Hill
+Jiaqi Liu
+Affiliation:
+University of North Carolina at Chapel Hill
+Yue Yang
+Affiliation:
+University of North Carolina at Chapel Hill
+Mingxiao Huo
+Affiliation:
+Carnegie Mellon University
+Yao Mu   Huaxiu Yao   Li Erran Li   Daniel Szafir   Mingyu Ding
+Affiliation:
+University of North Carolina at Chapel Hill
+Affiliation:
+Shanghai Jiao Tong University
+Affiliation:
+Amazon AWS AI
+https://dense-reward.github.io/
+Abstract
+Reinforcement learning holds great promise for improving robot policies beyond the limits of imitation learning.
+However, its practical adoption remains bottlenecked by the lack of reliable vision-language reward models that provide dense and informative feedback.
+Two key challenges remain: acquiring diverse failure data at scale and obtaining fine-grained reward signals beyond sparse trajectory-level success labels.
+Collecting failure trajectories typically requires laborious human effort, while pseudo-failures constructed by relabeling successful demonstrations fail to capture the diverse physical failure modes that arise during robot execution.
+Meanwhile, existing reward models often predict sparse binary or trajectory-level rewards, which provide limited guidance for efficient policy optimization.
+We introduce
+DenseReward
+, a dense robotic reward model that addresses both challenges.
+To train DenseReward, we develop an automated failure data generation pipeline that synthesizes physically realistic failure trajectories in simulation without human labeling, covering diverse failure modes such as collisions, missed grasps, object drops, and recovery behaviors.
+DenseReward predicts dense frame-level reward scores from visual observations and language instructions, enabling fine-grained estimation of task progress throughout an episode.
+Experiments show that DenseReward outperforms general-purpose VLMs and existing robotic reward models in dense reward prediction across both simulated and real-world manipulation.
+We further demonstrate that DenseReward provides effective reward guidance for downstream model predictive control and reinforcement learning.
+We release the dataset, trained reward models, and evaluation suite to support the development of failure-aware dense reward modeling for robot learning.
+Figure 1:
+Overview.
+We present a dense robotic reward model for vision-language-guided manipulation.
+(a)
+We curate a dataset with 27k episodes by automatically producing diverse trajectories across different failure modes, providing scalable dense reward annotations.
+(b)
+Given a task instruction and observations consisting of the current frame and historical frames, DenseReward predicts a per-timestep dense reward score that reflects task progress.
+Unlike binary success/failure labels, this dense reward provides fine-grained feedback for intermediate states.
+(c)
+The predicted rewards can be used in downstream reinforcement learning for policy improvement.
+Keywords:
+Dense Reward Learning, Failure Synthesis, Robotic Manipulation
+1
+Introduction
+Robotic manipulation has seen remarkable progress through imitation learning on large-scale demonstration datasets
+[
+3
+,
+55
+,
+39
+,
+23
+]
+.
+Reinforcement learning (RL) offers a complementary path beyond imitation, enabling robot policies to improve through trial-and-error interaction with the environment.
+Recent works have applied on-policy RL algorithms
+[
+47
+,
+48
+]
+to finetune vision-language-action models
+[
+2
+,
+24
+]
+, showing that RL can push policies beyond the performance ceiling imposed by demonstration data
+[
+54
+,
+21
+]
+.
+However, current approaches often rely on sparse binary rewards provided only at episode end, which suffer from severe credit assignment problems in manipulation, making policy learning sample inefficient and difficult to scale.
+Dense reward signals that provide per-timestep feedback on task progress offer a more informative learning signal, but designing such rewards remains an open and largely unsolved problem.
+Recently, Vision-language models (VLMs) have emerged as a promising foundation for general-purpose robotic reward models
+[
+36
+,
+49
+,
+57
+,
+65
+,
+33
+,
+51
+,
+61
+,
+53
+,
+5
+,
+30
+]
+, by leveraging broad semantic knowledge from large-scale pretraining.
+Despite this promise, existing vision-language reward models face two fundamental limitations.
+First, reward models require diverse failure trajectories to learn failure modes and the reasons that lead to failures, yet they are primarily trained on large-scale datasets that only include successful demonstrations
+[
+39
+,
+26
+]
+.
+Recent works attempt to address this issue through data augmentation: RoboReward
+[
+26
+]
+truncates successful episodes at intermediate frames, while Robometer
+[
+30
+]
+constructs preference pairs from suboptimal rollouts.
+However, these strategies primarily produce
+pseudo-failures
+derived from successful trajectories, and thus cannot reflect failure modes that arise during real-world robot execution, such as missed grasps, collisions, object drops, or recovery behaviors.
+Second, many existing reward models produce sparse trajectory-level reward signals, assigning a single label to an entire rollout at the end
+[
+26
+,
+49
+]
+.
+The policy receives no feedback about which intermediate actions contributed to success or failure, making it difficult to guide policy optimization over long-horizon manipulation tasks.
+In this paper, we introduce
+DenseReward
+, a dense vision-language reward model for robotic manipulation.
+We address both challenges: acquiring diverse failure data at scale and providing dense reward signals for downstream policy learning.
+We develop an automated data generation pipeline that produces physically realistic successful and failure trajectories without human labeling.
+We structure manipulation into five canonical phases:
+Reach
+,
+Grasp
+,
+Lift
+,
+Move
+, and
+Place
+.
+This enables targeted perturbations at different execution stages, inducing diverse failure modes such as collisions, missed grasps, object drops, suboptimal motions, and recovery behaviors.
+Unlike pseudo-failures that truncate or relabel successful demonstrations, our trajectories exhibit physical failure dynamics and support failure-aware dense reward modeling.
+We assign per-timestep reward scores that reflect task progress throughout execution, capturing successful progress, partial completion, degradation after failure events, and recovery from temporary failures.
+Using this pipeline, we construct a dataset of 27k episodes with dense frame-level reward labels and failure mode annotations, spanning diverse scenes and objects from DROID, Isaac Sim, RoboSuite, and LIBERO.
+Given a language instruction, the current visual observation and historical frames, DenseReward reasons about the current execution state (correct or failure mode) and predicts a scalar reward that estimates task progress at the current timestep.
+Our contributions are threefold.
+•
+Automated data generation with dense rewards.
+We decompose manipulation into five canonical phases and synthesize six types of physically realistic failure trajectories through targeted perturbations of grasp detection and motion planning, producing dense per-timestep reward labels and labeled failure reasons without manual annotation.
+•
+DenseReward dataset and model.
+We curate a dataset of 27k trajectories spanning both successful and failure trajectories across diverse tasks and scenes. On top of this, we train DenseReward, a vision-language reward model that identifies current execution state and estimates task progress.
+•
+Downstream applications.
+DenseReward improves dense reward prediction over general-purpose VLMs and existing robotic reward models. Our experiments demonstrate that DenseReward provides effective reward guidance for model predictive control and reinforcement learning, suggesting that failure-aware dense reward modeling is a practical path toward scalable reinforcement learning for robot manipulation.
+2
+Related Work
+Reward Models for Robotic Manipulation.
+Designing reward functions for robot manipulation has been a central challenge
+[
+45
+,
+36
+]
+.
+Classical approaches rely on hand-crafted reward shaping
+[
+25
+,
+42
+]
+, which requires domain expertise and does not transfer across tasks.
+VLM-based reward models leverage broad semantic knowledge from pretraining to provide task-conditioned evaluation without manual engineering
+[
+35
+,
+49
+,
+34
+,
+57
+,
+9
+,
+44
+,
+33
+,
+51
+,
+61
+,
+5
+,
+62
+,
+4
+,
+30
+,
+46
+]
+.
+However, most existing reward models produce sparse trajectory-level signals
+[
+49
+,
+5
+,
+26
+]
+, which provide insufficient credit assignment for intermediate actions.
+Recent effort explores dense supervision by incorporating preference data and suboptimal rollouts
+[
+30
+]
+.
+However, such pseudo-failures fail to capture diverse failure modes during real robot execution, such as missed grasps, collisions, and object drops.
+DenseReward addresses both limitations by synthesizing failure trajectories and training a dense reward model.
+Failure Data Generation.
+Failure data is critical for learning robust robot policies and reward models, but its collection at scale remains challenging.
+Human teleoperation can provide realistic failures
+[
+37
+,
+59
+,
+58
+]
+, but is laborious and hard to scale.
+Data augmentation methods construct pseudo-failures from successful data
+[
+26
+,
+13
+,
+64
+,
+8
+]
+, but cannot capture real failures.
+Simulation offers a scalable way to generate and induce failures
+[
+52
+,
+38
+,
+40
+]
+, but such pipelines typically provide only sparse binary labels.
+We apply targeted perturbations in simulation and produce diverse failure modes with dense reward labels and failure annotations without human effort.
+Reinforcement Learning for VLAs.
+Reinforcement learning improves robot policies beyond imitation learning
+[
+16
+,
+54
+,
+21
+,
+63
+,
+28
+]
+.
+Recent works apply on-policy algorithms
+[
+47
+,
+27
+,
+15
+,
+20
+]
+to finetune pretrained VLAs and achieve promising gains
+[
+2
+,
+24
+,
+43
+,
+19
+,
+29
+,
+6
+,
+56
+]
+.
+DSRL
+[
+54
+]
+steers the diffusion noise space of pretrained policies, enabling stable real-world RL adaptation under limited rollout budgets.
+However, these approaches typically rely on sparse binary rewards at episode termination, which provide limited credit assignment for intermediate actions.
+World models and video prediction models predict future observations to provide dense reward signals
+[
+10
+,
+17
+,
+11
+,
+63
+,
+14
+,
+41
+,
+18
+,
+22
+,
+32
+]
+, but can be unreliable in contact-rich manipulation.
+DenseReward predicts dense rewards directly from visual observations and language instructions, enabling effective RL finetuning on both simulated and real-world tasks.
+3
+Method
+We present
+DenseReward
+, a vision-language reward model that predicts dense rewards for robotic manipulation.
+Our method consists of three components:
+1) an automated data generation pipeline that generates trajectories with phase-aware dense reward labels,
+2) failure synthesis that creates diverse failure trajectories through targeted perturbations, and
+3) DenseReward models trained on the resulting mixture of successful and failure trajectories to estimate fine-grained task progress.
+3.1
+Automated Data Generation
+Dense Reward Formulation.
+Unlike current reward models that assign a single label
+p
+∈
+[
+0
+,
+1
+]
+p\in[0,1]
+at the end of an entire trajectory, we aim to learn reward signals at every timestep throughout execution.
+For each trajectory
+τ
+=
+{
+l
+,
+𝐨
+1
+:
+T
+,
+𝐫
+1
+:
+T
+}
+\tau=\{l,\mathbf{o}_{1:T},\mathbf{r}_{1:T}\}
+that contains a language instruction
+l
+l
+and image observations
+𝐨
+1
+:
+T
+\mathbf{o}_{1:T}
+, we define per-timestep dense rewards
+𝐫
+1
+:
+T
+\mathbf{r}_{1:T}
+with
+r
+t
+∈
+[
+0
+,
+1
+]
+r_{t}\in[0,1]
+.
+Phase Decomposition.
+To construct
+𝐫
+1
+:
+T
+\mathbf{r}_{1:T}
+without manual annotation, we decompose manipulation into five canonical phases:
+1)
+Reach
+: the robot moves its end-effector toward the target object.
+2)
+Grasp
+: the robot closes its gripper to secure the object.
+3)
+Lift
+: the robot raises the object off the surface.
+4)
+Move
+: the robot transports the object toward the target location.
+5)
+Place
+: the robot releases the object at the goal pose.
+Automated Pipeline.
+Based on these phases, we design an automated pipeline for trajectory generation, as shown in Fig.
+2
+(a).
+The scene is first randomly initialized with an object and a container: the target object and the goal container are placed at a random position on the table, ensuring diverse spatial configurations across episodes.
+We use GraspNet
+[
+12
+]
+to predict up to
+N
+=
+50
+N=50
+grasp pose candidates from multi-view RGB-D observations captured in the simulation.
+Grasp candidates are then passed to CuRobo
+[
+50
+]
+for collision-aware motion planning to select a feasible candidate.
+The robot executes a fixed sequence of six motion segments corresponding to the five manipulation phases, planned end-to-end by CuRobo.
+Phase boundaries are automatically detected from simulation state: Grasp begins when the gripper contacts the object; Lift begins when the object is off the table; and Place begins when the end-effector enters a proximity radius
+d
+place
+d_{\text{place}}
+around the target. This requires no human annotation.
+3.2
+Failure Synthesis
+Building on the automated data generation pipeline, we synthesize failure trajectories with dense rewards, as illustrated in Fig.
+2
+(b).
+Figure 2:
+Overview of Automated Data Generation and Failure Synthesis.
+(a) Five-phase manipulation with dense rewards.
+(b) Targeted perturbations synthesize diverse failure modes.
+Failure Modes.
+We first define failure modes and induce failure trajectories by targeted perturbations at specific stages of this pipeline.
+1)
+Success.
+A complete, unperturbed execution where the robot successfully places the object and the reward rises monotonically.
+2)
+Collision.
+The robot collides with the environment or object. The reward follows a mountain-shaped curve, reached at the collision event, then decaying.
+3)
+Miss.
+The gripper fails to grasp the object. Similarly to Collision, the reward rises until the failed grasp attempt, then decays.
+4)
+Fall.
+The robot successfully grasps and lifts the object, but the object falls before reaching the target. The reward follows a mountain-shaped curve, rising to a peak at the drop event then decaying, reflecting partial progress that is ultimately unsuccessful.
+5)
+Smooth.
+An execution with penalized scaled reward, representing trajectories with suboptimal motion. This captures that task completion via an inefficient path is penalized compared to a precise execution.
+6)
+Recover.
+The robot encounters a collision but successfully recovers and completes the task. The reward drops while the collision happens, then resumes climbing once the robot clears the obstruction, capturing the temporal penalty of recovery.
+Perturbations.
+We design perturbations to induce failure trajectories for each mode at specific stages.
+1)
+Success.
+No perturbations.
+2)
+Collision.
+The motion is planned with collision avoidance disabled, forcing the robot through an infeasible path that hits the object or table.
+3)
+Miss.
+We offset the grasp target pose, which causes the gripper to close in the air, preventing a stable grasp.
+4)
+Fall.
+Random rotation perturbations are applied to the movement during the Move Phase, causing the gripped object to lose stability and fall during transportation.
+5)
+Smooth.
+We inject a small Gaussian joint noise at every timestep to produce a jittery trajectory.
+6)
+Recover.
+The robot first encounters a collision, then the motion planner replans a clear path to complete the task.
+To filter physically invalid episodes, we apply automated validity checks at the stage boundaries to ensure the object position is reasonable during each phase.
+Trajectories failing these checks are discarded.
+3.3
+DenseReward Training
+Dataset.
+Based on our automated data generation pipeline, we construct a dense reward dataset containing 27k episodes from both successful and failure trajectories.
+The dataset covers diverse simulated and real-world sources, including: 1) real-world success and failure episodes from DROID
+[
+23
+]
+, 2) simulated manipulation trajectories from RoboSuite, and 3) simulated manipulation trajectories from Isaac Sim.
+The dataset covers diverse manipulation settings that include over 60 distinct manipulation objects.
+We split the dataset into training and test sets for model training and evaluation.
+DenseReward Models.
+We build DenseReward on top of Qwen3-VL-4B-Instruct
+[
+1
+]
+and finetune it to predict dense reward scores from visual observations and language instructions.
+As illustrated in Fig.
+1
+, given a task instruction, the current observation and historical frames, DenseReward outputs a scalar reward that measures task progress at the current timestep.
+Unlike prior reward models that predict trajectory-level binary success labels, DenseReward is trained with dense frame-level reward supervision.
+We retain three decimal places for reward values, allowing the model to learn fine-grained differences in task progress, such as moving closer to the target object, or recovering from a failure state.
+These designs make DenseReward suitable for providing fine-grained reward signals for downstream planning and reinforcement learning.
+Figure 3:
+Qualitative comparison of dense reward prediction.
+DenseReward better follows task progress than strong VLM and robotic reward model baselines across success and failure trajectories.
+4
+Experiments
+4.1
+Evaluating Reward Prediction
+We compare the dense reward prediction performance of DenseReward against a range of general-purpose vision-language models and existing robotic reward models.
+In Tab.
+1
+, DenseReward achieves the best overall performance with an average prediction error of 0.081, outperforming all baselines across all evaluated data sources.
+In comparison, strong general-purpose VLMs such as Qwen3-VL-4B-Instruct and Qwen3-VL-8B-Instruct obtain overall errors of 0.289 and 0.293, respectively, while existing sparse robotic reward models such as RoboReward still show larger errors.
+In Fig.
+3
+, we provide a qualitative comparison with Molmo2-4B and RoboReward-8B, the strongest baselines in their respective categories.
+DenseReward produces reward curves that better align with task progress, while these baselines often exhibit noisier predictions or fail to capture fine-grained progress changes.
+This suggests that DenseReward not only reduces the overall prediction error, but also provides more temporally consistent dense rewards along manipulation trajectories.
+Table 1:
+Results for dense reward prediction.
+We report mean absolute error (MAE).
+DenseReward achieves the lowest error across all sources, showing more accurate dense reward estimation.
+Model
+Overall
+DROID
+Isaac Sim
+RoboSuite
+LIBERO
+Qwen3-VL-4B-Instruct
+[
+1
+]
+0.289
+0.532
+0.285
+0.195
+0.478
+Qwen3-VL-8B-Instruct
+[
+1
+]
+0.293
+0.538
+0.305
+0.180
+0.502
+Molmo2-4B
+[
+7
+]
+0.282
+0.506
+0.282
+0.187
+0.478
+Molmo2-8B
+[
+7
+]
+0.335
+0.480
+0.307
+0.303
+0.455
+RoboReward-4B
+[
+26
+]
+0.275
+0.534
+0.269
+0.179
+0.470
+RoboReward-8B
+[
+26
+]
+0.230
+0.484
+0.185
+0.172
+0.431
+Robometer
+[
+30
+]
+0.366
+0.521
+0.328
+0.345
+0.468
+DenseReward (Ours)
+0.081
+0.259
+0.081
+0.051
+0.044
+4.2
+Evaluation in Model Predictive Control
+Figure 4:
+Dense-reward-guided MPC.
+Model
+Can
+Cup
+Lemon
+Avg.
+RoboReward-4B
+[
+26
+]
+0.199
+0.307
+0.295
+0.267
+RoboReward-8B
+[
+26
+]
+0.314
+0.270
+0.317
+0.300
+VLAC-2B
+[
+61
+]
+0.316
+0.346
+0.380
+0.347
+VLAC-8B
+[
+61
+]
+0.351
+0.360
+0.363
+0.358
+DenseReward (Ours)
+0.219
+0.181
+0.288
+0.229
+Table 2:
+Performance of MPC on three object manipulation tasks.
+Setup.
+We evaluate the effectiveness of different reward models for guiding downstream control in a model predictive control (MPC) setting.
+As shown in Fig.
+4
+, at each decision step, we sample 28 candidate actions (27 directions and gripper open/close), and use each reward model to score candidate transitions.
+The action with the highest predicted score is selected for execution.
+We evaluate across three object manipulation tasks involving can, cup, and lemon.
+We report the minimum distance between the object and the gripper position, where a lower value indicates more effective reward guidance.
+Results.
+In Tab.
+2
+, DenseReward achieves the best average performance across the three objects, reducing the average minimum distance to 0.229.
+It outperforms RoboReward and VLAC, demonstrating that the predicted dense rewards provide more effective guidance for selecting actions in closed-loop control.
+These results suggest that DenseReward transfers well from accurate offline reward prediction to downstream MPC-based manipulation.
+4.3
+Reinforcement Policy Learning with DenseReward
+Setup.
+We apply DenseReward for online RL fine-tuning with RLinf
+[
+60
+]
+, using
+π
+0
+\pi_{0}
+[
+2
+]
+that has been supervised fine-tuned on the LIBERO dataset as our actor policy.
+We fine-tune the policy with Proximal Policy Optimization (PPO)
+[
+47
+]
+on the LIBERO benchmark
+[
+31
+]
+, using DenseReward to provide dense intermediate rewards in addition to the sparse simulator success signal.
+Integrating DenseReward.
+LIBERO only provides a binary success signal at the end of each episode, leaving most intermediate states without informative reward feedback.
+DenseReward fills this gap by scoring the rollout at the action-chunk level.
+The actor executes action chunks of length
+C
+=
+5
+C=5
+, and at each chunk the trajectory is scored by DenseReward to produce
+r
+model
+∈
+[
+0
+,
+1
+]
+r_{\text{model}}\in[0,1]
+, assigned to the final step of the chunk.
+The combined per-step reward is:
+r
+t
+=
+α
+⋅
+r
+t
+sim
++
+β
+⋅
+r
+t
+model
+,
+r_{t}=\alpha\cdot r_{t}^{\text{sim}}+\beta\cdot r_{t}^{\text{model}},
+(1)
+with
+α
+=
+1.0
+\alpha=1.0
+and
+β
+=
+C
+/
+T
+max
+\beta=C/T_{\max}
+.
+r
+t
+sim
+r_{t}^{\text{sim}}
+denotes the original reward,
+C
+C
+is the chunk size, and
+T
+max
+T_{\max}
+is the maximum episode length.
+This shaping keeps the accumulated dense reward on a comparable scale to the episode-level success signal while still providing informative intermediate feedback.
+Figure 5:
+PPO fine-tuning with
+π
+0
+\pi_{0}
+on LIBERO.
+Results.
+Fig.
+5
+shows the success rates throughout RL training.
+Following the official LIBERO evaluation protocol, each checkpoint is evaluated over 500 trials, with 50 trials per task across 10 tasks.
+DenseReward provides useful dense reward guidance for online PPO fine-tuning and improves the performance on most LIBERO suites.
+Compared with the sparse-reward PPO baseline, DenseReward achieves higher final success on LIBERO-Spatial and LIBERO-10, while matching the strong final performance on LIBERO-Object.
+DenseReward often provides competitive or improved learning curves, suggesting that dense progress rewards can complement sparse task-completion signals during RL optimization.
+These results demonstrate the potential of DenseReward as a practical reward source for improving pretrained VLA policies through online reinforcement learning.
+4.4
+Policy Learning in the Real World
+Setup.
+We evaluate DenseReward in a real-world online RL setting using a DROID platform
+[
+23
+]
+.
+We use a Franka Research 3 arm with a Robotiq 2F-85 gripper, an exterior ZED 2i camera, and a ZED mini wrist camera in a tabletop environment.
+We consider two manipulation tasks: 1)
+stack the cups
+that requires precise object interaction, and 2)
+put ball in basket
+that uses an unseen object, both of which exhibit low success rates under a
+π
+0
+\pi_{0}
+base policy.
+We investigate whether dense reward feedback can improve real-world policy learning under limited rollout budgets.
+RL Algorithm.
+We use DSRL
+[
+54
+]
+to adapt a frozen
+π
+0
+\pi_{0}
+policy.
+Instead of finetuning the weights of the policy, DSRL learns to steer the latent noise space of the diffusion action head, allowing the policy to improve while remaining close to the behavioral prior learned from demonstrations.
+This makes DSRL well-suited for real-world policy improvement, where sample efficiency and stable adaptation are critical.
+We use DSRL to optimize
+π
+0
+\pi_{0}
+with dense rewards provided by DenseReward.
+We train for 20k steps for
+stack the cups
+and 10k steps for
+put ball in the basket
+, corresponding to around 20 and 10 real-world rollout trajectories, respectively.
+Figure 6:
+Real-world experiments with DSRL.
+We evaluate DenseReward as a dense reward model for online RL with DSRL on two real-world manipulation tasks.
+Reward Integration.
+At each action chunk, the recent visual observations and the task description are forwarded to DenseReward, which returns a scalar reward
+r
+model
+∈
+[
+0
+,
+1
+]
+r_{\text{model}}\in[0,1]
+indicating task progress.
+We combine this dense reward with the DSRL step penalty:
+r
+t
+=
+−
+1
++
+r
+t
+model
+,
+r_{t}=-1+r_{t}^{\text{model}},
+(2)
+Following DSRL, the final transition receives no step penalty if the task is completed:
+r
+T
+=
+r
+T
+model
+r_{T}=r_{T}^{\text{model}}
+.
+This provides intermediate feedback while keeping the binary signal that anchors task completion.
+Results.
+As shown in Fig.
+6
+, we compare DSRL fine-tuning of
+π
+0
+\pi_{0}
+with and without DenseReward.
+Each policy is evaluated over 10 trials.
+Adding DenseReward improves the success rate from
+40
+%
+40\%
+to
+80
+%
+80\%
+on
+stack the cups
+, and from
+30
+%
+30\%
+to
+70
+%
+70\%
+on
+put ball in basket
+.
+These results show that DenseReward provides effective dense feedback for real-world policy learning, enabling DSRL to improve the base policy with only a small number of costly real-world rollouts.
+4.5
+Ablation Studies
+Effectiveness of Generated Failure Data.
+We train an ablated model that removes all failure trajectories from the training dataset.
+In Tab.
+3
+, this increases the MAE from 0.0809 to 0.1312.
+This indicates that failure trajectories provide critical supervision for learning fine-grained reward signals, especially for distinguishing incomplete or incorrect task progress from successful behavior.
+Investigating Historical Frames.
+We ablate the number of historical frames in Tab.
+4
+and evaluate dense reward prediction accuracy on our benchmark.
+MAE decreases from 0.096 to 0.088 and 0.081 when using one and two historical frames, respectively, showing that temporal context is important for estimating dense rewards.
+However, using three historical frames slightly increases the MAE to 0.086, suggesting that excessive history may introduce redundant or noisy visual information.
+We use two historical frames as the default setting in our main experiments.
+w/ Failure Data
+MAE
+✓
+0.0809
+✗
+0.1312
+Table 3:
+Ablation on failure data.
+# History Frames
+0
+1
+2
+3
+MAE
+0.096
+0.088
+0.081
+0.086
+Table 4:
+Ablation on historical frames.
+Two historical frames achieve a trade-off between performance, context, and cost.
+5
+Conclusion
+We present DenseReward, a dense vision-language reward model for robotic manipulation.
+We develop an automated simulation pipeline that generates trajectories with phase-aware dense rewards, and failure synthesis through targeted perturbations.
+DenseReward captures fine-grained task progress, partial completion, and common failure patterns.
+DenseReward outperforms general-purpose VLMs and existing robotic reward models in dense reward prediction, and provides useful reward guidance for downstream reinforcement learning.
+We hope our dataset, models, and evaluation suite will support future research on scalable reward learning for robotic manipulation.
+Limitations and Future Work.
+We plan to extend this work to more complex manipulation, such as tool use and long-horizon tasks.
+Future directions also include incorporating human preference feedback into the reward learning process, to make dense reward models more general, scalable, and aligned with human expectations for real-world robot learning.
+References
+[1]
+S. Bai, Y. Cai, R. Chen, K. Chen, X. Chen, Z. Cheng, L. Deng, W. Ding, C. Gao, C. Ge, W. Ge, Z. Guo, Q. Huang, J. Huang, F. Huang, B. Hui, S. Jiang, Z. Li, M. Li, M. Li, K. Li, Z. Lin, J. Lin, X. Liu, J. Liu, C. Liu, Y. Liu, D. Liu, S. Liu, D. Lu, R. Luo, C. Lv, R. Men, L. Meng, X. Ren, X. Ren, S. Song, Y. Sun, J. Tang, J. Tu, J. Wan, P. Wang, P. Wang, Q. Wang, Y. Wang, T. Xie, Y. Xu, H. Xu, J. Xu, Z. Yang, M. Yang, J. Yang, A. Yang, B. Yu, F. Zhang, H. Zhang, X. Zhang, B. Zheng, H. Zhong, J. Zhou, F. Zhou, J. Zhou, Y. Zhu, and K. Zhu
+(2025)
+Qwen3-vl technical report
+.
+arXiv preprint arXiv:2511.21631
+.
+Cited by:
+§3.3
+,
+Table 1
+,
+Table 1
+.
+[2]
+K. Black, N. Brown, D. Driess, A. Esmail, M. Equi, C. Finn, N. Fusai, L. Groom, K. Hausman, B. Ichter,
+et al.
+(2024)
+π
+0
+\pi_{0}
+: A vision-language-action flow model for general robot control
+.
+arXiv preprint arXiv:2410.24164
+.
+Cited by:
+§1
+,
+§2
+,
+§4.3
+.
+[3]
+A. Brohan, N. Brown, J. Carbajal, Y. Chebotar, J. Dabis, C. Finn, K. Gopalakrishnan, K. Hausman, A. Herzog, J. Hsu,
+et al.
+(2022)
+Rt-1: robotics transformer for real-world control at scale
+.
+arXiv preprint arXiv:2212.06817
+.
+Cited by:
+§1
+.
+[4]
+Q. Chen, J. Yu, M. Schwager, P. Abbeel, Y. Shentu, and P. Wu
+(2025)
+SARM: stage-aware reward modeling for long horizon robot manipulation
+.
+arXiv preprint arXiv:2509.25358
+.
+Cited by:
+§2
+.
+[5]
+S. Chen, C. Harrison, Y. Lee, A. J. Yang, Z. Ren, L. J. Ratliff, J. Duan, D. Fox, and R. Krishna
+(2026)
+Topreward: token probabilities as hidden zero-shot rewards for robotics
+.
+arXiv preprint arXiv:2602.19313
+.
+Cited by:
+§1
+,
+§2
+.
+[6]
+Y. Chen and X. Li
+(2025)
+Rlrc: reinforcement learning-based recovery for compressed vision-language-action models
+.
+arXiv preprint arXiv:2506.17639
+.
+Cited by:
+§2
+.
+[7]
+C. Clark, J. Zhang, Z. Ma, J. S. Park, M. Salehi, R. Tripathi, S. Lee, Z. Ren, C. D. Kim, Y. Yang,
+et al.
+(2026)
+Molmo2: open weights and data for vision-language models with video understanding and grounding
+.
+arXiv preprint arXiv:2601.10611
+.
+Cited by:
+Table 1
+,
+Table 1
+.
+[8]
+Y. Dai, J. Lee, N. Fazeli, and J. Chai
+(2024)
+RACER: rich language-guided failure recovery policies for imitation learning
+.
+2025 IEEE International Conference on Robotics and Automation (ICRA)
+,
+pp. 15657–15664
+.
+External Links:
+Link
+Cited by:
+§2
+.
+[9]
+J. Duan, W. Pumacay, N. Kumar, Y. R. Wang, S. Tian, W. Yuan, R. Krishna, D. Fox, A. Mandlekar, and Y. Guo
+(2024)
+AHA: a vision-language-model for detecting and reasoning over failures in robotic manipulation
+.
+arXiv preprint arXiv:2410.00371
+.
+Cited by:
+§2
+.
+[10]
+F. Ebert, C. Finn, S. Dasari, A. Xie, A. Lee, and S. Levine
+(2018)
+Visual foresight: model-based deep reinforcement learning for vision-based robotic control
+.
+arXiv preprint arXiv:1812.00568
+.
+Cited by:
+§2
+.
+[11]
+A. Escontrela, A. Adeniji, W. Yan, A. Jain, X. B. Peng, K. Goldberg, Y. Lee, D. Hafner, and P. Abbeel
+(2023)
+Video prediction models as rewards for reinforcement learning
+.
+In
+Advances in Neural Information Processing Systems
+,
+Cited by:
+§2
+.
+[12]
+H. Fang, C. Wang, M. Gou, and C. Lu
+(2020)
+Graspnet-1billion: a large-scale benchmark for general object grasping
+.
+In
+Proceedings of the IEEE/CVF conference on computer vision and pattern recognition
+,
+pp. 11444–11453
+.
+Cited by:
+§3.1
+.
+[13]
+C. Glossop, W. Chen, A. Bhorkar, D. Shah, and S. Levine
+(2025)
+Cast: counterfactual labels improve instruction following in vision-language-action models
+.
+arXiv preprint arXiv:2508.13446
+.
+Cited by:
+§2
+.
+[14]
+Y. Guo, L. X. Shi, J. Chen, and C. Finn
+(2025)
+Ctrl-world: a controllable generative world model for robot manipulation
+.
+arXiv preprint arXiv:2510.10125
+.
+Cited by:
+§2
+.
+[15]
+Y. Guo, J. Zhang, X. Chen, X. Ji, Y. Wang, Y. Hu, and J. Chen
+(2025)
+Improving vision-language-action model with online reinforcement learning
+.
+In
+2025 IEEE International Conference on Robotics and Automation (ICRA)
+,
+pp. 15665–15672
+.
+Cited by:
+§2
+.
+[16]
+T. Haarnoja, A. Zhou, P. Abbeel, and S. Levine
+(2018)
+Soft actor-critic: off-policy maximum entropy deep reinforcement learning with a stochastic actor
+.
+In
+International conference on machine learning
+,
+pp. 1861–1870
+.
+Cited by:
+§2
+.
+[17]
+D. Hafner, T. Lillicrap, J. Ba, and M. Norouzi
+(2019)
+Dream to control: learning behaviors by latent imagination
+.
+arXiv preprint arXiv:1912.01603
+.
+Cited by:
+§2
+.
+[18]
+H. He, Y. Zhang, L. Lin, Z. Xu, and L. Pan
+(2026)
+Pre-trained video generative models as world simulators
+.
+In
+Proceedings of the AAAI Conference on Artificial Intelligence
+,
+Vol.
+40
+,
+pp. 4645–4653
+.
+Cited by:
+§2
+.
+[19]
+M. Huo, Y. Zhang, Y. Wang, T. Tian, X. Zhang, Y. Xie, C. Xu, P. Ji, W. Zhan, M. Ding, and M. Tomizuka
+(2024)
+Sparse diffusion policy: a sparse, reusable, and flexible policy for robot learning
+.
+In
+Conference on Robot Learning (CoRL)
+,
+Cited by:
+§2
+.
+[20]
+P. Intelligence, B. Ai, A. Amin, R. Aniceto, A. Balakrishna,
+et al.
+(2026)
+π
+0.7
+\pi_{0.7}
+: A steerable generalist robotic foundation model with emergent capabilities
+.
+arXiv preprint arXiv:2604.15483
+.
+Cited by:
+§2
+.
+[21]
+P. Intelligence, A. Amin, R. Aniceto, A. Balakrishna, K. Black, K. Conley, G. Connors, J. Darpinian, K. Dhabalia, J. DiCarlo,
+et al.
+(2025)
+π
+0.6
+∗
+\pi^{*}_{0.6}
+: A vla that learns from experience
+.
+arXiv preprint arXiv:2511.14759
+.
+Cited by:
+§1
+,
+§2
+.
+[22]
+Z. Jiang, S. Zhou, Y. Jiang, Z. Huang, M. Wei, Y. Chen, T. Zhou, Z. Guo, H. Lin, Q. Zhang,
+et al.
+(2026)
+Wovr: world models as reliable simulators for post-training vla policies with rl
+.
+arXiv preprint arXiv:2602.13977
+.
+Cited by:
+§2
+.
+[23]
+A. Khazatsky, K. Pertsch, S. Nair, A. Balakrishna, S. Dasari, S. Karamcheti, S. Nasiriany, M. K. Srirama, L. Y. Chen, K. Ellis,
+et al.
+(2024)
+Droid: a large-scale in-the-wild robot manipulation dataset
+.
+arXiv preprint arXiv:2403.12945
+.
+Cited by:
+§1
+,
+§3.3
+,
+§4.4
+.
+[24]
+M. J. Kim, K. Pertsch, S. Karamcheti, T. Xiao, A. Balakrishna, S. Nair, R. Rafailov, E. Foster, G. Lam, P. Sanketi, Q. Vuong, T. Kollar, B. Burchfiel, R. Tedrake, D. Sadigh, S. Levine, P. Liang, and C. Finn
+(2024)
+OpenVLA: an open-source vision-language-action model
+.
+arXiv preprint arXiv:2406.09246
+.
+Cited by:
+§1
+,
+§2
+.
+[25]
+V. Kumar, E. Todorov, and S. Levine
+(2016)
+Optimal control with learned local models: application to dexterous manipulation
+.
+In
+2016 IEEE International Conference on Robotics and Automation (ICRA)
+,
+pp. 378–383
+.
+Cited by:
+§2
+.
+[26]
+T. Lee, A. Wagenmaker, K. Pertsch, P. Liang, S. Levine, and C. Finn
+(2026)
+RoboReward: general-purpose vision-language reward models for robotics
+.
+arXiv preprint arXiv:2601.00675
+.
+Cited by:
+§1
+,
+§2
+,
+§2
+,
+Table 1
+,
+Table 1
+,
+Table 2
+,
+Table 2
+.
+[27]
+C. Li, N. Liu, and K. Yang
+(2025)
+Adaptive group policy optimization: towards stable training and token-efficient reasoning
+.
+arXiv preprint arXiv:2503.15952
+.
+Cited by:
+§2
+.
+[28]
+H. Li, Y. Zuo, J. Yu, Y. Zhang, Z. Yang, K. Zhang, X. Zhu, Y. Zhang, T. Chen, G. Cui,
+et al.
+(2025)
+SimpleVLA-rl: scaling vla training via reinforcement learning
+.
+arXiv preprint arXiv:2509.09674
+.
+Cited by:
+§2
+.
+[29]
+Y. Li, X. Ma, J. Xu, Y. Cui, Z. Cui, Z. Han, L. Huang, T. Kong, Y. Liu, H. Niu,
+et al.
+(2025)
+Gr-rl: going dexterous and precise for long-horizon robotic manipulation
+.
+arXiv preprint arXiv:2512.01801
+.
+Cited by:
+§2
+.
+[30]
+A. Liang, Y. Korkmaz, J. Zhang, M. Hwang, A. Anwar, S. Kaushik, A. Shah, A. S. Huang, L. Zettlemoyer, D. Fox,
+et al.
+(2026)
+Robometer: scaling general-purpose robotic reward models via trajectory comparisons
+.
+arXiv preprint arXiv:2603.02115
+.
+Cited by:
+§1
+,
+§2
+,
+Table 1
+.
+[31]
+B. Liu, Y. Zhu, C. Gao, Y. Feng, Q. Liu, Y. Zhu, and P. Stone
+(2023)
+Libero: benchmarking knowledge transfer for lifelong robot learning
+.
+Advances in Neural Information Processing Systems
+36
+,
+pp. 44776–44791
+.
+Cited by:
+§4.3
+.
+[32]
+J. Lv, H. Li, J. Li, Y. Nie, F. Kong, Y. Wang, X. Wang, Z. Zhu, C. Ni, Q. Deng,
+et al.
+(2026)
+ViVa: a video-generative value model for robot reinforcement learning
+.
+arXiv preprint arXiv:2604.08168
+.
+Cited by:
+§2
+.
+[33]
+Y. J. Ma, J. Hejna, C. Fu, D. Shah, J. Liang, Z. Xu, S. Kirmani, P. Xu, D. Driess, T. Xiao,
+et al.
+(2025)
+Vision language models are in-context value learners
+.
+In
+International Conference on Learning Representations
+,
+Vol.
+2025
+,
+pp. 33984–34009
+.
+Cited by:
+§1
+,
+§2
+.
+[34]
+Y. J. Ma, V. Kumar, A. Zhang, O. Bastani, and D. Jayaraman
+(2023)
+Liv: language-image representations and rewards for robotic control
+.
+In
+International Conference on Machine Learning
+,
+pp. 23301–23320
+.
+Cited by:
+§2
+.
+[35]
+Y. J. Ma, S. Sodhani, D. Jayaraman, O. Bastani, V. Kumar, and A. Zhang
+(2022)
+Vip: towards universal visual reward and representation via value-implicit pre-training
+.
+arXiv preprint arXiv:2210.00030
+.
+Cited by:
+§2
+.
+[36]
+P. Mahmoudieh, D. Pathak, and T. Darrell
+(2022)
+Zero-shot reward specification via grounded natural language
+.
+In
+International Conference on Machine Learning
+,
+pp. 14743–14752
+.
+Cited by:
+§1
+,
+§2
+.
+[37]
+A. Mandlekar, J. Booher, M. Spero, A. Tung, A. Gupta, Y. Zhu, A. Garg, S. Savarese, and L. Fei-Fei
+(2019)
+Scaling robot supervision to hundreds of hours with roboturk: robotic manipulation dataset through human reasoning and dexterity
+.
+In
+2019 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
+,
+pp. 1048–1055
+.
+Cited by:
+§2
+.
+[38]
+A. Mandlekar, Y. Zhu, A. Garg, L. Fei-Fei, and S. Savarese
+(2017)
+Adversarially robust policy learning: active construction of physically-plausible perturbations
+.
+In
+IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
+,
+Cited by:
+§2
+.
+[39]
+A. O’Neill, A. Rehman, A. Maddukuri, A. Gupta, A. Padalkar, A. Lee, A. Pooley, A. Gupta, A. Mandlekar, A. Jain,
+et al.
+(2024)
+Open x-embodiment: robotic learning datasets and rt-x models: open x-embodiment collaboration 0
+.
+In
+2024 IEEE International Conference on Robotics and Automation (ICRA)
+,
+pp. 6892–6903
+.
+Cited by:
+§1
+,
+§1
+.
+[40]
+P. Pacaud, R. Garcia, S. Chen, and C. Schmid
+(2024)
+Scaling cross-environment failure reasoning data for vision-language robotic manipulation
+.
+arXiv preprint arXiv:2512.01946
+.
+Cited by:
+§2
+.
+[41]
+B. Peng, W. Zhang, L. Xu, Z. Qi, J. Zhang, H. Liu, W. Zeng, and X. Jin
+(2026)
+ReWorld: multi-dimensional reward modeling for embodied world models
+.
+arXiv preprint arXiv:2601.12428
+.
+Cited by:
+§2
+.
+[42]
+A. Rajeswaran, V. Kumar, A. Gupta, G. Vezzani, J. Schulman, E. Todorov, and S. Levine
+(2018)
+Learning complex dexterous manipulation with deep reinforcement learning and demonstrations
+.
+In
+Proceedings of Robotics: Science and Systems (RSS)
+,
+Cited by:
+§2
+.
+[43]
+A. Research
+(2026)
+SOP: scalable online post-training for general-purpose robots in the real world
+.
+Technical Report
+.
+External Links:
+Link
+Cited by:
+§2
+.
+[44]
+J. Rocamonde, V. Montesinos, E. Nava, E. Perez, and D. Lindner
+(2024)
+Vision-language models are zero-shot reward models for reinforcement learning
+.
+In
+International Conference on Learning Representations
+,
+Vol.
+2024
+,
+pp. 28446–28463
+.
+Cited by:
+§2
+.
+[45]
+D. Sadigh, A. Dragan, S. Sastry, and S. Seshia
+(2017)
+Active preference-based learning of reward functions
+.
+Cited by:
+§2
+.
+[46]
+P. Schroeder, T. Weng, K. Schmeckpeper, E. Rosen, S. Hart, and O. Biza
+(2026)
+SOLE-r1: video-language reasoning as the sole reward for on-robot reinforcement learning
+.
+arXiv preprint arXiv:2603.28730
+.
+Cited by:
+§2
+.
+[47]
+J. Schulman, F. Wolski, P. Dhariwal, A. Radford, and O. Klimov
+(2017)
+Proximal policy optimization algorithms
+.
+arXiv preprint arXiv:1707.06347
+.
+Cited by:
+§1
+,
+§2
+,
+§4.3
+.
+[48]
+Z. Shao, P. Wang, Q. Zhu, R. Xu, J. Song, X. Bi, H. Zhang, M. Zhang, Y. Li, Y. Wu,
+et al.
+(2024)
+Deepseekmath: pushing the limits of mathematical reasoning in open language models
+.
+arXiv preprint arXiv:2402.03300
+.
+Cited by:
+§1
+.
+[49]
+S. Sontakke, J. Zhang, S. Arnold, K. Pertsch, E. Bıyık, D. Sadigh, C. Finn, and L. Itti
+(2023)
+Roboclip: one demonstration is enough to learn robot policies
+.
+Advances in Neural Information Processing Systems
+36
+,
+pp. 55681–55693
+.
+Cited by:
+§1
+,
+§2
+.
+[50]
+B. Sundaralingam, S. K. S. Hari, A. Fishman, C. Garrett, K. Van Wyk, V. Blukis, A. Millane, H. Oleynikova, A. Handa, F. Ramos,
+et al.
+(2023)
+Curobo: parallelized collision-free robot motion generation
+.
+In
+2023 IEEE International Conference on Robotics and Automation (ICRA)
+,
+pp. 8112–8119
+.
+Cited by:
+§3.1
+.
+[51]
+H. Tan, S. Chen, Y. Xu, Z. Wang, Y. Ji, C. Chi, Y. Lyu, Z. Zhao, X. Chen, P. Co,
+et al.
+(2025)
+Robo-dopamine: general process reward modeling for high-precision robotic manipulation
+.
+arXiv preprint arXiv:2512.23703
+.
+Cited by:
+§1
+,
+§2
+.
+[52]
+J. Tobin, R. Fong, A. Ray, J. Schneider, W. Zaremba, and P. Abbeel
+(2017)
+Domain randomization for transferring deep neural networks from simulation to the real world
+.
+In
+IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
+,
+Cited by:
+§2
+.
+[53]
+S. Venkataraman, Y. Wang, Z. Wang, N. S. Ravie, Z. Erickson, and D. Held
+(2025)
+Real-world offline reinforcement learning from vision language model feedback
+.
+In
+2025 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
+,
+pp. 13452–13459
+.
+Cited by:
+§1
+.
+[54]
+A. Wagenmaker, M. Nakamoto, Y. Zhang, S. Park, W. Yagoub, A. Nagabandi, A. Gupta, and S. Levine
+(2025)
+Steering your diffusion policy with latent space reinforcement learning
+.
+arXiv preprint arXiv:2506.15799
+.
+Cited by:
+§1
+,
+§2
+,
+§4.4
+.
+[55]
+H. R. Walke, K. Black, T. Z. Zhao, Q. Vuong, C. Zheng, P. Hansen-Estruch, A. W. He, V. Myers, M. J. Kim, M. Du,
+et al.
+(2023)
+Bridgedata v2: a dataset for robot learning at scale
+.
+In
+Conference on Robot Learning
+,
+pp. 1723–1736
+.
+Cited by:
+§1
+.
+[56]
+Y. Wang, R. Yu, F. Zhang, J. Lu, X. Qin, T. Zhang, K. Wang, and L. Zhao
+(2026)
+Reinforcing vlas in task-agnostic world models
+.
+arXiv preprint arXiv:2605.12334
+.
+Cited by:
+§2
+.
+[57]
+Y. Wang, Z. Sun, J. Zhang, Z. Xian, E. Biyik, D. Held, and Z. Erickson
+(2024)
+Rl-vlm-f: reinforcement learning from vision language foundation model feedback
+.
+arXiv preprint arXiv:2402.03681
+.
+Cited by:
+§1
+,
+§2
+.
+[58]
+K. Wu, C. Hou, J. Liu, Z. Che, X. Ju, Z. Yang, M. Li, Y. Zhao, Z. Xu, G. Yang,
+et al.
+(2025)
+Robomind: benchmark on multi-embodiment intelligence normative data for robot manipulation
+.
+In
+Robotics: Science and Systems (RSS) 2025
+,
+External Links:
+Link
+Cited by:
+§2
+.
+[59]
+Z. Ye, W. Lu, M. Ye, T. Lin, S. Yang, J. Yan, and B. Zhao
+(2025)
+Robofac: a comprehensive framework for robotic failure analysis and correction
+.
+arXiv preprint arXiv:2505.12224
+.
+Cited by:
+§2
+.
+[60]
+C. Yu, Y. Wang, Z. Guo, H. Lin, S. Xu, H. Zang, Q. Zhang, Y. Wu, C. Zhu, J. Hu,
+et al.
+(2025)
+Rlinf: flexible and efficient large-scale reinforcement learning via macro-to-micro flow transformation
+.
+arXiv preprint arXiv:2509.15965
+.
+Cited by:
+§4.3
+.
+[61]
+S. Zhai, Q. Zhang, T. Zhang, F. Huang, H. Zhang, M. Zhou, S. Zhang, L. Liu, S. Lin, and J. Pang
+(2025)
+A vision-language-action-critic model for robotic real-world reinforcement learning
+.
+arXiv preprint arXiv:2509.15937
+.
+Cited by:
+§1
+,
+§2
+,
+Table 2
+,
+Table 2
+.
+[62]
+H. Zhang, Z. Zhuang, H. Zhao, P. Ding, H. Lu, and D. Wang
+(2025)
+Reinbot: amplifying robot visual-language manipulation with reinforcement learning
+.
+arXiv preprint arXiv:2505.07395
+.
+Cited by:
+§2
+.
+[63]
+J. Zhang, Z. Huang, C. Gu, Z. Ma, and L. Zhang
+(2025)
+Reinforcing action policies by prophesying
+.
+arXiv preprint arXiv:2511.20633
+.
+Cited by:
+§2
+.
+[64]
+J. Zhang, Y. Luo, A. Anwar, S. A. Sontakke, J. J. Lim, J. Thomason, E. Biyik, and J. Zhang
+(2025)
+ReWiND: language-guided rewards teach robot policies without new demonstrations
+.
+In
+9th Annual Conference on Robot Learning
+,
+External Links:
+Link
+Cited by:
+§2
+.
+[65]
+W. Zhao, J. Chen, Z. Meng, D. Mao, R. Song, and W. Zhang
+(2024)
+Vlmpc: vision-language model predictive control for robotic manipulation
+.
+arXiv preprint arXiv:2407.09829
+.
+Cited by:
+§1
+.
+Appendix
+In the appendix, we provide additional details on: 1) Dataset statistics, 2) Validity filtering for failure data generation, 3) Model predictive control, 4) Reward model finetuning, and 5) Real-world experiments.
+Appendix A
+Dataset Statistics
+We train DenseReward on a dataset with 26,579 manipulation episodes and 7,560,942 frame-level samples.
+The dataset combines DROID, Isaac, RoboSuite, and LIBERO trajectories, spanning simulated and real-world manipulation settings.
+Unlike other reward datasets that primarily contain successful demonstrations and trajectory-level labels, our dataset includes both successful and failure trajectories, including collision, miss, fall, suboptimal motion (smooth), and recovery.
+Each training sample contains a task instruction, recent visual observations, and a scalar dense reward label for the current frame, enabling frame-level supervision of task progress.
+Table 5:
+DenseReward dataset statistics.
+We report the number of episodes for each data source, together with source-specific data type breakdowns.
+Source
+Data type
+Episodes
+DROID
+Success
+1,500
+Failure
+1,486
+Total
+2,986
+Isaac
+Success
+2,303
+Collision
+2,511
+Miss
+2,603
+Fall
+2,295
+Smooth
+2,514
+Recover
+255
+Total
+12,481
+RoboSuite
+Success
+3,366
+Failure
+5,921
+Total
+9,287
+LIBERO
+LIBERO-Spatial
+478
+LIBERO-Object
+470
+LIBERO-Goal
+455
+LIBERO-10
+422
+Total
+1,825
+Total
+–
+26,579
+Appendix B
+Validity Filtering
+We apply automatic validity checks to reject invalid or physically inconsistent trajectories.
+A trajectory is discarded if it fails any required check, and the episode is retried with a new initialization or perturbation.
+These validity checks include:
+•
+Planning.
+An episode is rejected if no feasible grasp candidate or motion plan can be found.
+•
+Grasp and lift.
+For
+success
+and
+recovery
+trajectories, the object must be lifted above the table by a minimum height threshold after the grasp phase.
+•
+Holding.
+For
+fall
+trajectories, the object must remain above a stricter height threshold during transport, to ensure that it is stably held rather than dragged or accidentally displaced.
+•
+Collision.
+For
+collision
+trajectories, the robot must physically displace the object or collide with the scene, while the object should not be successfully lifted.
+•
+Miss.
+For
+miss
+trajectories, the object should remain nearly unchanged in both position and orientation after the grasp attempt, indicating that the gripper closes away from the object.
+•
+Final placement.
+For
+success
+and
+recovery
+trajectories, the object must end within a distance threshold of the target container.
+•
+Recovery.
+For
+recovery
+trajectories, an initial failed attempt must be followed by a successful replanned execution.
+The filtering step is important because the perturbation alone does not always guarantee the intended failure.
+For example, a perturbed grasp may still accidentally grasp the object.
+Such episodes are filtered out to avoid being used as mislabeled failure data.
+Appendix C
+Model Predictive Control
+Table 6:
+MPC candidate action space.
+Type
+Count
+Description
+Spatial actions
+27
+3D grid over
+{
+−
+d
+,
+0
+,
++
+d
+}
+\{-d,0,+d\}
+m for
+x
+x
+,
+y
+y
+, and
+z
+z
+.
+Gripper action
+1
+Zero-motion action that toggles the gripper state.
+Overview.
+We use a sampling-based MPC pipeline in Isaac Lab to evaluate whether a reward model can guide manipulation actions.
+At each decision step, the robot samples a small set of candidate actions, rolls out each candidate from the same state, scores the resulting observation with a reward model, and executes the action with the highest predicted score.
+The evaluation uses a Franka Panda robot in a tabletop scene with one target object and a plate.
+The reported tasks include the manipulation of can, cup, and lemon.
+Action Space.
+We design our MPC experiment as a simple downstream test of reward-model-guided control.
+We use a local object guidance setting where the robot selects among short-horizon Cartesian translation actions.
+Each MPC action is represented as
+a
+=
+[
+d
+x
+,
+d
+y
+,
+d
+z
+,
+g
+]
+a=[d_{x},d_{y},d_{z},g]
+,
+where
+d
+x
+,
+d
+y
+,
+d
+z
+d_{x},d_{y},d_{z}
+are end-effector translation offsets, and
+g
+g
+is the gripper command.
+At every step, the controller samples 28 candidate actions, summarized in Tab.
+6
+.
+We select
+d
+=
+0.05
+d=0.05
+for our experiments.
+The gripper command is binary, where
+g
+=
+0
+g=0
+denotes open, and
+g
+=
+1
+g=1
+denotes close.
+Accordingly, we keep the end-effector orientation fixed and evaluate progress using the minimum end-effector-to-object distance.
+Including rotation would substantially increase the number of candidate actions and the cost of simulator rollout and reward-model inference at every MPC step.
+Candidate Evaluation.
+For each MPC step, we first save the simulator state, and evaluate each candidate action independently:
+1) Restore the initial simulator state.
+2) Execute the candidate action with the IK controller.
+3) Capture the resulting observation as an RGB image.
+4) Query the reward model with the task instruction and the observation.
+After all candidate actions are scored, the simulator returns to the initial state and only executes the selected action with the highest score.
+Each episode runs for a fixed number of 15 MPC steps, and each task runs for 10 episodes.
+All models receive the same candidate actions and are evaluated under the same simulator setup.
+Evaluation Metric.
+Our metric is the minimum 3D distance between the robot end-effector and the target object during an episode:
+d
+min
+=
+min
+t
+⁡
+‖
+p
+t
+ee
+−
+p
+t
+obj
+‖
+2
+,
+d_{\min}=\min_{t}\left\|p^{\mathrm{ee}}_{t}-p^{\mathrm{obj}}_{t}\right\|_{2},
+(3)
+where
+p
+t
+ee
+p^{\mathrm{ee}}_{t}
+and
+p
+t
+obj
+p^{\mathrm{obj}}_{t}
+denote the end-effector position and object position at timestep
+t
+t
+, respectively.
+For each task, the result is averaged over 10 evaluation episodes.
+A lower distance indicates that the reward model provides better guidance for moving the robot toward the object.
+Qualitative Results.
+Fig.
+7
+shows qualitative MPC rollouts guided by different reward models.
+Across three object manipulation tasks, DenseReward produces more consistent guidance toward the target object.
+Compared with VLAC-8B and RoboReward-4B, which often select actions that keep the gripper far from the object or move in less effective directions, DenseReward more reliably drives the end-effector toward the object.
+These qualitative results are consistent with the quantitative results in Tab.
+2
+, where DenseReward achieves the lowest distance.
+Figure 7:
+Qualitative comparison of model predictive control for can, cup, and lemon.
+Appendix D
+DenseReward Models
+We finetune DenseReward from Qwen3-VL-4B-Instruct using the ms-swift framework.
+The model is trained on our dataset, where each training sample consists of a task instruction, a short sequence of robot observations, and a scalar reward for the current frame.
+We use the system prompt shown below to enforce scalar reward prediction, requiring the model to output a single floating value with three decimal places.
+We finetune the model with LoRA using rank
+16
+16
+for
+10
+10
+epochs on
+8
+8
+H100 GPUs, with a batch size of
+32
+32
+.
+⬇
+You
+are
+a
+robot
+manipulation
+evaluator
+.
+You
+are
+given
+a
+short
+sequence
+of
+images
+from
+a
+robot
+episode
+and
+determine
+progress
+toward
+task
+success
+at
+the
+final
+frame
+.
+The
+images
+are
+ordered
+chronologically
+:
+the
+first
+images
+show
+earlier
+history
+frames
+and
+the
+last
+image
+shows
+the
+current
+frame
+to
+evaluate
+.
+The
+task
+usually
+follows
+6
+subtask
+phases
+in
+sequence
+:
+1)
+reach
+-
+the
+robot
+moves
+toward
+the
+target
+object
+2)
+grasp
+-
+the
+robot
+attempts
+to
+grasp
+or
+secure
+the
+object
+3)
+up
+-
+the
+robot
+lifts
+the
+object
+from
+the
+surface
+4)
+move
+-
+the
+robot
+moves
+the
+object
+toward
+the
+target
+location
+5)
+place
+-
+the
+robot
+places
+/
+releases
+the
+object
+6)
+return
+-
+the
+robot
+returns
+to
+a
+neutral
+/
+resting
+state
+(
+optional
+)
+Output
+a
+single
+reward
+value
+between
+0.000
+and
+1.000
+representing
+task
+progress
+at
+the
+current
+(
+last
+)
+frame
+:
+-
+0.000
+means
+no
+progress
+(
+task
+not
+started
+or
+failed
+)
+-
+1.000
+means
+the
+task
+is
+fully
+complete
+-
+reward
+should
+generally
+increase
+as
+the
+robot
+advances
+through
+phases
+-
+reward
+should
+drop
+if
+an
+irreversible
+failure
+occurs
+(
+object
+dropped
+,
+wrong
+target
+,
+motion
+stopped
+)
+-
+use
+the
+history
+frames
+to
+better
+judge
+motion
+direction
+and
+phase
+transitions
+You
+MUST
+output
+ONLY
+a
+single
+float
+with
+three
+decimal
+places
+and
+nothing
+else
+.
+Example
+outputs
+:
+0.006
+0.374
+0.753
+1.000
+Do
+NOT
+output
+any
+explanation
+,
+JSON
+,
+or
+additional
+text
+.
+Do
+NOT
+call
+any
+tools
+.
+Do
+NOT
+generate
+<
+tool_call
+>
+tokens
+.
+Appendix E
+Real-world Experiments
+DSRL Config.
+We run DSRL-SAC using the hyperparameters listed in Tab.
+7
+.
+As described in the main paper, we use different training budgets for the two real-world tasks:
+we train for 10k steps on
+put the ball in the basket
+, which evaluates generalization to an out-of-distribution object, and for 20k steps on
+stack the cups
+, which requires more fine-grained manipulation accuracy.
+DenseReward Prediction in Real-world Manipulation.
+In Fig.
+8
+and Fig.
+9
+, we visualize six frames from real-world episodes together with the predicted dense reward curve.
+The reward curve captures fine-grained task progress over time, providing intermediate feedback beyond sparse success labels.
+Table 7:
+DSRL configuration for real-world experiments.
+Hyperparameter
+Value
+Batch size
+64
+Discount factor
+γ
+\gamma
+0.995
+Target entropy
+0.0
+Target update rate
+τ
+\tau
+0.005
+Actor learning rate
+1
+×
+10
+−
+4
+1\times 10^{-4}
+Critic learning rate
+3
+×
+10
+−
+4
+3\times 10^{-4}
+Temperature learning rate
+3
+×
+10
+−
+4
+3\times 10^{-4}
+Number of critics
+4
+Hidden dimension
+1024
+Action magnitude
+1.5
+Image resolution
+224
+×
+224
+224\times 224
+Learning starts
+2500 steps
+Figure 8:
+DenseReward captures failure and recovery in a real-world trajectory.
+The robot initially fails to grasp the ball, resulting in degraded reward predictions. After the robot recovers and regrasps the ball, DenseReward increases the predicted reward to a high final score. This shows that DenseReward provides accurate progress feedback for recovery behavior.
+Figure 9:
+DenseReward captures collision in a real-world trajectory.
+The predicted reward increases as the robot grasps the ball and makes progress toward the basket, but drops after a collision disrupts the placement.
+This shows that DenseReward distinguishes transient progress from unsuccessful task completion.
+Experimental support, please
+view the build logs
+for errors. Generated by
+L
+A
+T
+E
+xml
+.
+Instructions for reporting errors
+We are continuing to improve HTML versions of papers, and your feedback helps enhance accessibility and mobile
+      support. To report errors in the HTML that will help us improve conversion and rendering, choose any of the
+      methods listed below:
+Click the "Report Issue"
+(
+)
+button, located in the page header.
+Tip:
+You can select the relevant text first, to include it in your report.
+Our team has already identified
+the following issues
+. We appreciate your time reviewing and reporting rendering errors we
+      may not have found yet. Your efforts will help us improve the HTML versions for all readers, because disability
+      should not be a barrier to accessing research. Thank you for your continued support in championing open access for
+      all.
+Have a free development cycle? Help support accessibility at arXiv! Our collaborators at LaTeXML maintain a
+list of packages that need conversion
+, and welcome
+developer contributions
+.
+We gratefully acknowledge support from
+        our
+major funders
+,
+member institutions
+,
+,
+        and all contributors.
+About
+·
+Help
+·
+Contact
+·
+Subscribe
+·
+Copyright
+·
+Privacy
+·
+Accessibility
+·
+Operational Status
+(opens in new tab)
+Major funding support from

@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="PlayWorld: Learning Robot World Models from Autonomous Play">
+  <meta name="keywords" content="PlayWorld, Robot World Models, Autonomous Play, Robotics, Video World Models">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PlayWorld: Learning Robot World Models from Autonomous Play</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans|Noto+Sans|Castoro|Inter:wght@400;500;600;700"
+    rel="stylesheet">
+  <link rel="icon" href="./favicon.svg" type="image/png" />
+  <link rel="stylesheet" href="./css/bulma.min.css">
+  <link rel="stylesheet" href="./css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./css/index.css">
+  <script defer src="./js/fontawesome.all.min.js"></script>
+</head>
+
+<body>
+  <nav class="progress-sidebar" aria-label="Page progress">
+    <div class="progress-track">
+      <div class="progress-line"></div>
+      <div class="progress-line-fill"></div>
+      <div class="progress-item" data-section="hero"><a href="#"><span class="progress-dot"></span><span
+            class="progress-label">Overview</span></a></div>
+      <div class="progress-item" data-section="collecting-play-data"><a href="#collecting-play-data"><span
+            class="progress-dot"></span><span class="progress-label">Play Data</span></a></div>
+      <div class="progress-item" data-section="dynamics-prediction"><a href="#dynamics-prediction"><span
+            class="progress-dot"></span><span class="progress-label">Dynamics</span></a></div>
+      <div class="progress-item" data-section="policy-evaluation"><a href="#policy-evaluation"><span
+            class="progress-dot"></span><span class="progress-label">Policy Eval</span></a></div>
+      <div class="progress-item" data-section="rl-finetuning"><a href="#rl-finetuning"><span
+            class="progress-dot"></span><span class="progress-label">RL Fine-tune</span></a></div>
+      <div class="progress-item" data-section="generalization"><a href="#generalization"><span
+            class="progress-dot"></span><span class="progress-label">Generalization</span></a></div>
+    </div>
+  </nav>
+
+  <section class="teaser">
+    <div class="hero-header">
+      <div class="hero-header-inner">
+        <div class="hero-header-content">
+          <h1 class="publication-title"
+            style="max-width: 1020px; margin: 0 auto; font-size: clamp(26.6px, 3.8vw, 53.2px); line-height: 1.2;">
+            <span style="color: #d84f00; font-weight: 900; letter-spacing: 0.01em;">PlayWorld:</span> Learning Robot
+            World Models from Autonomous Play
+          </h1>
+          <div class="authors" style="margin: 0 auto 2px auto;">
+            <!--
+            <a href="https://tenny-yinyijun.github.io/" target="_blank">Tenny Yin</a><sup>1</sup>,
+            <a href="https://may0mei.github.io/" target="_blank">Zhiting Mei</a><sup>1</sup>,
+            <a href="#">Zhonghe Zheng</a><sup>1</sup>,
+            <a href="#">Miyu Yamane</a><sup>1</sup>,
+            <a href="#">David Wang</a><sup>1</sup>,
+            <a href="#">Jade Sceats</a><sup>1</sup>,<br>
+            <a href="https://bateman.io/" target="_blank">Samuel M. Bateman</a><sup>1</sup>,
+            <a href="https://lihzha.github.io/" target="_blank">Lihan Zha</a><sup>1</sup>,
+            <a href="https://abadithela.github.io/" target="_blank">Apurva Badithela</a><sup>1</sup>,
+            <a href="#">David Yoon</a><sup>2</sup>,
+            <a href="https://sites.google.com/site/petrsvecpersonalwebsite" target="_blank">Petr Svec</a><sup>2</sup>,
+            <a href="https://blandry.xyz/" target="_blank">Benoit Landry</a><sup>2</sup>,
+            <a href="#" target="_blank">Ola Shorinwa</a><sup>1</sup>,
+            <a href="https://irom-lab.princeton.edu/majumdar" target="_blank">Anirudha Majumdar</a><sup>1</sup>
+            <span class="affiliation"><sup>1</sup>Princeton University
+            -->
+            <a href="https://tenny-yinyijun.github.io/" target="_blank">Tenny Yin</a>,
+            <a href="https://may0mei.github.io/" target="_blank">Zhiting Mei</a>,
+            <a href="#">Zhonghe Zheng</a>,
+            <a href="#">Miyu Yamane</a>,
+            <a href="#">David Wang</a>,
+            <a href="#">Jade Sceats</a>,<br>
+            <a href="https://bateman.io/" target="_blank">Samuel M. Bateman</a>,
+            <a href="https://lihzha.github.io/" target="_blank">Lihan Zha</a>,
+            <a href="https://abadithela.github.io/" target="_blank">Apurva Badithela</a>,
+            <a href="#" target="_blank">Ola Shorinwa</a>,
+            <a href="https://irom-lab.princeton.edu/majumdar" target="_blank">Anirudha Majumdar</a>
+            <span class="affiliation">Princeton University</span>
+            <!-- <span class="affiliation"><sup>1</sup>Princeton University, <sup>2</sup>Apple</span> -->
+          </div>
+          <div class="venue">Conference on Robot Learning (CoRL) 2026</div>
+          <div class="publication-links header-links">
+            <a class="button is-rounded" href="https://arxiv.org/abs/2603.09030"><span class="icon"><i
+                  class="ai ai-arxiv"></i></span><span>arXiv
+              </span></a>
+            <a class="button is-rounded" href="https://github.com/irom-princeton/open-world"><span class="icon"><i class="fab fa-github"></i></span><span>Code</span></a>
+            <a class="button is-rounded" href="https://huggingface.co/datasets/tennyyyin/playworld_dataset_preview"><span class="icon"><i
+                  class="fas fa-download"></i></span><span>Data</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="hero-waves" aria-hidden="true">
+        <svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+          viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+          <defs>
+            <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"></path>
+          </defs>
+          <g class="wave-parallax">
+            <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(240,130,50,0.25)"></use>
+            <use xlink:href="#gentle-wave" x="48" y="-5" fill="rgba(255,215,0,0.2)"></use>
+            <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(134,184,231,0.1)"></use>
+            <use xlink:href="#gentle-wave" x="48" y="8" fill="rgba(240,120,0,0.35)"></use>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 0;">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <img src="./images/banner.png" alt="PlayWorld banner figure"
+            style="width: 100%; height: auto; display: block; border-radius: 12px;">
+          <p class="figure-caption" style="width: 95%; margin-top: 0.8rem;">We introduce <b><i>PlayWorld</b></i>, a
+            scalable framework for training high-fidelity <b><span style="color: #c2410c;">Action-Conditioned Robot
+                World Models</span></b> using <b><span style="color: #367faf;">Autonomous Play</span></b>. Instead of
+            relying on success-biased human demonstrations, it continuously gathers diverse, contact-rich interactions
+            and failure cases that better match downstream policy behaviors. The resulting model enables accurate
+            <i>dynamics prediction</i>, reliable <i>policy evaluation</i>, and effective world-model-based <i>RL
+              fine-tuning</i> that improves real-world performance.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="collecting-play-data">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3 has-text-centered">Collecting Play Data</h2>
+          <div style="position: relative; overflow: hidden;">
+            <button type="button" onclick="scrollPlayData(-1)" aria-label="Scroll play data left"
+              style="position: absolute; left: 8px; top: 50%; transform: translateY(-50%); z-index: 2; width: 34px; height: 34px; border-radius: 999px; border: 1px solid #d5d5d5; background: rgba(255,255,255,0.95); cursor: pointer; font-size: 20px; line-height: 1;">&#8249;</button>
+            <div id="playdata-strip"
+              style="display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 2rem) / 3); gap: 1rem; overflow-x: auto; padding: 0 0 0.35rem 0; scroll-snap-type: x mandatory; scroll-behavior: smooth;">
+              <div class="video-card" style="min-width: 0; scroll-snap-align: start;">
+                <p class="video-label">🧱 Blocks</p><video autoplay muted controls loop playsinline preload="none"
+                  data-src="./videos/1_play_data/blocks.mp4"></video>
+              </div>
+              <div class="video-card" style="min-width: 0; scroll-snap-align: start;">
+                <p class="video-label">🥕 Carrot</p><video autoplay muted controls loop playsinline preload="none"
+                  data-src="./videos/1_play_data/carrot.mp4"></video>
+              </div>
+              <!-- <div class="video-card" style="min-width: 0; scroll-snap-align: start;"><p class="video-label">Fruits</p><video autoplay muted controls loop playsinline preload="none" data-src="./videos/1_play_data/fruits.mp4"></video></div> -->
+              <div class="video-card" style="min-width: 0; scroll-snap-align: start;">
+                <p class="video-label">👕 Towel</p><video autoplay muted controls loop playsinline preload="none"
+                  data-src="./videos/1_play_data/towel.mp4"></video>
+              </div>
+            </div>
+            <button type="button" onclick="scrollPlayData(1)" aria-label="Scroll play data right"
+              style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); z-index: 2; width: 34px; height: 34px; border-radius: 999px; border: 1px solid #d5d5d5; background: rgba(255,255,255,0.95); cursor: pointer; font-size: 20px; line-height: 1;">&#8250;</button>
+          </div>
+          <div style="margin-top: 1rem;">
+            <video autoplay muted loop playsinline preload="none"
+              data-src="./videos/1_play_data/play_column_speedup.mp4" style="width: 100%; border-radius: 10px;"></video>
+          </div>
+          <div class="columns is-variable is-4" style="margin-top: 0.6rem; align-items: flex-start;">
+            <div class="column is-half">
+              <img src="./images/play_data/data_collection_system.png" alt="Play data collection system diagram"
+                style="width: 100%; border-radius: 10px; border: 1px solid #ececec; display: block;">
+              <p class="figure-caption"
+                style="width: 100%; text-align: center !important; font-style: italic; font-size: 0.92rem; margin-top: 0.45rem;">
+                System overview for autonomous play-data collection.</p>
+            </div>
+            <div class="column is-half">
+              <p class="figure-caption" style="width: 100%; text-align: left; margin-bottom: 0.5rem;">Training accurate
+                robot world models requires data that captures diverse physical interactions. Instead of relying on
+                success-biased human demonstrations, we leverage <b>robot play</b> consisting of task-agnostic
+                interactions where the robot freely explores how objects respond to contact to obtain broader coverage
+                of real-world dynamics.<br><span style="display: block; height: 0.3rem;"></span>PlayWorld generates play
+                data at scale by using a VLM to propose diverse scene-grounded instructions and using a generalist
+                policy to execute them. As shown above, combined with safety checks and automatic resets, this process
+                yields rich, contact-heavy interactions and enables hours of unsupervised data collection with minimal
+                human intervention, including over-night (videos are shown at 50x speed).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="dynamics-prediction">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3 has-text-centered">Dynamics Prediction</h2>
+          <p class="figure-caption" style="width: 95%; text-align: left; margin-bottom: 0.75rem;">The diverse
+            interactions present in PlayWorld data enable the model to learn richer physical dynamics, resulting in
+            predictions that more closely match real-world object behavior. Below, we provide side-by-side comparisons
+            showing that PlayWorld predictions closely track ground-truth outcomes across interaction types, while
+            baseline models often exhibit degraded object fidelity and unrealistic physics.</p>
+          <div style="display: flex; gap: 0.1rem; align-items: stretch; margin-top: 0.4rem;">
+            <div
+              style="display: grid; grid-template-rows: repeat(3, 1fr); gap: 0.65rem; align-items: center; padding-top: 2.1rem; flex: 0 0 30px;">
+              <div
+                style="writing-mode: vertical-rl; transform: rotate(180deg); text-align: center; font-weight: 700; color: #374151; font-size: 0.84rem; letter-spacing: 0.02em;">
+                GT</div>
+              <div
+                style="writing-mode: vertical-rl; transform: rotate(180deg); text-align: center; font-weight: 700; color: #d86e1d; font-size: 0.84rem; letter-spacing: 0.02em;">
+                PlayWorld</div>
+              <div
+                style="writing-mode: vertical-rl; transform: rotate(180deg); text-align: center; font-weight: 700; color: #6b7280; font-size: 0.84rem; letter-spacing: 0.02em;">
+                Baseline</div>
+            </div>
+
+            <div style="position: relative; flex: 1; overflow: hidden;">
+              <button type="button" onclick="scrollDynamics(-1)" aria-label="Scroll dynamics left"
+                style="position: absolute; left: 8px; top: 50%; transform: translateY(-50%); z-index: 2; width: 34px; height: 34px; border-radius: 999px; border: 1px solid #d5d5d5; background: rgba(255,255,255,0.95); cursor: pointer; font-size: 20px; line-height: 1;">&#8249;</button>
+              <div id="dynamics-strip"
+                style="display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 4rem) / 5); gap: 1rem; overflow-x: auto; padding: 0 2rem 0 0.35rem; scroll-snap-type: x mandatory; scroll-behavior: smooth;">
+                <div class="video-card" style="min-width: 0; scroll-snap-align: start;">
+                  <p class="video-label">Success</p>
+                  <div style="display: grid; gap: 0.65rem;">
+                    <video autoplay muted controls loop playsinline preload="none"
+                      data-src="./videos/2_dynamic_pred/gt_success.mp4" style="width: 100%;"></video>
+                    <video autoplay muted controls loop playsinline preload="none"
+                      data-src="./videos/2_dynamic_pred/play_success.mp4" style="width: 100%;"></video>
+                    <video autoplay muted controls loop playsinline preload="none"
+                      data-src="./videos/2_dynamic_pred/demo_success.mp4" style="width: 100%;"></video>
+                  </div>
+                </div>
+                <div class="video-card" style="min-width: 0; scroll-snap-align: start;">
+                  <p class="video-label">Collision</p>
+                  <div style="display: grid; gap: 0.65rem;">
+                    <video autoplay muted controls loop playsinline preload="none"
+                      data-src="./videos/2_dynamic_pred/gt_collision.mp4" style="width: 100%;"></video>
+                    <video autoplay muted controls loop playsinline preload="none"
+                      data-src="./videos/2_dynamic_pred/play_collision.mp4" style="width: 100%;"></video>
+                    <video autoplay muted controls loop playsinline preload="none"
+                      data-src="./videos/2_dynamic_pred/demo_collision.mp4" style="width: 100%;"></video>
+                  </div>
+                </div>
+                <div class="video-card" style="min-width: 0; scroll-snap-align: start;">
+                  <p class="video-label">Missed Grasp</p>
+                  <div style="display: grid; gap: 0.65rem;">
+                    <video autoplay muted controls loop playsinline preload="none"
+                      data-src="./videos/2_dynamic_pred/gt_miss.mp4" style="width: 100%;"></video>
+                    <video autoplay muted controls loop playsinline preload="none"
+                      data-src="./videos/2_dynamic_pred/play_miss.mp4" style="width: 100%;"></video>
+                    <video autoplay muted controls loop playsinline preload="none"
+                      data-src="./videos/2_dynamic_pred/demo_miss.mp4" style="width: 100%;"></video>
+                  </div>
+                </div>
+                <div class="video-card" style="min-width: 0; scroll-snap-align: start;">
+                  <p class="video-label">Slip</p>
+                  <div style="display: grid; gap: 0.65rem;">
+                    <video autoplay muted controls loop playsinline preload="none"
+                      data-src="./videos/2_dynamic_pred/play_slip.mp4" style="width: 100%;"></video>
+                    <video autoplay muted controls loop playsinline preload="none"
+                      data-src="./videos/2_dynamic_pred/play_slip.mp4" style="width: 100%;"></video>
+                    <video autoplay muted controls loop playsinline preload="none"
+                      data-src="./videos/2_dynamic_pred/demo_slip.mp4" style="width: 100%;"></video>
+                  </div>
+                </div>
+                <div class="video-card" style="min-width: 0; scroll-snap-align: start;">
+                  <p class="video-label">Deformation</p>
+                  <div style="display: grid; gap: 0.65rem;">
+                    <video autoplay muted controls loop playsinline preload="none"
+                      data-src="./videos/2_dynamic_pred/gt_deform.mp4" style="width: 100%;"></video>
+                    <video autoplay muted controls loop playsinline preload="none"
+                      data-src="./videos/2_dynamic_pred/play_deform.mp4" style="width: 100%;"></video>
+                    <video autoplay muted controls loop playsinline preload="none"
+                      data-src="./videos/2_dynamic_pred/demo_deform.mp4" style="width: 100%;"></video>
+                  </div>
+                </div>
+                <div class="video-card" style="min-width: 0; scroll-snap-align: start;">
+                  <p class="video-label">Success</p>
+                  <div style="display: grid; gap: 0.65rem;">
+                    <video autoplay muted controls loop playsinline preload="none"
+                      data-src="./videos/2_dynamic_pred/gt_success2.mp4" style="width: 100%;"></video>
+                    <video autoplay muted controls loop playsinline preload="none"
+                      data-src="./videos/2_dynamic_pred/play_success2.mp4" style="width: 100%;"></video>
+                    <video autoplay muted controls loop playsinline preload="none"
+                      data-src="./videos/2_dynamic_pred/demo_success2.mp4" style="width: 100%;"></video>
+                  </div>
+                </div>
+                <div class="video-card" style="min-width: 0; scroll-snap-align: start;">
+                  <p class="video-label">Collision</p>
+                  <div style="display: grid; gap: 0.65rem;">
+                    <video autoplay muted controls loop playsinline preload="none"
+                      data-src="./videos/2_dynamic_pred/gt_collision2.mp4" style="width: 100%;"></video>
+                    <video autoplay muted controls loop playsinline preload="none"
+                      data-src="./videos/2_dynamic_pred/play_collision2.mp4" style="width: 100%;"></video>
+                    <video autoplay muted controls loop playsinline preload="none"
+                      data-src="./videos/2_dynamic_pred/demo_collision2.mp4" style="width: 100%;"></video>
+                  </div>
+                </div>
+                <div class="video-card" style="min-width: 0; scroll-snap-align: start;">
+                  <p class="video-label">Deformation</p>
+                  <div style="display: grid; gap: 0.65rem;">
+                    <video autoplay muted controls loop playsinline preload="none"
+                      data-src="./videos/2_dynamic_pred/gt_deform2.mp4" style="width: 100%;"></video>
+                    <video autoplay muted controls loop playsinline preload="none"
+                      data-src="./videos/2_dynamic_pred/play_deform2.mp4" style="width: 100%;"></video>
+                    <video autoplay muted controls loop playsinline preload="none"
+                      data-src="./videos/2_dynamic_pred/demo_deform2.mp4" style="width: 100%;"></video>
+                  </div>
+                </div>
+                <div class="video-card" style="min-width: 0; scroll-snap-align: start;">
+                  <p class="video-label">Missed Grasp</p>
+                  <div style="display: grid; gap: 0.65rem;">
+                    <video autoplay muted controls loop playsinline preload="none"
+                      data-src="./videos/2_dynamic_pred/gt_miss2.mp4" style="width: 100%;"></video>
+                    <video autoplay muted controls loop playsinline preload="none"
+                      data-src="./videos/2_dynamic_pred/play_miss2.mp4" style="width: 100%;"></video>
+                    <video autoplay muted controls loop playsinline preload="none"
+                      data-src="./videos/2_dynamic_pred/demo_miss2.mp4" style="width: 100%;"></video>
+                  </div>
+                </div>
+                <div class="video-card" style="min-width: 0; scroll-snap-align: start;">
+                  <p class="video-label">Slip</p>
+                  <div style="display: grid; gap: 0.65rem;">
+                    <video autoplay muted controls loop playsinline preload="none"
+                      data-src="./videos/2_dynamic_pred/gt_slip2.mp4" style="width: 100%;"></video>
+                    <video autoplay muted controls loop playsinline preload="none"
+                      data-src="./videos/2_dynamic_pred/play_slip2.mp4" style="width: 100%;"></video>
+                    <video autoplay muted controls loop playsinline preload="none"
+                      data-src="./videos/2_dynamic_pred/demo_slip2.mp4" style="width: 100%;"></video>
+                  </div>
+                </div>
+              </div>
+              <button type="button" onclick="scrollDynamics(1)" aria-label="Scroll dynamics right"
+                style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); z-index: 2; width: 34px; height: 34px; border-radius: 999px; border: 1px solid #d5d5d5; background: rgba(255,255,255,0.95); cursor: pointer; font-size: 20px; line-height: 1;">&#8250;</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="policy-evaluation">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3 has-text-centered">Policy Evaluation</h2>
+          <p class="figure-caption" style="width: 95%; text-align: left; margin-bottom: 0.75rem;">Accurate dynamics
+            prediction is critical for evaluating robot policies with fine behavioral difference and/or failure modes.
+            To test whether PlayWorld supports reliable policy evaluation, we train a diverse set of policies with
+            different architectures and demonstration qualities, producing a wide range of behaviors and failure modes.
+            As shown below, PlayWorld’s predictions closely match real-world success rates and outcome distributions,
+            enabling more reliable evaluation than models trained on human-collected data. We also show qualitative
+            videos below to show the different predicted policy behaviors under different world model + policy
+            combinations.</p>
+          <img src="./images/eval.png" alt="Policy evaluation figure"
+            style="width: 85%; border-radius: 10px; border: 1px solid #ececec; display: block; margin: 0 auto 0.45rem;">
+          <p class="figure-caption"
+            style="width: 85%; text-align: center !important; font-size: 0.88rem; margin: 0 auto 0.9rem;">Success Rate
+            Correlation between Real and World Models trained on different data mixtures.</p>
+          <div class="dropdown-row">
+            <div class="dropdown-group"><span class="dropdown-label">Policy:</span><select id="policy-selection"
+                class="dropdown-select" onchange="selectPolicy()">
+                <option value="block_s" selected>Block Stacking — Successful</option>
+                <option value="block_f">Block Stacking — Failing</option>
+                <option value="carrot_s">Put Carrot in Bowl — Successful</option>
+                <option value="carrot_f">Put Carrot in Bowl — Failing</option>
+                <option value="towel_s">Fold Towel — Successful</option>
+                <option value="towel_f">Fold Towel — Failing</option>
+              </select></div>
+          </div>
+          <div id="policy-block_s" class="policy-section" style="margin-top: 1rem;">
+            <div class="video-grid three-col">
+              <div class="video-card">
+                <p class="video-label">🌍 <strong>Real</strong></p><video autoplay muted controls loop playsinline
+                  preload="none" data-src="./videos/3_policy_eval/block_real_s.mp4" style="width: 100%;"></video>
+              </div>
+              <div class="video-card">
+                <p class="video-label">✅ <strong>PlayWorld</strong></p><video autoplay muted controls loop playsinline
+                  preload="none" data-src="./videos/3_policy_eval/block_play_s.mp4" style="width: 100%;"></video>
+              </div>
+              <div class="video-card">
+                <p class="video-label">⚠️ <strong>Demo-WM</strong></p><video autoplay muted controls loop playsinline
+                  preload="none" data-src="./videos/3_policy_eval/block_demo_s.mp4" style="width: 100%;"></video>
+              </div>
+            </div>
+          </div>
+          <div id="policy-block_f" class="policy-section" style="display: none; margin-top: 1rem;">
+            <div class="video-grid three-col">
+              <div class="video-card">
+                <p class="video-label">🌍 <strong>Real</strong></p><video autoplay muted controls loop playsinline
+                  preload="none" data-src="./videos/3_policy_eval/block_real_f.mp4" style="width: 100%;"></video>
+              </div>
+              <div class="video-card">
+                <p class="video-label">✅ <strong>PlayWorld</strong></p><video autoplay muted controls loop playsinline
+                  preload="none" data-src="./videos/3_policy_eval/block_play_f.mp4" style="width: 100%;"></video>
+              </div>
+              <div class="video-card">
+                <p class="video-label">⚠️ <strong>Demo-WM</strong></p><video autoplay muted controls loop playsinline
+                  preload="none" data-src="./videos/3_policy_eval/block_demo_f.mp4" style="width: 100%;"></video>
+              </div>
+            </div>
+          </div>
+          <div id="policy-carrot_s" class="policy-section" style="display: none; margin-top: 1rem;">
+            <div class="video-grid three-col">
+              <div class="video-card">
+                <p class="video-label">🌍 <strong>Real</strong></p><video autoplay muted controls loop playsinline
+                  preload="none" data-src="./videos/3_policy_eval/carrot_real_s.mp4" style="width: 100%;"></video>
+              </div>
+              <div class="video-card">
+                <p class="video-label">✅ <strong>PlayWorld</strong></p><video autoplay muted controls loop playsinline
+                  preload="none" data-src="./videos/3_policy_eval/carrot_play_s.mp4" style="width: 100%;"></video>
+              </div>
+              <div class="video-card">
+                <p class="video-label">⚠️ <strong>Demo-WM</strong></p><video autoplay muted controls loop playsinline
+                  preload="none" data-src="./videos/3_policy_eval/carrot_demo_s.mp4" style="width: 100%;"></video>
+              </div>
+            </div>
+          </div>
+          <div id="policy-carrot_f" class="policy-section" style="display: none; margin-top: 1rem;">
+            <div class="video-grid three-col">
+              <div class="video-card">
+                <p class="video-label">🌍 <strong>Real</strong></p><video autoplay muted controls loop playsinline
+                  preload="none" data-src="./videos/3_policy_eval/carrot_real_f.mp4" style="width: 100%;"></video>
+              </div>
+              <div class="video-card">
+                <p class="video-label">✅ <strong>PlayWorld</strong></p><video autoplay muted controls loop playsinline
+                  preload="none" data-src="./videos/3_policy_eval/carrot_play_f.mp4" style="width: 100%;"></video>
+              </div>
+              <div class="video-card">
+                <p class="video-label">⚠️ <strong>Demo-WM</strong></p><video autoplay muted controls loop playsinline
+                  preload="none" data-src="./videos/3_policy_eval/carrot_demo_f.mp4" style="width: 100%;"></video>
+              </div>
+            </div>
+          </div>
+          <div id="policy-towel_s" class="policy-section" style="display: none; margin-top: 1rem;">
+            <div class="video-grid three-col">
+              <div class="video-card">
+                <p class="video-label">🌍 <strong>Real</strong></p><video autoplay muted controls loop playsinline
+                  preload="none" data-src="./videos/3_policy_eval/towel_real_s.mp4" style="width: 100%;"></video>
+              </div>
+              <div class="video-card">
+                <p class="video-label">✅ <strong>PlayWorld</strong></p><video autoplay muted controls loop playsinline
+                  preload="none" data-src="./videos/3_policy_eval/towel_play_s.mp4" style="width: 100%;"></video>
+              </div>
+              <div class="video-card">
+                <p class="video-label">⚠️ <strong>Demo-WM</strong></p><video autoplay muted controls loop playsinline
+                  preload="none" data-src="./videos/3_policy_eval/towel_demo_s.mp4" style="width: 100%;"></video>
+              </div>
+            </div>
+          </div>
+          <div id="policy-towel_f" class="policy-section" style="display: none; margin-top: 1rem;">
+            <div class="video-grid three-col">
+              <div class="video-card">
+                <p class="video-label">🌍 <strong>Real</strong></p><video autoplay muted controls loop playsinline
+                  preload="none" data-src="./videos/3_policy_eval/towel_real_f.mp4" style="width: 100%;"></video>
+              </div>
+              <div class="video-card">
+                <p class="video-label">✅ <strong>PlayWorld</strong></p><video autoplay muted controls loop playsinline
+                  preload="none" data-src="./videos/3_policy_eval/towel_play_f.mp4" style="width: 100%;"></video>
+              </div>
+              <div class="video-card">
+                <p class="video-label">⚠️ <strong>Demo-WM</strong></p><video autoplay muted controls loop playsinline
+                  preload="none" data-src="./videos/3_policy_eval/towel_demo_f.mp4" style="width: 100%;"></video>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="rl-finetuning">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3 has-text-centered">RL Fine-tuning</h2>
+          <p class="figure-caption" style="width: 95%; text-align: left; margin-bottom: 1.5rem;">World models make
+            reinforcement learning far more practical by allowing policies to improve through simulated interaction
+            rather than costly real-world trials. However, this requires highly accurate dynamics prediction to prevent
+            policies from exploiting model errors and learning behaviors that would fail in reality. Using PlayWorld, we
+            perform RL fine-tuning on two manipulation tasks entirely within the world model and observe substantial
+            improvements in real-world performance, with policies learning more robust strategies and recovery
+            behaviors.</p>
+          <h4 class="title is-5">Task 1: Remove the Carrot from the Bowl</h4>
+          <div class="video-grid three-col" style="align-items: center;">
+            <div class="video-card">
+              <p class="video-label">Baseline</p><video autoplay muted controls loop playsinline preload="none"
+                data-src="./videos/4_fine_tuning/carrot-base-2x.mp4"></video>
+            </div>
+            <div class="video-card">
+              <p class="video-label"><b>PlayWorld</b> Fine-tuned</p><video autoplay muted controls loop playsinline
+                preload="none" data-src="./videos/4_fine_tuning/carrot-ft-2x.mp4"></video>
+            </div>
+            <div class="video-card rl-figure-card">
+              <p class="video-label" style="visibility: hidden;">Graph</p><img class="rl-figure-image"
+                src="./videos/4_fine_tuning/carrot_graph.png" alt="Carrot fine-tuning graph"
+                style="border-radius: 10px; margin: 0 auto; display: block;">
+            </div>
+          </div>
+          <h4 class="title is-5">Task 2: Fold the Towel from Left to Right</h4>
+          <div class="video-grid three-col" style="align-items: center;">
+            <div class="video-card">
+              <p class="video-label">Baseline</p><video autoplay muted controls loop playsinline preload="none"
+                data-src="./videos/4_fine_tuning/towel-base-2x.mp4"></video>
+            </div>
+            <div class="video-card">
+              <p class="video-label"><b>PlayWorld</b> Fine-tuned</p><video autoplay muted controls loop playsinline
+                preload="none" data-src="./videos/4_fine_tuning/towel-ft-2x.mp4"></video>
+            </div>
+            <div class="video-card rl-figure-card">
+              <p class="video-label" style="visibility: hidden;">Graph</p><img class="rl-figure-image"
+                src="./videos/4_fine_tuning/towel_graph.png" alt="Towel fine-tuning graph"
+                style="border-radius: 10px; margin: 0 auto; display: block;">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="generalization">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3 has-text-centered">Play Data Generalization</h2>
+
+          <div class="generalization-media-row" style="margin-top: 0.4rem;">
+            <div class="generalization-media-item">
+              <img class="generalization-media" src="./images/scaling.png" alt="Scaling behavior">
+            </div>
+            <div class="generalization-media-item">
+              <img class="generalization-media" src="./images/objects.png" alt="Object generalization">
+            </div>
+          </div>
+
+          <div class="columns is-vcentered is-variable is-5" style="margin-top: 0.9rem;">
+            <p class="figure-caption" style="width: 100%; text-align: left;">
+              <strong>Data Scaling.</strong> PlayWorld enables scalable data collection that continues to expand
+              interaction coverage and improve world model quality as more interaction data is gathered. As shown on the
+              left, models trained on larger play datasets achieve steadily better prediction accuracy, while models
+              trained on human demonstrations show much weaker gains when scaled up.
+              <br>
+              <br>
+              <strong>Object Generalization.</strong> As the diversity of training objects increases, PlayWorld learns
+              shared physical interaction patterns (e.g., contact, slip, deformation), leading to more accurate
+              predictions on objects not seen during training.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <h2 class="title is-3 has-text-centered" id="bibtex">BibTeX</h2>
+  <div class="bibtex-code">
+    <div class="bibtex-title">Reference</div>
+    <pre><code>@misc{yin2026playworldlearningrobotworld,
+  title={PlayWorld: Learning Robot World Models from Autonomous Play},
+  author={Tenny Yin and Zhiting Mei and Zhonghe Zheng and Miyu Yamane and David Wang and Jade Sceats and Samuel M. Bateman and Lihan Zha and Apurva Badithela and Ola Shorinwa and Anirudha Majumdar},
+  year={2026},
+  eprint={2603.09030},
+  archivePrefix={arXiv},
+  primaryClass={cs.RO},
+  url={https://arxiv.org/abs/2603.09030}, 
+}</code></pre>
+  </div>
+  <div class="container is-max-desktop has-text-centered" style="margin: 1rem auto 1.5rem auto;">
+    <p style="font-size: 0.9rem; color: #6b7280; margin: 0; text-align: center !important;">
+      This website is based on the
+      <a href="https://github.com/polaris-evals/polaris-evals.github.io" target="_blank">PolaRiS template</a>.
+    </p>
+  </div>
+
+  <script>
+    function scrollPlayData(direction) {
+      const strip = document.getElementById('playdata-strip');
+      if (!strip) return;
+      const amount = strip.clientWidth * 0.82 * direction;
+      strip.scrollBy({ left: amount, behavior: 'smooth' });
+    }
+
+    function scrollDynamics(direction) {
+      const strip = document.getElementById('dynamics-strip');
+      if (!strip) return;
+      const amount = strip.clientWidth * 0.82 * direction;
+      strip.scrollBy({ left: amount, behavior: 'smooth' });
+    }
+
+    function selectPolicy() {
+      const value = document.getElementById('policy-selection').value;
+      document.querySelectorAll('.policy-section').forEach((section) => section.style.display = 'none');
+      const selected = document.getElementById(`policy-${value}`);
+      if (selected) selected.style.display = 'block';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const progressItems = document.querySelectorAll('.progress-item');
+      const progressLineFill = document.querySelector('.progress-line-fill');
+      const progressTrack = document.querySelector('.progress-track');
+
+      const sections = [];
+      progressItems.forEach((item) => {
+        const id = item.dataset.section;
+        const el = id === 'hero' ? document.querySelector('.teaser') : document.getElementById(id);
+        if (el) sections.push({ id, el });
+      });
+
+      const loadVideo = (video) => {
+        if (video.dataset.loaded === 'true') return;
+        const src = video.getAttribute('data-src');
+        if (src) video.setAttribute('src', src);
+        video.dataset.loaded = 'true';
+        video.muted = true;
+        video.defaultMuted = true;
+        video.setAttribute('muted', '');
+        video.load();
+      };
+
+      const videos = document.querySelectorAll('video');
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              loadVideo(entry.target);
+              if (entry.target.hasAttribute('autoplay')) entry.target.play().catch(() => { });
+            }
+          });
+        }, { rootMargin: '240px 0px', threshold: 0.01 });
+        videos.forEach((video) => observer.observe(video));
+      } else {
+        videos.forEach(loadVideo);
+      }
+
+      const updateProgress = () => {
+        if (!sections.length) return;
+        let activeIdx = 0;
+        const threshold = window.innerHeight * 0.35;
+        for (let i = 0; i < sections.length; i++) {
+          if (sections[i].el.getBoundingClientRect().top <= threshold) activeIdx = i;
+          else break;
+        }
+
+        if (progressLineFill && progressTrack) {
+          const trackHeight = progressTrack.offsetHeight;
+          const maxFillHeight = trackHeight - 44;
+          const fillHeight = (activeIdx / Math.max(sections.length - 1, 1)) * maxFillHeight;
+          progressLineFill.style.height = `${Math.min(Math.max(fillHeight, 0), maxFillHeight)}px`;
+        }
+
+        progressItems.forEach((item) => {
+          const sectionIdx = sections.findIndex((s) => s.id === item.dataset.section);
+          item.classList.remove('active', 'passed');
+          if (sectionIdx === activeIdx) item.classList.add('active');
+          else if (sectionIdx >= 0 && sectionIdx < activeIdx) item.classList.add('passed');
+        });
+      };
+
+      updateProgress();
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      window.addEventListener('resize', updateProgress);
+    });
+  </script>
+</body>
+
+</html>

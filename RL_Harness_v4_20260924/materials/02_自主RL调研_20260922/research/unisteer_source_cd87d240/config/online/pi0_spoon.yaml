@@ -1,0 +1,144 @@
+openpi_policy_type: pi0
+device: cuda
+multi_gpu: false
+gpu_id: 0
+seed: 42
+debug: false
+mode: online
+
+name: pi0_spoon_unisteer
+log_dir: ${oc.env:OUTPUT_DIR,./outputs/pi0_spoon_unisteer}
+checkpoint_dir: ${log_dir}/policy_checkpoint
+
+unisteer_actor_deterministic: false
+unisteer_actor_rollout_temperature: 1.0
+unisteer:
+  predicted_noise_steps: 1
+  noise_expand_mode: repeat_last
+  noise_parameterization: mean_time
+  device: cuda
+  state_dim: 2055
+  pixel_height: 224
+  pixel_width: 224
+  pixel_channels: 6
+  actor_hidden_dims: [1024, 1024, 1024]
+  critic_hidden_dims: [1024, 1024, 1024]
+  cnn_features: [32, 32, 32, 32]
+  cnn_strides: [3, 2, 2, 2]
+  cnn_padding: VALID
+  latent_dim: 50
+  critic_reduction: min
+  dropout_rate: 0.0
+  use_bottleneck: true
+  encoder_type: small
+  color_jitter: true
+  aug_next: true
+  augmentation_padding: 4
+  actor_lr: 1e-4
+  actor_sft_lr: 5e-5
+  critic_lr: 3e-4
+  alpha_lr: 3e-4
+  discount: 0.99
+  tau: 0.005
+  batch_size: 256
+  replay_capacity: 33333
+  updates_per_step: 1
+  target_entropy: 0.0
+  learnable_temperature: true
+  init_temperature: 1.0
+  noise_action_limit: 2.5
+  log_std_min: -20.0
+  log_std_max: 2.0
+  actor_grad_clip_norm: null
+  critic_grad_clip_norm: null
+  save_buffer_in_checkpoint: true
+
+unisteer_server:
+  auto_train: true
+  num_initial_traj_collect: 1
+  initial_rollout_bypass_actor: true
+  multi_grad_step: 5
+  discount_horizon_steps: 10
+  rl_min_updates: 10
+  rl_log_freq: 50
+  rl_plot_metrics: true
+  rollout_bootstrap_root: ""
+  first_episode_grad_steps: 2000
+  two_stage_order: sft_then_rl
+  sft_buffer_capacity: 10000
+  sft_multi_grad_step: 10
+  sft_min_updates: 10
+  actor_sft_batch_size: 256
+  actor_sft_log_every: 20
+  actor_lambda_actor_prior: 1e-2
+  actor_lambda_norm: 1e-4
+  add_human_inverse_to_rl_buffer: false
+  truncate_success_on_done_index: false
+  keep_last_n_checkpoints: 5
+  checkpoint_dir: ${log_dir}/unisteer_checkpoint
+  default_train_now: true
+  save_checkpoint_on_train_now: true
+  image_key: primary_image_crop
+  wrist_key: wrist_image_crop
+  image_extension: jpg
+  reward_backend: binary_reward
+
+unisteer_inverse_sft:
+  inversion_method: fixed_point
+  fixed_point_iters: 16
+  sample_batch_size: 128
+  image_aug:
+    enabled: false
+
+init_ckpt: ${oc.env:BASE_MODEL}
+openpi_tokenizer_path: ${oc.env:TOKENIZER_PATH,google/paligemma-3b-pt-224}
+load_pretrained_weights: false
+openpi_train_hparam_source: config
+train_vlm: true
+lora: false
+action_lr: 5e-5
+action_weight_decay: 0.0
+action_lr_scheduler:
+  first_cycle_steps: 10000000
+  min_lr: 1e-8
+  warmup_steps: 200
+vlm_lr: 5e-5
+vlm_weight_decay: 0.0
+vlm_lr_scheduler:
+  first_cycle_steps: 10000000
+  min_lr: 1e-8
+  warmup_steps: 200
+
+horizon_steps: 50
+inference_chunk_size: 50
+control_replan_interval: 10
+action_dim: 7
+proprio_dim: 7
+use_wrist: true
+num_inference_steps: 10
+gradient_checkpointing: false
+freeze_vision_encoder: false
+resume_checkpoint_path: ""
+resume_optimizer: false
+save_optimizer: false
+
+data:
+  finetune:
+    overwrite_stats: piper_stack
+    state_normalization_mode: QUANTILES
+    action_normalization_mode: QUANTILES
+    data_path: ${oc.env:DATA_ROOT}
+    stats_data_path: ${oc.env:DATA_ROOT}
+    proprio_type: poseulerg
+    action_type: poseulerg
+    wrist_key: wrist_image_crop
+    image_key: primary_image_crop
+    state_hist_size: 1
+    min_valid_action: 2
+    min_valid_state: 1
+    force_regenerate_meta: false
+    plot_hist: false
+    use_img_aug: true
+    load_rl_meta: false
+    require_rl_meta: false
+    use_gripper_master: true

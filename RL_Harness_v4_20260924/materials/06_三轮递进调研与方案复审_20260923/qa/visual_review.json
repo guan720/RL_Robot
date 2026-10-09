@@ -1,0 +1,25 @@
+{
+  "pass": true,
+  "reviewer": "root",
+  "scope": "Six SVG diagram layouts inspected through PNG previews; H2 wording re-rendered and re-inspected; no overlap or cropped text observed.",
+  "files": {
+    "assets/01_总体框架.mmd": "33e449195d6effdd0e5ffb4b48f4a7f044f0960d7c2395e23ffa2d348fdc7ea8",
+    "assets/01_总体框架.png": "b8c116a15b3bab866d911338503930ec5589379dd791005f016c99222c4f51e4",
+    "assets/01_总体框架.svg": "195ee57d6f921ed6cdefb231cf3b8703ab6d57cf3c8242be291020a9eee84b75",
+    "assets/02_任务循环.mmd": "07b1a60cc69a32ad2a09399d85443009c7ba7c39b4171d0be004956cde546d83",
+    "assets/02_任务循环.png": "3cd4500bc7bdadeaa46510a82d30c85febf8bda172ef365628b323ebb887077e",
+    "assets/02_任务循环.svg": "844c242b492a35865a1450d90c8dbf13ff3274367dc5bd977771d9553a28c5f4",
+    "assets/03_验证路线.mmd": "5749f5e257b825aecf1ee7c5e068b19ca70eee6d6b43ad7dcf1f8d2c5bafece9",
+    "assets/03_验证路线.png": "28df76e394ee5f7ca1fa090684becddf1d8d15d6d001ab95c18156bcb2bbc057",
+    "assets/03_验证路线.svg": "bc15edf434768cab103f4a7a3ba3e8c7010f065f9255f6ed0930cee5611a571e",
+    "assets/04_H1_学习增益.mmd": "348076aa5f8cc1fb3274887bc743e760fa8520243a6c2efb56c04cc6b0556a2c",
+    "assets/04_H1_学习增益.png": "d16eb4b2fb210a1eece94e293d3086a618a66acad26fac1284caee76a532578c",
+    "assets/04_H1_学习增益.svg": "350cfd3ee0c68df43de8dab4319893bea93b1d80bd63a100a8e35f79bc507f29",
+    "assets/05_H2_循环与共享.mmd": "1e8ee5baafa707dc3d78a22908d26bfcf7ff7df22a6746160b84d840dfa2e557",
+    "assets/05_H2_循环与共享.png": "6903ac655cb58f3a14a0d1afa27790f43cb513ad2500f7a331870dc270a75275",
+    "assets/05_H2_循环与共享.svg": "4ab3ac76323d98fc3518cc6f426ec1116ceac2dbb76b755e901a8e94abdc9eb9",
+    "assets/06_H3_Harness贡献.mmd": "9b958ef253d1adfca2b595878b218929b013c4f90b27c65e17a64c90d1008b33",
+    "assets/06_H3_Harness贡献.png": "8a633fd080c391d8c487ff227b35caf07c97477261a4d5efb8d70186434fe590",
+    "assets/06_H3_Harness贡献.svg": "48797a3c099909f5ec2d549bf96ff58b2c3b797bd6773d01fad81779baf17b6b"
+  }
+}

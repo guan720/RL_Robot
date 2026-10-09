@@ -1,0 +1,12 @@
+{
+  "scope": "Document, source integrity and review records only; no robot tests",
+  "errors": [],
+  "source_files_unchanged": true,
+  "main_sha256": "dd91b5aa00245268f878471043956b1ff80a60c51f89a5c2de3f9089c195bff6",
+  "linked_local_files": 7,
+  "figures": 3,
+  "completed_rounds": 3,
+  "distinct_reviewers": 9,
+  "consecutive_passes_same_inputs": 3,
+  "current_matches_passed_inputs": true
+}

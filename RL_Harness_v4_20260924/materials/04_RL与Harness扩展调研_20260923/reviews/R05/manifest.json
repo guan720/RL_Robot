@@ -1,0 +1,51 @@
+{
+  "round": "R05",
+  "frozen_utc": "2026-09-23T10:26:26.364686+00:00",
+  "files": [
+    {
+      "path": "03_RL_Harness自主学习系统_20260922/README.md",
+      "bytes": 3656,
+      "sha256": "0c3190076c65596442a46053a14f6b7a70b75d3282bd4e7626100c7829a78f4c"
+    },
+    {
+      "path": "03_RL_Harness自主学习系统_20260922/01_RL_Harness真机自主学习技术方案.md",
+      "bytes": 36346,
+      "sha256": "242f5b27fc6777d9df1c8614c08e702856191b53c567226fd715c059c406c93b"
+    },
+    {
+      "path": "03_RL_Harness自主学习系统_20260922/02_接口契约与开发验收.md",
+      "bytes": 42975,
+      "sha256": "4ced07d6880b686b9be656c375a9d9bb33685e656e8b5d5be604ac9bbdc1099a"
+    },
+    {
+      "path": "03_RL_Harness自主学习系统_20260922/06_异步动作时间轴与学习目标.md",
+      "bytes": 31113,
+      "sha256": "777499b2fcc881e7aea0ef0d9028297e735e35231899b9710ba41519b8313919"
+    },
+    {
+      "path": "04_RL与Harness扩展调研_20260923/01_RL与Harness开源基线深度调研报告.md",
+      "bytes": 31611,
+      "sha256": "baa757ed683267ae4770e99988a47aac72b7c922fb7c1a9943f4a3622d0d846d"
+    },
+    {
+      "path": "04_RL与Harness扩展调研_20260923/research/01_VLA_RL扩展调研.md",
+      "bytes": 44238,
+      "sha256": "df2b437ea2d056f21a8a72ace886d79a6670173025a1cf02a3aef9729e75dc84"
+    },
+    {
+      "path": "04_RL与Harness扩展调研_20260923/research/02_自主学习与复位扩展调研.md",
+      "bytes": 33787,
+      "sha256": "3a384ac7c275d6af0d3c0ed7d7a81793db656113c654a52f2f81dd24b92cff33"
+    },
+    {
+      "path": "04_RL与Harness扩展调研_20260923/research/03_Harness扩展调研.md",
+      "bytes": 36326,
+      "sha256": "6231c6e34e2683cf5729389850813093460a980a482f861f18ce12c4d0a005a1"
+    },
+    {
+      "path": "04_RL与Harness扩展调研_20260923/research/04_训练平台与开源生态核查.md",
+      "bytes": 18642,
+      "sha256": "4b92dc4d4309c695564c3de9763f340975cb3951998e747378bac4be9c184d34"
+    }
+  ]
+}

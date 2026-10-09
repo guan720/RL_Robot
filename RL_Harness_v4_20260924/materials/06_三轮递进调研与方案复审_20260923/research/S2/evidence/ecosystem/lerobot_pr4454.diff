@@ -1,0 +1,192 @@
+diff --git a/src/lerobot/policies/rtc/action_queue.py b/src/lerobot/policies/rtc/action_queue.py
+index 80c709d17c7..3a6f2f264df 100644
+--- a/src/lerobot/policies/rtc/action_queue.py
++++ b/src/lerobot/policies/rtc/action_queue.py
+@@ -274,6 +274,8 @@ def _check_and_resolve_delays(
+                     indexes_diff,
+                     real_delay,
+                 )
+-                return real_delay
++                # Never discard more than was actually consumed, or the queue splices ahead
++                # of the physical pose.
++                return min(real_delay, indexes_diff)
+ 
+         return effective_delay
+diff --git a/src/lerobot/rollout/inference/rtc.py b/src/lerobot/rollout/inference/rtc.py
+index 9a9f89a5291..44e14f854c4 100644
+--- a/src/lerobot/rollout/inference/rtc.py
++++ b/src/lerobot/rollout/inference/rtc.py
+@@ -91,17 +91,21 @@ def supports_rtc_inference(policy: PreTrainedPolicy) -> bool:
+ 
+ 
+ def _normalize_prev_actions_length(prev_actions: torch.Tensor, target_steps: int) -> torch.Tensor:
+-    """Pad or truncate RTC prefix actions to a fixed length for stable compiled inference."""
++    """Pad (holding the last action) or truncate RTC prefix actions to a fixed length.
++
++    Zero-padding would decode to the dataset mean inside the RTC guided region.
++    """
+     if prev_actions.ndim != 2:
+         raise ValueError(f"Expected 2D [T, A] tensor, got shape={tuple(prev_actions.shape)}")
+-    steps, action_dim = prev_actions.shape
++    steps, _ = prev_actions.shape
+     if steps == target_steps:
+         return prev_actions
+     if steps > target_steps:
+         return prev_actions[:target_steps]
+-    padded = torch.zeros((target_steps, action_dim), dtype=prev_actions.dtype, device=prev_actions.device)
+-    padded[:steps] = prev_actions
+-    return padded
++    if steps == 0:
++        raise ValueError("Cannot pad an empty prefix: no last action to hold.")
++    hold = prev_actions[-1:].expand(target_steps - steps, -1)
++    return torch.cat([prev_actions, hold], dim=0)
+ 
+ 
+ def _trained_rtc_chunk_can_merge(
+@@ -145,10 +149,10 @@ def _clamp_trained_rtc_delay(*, conditioned_delay: int, available_steps: int, tr
+     """Clamp the hard prefix to what both the checkpoint and the queue can back.
+ 
+     Past ``training_max_delay`` the model has never seen a prefix that long, and past
+-    ``available_steps`` ``_normalize_prev_actions_length`` zero-pads the tail, so the extra
+-    steps would be inpainted as if zeros were committed actions. Clamping keeps the chunk
+-    usable; ``_trained_rtc_chunk_can_merge`` still discards it if the delay that actually
+-    elapsed outran this prefix.
++    ``available_steps`` ``_normalize_prev_actions_length`` pads the tail by holding the last
++    action, so the extra steps would be inpainted as if a frozen hold had been committed.
++    Clamping keeps the chunk usable; ``_trained_rtc_chunk_can_merge`` still discards it if the
++    delay that actually elapsed outran this prefix.
+     """
+     clamped = min(conditioned_delay, training_max_delay, available_steps)
+     if clamped < conditioned_delay:
+@@ -408,6 +412,8 @@ def _rtc_loop(self) -> None:
+             policy_device = torch.device(self._device)
+ 
+             warmup_required = max(1, self._compile_warmup_inferences) if self._use_torch_compile else 0
++            # Excluded from the latency tracker: cold starts spike it.
++            latency_warmup_required = max(1, warmup_required)
+             inference_count = 0
+             consecutive_errors = 0
+             consecutive_discards = 0
+@@ -496,10 +502,15 @@ def _rtc_loop(self) -> None:
+                                         policy_device=policy_device,
+                                     )
+ 
+-                        if prev_actions is not None:
++                        if has_previous_actions:
+                             prev_actions = _normalize_prev_actions_length(
+                                 prev_actions, target_steps=self._rtc_config.execution_horizon
+                             )
++                        else:
++                            # A fully drained queue hands back an empty tensor rather than None.
++                            # There is no last action to hold, so take the no-prefix path, which
++                            # is what the delay estimate above already assumed.
++                            prev_actions = None
+ 
+                         actions = self._policy.predict_action_chunk(
+                             preprocessed, inference_delay=delay, prev_chunk_left_over=prev_actions
+@@ -516,7 +527,7 @@ def _rtc_loop(self) -> None:
+                         is_initial_trained_chunk = (
+                             self._rtc_config.mode == "trained" and not has_previous_actions
+                         )
+-                        if is_warmup or is_initial_trained_chunk:
++                        if inference_count <= latency_warmup_required or is_initial_trained_chunk:
+                             latency_tracker.reset()
+                         else:
+                             latency_tracker.add(new_latency)
+diff --git a/tests/policies/rtc/test_action_queue.py b/tests/policies/rtc/test_action_queue.py
+index d4bd2b2c94f..8bc4c6776f0 100644
+--- a/tests/policies/rtc/test_action_queue.py
++++ b/tests/policies/rtc/test_action_queue.py
+@@ -540,6 +540,26 @@ def test_merge_skips_validation_when_action_index_none(action_queue_rtc_enabled,
+     assert "Indexes diff is not equal to real delay" not in caplog.text
+ 
+ 
++def test_merge_never_discards_more_than_was_consumed(action_queue_rtc_enabled, sample_actions):
++    """A starved queue must not have the estimated delay discarded from it.
++
++    Discarding `real_delay` when nothing was consumed splices the queue ahead of the
++    physical pose, which the arm executes as a jump.
++    """
++    action_queue_rtc_enabled.merge(sample_actions["longer"], sample_actions["longer"], real_delay=0)
++    action_index_before = action_queue_rtc_enabled.get_action_index()
++
++    # Nothing consumed since the index was captured, so indexes_diff == 0.
++    action_queue_rtc_enabled.merge(
++        sample_actions["original"],
++        sample_actions["processed"],
++        real_delay=5,
++        action_index_before_inference=action_index_before,
++    )
++
++    assert action_queue_rtc_enabled.qsize() == len(sample_actions["processed"])
++
++
+ # Thread safety tests
+ 
+ 
+@@ -821,8 +841,11 @@ def test_typical_rtc_workflow(action_queue_rtc_enabled, sample_actions):
+ 
+     assert action_queue_rtc_enabled.qsize() == 40
+ 
+-    # Second inference with delay
++    # Second inference with delay. Consume `real_delay` actions after capturing the index so
++    # the measured `indexes_diff` matches and the discard clamp is a no-op.
+     action_index_before = action_queue_rtc_enabled.get_action_index()
++    for _ in range(5):
++        action_queue_rtc_enabled.get()
+ 
+     action_queue_rtc_enabled.merge(
+         sample_actions["original"],
+diff --git a/tests/test_rollout.py b/tests/test_rollout.py
+index 5096d46d3c5..e4b3a1904d9 100644
+--- a/tests/test_rollout.py
++++ b/tests/test_rollout.py
+@@ -921,6 +921,48 @@ def test_handle_warmup_paces_then_flushes_and_exempts_the_reprimed_group(caplog,
+     assert len(_timer_warnings(caplog)) == 1
+ 
+ 
++# ---------------------------------------------------------------------------
++# RTC prefix padding
++# ---------------------------------------------------------------------------
++
++
++def test_normalize_prev_actions_length_holds_the_last_action():
++    """Padding must repeat the last action, not fill with zeros.
++
++    Zero in normalized action space decodes to the dataset mean, which lands inside the RTC
++    guided region and yanks the spliced action toward a neutral pose.
++    """
++    from lerobot.rollout.inference.rtc import _normalize_prev_actions_length
++
++    prev = torch.tensor([[1.0, 2.0], [3.0, 4.0]])
++
++    padded = _normalize_prev_actions_length(prev, target_steps=4)
++
++    assert padded.shape == (4, 2)
++    torch.testing.assert_close(padded[:2], prev)
++    torch.testing.assert_close(padded[2:], prev[-1:].expand(2, -1))
++
++
++@pytest.mark.parametrize(("steps", "target"), [(4, 4), (6, 4)])
++def test_normalize_prev_actions_length_passes_through_or_truncates(steps, target):
++    from lerobot.rollout.inference.rtc import _normalize_prev_actions_length
++
++    prev = torch.arange(steps * 2, dtype=torch.float32).reshape(steps, 2)
++
++    result = _normalize_prev_actions_length(prev, target_steps=target)
++
++    assert result.shape == (target, 2)
++    torch.testing.assert_close(result, prev[:target])
++
++
++def test_normalize_prev_actions_length_rejects_an_empty_prefix():
++    """There is no last action to hold, so this must fail rather than invent one."""
++    from lerobot.rollout.inference.rtc import _normalize_prev_actions_length
++
++    with pytest.raises(ValueError, match="Cannot pad an empty prefix"):
++        _normalize_prev_actions_length(torch.empty(0, 2), target_steps=4)
++
++
+ # ---------------------------------------------------------------------------
+ # Recording cadence with interpolation
+ # ---------------------------------------------------------------------------

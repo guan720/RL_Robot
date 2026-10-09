@@ -1,0 +1,269 @@
+{
+  "schema": "s3_harness_joint_log_v1",
+  "date": "2026-09-23",
+  "round": "S3 progressive research, not a five-round document review",
+  "owner": "/root/s3_harness_joint",
+  "scope": {
+    "task": "Harness joint counterexamples and deployable correction bridge",
+    "write_root": "具身_harness_RSI_RL/06_三轮递进调研与方案复审_20260923/research/S3",
+    "scientist_read_only": true,
+    "update_workflow_run": false,
+    "goal_created": false,
+    "upstream_code_executed": false,
+    "training_run": false,
+    "robot_experiment_run": false
+  },
+  "pre_read": [
+    "具身_harness_RSI_RL/AGENTS.md",
+    "embodied-scientist/AGENTS.md",
+    "embodied-scientist/START_HERE.md",
+    "embodied-scientist/ROLE.md",
+    "embodied-scientist/state/status.json",
+    "embodied-scientist/knowledge/INDEX.md",
+    "embodied-scientist/.agents/skills/embodied-research-scientist/SKILL.md",
+    "embodied-scientist/workflows/RESEARCH.md",
+    "06/research/S2/00_根审总结与S3入口.md",
+    "06/research/S1/harness_frontier.md",
+    "06/research/S2/harness_code.md",
+    "06/01_开发技术方案.md",
+    "06/appendices/01_接口契约与开发验收.md",
+    "04/reviews/R05/openeta_source_check.md"
+  ],
+  "enumerated_questions": [
+    "Whether teacher-correct actions are realizable from all declared deployment-policy inputs",
+    "Whether feedback programs may be flattened into initial-observation chunks",
+    "Whether action-schema agreement implies representation/latent/residual reachability",
+    "Whether unknown or task closure releases unresolved physical effects",
+    "How late receipts refine historical facts without restoring stale control authority",
+    "Whether tool/endpoint locks serialize overlapping physical resources",
+    "Whether runtime harness gains or changed reward profiles masquerade as policy internalization",
+    "How program utility yields reliable supervision, valid RL experience or practice opportunities and exits"
+  ],
+  "searches": [
+    {
+      "call": 1,
+      "queries": [
+        "robot privileged teacher student partial observability imitation learning causal confusion policy distillation",
+        "robot language correction policy distillation action chunks intervention open source September 2026",
+        "RPent OpenETA robot harness GitHub",
+        "ros2_control resource manager command interface exclusive ownership asynchronous hardware"
+      ],
+      "outcome": "Primary discoveries CritiQ/ReTRy and SITT; official ROS2 and OpenETA entries. Non-primary and unrelated results not used as technical evidence."
+    },
+    {
+      "call": 5,
+      "queries": [
+        "\"CritiQ\" \"github\" \"ReTRy\"",
+        "\"Student-Informed Teacher Training\" code github",
+        "site.dev.bostondynamics.com \"Lease\" \"epoch\" \"resource\"",
+        "site.github.com/MaoPopovich/SafeEvolve"
+      ],
+      "outcome": "Official SITT and SafeEvolve repositories; canonical Spot lease_service URL. No confirmed CritiQ code link in this search."
+    },
+    {
+      "call": 8,
+      "queries": [
+        "robot policy learning language corrections deployment without language feedback open source 2025 2026",
+        "robot autonomous policy improvement VLM corrections open source \"2026\" \"GitHub\"",
+        "\"CritiQ\" \"ReTRy\" code huggingface",
+        "\"SafeEvolve\" huggingface model"
+      ],
+      "outcome": "FlowDAgger, OLAF, ARCHITECT discovered; SDP already covered in S2. No verified HF weight/data release for CritiQ or SafeEvolve. Search result absence is not absence proof."
+    }
+  ],
+  "sources": [
+    {
+      "id": "critique",
+      "type": "primary paper",
+      "url": "https://arxiv.org/html/2505.09546v1",
+      "version": "v1, 2025-05-14",
+      "read_scope": "Sections II-IV, Algorithms 1-2, aliasing example, simulation and real evaluation setup/limitations",
+      "supports": "State aliasing can make correct privileged teacher actions unrealizable; CritiQ selective querying and ReTRy recovery resets",
+      "limits": "Assumes callable teacher; real experiment is sim-trained Stretch transfer, 12 trials/method; not autonomous real-world VLA RL; general theoretical claims not independently proven"
+    },
+    {
+      "id": "critique_project",
+      "type": "author project",
+      "url": "https://portal-cornell.github.io/CritiQ_ReTRy/",
+      "read_scope": "Project page text and links",
+      "supports": "Author/institution identity and mechanism",
+      "limits": "No complete official code/weight/data release verified"
+    },
+    {
+      "id": "sitt_paper",
+      "type": "primary paper",
+      "url": "https://arxiv.org/html/2412.09149v2",
+      "version": "v2, 2025-02-27",
+      "read_scope": "Sections 3-5 and Appendix A.1.3; teacher-student objective and occlusion example",
+      "supports": "Trainable teacher can adapt to student observation limits; manipulation is simulated Isaac Gym Franka",
+      "limits": "Not a GPT teacher and not real-world online VLA result; internal numeric prose/table discrepancy not used as ranking evidence"
+    },
+    {
+      "id": "sitt_code",
+      "type": "official code",
+      "repo": "uzh-rpg/sitt",
+      "commit": "13b7eca69aefea5e9e1e2076e214c04775ffb1bd",
+      "urls": [
+        "https://raw.githubusercontent.com/uzh-rpg/sitt/13b7eca69aefea5e9e1e2076e214c04775ffb1bd/README.md",
+        "https://raw.githubusercontent.com/uzh-rpg/sitt/13b7eca69aefea5e9e1e2076e214c04775ffb1bd/LICENSE",
+        "https://raw.githubusercontent.com/uzh-rpg/sitt/13b7eca69aefea5e9e1e2076e214c04775ffb1bd/color_maze/rl_scripts/on_policy_algorithm_toy.py",
+        "https://raw.githubusercontent.com/uzh-rpg/sitt/13b7eca69aefea5e9e1e2076e214c04775ffb1bd/color_maze/rl_scripts/ppo_toy.py"
+      ],
+      "read_scope": "README release scope; LICENSE header GPL3; collect_rollouts KL reward; align_policy masks/detach/optimizer; PPO train alignment and student evaluation",
+      "supports": "Released code only color maze; positive KL reward addition and separate L1 teacher alignment differ from a direct copy of paper penalty; actual learned student exists",
+      "limits": "No execution; does not resolve paper-code mismatch; robotics implementations not in this release"
+    },
+    {
+      "id": "dida",
+      "type": "original proceedings",
+      "url": "https://proceedings.mlr.press/v162/liotet22a.html",
+      "read_scope": "Abstract, stated efficient undelayed teacher and smoothness assumptions",
+      "supports": "Privileged/delayed imitation is possible under modeled conditions",
+      "limits": "Only proceedings summary revisited in S3; no new full theorem/implementation audit"
+    },
+    {
+      "id": "flowdagger",
+      "type": "official repository and institutional transparency",
+      "urls": [
+        "https://github.com/microsoft/FlowDAgger",
+        "https://github.com/microsoft/FlowDAgger/blob/main/TRANSPARENCY.md"
+      ],
+      "version": "Access-time main only; fixed-version deeper code work delegated to /root/s3_rl_joint",
+      "read_scope": "README mechanism/layout/license statement; TRANSPARENCY overview and limitations",
+      "supports": "BC trains latent steering while base frozen; initial-noise inversion limits; README now lists pi0.5 and GR00T while transparency still describes pi0.5-only release",
+      "limits": "No paper performance adopted; no weights downloaded; no fixed SHA claimed here; README/transparency release-scope mismatch retained"
+    },
+    {
+      "id": "safe_paper",
+      "type": "primary paper",
+      "url": "https://arxiv.org/html/2609.02786v1",
+      "version": "v1, 2026-09-02",
+      "read_scope": "Method overview, institution line, Appendix B internalization/no-runtime-Harness comparison and online-update tradeoffs",
+      "supports": "Software-agent co-evolution need not fully internalize runtime guidance; online expansion can regress",
+      "limits": "Not robotics evidence; performance figures not independently reproduced"
+    },
+    {
+      "id": "safe_code",
+      "type": "official code",
+      "repo": "MaoPopovich/SafeEvolve",
+      "commit": "94dc3693475a707a1a1fa34f0f09ec1dfcd0c87e",
+      "urls": [
+        "https://raw.githubusercontent.com/MaoPopovich/SafeEvolve/94dc3693475a707a1a1fa34f0f09ec1dfcd0c87e/README.md",
+        "https://raw.githubusercontent.com/MaoPopovich/SafeEvolve/94dc3693475a707a1a1fa34f0f09ec1dfcd0c87e/core/skillrl/reward_profiles.py",
+        "https://raw.githubusercontent.com/MaoPopovich/SafeEvolve/94dc3693475a707a1a1fa34f0f09ec1dfcd0c87e/docs/reproduction.md"
+      ],
+      "read_scope": "README pipeline/default profile mapping/dependencies/catalog omission; reward_profiles definitions and attacked_reward; reproduction provenance and verifier",
+      "supports": "Baseline and augmented default reward profiles differ; raw rollout/catalog and external training stacks not fully bundled",
+      "limits": "No upstream execution; license statement from README, direct LICENSE download failed; phase3_barrier_hook opened but not used for implementation claim"
+    },
+    {
+      "id": "hase",
+      "type": "primary paper",
+      "url": "https://arxiv.org/html/2607.03935v1",
+      "version": "v1, 2026-07-04",
+      "read_scope": "Sections 3.1-3.3 and 6",
+      "supports": "Whitelisted harness editing with independent oracle when evaluator editable",
+      "limits": "Software/math domains only; code/weights not verified; no proposal to make project rubric self-editing"
+    },
+    {
+      "id": "olaf",
+      "type": "author project",
+      "url": "https://ut-austin-rpl.github.io/olaf/",
+      "read_scope": "Abstract and overview",
+      "supports": "Verbal correction updates visuomotor policy, distinct from direct language control",
+      "limits": "Discovery-level follow-up only; no code or result replication"
+    },
+    {
+      "id": "architect",
+      "type": "author project",
+      "url": "https://robo-architect.github.io/",
+      "read_scope": "Project overview",
+      "supports": "Human language corrections and persistent program skill library",
+      "limits": "Not deeply reviewed; not used as autonomous VLA learning implementation evidence"
+    },
+    {
+      "id": "phy_code_revisit",
+      "type": "official fixed code",
+      "repo": "PhyAgentOS/PhyAgentOS-core",
+      "commit": "90ac3f22b20aa25dbcc4e3a4333df8c1747af95c",
+      "urls": [
+        "https://raw.githubusercontent.com/PhyAgentOS/PhyAgentOS-core/90ac3f22b20aa25dbcc4e3a4333df8c1747af95c/PhyAgentOS/forge/task.py",
+        "https://raw.githubusercontent.com/PhyAgentOS/PhyAgentOS-core/90ac3f22b20aa25dbcc4e3a4333df8c1747af95c/PhyAgentOS/forge/tool_client.py"
+      ],
+      "read_scope": "Tool statuses, store scope, observe_action, record_cancel_response, reconcile_nonterminal; timeout/cancel/session HTTP semantics",
+      "supports": "S2 boundaries confirmed for S3 reducer/authority counterexamples",
+      "limits": "No new claim of running failure; server/physical gateway implementation not obtained; other RPent/OpenETA mechanics inherited from explicit prior fixed audits"
+    },
+    {
+      "id": "ros_actions",
+      "type": "official design document",
+      "url": "https://design.ros2.org/articles/actions.html",
+      "read_scope": "Goal States, multiple-client behavior, Cancel Goal and Get Result",
+      "supports": "CANCELING is active; accepted cancellation differs from completed cancellation",
+      "limits": "Protocol semantics not device physical stop proof"
+    },
+    {
+      "id": "ros_resource",
+      "type": "official fixed code",
+      "repo": "ros-controls/ros2_control",
+      "commit": "b0c14b5edca8d17fc2996be1909815e8fcb587c6",
+      "url": "https://raw.githubusercontent.com/ros-controls/ros2_control/b0c14b5edca8d17fc2996be1909815e8fcb587c6/hardware_interface/src/resource_manager.cpp",
+      "read_scope": "command_interface_is_claimed, claim_command_interface, release_command_interface around lines 1760-1795",
+      "supports": "Instance-local map/mutex interface claim with duplicate rejection; LoanedCommandInterface release callback",
+      "limits": "Not an audit of all controller_manager switch modes; no proof of cross-process exclusion or alias-key physical conflict resolution"
+    },
+    {
+      "id": "spot_doc_proto",
+      "type": "official service documentation and fixed proto",
+      "repo": "boston-dynamics/spot-sdk",
+      "commit": "04537ddafe0641d1751af3eb9e76cb785fc18594",
+      "urls": [
+        "https://dev.bostondynamics.com/docs/concepts/lease_service.html",
+        "https://raw.githubusercontent.com/boston-dynamics/spot-sdk/04537ddafe0641d1751af3eb9e76cb785fc18594/protos/bosdyn/api/lease.proto"
+      ],
+      "read_scope": "Service-side ownership checks, epoch/sequence/resource tree; proto Lease/ResourceTree/LeaseUseResult/Acquire/Return/Retain",
+      "supports": "Concrete robot service-side resource/epoch/sequence contract",
+      "limits": "Server firmware not audited; SDK-specific license not treated as general MIT; full SDK tree fetch incomplete"
+    }
+  ],
+  "repository_identity_metadata": "evidence/harness/repositories.json",
+  "repository_tree_scope": "Six complete tree files downloaded; Spot commit identity obtained but tree download IncompleteRead. Trees are inventories, not full source reads.",
+  "direct_download_manifest": "evidence/harness/source_manifest.json",
+  "direct_download_result": "All nineteen selected raw file direct downloads timed out. Key files were read through web raw-content fallback. Do not claim full local raw source snapshots.",
+  "web_response_snapshot": "evidence/harness/web_evidence.json",
+  "web_failures": [
+    "Wrong/obsolete Spot lease.html URL inaccessible; canonical lease_service.html succeeded",
+    "Web GitHub commits/HEAD for sitt and SafeEvolve failed; local GitHub API identity retrieval succeeded",
+    "GitHub rendered resource_manager.cpp find did not find claim method; raw fixed URL succeeded"
+  ],
+  "local_failures": [
+    "First Python stdin script used a Chinese path and PowerShell encoding replaced characters with '?'; pathlib mkdir failed before writes. Retried with S3 workdir and ASCII relative evidence/harness path.",
+    "Raw.githubusercontent direct downloads timed out; no upstream code was executed."
+  ],
+  "assumptions_and_inferences": [
+    "Conditional action ambiguity and reachability formalization are our project reasoning, not claims that any cited paper already proves this system.",
+    "Unknown is epistemic; evidence can refine history while stale control authority stays revoked.",
+    "Resource closure and generation checking are proposed gateway responsibilities.",
+    "All proposed tests are pending; no mock result presented as actual."
+  ],
+  "candidate_decisions": [
+    "RPent, OpenETA, PhyAgentOS remain bounded same-contract precheck candidates",
+    "FlowDAgger added as correction-learning/representation baseline, deeper analysis owned by RL agent",
+    "SITT and CritiQ/ReTRy retained as mechanism/counterexample sources; no strong-teacher assumption imported",
+    "SafeEvolve/HASE retained for experimental attribution and harness/parameter distinction, software evidence only",
+    "ros2_control optional internal runtime component; Spot lease is mechanism reference"
+  ],
+  "final_deliverables": [
+    "harness_joint.md",
+    "harness_joint_log.json"
+  ],
+  "validation": "JSON parse and local Markdown relative-link check run after writing; no third-party tests run",
+  "unknowns": [
+    "Actual GPT correction quality on workstation",
+    "Deployment-policy observation identifiability",
+    "Effective correction reachability",
+    "Driver stop/activation receipts",
+    "Same-budget BC+RL superiority over dynamic reliable BC",
+    "Independent replication of new candidates"
+  ]
+}

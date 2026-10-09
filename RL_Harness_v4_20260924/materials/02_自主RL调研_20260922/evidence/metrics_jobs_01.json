@@ -1,0 +1,72 @@
+[
+  {
+    "id": "rail-berkeley/serl",
+    "kind": "github",
+    "url": "https://api.github.com/repos/rail-berkeley/serl"
+  },
+  {
+    "id": "rail-berkeley/hil-serl",
+    "kind": "github",
+    "url": "https://api.github.com/repos/rail-berkeley/hil-serl"
+  },
+  {
+    "id": "autoserl/AutoSERL",
+    "kind": "github",
+    "url": "https://api.github.com/repos/autoserl/AutoSERL"
+  },
+  {
+    "id": "ikostrikov/rlpd",
+    "kind": "github",
+    "url": "https://api.github.com/repos/ikostrikov/rlpd"
+  },
+  {
+    "id": "danijar/daydreamer",
+    "kind": "github",
+    "url": "https://api.github.com/repos/danijar/daydreamer"
+  },
+  {
+    "id": "nicklashansen/tdmpc2",
+    "kind": "github",
+    "url": "https://api.github.com/repos/nicklashansen/tdmpc2"
+  },
+  {
+    "id": "JiahengHu/FLaRe",
+    "kind": "github",
+    "url": "https://api.github.com/repos/JiahengHu/FLaRe"
+  },
+  {
+    "id": "amazon-far/residual-offpolicy-rl",
+    "kind": "github",
+    "url": "https://api.github.com/repos/amazon-far/residual-offpolicy-rl"
+  },
+  {
+    "id": "ajwagen/dsrl",
+    "kind": "github",
+    "url": "https://api.github.com/repos/ajwagen/dsrl"
+  },
+  {
+    "id": "nakamotoo/dsrl_pi0",
+    "kind": "github",
+    "url": "https://api.github.com/repos/nakamotoo/dsrl_pi0"
+  },
+  {
+    "id": "RLinf/RLinf",
+    "kind": "github",
+    "url": "https://api.github.com/repos/RLinf/RLinf"
+  },
+  {
+    "id": "Lei-Kun/RL-100",
+    "kind": "github",
+    "url": "https://api.github.com/repos/Lei-Kun/RL-100"
+  },
+  {
+    "id": "HIL-SERL",
+    "kind": "semantic_scholar",
+    "url": "https://api.semanticscholar.org/graph/v1/paper/ARXIV:2410.21845?fields=title,authors,year,citationCount,influentialCitationCount,externalIds,url,venue"
+  },
+  {
+    "id": "HIL-SERL",
+    "kind": "openalex_search",
+    "url": "https://api.openalex.org/works?search=Precise%20and%20Dexterous%20Robotic%20Manipulation%20via%20Human-in-the-Loop%20Reinforcement%20Learning&per-page=3"
+  }
+]

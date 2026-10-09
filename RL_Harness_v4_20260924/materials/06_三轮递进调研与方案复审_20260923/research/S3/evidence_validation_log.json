@@ -1,0 +1,472 @@
+{
+  "title": "S3 joint evidence and validation research log",
+  "accessed_date_local": "2026-09-23",
+  "timezone": "Asia/Shanghai",
+  "phase": "S3 progressive research, not five-round final review",
+  "authorization": {
+    "science_library": "read_only",
+    "writes": "具身_harness_RSI_RL/06_三轮递进调研与方案复审_20260923/research/S3/",
+    "update": false,
+    "goal": false,
+    "third_party_execution": false,
+    "installation": false
+  },
+  "local_learning": [
+    {
+      "path": "具身_harness_RSI_RL/AGENTS.md",
+      "scope": "project boundary and read-only scientist rules"
+    },
+    {
+      "path": "embodied-scientist/START_HERE.md",
+      "scope": "entry and ordinary research boundary"
+    },
+    {
+      "path": "embodied-scientist/ROLE.md",
+      "scope": "research/evidence/causality discipline"
+    },
+    {
+      "path": "embodied-scientist/state/status.json",
+      "scope": "read-only state, paused update not resumed"
+    },
+    {
+      "path": "embodied-scientist/knowledge/INDEX.md",
+      "scope": "select evaluation chapter"
+    },
+    {
+      "path": "embodied-scientist/.agents/skills/embodied-research-scientist/SKILL.md",
+      "scope": "ordinary research skill; no update trigger"
+    },
+    {
+      "path": "embodied-scientist/workflows/RESEARCH.md",
+      "scope": "hypothesis, information contract, fair baseline, validation"
+    },
+    {
+      "path": "embodied-scientist/knowledge/C_D21_evaluation.md",
+      "scope": "sampling units, group split, real-world reliability and evidence limits"
+    },
+    {
+      "path": "research/S2/00_根审总结与S3入口.md",
+      "scope": "S2 results and S3 joint questions"
+    },
+    {
+      "path": "research/S1/ecosystem_frontier.md",
+      "scope": "ecosystem baseline and prior query scope"
+    },
+    {
+      "path": "research/S2/ecosystem_code.md",
+      "scope": "fixed OpenPI/LeRobot release and execution-chain findings"
+    },
+    {
+      "path": "research/S2/root_correction_code.md",
+      "scope": "SDP label vs TD boundary"
+    },
+    {
+      "path": "research/01_目标层级待验证设计.md",
+      "scope": "independent policy, three Harness channels, two release cadences"
+    },
+    {
+      "path": "03_技术专家汇报.md",
+      "scope": "section 3 hypotheses, stages, risks"
+    },
+    {
+      "path": "01_开发技术方案.md",
+      "scope": "section 13 evaluation and acceptance"
+    }
+  ],
+  "enumerated_questions": [
+    "Dynamic BC versus BC+RL: data opportunity, labels, update budget and total-system budget",
+    "Physical cycling versus shared parameters: 2x2 design, total capacity and initial-state distribution",
+    "Old/new policy x old/new Harness: deployment attribution is not training causal attribution",
+    "Program library: correction labels, physically realized exploration, restored practice opportunity",
+    "Independent policy boundary: learned editor/Q versus external GPT actions; candidate count cost",
+    "False improvements: goal timeline, future observations, source-session leakage, mutable assets, LoRA/normalizer/dtype",
+    "Statistics and costs: sequential stopping, repeated model selection, correlated cycles, train replicates"
+  ],
+  "actual_search_queries": [
+    "robot reset free reinforcement learning shared forward backward policy demonstration reset classifier 2026",
+    "robot vision language action reinforcement learning online self improvement open source September 2026 benchmark",
+    "robot program exploration learning policy LLM skill library distillation open source 2026",
+    "robot reinforcement learning behavior cloning fair comparison data budget real world evaluation reset free",
+    "\"reset-free\" \"2026\" robot reinforcement learning shared policy",
+    "\"AnyTask\" \"github\" policy",
+    "\"ABC-130K\" github huggingface",
+    "\"Master Skill Learning with Policy-Grounded\" github",
+    "\"REVERSAL-BENCH\" github",
+    "\"AnyTask\" robot \"github.com\"",
+    "\"How Generalizable is My Behavior Cloning Policy\" github",
+    "\"Beyond Binary Success\" \"N-SCORE\" robot",
+    "\"Is Your Imitation Learning Policy Better than Mine\" github",
+    "\"RLDG\" github dataset HuggingFace",
+    "\"ABC\" \"DAgger\" \"amazon-far\"",
+    "\"N-SCORE\" \"github\" robot Snyder",
+    "\"AnyTask\" \"Robotics and AI Institute\" paper"
+  ],
+  "deduplication": {
+    "tool": "rg",
+    "searched_roots": [
+      "具身_harness_RSI_RL/02_自主RL调研_20260922/research",
+      "具身_harness_RSI_RL/04_RL与Harness扩展调研_20260923/research",
+      "具身_harness_RSI_RL/06_三轮递进调研与方案复审_20260923/research/S1",
+      "具身_harness_RSI_RL/06_三轮递进调研与方案复审_20260923"
+    ],
+    "terms": "ABC-130K|Scalable Behavior|RLDG|Scaling Up|DBAP|AnyTask|CRONOS|REVERSAL-BENCH|PoRSE",
+    "result": "CRONOS and REVERSAL-BENCH explicitly found in prior 02/04 records; not counted as new discovery. New depth is ABC fixed implementation/PR and joint experiment attribution. Older RLDG and Scaling Up are newly targeted evidence, not newly published methods.",
+    "failures": "Initial guessed old-directory names did not exist; corrected to actual 02_自主RL调研_20260922 and 04_RL与Harness扩展调研_20260923."
+  },
+  "primary_sources": [
+    {
+      "id": "ABC_PAPER",
+      "url": "https://arxiv.org/html/2606.27375",
+      "opened": true,
+      "scope": "§5.3 DAgger; appendix F intervention and RTC; appendix G rubric; searched related evaluation sections",
+      "evidence": "Author reports continuous DAgger data mixtures and source-environment shortcut; progress must not be relabeled strict success.",
+      "limits": "No reproduction; dynamic BC is evidence for necessary baseline, not proof it beats local RL."
+    },
+    {
+      "id": "ABC_SITE",
+      "url": "https://abc.bot/",
+      "opened": true,
+      "scope": "DAgger, evaluation, model release descriptions",
+      "evidence": "24 to 85 refers to mean task progress; training/data/evaluation links",
+      "limits": "Author report; no measurement verified locally."
+    },
+    {
+      "id": "ABC_REPO",
+      "url": "https://github.com/amazon-far/abc",
+      "opened": true,
+      "scope": "README training, release, asset and license sections",
+      "fixed_commit": "6c467cebcecf16a4dce79e6fd87a7ca2281c3ef0",
+      "limits": "No dependency resolution, no checkpoint load, no deployment."
+    },
+    {
+      "id": "ABC_PR23",
+      "url": "https://github.com/amazon-far/abc/pull/23",
+      "opened": true,
+      "scope": "Merged status 2026-09-18 and maintainer defect/relabel/release report",
+      "evidence": "First-target episode label applied to changing goals; 65.4% frame count and 779/783 replay match are maintainer reports; mutable tar key and new content hash.",
+      "limits": "Did not download or recount the dataset."
+    },
+    {
+      "id": "ABC_PR23_DIFF",
+      "url": "https://github.com/amazon-far/abc/pull/23/files",
+      "opened": true,
+      "scope": "dataloader.py timeline/excluded/build_prompt patch and export metadata patch",
+      "evidence": "Per-frame prompt resolution present, confirmed against fixed source",
+      "limits": "Static inspection only; no chunk-boundary or replay execution."
+    },
+    {
+      "id": "ABC_DAGGER",
+      "url": "https://raw.githubusercontent.com/amazon-far/abc/6c467cebcecf16a4dce79e6fd87a7ca2281c3ef0/deploy/dagger.py",
+      "opened": true,
+      "scope": "full 88-line web rendering of launch/configuration path",
+      "evidence": "Launcher builds dagger_rollout and recorder, record=True",
+      "limits": "Not complete rollout/driver audit."
+    },
+    {
+      "id": "ABC_DEPLOY",
+      "url": "https://github.com/amazon-far/abc/blob/6c467cebcecf16a4dce79e6fd87a7ca2281c3ef0/deploy/README.md",
+      "opened": true,
+      "scope": "web raw and API text; DAgger, discard metadata, export, norm stats, deployment",
+      "evidence": "Whole-record audit trail and explicit export paths; deployment assets described",
+      "limits": "Documentation is not driver execution proof."
+    },
+    {
+      "id": "ABC_EXPORT",
+      "url": "https://github.com/amazon-far/abc/blob/6c467cebcecf16a4dce79e6fd87a7ca2281c3ef0/deploy/recording/export.py",
+      "opened": true,
+      "scope": "ExportConfig, _segment_ranges, export_recordings, resolve_norm_stats, _write_val",
+      "evidence": "Auto DAgger intervention-only; same_as_train default; split operates on exported episode IDs; source_h5 kept in provenance.",
+      "limits": "Static reachable leakage scenario if mistaken for independent validation; not accusation about paper evaluation."
+    },
+    {
+      "id": "ABC_CHECKPOINT",
+      "url": "https://github.com/amazon-far/abc/blob/6c467cebcecf16a4dce79e6fd87a7ca2281c3ef0/abc_minimal/checkpointing.py",
+      "opened": true,
+      "scope": "model_state_dict, check_topology, restore_training_state, save_checkpoint",
+      "evidence": "Saves norm_stats/model_config/train_config with model; temporary file replace; topology warning.",
+      "limits": "Not numerical equivalence proof; full policy load chain not audited."
+    },
+    {
+      "id": "ABC_DATALOADER",
+      "url": "https://github.com/amazon-far/abc/blob/6c467cebcecf16a4dce79e6fd87a7ca2281c3ef0/abc_minimal/dataloader.py",
+      "opened": true,
+      "scope": "scan_episodes, _prompt_timeline, _prompt_at, _episode_prompt and prompt call sites",
+      "evidence": "Per-frame timeline and exclusion implemented.",
+      "limits": "No runtime data validation; project chunk-cross-goal gate remains to implement."
+    },
+    {
+      "id": "ABC_HF",
+      "url": "https://huggingface.co/datasets/XDOF/ABC-130k",
+      "opened": true,
+      "scope": "public data card, access gate, format, timestamps and license statements",
+      "evidence": "Contact-sharing gate; MCAP and annotation timebase; streams need timestamp association.",
+      "limits": "No gate acceptance, data file access, license-file audit or large data download."
+    },
+    {
+      "id": "RLDG_PAPER",
+      "url": "https://generalist-distillation.github.io/static/high_performance_generalist.pdf",
+      "opened": true,
+      "scope": "§3-5, §5.1 Fig7 state/action relabel comparison, interface-frequency discussion and limitations",
+      "evidence": "Teacher-generated data followed by supervised generalist learning; matched states with relabeled actions; teacher/student execution differences.",
+      "limits": "Relabeled actions not actual TD; successful-episode matching not total teacher cost parity."
+    },
+    {
+      "id": "RLDG_SITE",
+      "url": "https://generalist-distillation.github.io/",
+      "opened": true,
+      "scope": "method and links",
+      "limits": "Videos/author presentation not independent reproduction."
+    },
+    {
+      "id": "RLDG_INSTRUCTIONS",
+      "url": "https://generalist-distillation.github.io/RLDG/",
+      "opened": true,
+      "scope": "brief public instruction page",
+      "limits": "Not a full source audit."
+    },
+    {
+      "id": "RLDG_DATA",
+      "url": "https://huggingface.co/datasets/charlesxu0124/RLDG",
+      "opened": true,
+      "scope": "RLDS data card and task listing",
+      "limits": "No download/schema validation or license closure."
+    },
+    {
+      "id": "RLDG_WEIGHTS",
+      "url": "https://huggingface.co/charlesxu0124/RLDG",
+      "opened": true,
+      "scope": "task checkpoint card; wrist input and action interface",
+      "limits": "No weights loaded; card claims only."
+    },
+    {
+      "id": "SCALINGUP_PAPER",
+      "url": "https://arxiv.org/html/2307.14535",
+      "opened": true,
+      "scope": "mechanism overview, privileged simulation information, verify/retry and distillation",
+      "limits": "Does not establish current real-world same-theta BC+TD joint system."
+    },
+    {
+      "id": "SCALINGUP_REPO",
+      "url": "https://github.com/real-stanford/scalingup",
+      "opened": true,
+      "scope": "README contents, generation/training/reproduction entry links",
+      "limits": "No full code/weights/license audit."
+    },
+    {
+      "id": "ANYTASK_PAPER",
+      "url": "https://arxiv.org/html/2512.17853v2",
+      "opened": true,
+      "scope": "task/simulation generator, dense privileged annotation, ViPR, real policy observations and limitations",
+      "evidence": "Program/exploration-to-policy precedent with privileged simulation and point-cloud transfer boundary.",
+      "limits": "Did not confirm full official runnable release chain."
+    },
+    {
+      "id": "ANYTASK_SITE",
+      "url": "https://anytask.rai-inst.com/",
+      "opened": true,
+      "scope": "institution project method and assets links; searched code/github",
+      "limits": "No official code link established in accessed project page/targeted search; absence is scoped, not global assertion."
+    },
+    {
+      "id": "STEP_PAPER",
+      "url": "https://arxiv.org/html/2503.10966v2",
+      "opened": true,
+      "scope": "binary comparison setup, sequential stopping and practical scope",
+      "limits": "No tests run."
+    },
+    {
+      "id": "STEP_SITE",
+      "url": "https://tri-ml.github.io/step/",
+      "opened": true,
+      "scope": "method and official code link"
+    },
+    {
+      "id": "STEP_CODE",
+      "url": "https://github.com/TRI-ML/sequentialized_barnard_tests",
+      "opened": true,
+      "scope": "repository README/interface availability",
+      "limits": "No implementation correctness test or exhaustive license audit."
+    },
+    {
+      "id": "NSCORE_PAPER",
+      "url": "https://arxiv.org/html/2603.13616v1",
+      "opened": true,
+      "scope": "bounded metric definition, decision construction, multi-test discussion, appendix C-C sampling dependence",
+      "limits": "Do not transplant independent-example inference to correlated robot windows without matching statistical design."
+    },
+    {
+      "id": "NSCORE_CODE",
+      "url": "https://github.com/dasnyder5/nscore",
+      "opened": true,
+      "scope": "README examples, FailToDecide interpretation, multiple-policy and mirrored-testing caveats",
+      "limits": "No execution or verified permission for code reuse; use as method reference pending adoption."
+    },
+    {
+      "id": "DBAP_SITE",
+      "url": "https://dbap-rl.github.io/",
+      "opened": true,
+      "scope": "autonomous practice method and comparison summary",
+      "limits": "Historical targeted recovery lineage; not new state-of-art discovery."
+    },
+    {
+      "id": "CRONOS_SITE",
+      "url": "https://embodiedai-ntu.github.io/cronos/index.html",
+      "opened": true,
+      "scope": "reset-budget benchmark and coming-soon code status",
+      "limits": "Known prior entry, not deep audited in this round."
+    },
+    {
+      "id": "REVERSAL_PAPER",
+      "url": "https://arxiv.org/html/2609.17745v1",
+      "opened": true,
+      "scope": "benchmark scope and code-link search",
+      "limits": "Known prior entry, no environment or baseline reproduction."
+    },
+    {
+      "id": "VINCENT_STATISTICS",
+      "url": "https://arxiv.org/abs/2405.05439",
+      "opened": false,
+      "scope": "search abstract only plus original author/source leads",
+      "limits": "Not used for full-text statistical claims."
+    },
+    {
+      "id": "PORSE",
+      "url": "https://openreview.net/pdf/c33f6e021c5f604c47633d5864c81606c7663106.pdf",
+      "opened": false,
+      "scope": "primary PDF search result only",
+      "limits": "Not promoted to adopted/open baseline; no source-code audit."
+    }
+  ],
+  "new_counterexamples": [
+    {
+      "id": "C1",
+      "claim": "RL adds value",
+      "counterexample": "New RL arm has continued corrections while comparator is frozen initial BC.",
+      "design": "H1 fixed-data mechanism + vector-capped online efficacy."
+    },
+    {
+      "id": "C2",
+      "claim": "Shared bidirectional learning is useful",
+      "counterexample": "Cycling reduces resets but parameter sharing harms reverse direction.",
+      "design": "H2 cycle x sharing; direction-wise limits; total capacity report."
+    },
+    {
+      "id": "C3",
+      "claim": "Harness learns policy",
+      "counterexample": "New Harness rescues old policy better; old/new inference grid cannot prove training causality.",
+      "design": "H3 six cells plus H4 same-P0 training branches."
+    },
+    {
+      "id": "C4",
+      "claim": "Corrections are learnable",
+      "counterexample": "Teacher uses later observations/faster control; student cannot express labels.",
+      "design": "H5 information and time-aligned supervision, held-out closed-loop."
+    },
+    {
+      "id": "C5",
+      "claim": "Program exploration is useful",
+      "counterexample": "Novel states are untrainable or all recoveries reset to easy starts.",
+      "design": "H4 TD-only exploration, recovery-only practice, fixed difficulty evaluation."
+    },
+    {
+      "id": "C6",
+      "claim": "Validation improvement is real",
+      "counterexample": "ABC export same_as_train or intervention-segment random split leaks original episode.",
+      "design": "H7 source/session split before slicing."
+    },
+    {
+      "id": "C7",
+      "claim": "Goal labels and assets are fixed",
+      "counterexample": "ABC PR23 changing prompts collapsed into episode-first target and data replaced at same key.",
+      "design": "H7 goal timeline, epoch/chunk mask and content hash."
+    },
+    {
+      "id": "C8",
+      "claim": "Training increment is deployed",
+      "counterexample": "S2 LoRA/normalizer/dtype differences combine with stronger Harness to hide unchanged policy.",
+      "design": "H6 package identity and H7 policy x service diagnostic."
+    },
+    {
+      "id": "C9",
+      "claim": "Statistics establish progress",
+      "counterexample": "Optional fixed-interval peeking, many model attempts, correlated cycles, progress relabeled success.",
+      "design": "Predeclared stopping/test family, per-direction strict success, train/window clusters."
+    }
+  ],
+  "decisions": {
+    "change_main_goal": false,
+    "final_goal": "same target-conditioned policy stable in both directions without external action assistance",
+    "required_changes": [
+      "Strong continuously updated BC comparator",
+      "Separate fixed-data mechanism and capped-resource total-effect comparisons",
+      "Separate cycle and parameter-sharing effects",
+      "Do not use deployment old/new cross grid as sole training-causal proof",
+      "Policy editor/Q boundary and candidate/compute budgets predeclared",
+      "Goal timeline/source-session split/content hashes/normalizer release gates",
+      "Progress metric versus strict success, sequential stopping and correlated-unit accounting"
+    ],
+    "remaining_empirical_unknowns": [
+      "local correction quality",
+      "action expressivity",
+      "legal TD coverage",
+      "independent bidirectional reliability",
+      "runtime latency",
+      "total human/robot/GPU/GPT cost"
+    ],
+    "stop_reason": "Sufficient new joint primary/source evidence and falsifiable designs; no need to expand candidate list."
+  },
+  "errors_and_fallbacks": [
+    {
+      "operation": "PowerShell first local reads",
+      "error": "Default encoding displayed Chinese mojibake",
+      "fallback": "Repeated key entry/doc reads with -Encoding UTF8."
+    },
+    {
+      "operation": "RLDG arXiv HTML v2",
+      "url": "https://arxiv.org/html/2412.09858v2",
+      "error": "web internal error",
+      "fallback": "Read author-hosted full PDF."
+    },
+    {
+      "operation": "web click calls using URL references",
+      "error": "three invalid-arguments click failures",
+      "fallback": "Retried with tool reference IDs; author PDF/instructions and STEP official code reached."
+    },
+    {
+      "operation": "raw GitHub finite file downloads",
+      "error": "five timed-out raw requests",
+      "fallback": "API contents retrieved four selected files; web raw used for launcher/docs. retrieval_log.json retains original failures."
+    },
+    {
+      "operation": "API downloads",
+      "result": "commit/tree and four selected source files retrieved; fixed SHA and content hashes saved"
+    },
+    {
+      "operation": "ABC PR Files UI",
+      "result": "UI includes load-error wrappers but rendered diff was available and fixed source confirms timeline change",
+      "limit": "No claim all UI resources loaded."
+    }
+  ],
+  "artifact_validation": {
+    "json_parses": true,
+    "local_link_count": 2,
+    "missing_local_links": [],
+    "hypothesis_sections": 7,
+    "mermaid_source_blocks": 7,
+    "diagrams_rendered": false,
+    "validation_scope": "Read-only local link/JSON/section check using Python standard library; no upstream test or experiment executed.",
+    "encoding_retry": "Initial PowerShell-to-Python stdin embedded Unicode path was mangled; reran from the S3 working directory with an ASCII relative filename successfully."
+  },
+  "artifacts": [
+    "evidence_validation.md",
+    "evidence_validation_log.json",
+    "evidence/validation/abc_commit.json",
+    "evidence/validation/abc_tree.json",
+    "evidence/validation/retrieval_log.json",
+    "evidence/validation/api_retrieval_log.json",
+    "evidence/validation/abc_deploy__recording__export.py",
+    "evidence/validation/abc_abc_minimal__checkpointing.py",
+    "evidence/validation/abc_deploy__README.md",
+    "evidence/validation/abc_abc_minimal__dataloader.py"
+  ]
+}

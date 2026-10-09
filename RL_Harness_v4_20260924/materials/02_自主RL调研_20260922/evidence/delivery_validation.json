@@ -1,0 +1,27 @@
+{
+  "candidate_count": 41,
+  "unique_ids": true,
+  "csv_json_html_equal": true,
+  "local_links_checked": 138,
+  "broken_local_links": [],
+  "files_sha256": {
+    "00_任务与审核口径.md": "a66b9547e534eeb7f30303cc1fda11225842452e33a20b66a47ea8e8ad79e82a",
+    "01_调研报告与选型建议.md": "2f0af9ecac337748ebc67ca9e6a91c5635344f8a5b6023252a7341c164fe3d88",
+    "02_候选总表.csv": "874dfac8fb54bbd6984e9b8f6a4f3645e45d6a9426019f4708a6d3b202ded3d8",
+    "02_候选总表.json": "a54574891b6fa7f39271b864a1f54a84d10ffc8b0278ce147954c16c334162e1",
+    "02_方案筛选器.html": "758ec13cefa42c2b7630c08671295a0c66c45cacc5903fc7bdf616cd4e049858",
+    "03_影响力与开放性快照.md": "b2239f1a86f6151f657003ab5b61fe2f1925e73eaebabc066d5c57c926e33c8a",
+    "03_影响力快照.csv": "587a255aed15fc775b9bf12521b88dbb4839f680027f3c56245de14fc1a7073d",
+    "04_审核记录.md": "1c9e007215efaf4032903e783036491199aac056bf3a70ec320ce8ffae0d9ff9",
+    "05_双向练习动机审查与松灵双臂实现路线.md": "7901d9d731b56f5ff0c4b7cf04138c5fb9817ea94a8a7e3c43fbe1d227e735f6",
+    "06_较新基线与π05选型补充.md": "0a550320bd071e4fe7463a163312046af73e71c6cb124a51f7bccea2306c447f",
+    "07_弱基础策略下的PickPlace选型与冷启动路线.md": "bcd7272a33520df1716d5b6a24cb748fc79bc0dcec1e66ff2e24a3820d63efcc",
+    "08_VLA_RLT与HIL机制组合方案.md": "7153657eb01d70899fc9660defdbec404f8a2bfe5ee318e469bba9bc3f056ac9",
+    "09_参考动作约束改进与VLA替代基线.md": "74ef8705aab7888133a713a2eaa31a564b4a5b9ba108fa627a05f63f73bf31c6",
+    "10_ConRFT之后的深入筛选与实施决策.md": "d5581b1d4e61cdeddd8af6907b80113d0ec13d75e1eaa86c6f3ed7ed35769e74",
+    "11_工程可达性与正反自主学习验证方案.md": "9f9710865322b14494f9aba1fbbffadd1b4b7c4bb0d798d2e4866b0ea68fedec",
+    "12_低成功率策略的RL再评估与自主练习路线.md": "c56e71e8e6cd8e6af41670ed9aa63642b8ac4dacf05641613b5b12e8679992d8",
+    "README.md": "303d5ea833e307b185857c7d1166923a990e8f8bf072f9796f70458e9c55eb9e"
+  },
+  "scope": "Deliverable consistency only; not scientific replication or robot testing."
+}

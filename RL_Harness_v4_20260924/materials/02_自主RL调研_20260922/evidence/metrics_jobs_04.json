@@ -1,0 +1,52 @@
+[
+  {
+    "id": "MEDAL++",
+    "kind": "openalex_title_filter",
+    "url": "https://api.openalex.org/works?filter=title.search%3ASelf-Improving%20Robots%3A%20End-to-End%20Autonomous%20Visuomotor%20Reinforcement%20Learning&per-page=5"
+  },
+  {
+    "id": "ReLMM",
+    "kind": "openalex_title_filter",
+    "url": "https://api.openalex.org/works?filter=title.search%3AFully%20Autonomous%20Real-World%20Reinforcement%20Learning%20with%20Applications%20to%20Mobile%20Manipulation&per-page=5"
+  },
+  {
+    "id": "R3L",
+    "kind": "openalex_title_filter",
+    "url": "https://api.openalex.org/works?filter=title.search%3AThe%20Ingredients%20of%20Real-World%20Robotic%20Reinforcement%20Learning&per-page=5"
+  },
+  {
+    "id": "ARIEL",
+    "kind": "openalex_title_filter",
+    "url": "https://api.openalex.org/works?filter=title.search%3AAutonomous%20Reinforcement%20Learning%20with%20Prior%20Data&per-page=5"
+  },
+  {
+    "id": "SOAR",
+    "kind": "openalex_title_filter",
+    "url": "https://api.openalex.org/works?filter=title.search%3AAutonomous%20Improvement%20of%20Instruction%20Following%20Skills%20via%20Foundation%20Models&per-page=5"
+  },
+  {
+    "id": "MobileContinuous",
+    "kind": "openalex_title_filter",
+    "url": "https://api.openalex.org/works?filter=title.search%3AContinuously%20Improving%20Mobile%20Manipulation%20with%20Autonomous%20Real-World%20Reinforcement%20Learning&per-page=5"
+  },
+  {
+    "id": "SimpleVLA-RL",
+    "kind": "openalex_title_filter",
+    "url": "https://api.openalex.org/works?filter=title.search%3ASimpleVLA-RL&per-page=5"
+  },
+  {
+    "id": "RL-100",
+    "kind": "openalex_title_filter",
+    "url": "https://api.openalex.org/works?filter=title.search%3ARL-100&per-page=5"
+  },
+  {
+    "id": "MoReFree",
+    "kind": "openalex_title_filter",
+    "url": "https://api.openalex.org/works?filter=title.search%3AReset-free%20Reinforcement%20Learning%20with%20World%20Models&per-page=5"
+  },
+  {
+    "id": "RISC",
+    "kind": "openalex_title_filter",
+    "url": "https://api.openalex.org/works?filter=title.search%3AReset-Free%20Reinforcement%20Learning%20with%20Intelligent%20Switching%20Control&per-page=5"
+  }
+]

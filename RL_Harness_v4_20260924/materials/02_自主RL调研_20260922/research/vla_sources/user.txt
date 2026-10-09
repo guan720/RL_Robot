@@ -1,0 +1,2642 @@
+RLinf-USER: A Unified and Extensible System for Real-World Online Policy Learning in Embodied AI
+Report GitHub Issue
+×
+Title:
+Content selection saved. Describe the issue below:
+Description:
+Submit without GitHub
+Submit in GitHub
+arXiv is now an independent nonprofit!
+Learn more
+×
+Back to arXiv
+Why HTML?
+Report Issue
+Back to Abstract
+Download PDF
+Abstract
+I
+Introduction
+II
+Related Work
+II-A
+Robot Learning Systems
+II-B
+Data Management for Long-Horizon Learning
+III
+System Architecture Design
+III-A
+Unified Hardware Abstraction Layer
+III-B
+Adaptive Communication Plane
+IV
+Learning Framework Design
+IV-A
+Fully Asynchronous Pipeline
+IV-B
+Persistent-Cache-Aware Buffer
+IV-C
+Extensible Policies, Algorithms, and Rewards
+V
+Experiment
+V-A
+Main Results
+V-B
+Advantages of a Unified Hardware Layer
+V-C
+Capability of the Communication Plane
+V-D
+Validation for Persistent and Cache-aware Buffer
+V-E
+Asynchronous Design
+VI
+Conclusion
+References
+-A
+Algorithm Implementation Details
+-A
+1
+Problem Setting and Notation.
+-A
+2
+SAC
+-A
+3
+SAC-Flow
+-A
+4
+RLPD
+-A
+5
+HG-DAgger
+-B
+Task Implementation Details
+-B
+1
+Peg Insertion
+-B
+2
+Charger Plugging
+-B
+3
+Cap Tightening
+-B
+4
+Pick-and-Place
+-B
+5
+Table Clean-up
+-C
+Hardware Details
+-C
+1
+Franka Robot Arm
+-C
+2
+ARX arm
+License: CC BY 4.0
+arXiv:2602.07837v2 [cs.RO] 10 Feb 2026
+RLinf-USER: A Unified and Extensible System for Real-World Online Policy Learning in Embodied AI
+Hongzhi Zang
+Shu’ang Yu
+Hao Lin
+Tianxing Zhou
+Zefang Huang
+Zhen Guo
+Xin Xu
+Jiakai Zhou
+Yuze Sheng
+Shizhe Zhang
+Feng Gao
+Wenhao Tang
+Yufeng Yue
+Affiliation:
+Tsinghua University  Infinigence AI  Beijing Institute of Technology
+Quanlu Zhang
+Xinlei Chen
+Chao Yu
+Yu Wang
+Affiliation:
+Affiliation:
+Zhejiang University  Zhongguancun Academy  Shanghai AI Laboratory
+*
+Equal Contribution
+#
+Project Leader
+Affiliation:
+Corresponding Authors:
+yuchao@sz.tsinghua.edu.cn, yu-wang@mail.tsinghua.edu.cn
+Code
+:
+https://github.com/RLinf/RLinf
+.
+Abstract
+Online policy learning directly in the physical world is a promising yet challenging direction for embodied intelligence. Unlike simulation, real-world systems cannot be arbitrarily accelerated, cheaply reset, or massively replicated, which makes scalable data collection, heterogeneous deployment, and long-horizon effective training difficult. These challenges suggest that real-world policy learning is not only an algorithmic issue but fundamentally a systems problem.
+We present USER, a
+U
+nified and extensible
+S
+yst
+E
+m for
+R
+eal-world online policy learning. USER treats physical robots as first-class hardware resources alongside GPUs through a unified hardware abstraction layer, enabling automatic discovery, management, and scheduling of heterogeneous robots. To address cloud–edge communication, USER introduces an adaptive communication plane with tunneling-based networking, distributed data channels for traffic localization, and streaming-multiprocessor-aware weight synchronization to regulate GPU-side overhead. On top of this infrastructure, USER organizes learning as a fully asynchronous framework with a persistent, cache-aware buffer, enabling efficient long-horizon experiments with robust crash recovery and reuse of historical data. In addition, USER provides extensible abstractions for rewards, algorithms, and policies, supporting online imitation or reinforcement learning of CNN/MLP, generative policies, and large vision–language–action (VLA) models within a unified pipeline.
+Results in both simulation and the real world show that USER enables multi-robot coordination, heterogeneous manipulators, edge–cloud collaboration with large models, and long-running asynchronous training, offering a unified and extensible systems foundation for real-world online policy learning.
+I
+Introduction
+A common paradigm in embodied intelligence is to train policies in simulation and then deploy them in the real world
+[
+25
+,
+23
+]
+. However, unavoidable gaps in dynamics, sensing, and interaction often cause policies to degrade significantly after transfer
+[
+11
+,
+25
+]
+. This has motivated increasing interest in learning policies directly in the physical world. Unlike simulation, real-world online learning cannot be arbitrarily accelerated, reset, or replicated. Robots operate in real time, platforms are heterogeneous, networks are unstable, and experiments are long-running and frequently interrupted
+[
+17
+]
+. These properties make real-world online policy learning not merely an algorithmic challenge, but a systems problem that tightly couples physical execution, communication, and optimization.
+Fig. 1:
+We propose
+USER
+, a
+U
+nified and extensible
+S
+yst
+E
+m for
+R
+eal-world online policy learning.
+Several system-level challenges limit scalable real-world learning. First, robots are often treated as external environments, which makes it hard to jointly schedule robots and accelerators in distributed deployments. Second, real-world online learning increasingly relies on cloud–edge infrastructures, particularly for large-scale VLA models, with rollout at the edge and training in the cloud. These components span heterogeneous and isolated network domains, causing bandwidth asymmetry and cross-domain latency
+[
+7
+]
+. Moreover, the physical world cannot be accelerated, making data efficiency the main bottleneck. Synchronous pipelines commonly used in simulation therefore result in poor learning efficiency
+[
+3
+]
+. Third, embodied learning is moving toward data-driven training with high-dimensional visual streams and long horizons, which greatly increase data volume and experiment duration. However, existing buffers and pipelines remain memory-centric and short-lived, lacking support for persistence, recovery, and cross-stage data reuse
+[
+26
+]
+.
+These challenges call for rethinking real-world robot learning from a systems perspective. Practical physical-world learning should not rely solely on isolated algorithmic advances, but instead require unified abstractions and extensible infrastructure. In this paper, we present USER, a
+U
+nified and extensible
+S
+yst
+E
+m for online
+R
+eal-world policy learning.
+At the system level, USER brings physical robots into the same abstraction layer as GPUs and other accelerators, allowing robots to participate as first-class hardware resources in distributed learning. With this unified hardware abstraction, heterogeneous robots can be automatically discovered, uniformly managed, and flexibly scheduled together with computing devices for diverse learning workloads. At scale, real-world learning further faces severe communication challenges across cloud–edge domains. USER addresses this with an adaptive communication plane that enables cross-domain connectivity via tunneling-based cloud–edge networking. To cope with bandwidth asymmetry, USER introduces distributed data channels to localize traffic and reduce unnecessary cross-domain transfers, and employs streaming multiprocessor(SM)-aware weight synchronization to regulate GPU-side communication overhead during training.
+Beyond system architecture, USER organizes the real-world policy learning as a fully asynchronous learning framework, in which data generation, training, data transmission, and weight synchronization proceed independently rather than through tightly synchronized stages. To support long-horizon and data-intensive learning, USER introduces a persistent-cache-aware buffer that enables streaming trajectory ingestion, recovery, and reuse across training phases. Unlike traditional memory-centric pipelines, this design allows experiments to run robustly for days or weeks, even under network fluctuations, robot resets, or temporary training pauses.
+On top of this framework, USER provides extensible abstractions for policies, algorithms, and rewards. Rewards can be specified via rules, human feedback, or learned reward models, while policies range from conventional CNN/MLP controllers to flow-based generative policies and large VLA models, and support both imitation and reinforcement learning algorithms. Together, USER enables researchers to explore diverse real-world learning paradigms without re-engineering the underlying system infrastructure.
+Our contributions are summarized as follows:
+•
+A unified hardware abstraction that treats physical robots as first-class resources alongside accelerators, enabling automatic discovery, management, and scheduling of heterogeneous robots for real-world policy learning.
+•
+An adaptive communication plane with tunneling-based networking, distributed data channels, and SM-aware synchronization to support stable and efficient data exchange across heterogeneous and isolated network domains.
+•
+A fully asynchronous learning framework with a persistent and cache-aware buffer that supports streaming long-horizon data ingestion, recovery, and reuse beyond memory-centric pipelines.
+•
+Extensible abstractions for rewards, algorithms, and policies within a unified execution and data pipeline, enabling online imitation and reinforcement learning of CNN/MLP, generative, and large VLA policies in real-world settings.
+•
+An open-source implementation of USER that provides a reusable systems foundation for real-world online policy learning.
+II
+Related Work
+II-A
+Robot Learning Systems
+The rapid progress of embodied intelligence has been driven by high-parallel simulators
+[
+19
+,
+20
+,
+29
+]
+and large-scale learning frameworks
+[
+21
+,
+15
+,
+10
+,
+27
+]
+. However, these systems are simulation-centric and rely on synchronous pipelines. In real-world learning, the physical environment cannot be accelerated, making data efficiency the bottleneck and synchronous execution inefficient. To address this, USER adopts a fully asynchronous pipeline that lets robots execute continuously while learning runs in parallel.
+Beyond asynchrony, scaling real-world learning requires multi-robot parallelism with proper abstraction and communication. ROS2
+[
+18
+]
+and Zenoh
+[
+6
+]
+offer connectivity but limited learning orchestration, while systems such as SERL
+[
+17
+]
+and Qt-Opt
+[
+13
+]
+mainly support single-robot or small-model settings.
+We introduce a unified hardware abstraction that treats robots as first-class resources alongside accelerators, enabling discovery, scheduling, and management of heterogeneous robots for large-scale policy learning. On top of this, USER builds an adaptive cloud–edge communication plane for stable cross-domain training with large models. Compared with SOP
+[
+22
+]
+, which targets homogeneous robots, USER emphasizes unified access to heterogeneous robots and a persistent, cache-aware buffer for long-horizon learning.
+II-B
+Data Management for Long-Horizon Learning
+High-performance, memory-centric replay buffers, exemplified by Reverb
+[
+5
+]
+and Flashbax
+[
+24
+]
+, leverage volatile RAM to achieve extreme sampling throughput. However, this reliance on memory constrains their ability to support the management requirements of real-world policy learning systems characterized by long-horizon and massive visual data, particularly with the emergence of VLA models. While recent works such as LeRobot Dataset v3.0
+[
+4
+]
+have attempted to facilitate efficient streaming access to static datasets via metadata, the systematic handling of large-scale dynamic data during active policy learning remains unresolved. To address this gap, USER proposes a persistence-cache-aware buffer that maintains high-throughput sampling capabilities while supporting asynchronous disk persistence, enabling arbitrarily large datasets with efficient revisiting of historical data, as well as long-horizon experiments with robust crash recovery in real-world training pipelines.
+III
+System Architecture Design
+With the emergence of real-world policy learning in embodied intelligence, supporting multi-robot and heterogeneous deployments becomes essential.
+The system architecture design of USER aims to provide unified and extensible system support for real-world policy learning over heterogeneous robots and distributed compute resources.
+At its core, USER virtualizes physical robots and accelerators as first-class, schedulable hardware, and connects them through a robust cloud-edge communication substrate.
+This design decouples learning logic from physical deployment details, enabling unified resource management, reliable cross-domain networking, and low-latency data exchange across multi-robot, multi-node environments, as shown in
+Fig.
+2
+.
+Together, the
+unified hardware abstraction layer
+and the
+adaptive communication plane
+constitute the infrastructure foundation for real-world policy learning in distributed and heterogeneous settings.
+Fig. 2:
+The system architecture design of USER.
+III-A
+Unified Hardware Abstraction Layer
+In pursuit of scalable real-world policy learning, the core idea of USER is to treat physical robots as accelerators (e.g., GPUs and TPUs) as first-class hardware resources.
+To this end, USER abstracts and manages all types of robots and accelerators uniformly as schedulable hardware units in a special
+hardware abstraction layer
+(HAL).
+The HAL provides unified interfaces for extending new types of hardware, automatically discovering available hardware resources, and scheduling hardware for different learning tasks.
+Node and Hardware Abstraction.
+USER models a deployment as a cluster of nodes,
+each exporting a set of hardware units.
+A
+hardware unit
+is the scheduler’s atomic allocatable entity—a single GPU device, or a single physical robot, optionally bundled with its required peripherals such as cameras and a space mouse.
+Each unit is described by a lightweight, typed descriptor (hardware type and model) and configuration metadata such as robot network identity and sensor bindings.
+A
+node
+is inherently heterogeneous,
+potentially hosting multiple types of hardware units, like different types of robots and GPUs, to maximize flexibility in deployment. In USER, we typically deploy three types of nodes:
+rollout nodes
+equipped with GPUs for policy inference,
+robot nodes
+running on CPU-only machines for action execution at the edge, and
+training nodes
+with large-scale accelerators for centralized training.
+Nodes can be organized into
+node groups
+to capture this heterogeneity,
+where each group contains homogeneous hardware units,
+and a node may belong to multiple groups, depending on its hardware composition.
+In this manner, hardware scheduling policies can reason over homogeneous pools while still supporting a heterogeneous cluster.
+Hardware Registration and Discovery.
+The HAL uses a pluggable
+checker
+interface to register and extend new hardware.
+Each hardware type supplies a
+HAL checker
+that defines (i) its type identifier, (ii) how to discover the hardware on a node, and (iii) what metadata is attached to each instance.
+This modularity isolates device-specific logic (GPU vendor tooling, robot connectivity checks, sensor discovery) from the rest of the system.
+At cluster initialization, USER constructs a global hardware inventory by launching a lightweight
+hardware probe
+process on each node and invoking the registered HAL checkers to discover available hardware.
+This discovery can either be
+automatic
+(typically for PCIe- or USB-connected devices like GPUs, cameras and space mouse),
+or
+configuration-driven
+(typically for IP-bound robots) due to the need for explicit bindings and safety checks.
+For physical robots, discovery includes optional validation like network reachability, presence of required cameras, and basic health checks,
+ensuring that only usable robots enter the schedulable pool.
+The resulting inventory exposes for each node the available units and their ranks, forming the substrate for subsequent scheduling.
+Hardware Scheduling.
+USER schedules robots and accelerators through a single rank-based placement interface—each component selects node groups and a set of resource ranks,
+where ranks resolve to accelerator or robot units within the nodes groups’ nodes.
+The scheduler then deterministically maps process ranks to these resource ranks (evenly sharing units or assigning multiple units per process) and launches each process with an explicit binding to only its assigned hardware (e.g., constrained visible GPU devices or injected robot endpoint configuration).
+This uniform mechanism enables heterogeneous placements in one job, such as training on one GPU pool while binding different subsets of rollout processes to different types of robots.
+III-B
+Adaptive Communication Plane
+Real-world policy learning runs over cloud–edge distributed compute resources, especially for large-scale VLA models, with rollout and robot nodes at the edge and training nodes in the cloud. USER’s
+adaptive communication plane
+addresses the resulting communication challenges across heterogeneous cloud–edge network domains. USER enables cross-domain connectivity via
+tunneling-based cloud–edge networking
+for data exchange across network boundaries. To handle uneven bandwidth between intra-domain and cross-domain communication, USER employs a
+distributed data channel
+to localize traffic and reduce unnecessary cross-domain transfer. In addition, USER introduces
+streaming-multiprocessor-aware weight synchronization
+to prevent NCCL-based communication from monopolizing GPU resources and degrading throughput.
+Fig. 3:
+Overview of learning framework design:
+a fully asynchronous real-world learning pipeline with a persistent, cache-aware buffer and extensible abstractions for policies, algorithms, and reward models.
+Tunneling-based Cloud-Edge Networking.
+USER operates over cloud–edge compute resources across distinct administrative network domains (e.g., NATs, campus networks, factory VLANs) that are inherently isolated and do not support direct communication.
+To bridge this gap, USER builds its communication plane on a flattened TCP/IP substrate based on the UDP tunneling technology,
+enabling all robot, training and rollout nodes to establish bidirectional connections through the tunnel.
+The control plane uses Ray
+[
+21
+]
+for cluster membership and worker placement,
+while the data plane relies on TCP rendezvous to bootstrap point-to-point communication groups;
+critically, USER binds all control/data traffic to the tunnel interface to make heterogeneous deployments robust to multi-homed hosts and to avoid accidentally routing traffic over slow or firewalled links.
+Distributed Data Channel.
+In USER, data exchange among nodes is unified through a
+channel
+abstraction. A channel represents a dataflow conduit connecting system components and carries observations, actions, states, and intermediate results. Conventional centralized communication, where data is first sent to a cloud node and then redistributed to edge nodes, is simple to implement but incurs substantial cross-domain traffic in cloud–edge deployments. Under multi-robot or high-frequency real-world interaction, such designs suffer from high latency and poor stability
+[
+3
+,
+7
+]
+. To address this, USER provides a distributed data
+channel
+: a named, first-in-first-out(FIFO) producer–consumer queue hosted by lightweight channel services and accessed via asynchronous put/get APIs. Channels are internally sharded across service instances based on data keys (e.g., robot IDs) to localize traffic within edge or cloud regions and reduce cross-domain transfer. They support multiple producers and consumers, enabling robots and rollout nodes to stream data without direct, synchronous coupling. This design minimizes cross-domain communication and balances load across channel services.
+SM-Aware Weight Synchronization.
+In USER, when weight synchronization is performed via the NVIDIA Collective Communications Library (NCCL) and transferred directly between GPUs, it occupies GPU execution resources, because NCCL’s collectives execute as CUDA kernels that consume streaming multiprocessors (SMs). USER makes this contention explicit and controllable through a tunable configuration that caps the maximum number of NCCL CTAs (cooperative thread arrays) used during weight transfer. By throttling NCCL’s SM footprint, USER prevents background weight synchronization from monopolizing GPU execution resources and degrading rollout latency and throughput. This allows USER to sustain stable, low-latency rollouts under asynchronous weight updates.
+IV
+Learning Framework Design
+Building on the system architecture design that virtualizes and connects heterogeneous robots and compute resources, the learning framework design of USER focuses on how data and computation are organized at runtime. Specifically, it defines a unified framework for real-world learning, including a fully asynchronous pipeline, persistent-cache-aware buffer, and extensible abstractions for policies, algorithms, and rewards.
+IV-A
+Fully Asynchronous Pipeline
+In real-world policy learning, the primary bottleneck lies in data collection rather than computation
+[
+17
+]
+.
+Physical interaction cannot be accelerated, which makes it essential to keep robots executing continuously.
+Synchronous pipelines that tightly couple data generation and training are prone to cascading stalls: delays in training propagate to execution, forcing robots to pause and significantly reducing data efficiency.
+Fig. 4:
+Fully Asynchronous pipeline.
+USER decouples data generation, training, data transmission, and weight synchronization, significantly improving both data collection and training throughput.
+As illustrated in
+Fig.
+3
+and
+Fig.
+4
+, USER organizes real-world policy learning as a fully asynchronous pipeline. On the data generation side, multiple environment workers execute policies on physical robots through rollout workers, continuously streaming observations and actions without being blocked by optimization. In parallel, human operators can intervene via teleoperation to provide corrections or demonstrations, while a reward worker assigns supervision signals. All interaction data are asynchronously ingested into a persistent-cache-aware buffer (Sec.
+IV-B
+), which includes a trajectory replay buffer for autonomous rollouts and a demonstration buffer for pre-collected data and human interventions.
+On the training side, learning workers asynchronously sample mini-batches from these buffers to update model parameters, supporting both reinforcement and imitation learning. The updated weights are periodically synchronized back to rollout workers, closing the loop while maintaining uninterrupted robot execution.
+IV-B
+Persistent-Cache-Aware Buffer
+Fig. 5:
+Persistent-Cache-Aware Buffer.
+USER adopts a persistent, index-based buffer. Recent data is stored in memory while historical data is persisted to disk, effectively balancing access efficiency with storage capacity.
+Fig. 6:
+Illustration of 5 manipulation tasks.
+(a)
+Peg Insertion
+inserts a peg into a target hole.
+(b)
+Charger Plugging
+requires contact-rich manipulation with sub-millimeter precision.
+(c)
+Pick-and-Place
+involves grasping and transporting a randomly initialized object (a rubber duck) to a target container.
+(d)
+Cap Tightening
+rotates and tightens a bottle cap to a specified torque or pose.
+(e)
+Table Clean-up
+clears cluttered objects from the tabletop into a designated box, then close the lid.
+Real-world embodied learning involves long horizons, non-stationary policies, and asynchronous pipelines. Training spans multiple sessions and policy versions, where network failures, restarts, and human intervention are common. Data collected under different policies must often be reused for off-policy updates or recovery, making short-lived, in-memory buffers inadequate for real deployments.
+USER adopts a persistent, index-based buffer (
+Fig.
+5
+) that decouples storage from memory. Trajectories are asynchronously written to disk, while the buffer stores lightweight indices with metadata such as policy version, timestamps, and episode IDs, enabling temporal- and policy-aware sampling over long horizons. To balance efficiency and memory, USER adds a bounded in-memory cache with FIFO replacement. New samples enter the cache first; when full, old entries are evicted but remain indexed on disk. Evicted samples are transparently reloaded when requested, preserving high-throughput sampling with bounded memory.
+Unlike in-memory buffers that keep only recent data
+[
+5
+,
+26
+]
+, USER’s persistent and cache-aware design supports arbitrarily large datasets and retains historical data across evolving policies. Persistence also improves robustness through crash recovery and pipeline decoupling, enabling reliable long-horizon real-world learning beyond volatile memory-centric designs.
+IV-C
+Extensible Policies, Algorithms, and Rewards
+USER is
+agnostic
+to model architectures and learning algorithms, exposing unified interfaces that enable heterogeneous policies, optimizers, and reward mechanisms to share a single execution and data pipeline.
+At the policy level, USER supports both lightweight and large-scale models. Lightweight policies include CNN- and MLP-based controllers, such as ResNet-style visual policies
+[
+9
+]
+, and expressive flow-matching policies
+[
+16
+]
+that represent actions via continuous probability flows. At larger scale, USER integrates VLA models (e.g.,
+π
+0
+\pi_{0}
+/
+π
+0.5
+\pi_{0.5}
+architectures
+[
+2
+,
+12
+]
+) that reason over multimodal inputs and output continuous actions. Despite structural and computational differences, all policies are deployed through a unified rollout abstraction.
+At the algorithm level, USER supports multiple learning paradigms for robotics. These include off-policy RL such as Soft Actor-Critic (SAC)
+[
+8
+]
+, sample-efficient RL for flow policies (e.g., SAC-Flow
+[
+28
+]
+), human-in-the-loop methods like RL with pretrained data (RLPD)
+[
+1
+]
+, and imitation-style updates for large models such as HG-DAgger
+[
+14
+]
+. Training workers interact with policies through standardized sampling and update APIs, making the optimization layer interchangeable.
+Reward specification is also modular. USER supports (i) rule-based task rewards, (ii) human-provided labels, and (iii) learned reward models. Rewards can be attached during rollout or computed offline in post-processing, enabling flexible supervision under real-world constraints.
+By unifying policy representations, algorithms, and reward sources, USER enables diverse real-world learning setups—from RL to imitation and human-in-the-loop learning—without re-engineering deployment, data handling, or execution pipelines.
+V
+Experiment
+(a)
+Peg Insertion
+(b)
+Charger
+(c)
+Other Tasks with RLPD
+Fig. 7:
+Training curves of reinforcement learning on multiple manipulation tasks. The x-axis shows wall-clock time, and the y-axis shows the success rate computed as a moving average with a window size of 20.
+We evaluate USER on a suite of simulated and real-world embodied tasks to validate both its system architecture and learning framework design. Through five groups of experiments, we demonstrate how USER’s core components support extensible and reliable real-world online learning:
+1.
+(Sec.
+V-A
+) Extensibility of the learning framework:
+USER achieves high performance across multiple tasks while accommodating diverse policies, algorithms, and reward sources within a unified pipeline.
+2.
+(Sec.
+V-B
+) Unified hardware abstraction:
+USER enables training over multi-robot and heterogeneous robot fleets through its hardware abstractio layer.
+3.
+(Sec.
+V-C
+) Adaptive communication plane:
+USER supports cross-domain edge–cloud collaborative training via its adaptive communication design.
+4.
+(Sec.
+V-D
+) Persistent-cache-aware buffer:
+USER provides high-capacity and high-throughput storage for long-horizon data ingestion and reuse.
+5.
+(Sec.
+V-E
+) Fully asynchronous pipeline:
+USER improves learning efficiency and convergence through its fully asynchronous execution pipeline.
+V-A
+Main Results
+Experiment Setup
+We design a suite of five real-world manipulation tasks to evaluate the extensibility of USER’s learning framework, as shown in
+Fig.
+6
+:
+Peg Insertion, Charger, Cap Tightening, Pick-and-Place, and Table Clean-up
+. All tasks are conducted on a Franka robotic arm. Detailed task descriptions are provided in Appendix B.
+All experimental settings are summarized in
+Tab.
+I
+. Experiments with small policies, including CNN and flow-based models, are executed on a local workstation equipped with an RTX 4090 (24GB) GPU, while large VLA policies such as the
+π
+0
+\pi_{0}
+model are trained and evaluated on a server with 4 NVIDIA A100 (80GB) GPUs. We select four representative algorithms spanning online reinforcement learning and imitation learning: SAC, RLPD, SAC-Flow and HG-DAgger. We select appropriate reward source for each task from rule-based rewards, human-provided rewards, and learned reward models. Rule-based rewards are used for fixed-position manipulation tasks and computed from the end-effector pose. Human rewards are binary, with operators assigning 1 for success and 0 otherwise. The reward model classifies success (1) or failure (0) from observations. Implementation details are in Appendix A.
+TABLE I:
+Experiment setting summary.
+Task Name
+Model
+Algorithm
+Reward Type
+Demo
+(trajs)
+Peg Insertion
+CNN
+SAC
+rule-based, dense
+/
+RLPD
+rule-based, sparse
+20
+Flow
+SAC Flow
+Charger
+CNN
+SAC
+rule-based, dense
+/
+RLPD
+rule-based, sparse
+20
+Flow
+SAC Flow
+rule-based, sparse
+Cap Tightening
+CNN
+RLPD
+human reward, sparse
+20
+Pick-and-Place
+CNN
+RLPD
+human-reward, sparse
+40
+π
+0
+\pi_{0}
+HG-DAgger
+/
+40
+Table Clean-up
+π
+0
+\pi_{0}
+HG-DAgger
+/
+40
+Task Performance
+Fig.
+7
+summarizes RL results on multiple manipulation tasks.
+Figs.
+7a
+and
+7b
+report RLPD, SAC, and SAC-Flow on Peg-Insertion and Charger. Both achieve near-perfect success within 2000s with similar overall performance. SAC performs worse on Charger, likely because higher precision and dense rewards induce suboptimal behaviors.
+We further evaluate RLPD on Pick and Place and Cap Tightening (
+Fig.
+7c
+). Cap Tightening converges quickly, while Pick and Place involves richer object dynamics and needs longer training. Still, RLPD reaches success rates approaching 1.0 on all tasks.
+Unlike RL, imitation learning depends on human demonstrations and intervention. During HG-DAgger training of
+π
+0
+\pi_{0}
+, operators ensure success in each episode. As intervention steps approach zero, the policy becomes fully autonomous.
+π
+0
+\pi_{0}
+is initialized with supervised fine-tuning (SFT) and then trained online.
+Tab.
+II
+compares success before and after training, and
+Fig.
+8
+shows intervention steps and buffer growth. For short-horizon Pick-and-Place, HG-Dagger reaches a 96% success rate in
+∼
+\sim
+30 minutes using only
+∼
+\sim
+200 online samples.
+TABLE II:
+USER enables significant performance gains after online training for foundation VLA models.
+Before online training
+After online training
+Pick-and-Place
+39/60
+58/60
+Table Clean-up
+9/20
+16/20
+(a)
+Intervened steps
+(b)
+Buffer size
+Fig. 8:
+Training curves of imitation learning. Human operator intervenes to guarantee the success of every episode. And we report intervened steps per episode as a performance metric. A lower intervention steps directly reflects a higher policy performance.
+Fig. 9:
+USER supports reward model to enable automated annotation. In the peg insertion task, the trained reward model provides supervision comparable to human labels.
+Reward Model
+To train a reliable reward model, we formulate the reward model as a binary classifier with a pre-trained ResNet18
+[
+9
+]
+backbone. Human operators collect 20 successful trajectories, each remaining stationary for 20 timesteps after task completion to accumulate sufficient positive samples. The final dataset for the reward model comprises approximately 1,600 frames, with a success-to-failure ratio of roughly 1:3.
+Fig.
+9
+shows the results of a CNN policy trained with our reward model. Notably, our reward model achieves performance comparable to human rewards on the peg insertion task.
+TABLE III:
+Communication performance of distributed channels under cross-domain and same-domain network settings. Enabling distributed channels reduces episode generation time by up to
+3
+×
+3\times
+in cross-domain deployments.
+Domain
+Distributed
+Rollout
+(s/chunk)
+Interact
+(s/chunk)
+Send Obs
+(s/data)
+Send Action
+(s/data)
+Total Generation Time
+↓
+\downarrow
+(s/episode)
+cross
+w/
+0.002(
+±
+\pm
+0.000)
+0.106(
+±
+\pm
+0.001)
+0.042
+(
+±
+\pm
+0.031)
+0.070
+(
+±
+\pm
+0.017)
+21.979
+(
+±
+\pm
+0.435)
+w/o
+0.002(
+±
+\pm
+0.000)
+0.107(
+±
+\pm
+0.001)
+0.671(
+±
+\pm
+0.012)
+0.270(
+±
+\pm
+0.009)
+69.265(
+±
+\pm
+1.905)
+same
+w/
+0.006(
+±
+\pm
+0.001)
+0.106(
+±
+\pm
+0.002)
+0.025
+(
+±
+\pm
+0.006)
+0.028
+(
+±
+\pm
+0.008)
+17.304
+(
+±
+\pm
+0.001)
+w/o
+0.007(
+±
+\pm
+0.001)
+0.106(
+±
+\pm
+0.002)
+0.169(
+±
+\pm
+0.018)
+0.021(
+±
+\pm
+0.008)
+18.696(
+±
+\pm
+0.710)
+V-B
+Advantages of a Unified Hardware Layer
+With a unified hardware abstraction, USER enables online policy learning on real robots without platform-specific modification. We demonstrate that this design supports efficient multi-robot training and robust learning across heterogeneous embodiments.
+Fig. 10:
+Parallel training on two Franka robot arms. The unified hardware layer enables distributed data collection and multi-task learning within a single system framework.
+Training with Multiple Robots
+We first evaluate USER in a multi-robot setting. Using the unified hardware abstraction, we concurrently train policies on two Franka robot arms executing different manipulation tasks. As shown in
+Fig.
+10
+, both tasks converge within approximately 2500 seconds, matching the convergence speed of single-robot baselines. These results indicate that USER can effectively scale real-world training through parallel data collection, improving sample efficiency without degrading learning stability.
+(a)
+Heterogeneous setting
+(b)
+Results
+Fig. 11:
+Training with two heterogeneous robots. A single unified policy trained on joint data converges successfully, demonstrating cross-embodiment learning.
+Training with Heterogeneous Robots
+We use a 7-DoF Franka arm and
+a 6-DoF low-cost ARX robotic arm to demonstrate the heterogeneous policy capacity. (Hardware setup details in Appendix C)
+Leveraging heterogeneous platforms enables policies to learn shared visual-semantic representations, thereby improving generalization across embodiments. As shown in
+Fig.
+11a
+, we train a unified CNN-based policy to control two distinct robot arms in a multi-colored button-pressing task. Using SAC with dense rewards, the policy achieves full convergence (
+Fig.
+11b
+). Compared to single-robot baselines, heterogeneous training presents significant challenges due to variations in arm DoF, end-effector morphology, camera parameters, and target colors. Consequently, the training process requires approximately two hours to reach convergence.
+V-C
+Capability of the Communication Plane
+In this section, we demonstrate the design of USER’s adaptive communication plane through both cross-domain and same-domain experiments.
+TABLE IV:
+Profiling results of synchronous and asynchronous training pipelines. Generation and training periods denote the intervals between consecutive episode generation and training executions, respectively.
+Rollout
+(s/chunk)
+Interact
+(s/chunk)
+Send data
+Train
+(s/update)
+Sync weights
+Generation Period
+↓
+\downarrow
+(s/episode)
+Training Period
+↓
+\downarrow
+(s/update)
+π
+0
+\pi_{0}
++
+HG-Dagger
+Sync
+0.214(
+±
+\pm
+0.001)
+1.093(
+±
+\pm
+0.013)
+0.606(
+±
+\pm
+0.028)
+6.128(
+±
+\pm
+0.247)
+0.816(
+±
+\pm
+0.024)
+45.068(
+±
+\pm
+0.304)
+45.011(
+±
+\pm
+0.251)
+Async
+0.213(
+±
+\pm
+0.016)
+1.091(
+±
+\pm
+0.010)
+7.903(
+±
+\pm
+)
+5.969(
+±
+\pm
+0.196)
+0.789(
+±
+\pm
+0.052)
+37.538(
+±
+\pm
+0.363)
+7.903(
+±
+\pm
+0.234)
+Speed Up
+/
+/
+/
+/
+/
+1.20
+×
+\times
+5.70
+×
+\times
+CNN +
+SAC
+Sync
+0.006(
+±
+\pm
+0.002)
+0.108(
+±
+\pm
+0.002)
+0.144(
+±
+\pm
+0.008)
+0.108(
+±
+\pm
+0.002)
+0.162(
+±
+\pm
+0.004)
+20.291(
+±
+\pm
+0.632)
+0.643(
+±
+\pm
+2.984)
+Async
+0.004(
+±
+\pm
+0.004)
+0.107(
+±
+\pm
+0.002)
+0.004(
+±
+\pm
+0.001)
+0.123(
+±
+\pm
+0.005)
+0.174(
+±
+\pm
+0.003)
+13.108(
+±
+\pm
+0.218)
+0.135(
+±
+\pm
+0.034)
+Speed Up
+/
+/
+/
+/
+/
+1.55
+×
+\times
+4.61
+×
+\times
+Cross-Domain Communication
+We evaluate the effectiveness of the distributed data channel under a cross-domain deployment setting. The master node is located in City A and performs policy training, while two nodes in City B handle rollout and robot control, respectively. The two nodes in City B are connected via a high-bandwidth local network, whereas the connection between City A and City B spans thousands of kilometers and incurs high latency and limited bandwidth. This cross-domain deployment reflects a realistic cloud-edge setup, where communication between geographically distributed nodes is enabled via tunneled-based connections.
+The first two rows of
+Tab.
+III
+report the cross-domain results. Across both configurations, the rollout and environment interaction times remain similar, as these operations are executed locally without cross-domain communication. In contrast, enabling distributed channels substantially reduces the communication overhead for transmitting observations and actions between the two nodes in City B. As a result, the total time required to generate a single episode is reduced by approximately
+3
+×
+3\times
+compared to the centralized baseline.
+Same-Domain Communication
+We further evaluate USER in a same-domain setting, where all three nodes are connected via high-speed local networks. The third and fourth rows of
+Tab.
+III
+show the corresponding results. Even under this favorable condition, distributed channels consistently reduce communication overhead.
+Notably, comparing the first and third rows of
+Tab.
+III
+shows that the two nodes in City B under cross-domain deployment achieve communication efficiency comparable to the all-same-domain setup, indicating that USER effectively exploits local high-bandwidth links while avoiding unnecessary cross-domain data transfers.
+(a)
+Throughput v.s. cache ratio
+(b)
+Throughput v.s. buffer size
+Fig. 12:
+Testing sampling throughput of our persistence and cache-aware buffer.
+V-D
+Validation for Persistent and Cache-aware Buffer
+USER’s buffer combines persistent storage with an in-memory cache to balance efficiency and capacity. Let
+s
+s
+be the buffer size and
+c
+c
+the cache size, with ratio
+r
+=
+c
+/
+s
+r=c/s
+. We profile throughput under different cache ratios in
+Fig.
+12a
+, showing that larger
+r
+r
+improves throughput. We further evaluate throughput under varying buffer sizes (
+Fig.
+12b
+). A pure in-memory buffer achieves the highest throughput but is memory-limited, while an in-disk buffer provides large capacity at less than half the throughput. Our design strikes a balance, achieving higher throughput than standard disk buffers while retaining large capacity.
+(a)
+Convergence speed
+(b)
+Policy weight sync. intervals
+Fig. 13:
+Ablation study on asynchronous pipeline design choices for CNN Policy on the Peg-Insertion Task. (a) The async pipeline reduces convergence time from 8,000+ seconds to
+∼
+\sim
+1,500 seconds. (b) Weight synchronization intervals do affect convergence behavior, where interval = 1 is the most unstable setting.
+V-E
+Asynchronous Design
+To demonstrate the advantages of our synchronous framework over traditional synchronous systems, we first profiled the latency of individual stages in both configurations. As shown in
+Tab.
+IV
+, although per-stage latencies remain similar, the asynchronous system achieves significantly higher throughput via pipeline overlapping (
+Fig.
+4
+). Specifically, for
+π
+0
+\pi_{0}
+and CNN models, USER’s asynchronous pipeline improves generation throughput by
+1.20
+×
+1.20\times
+and 1.55
+×
+\times
+, and training throughput by
+5.70
+×
+5.70\times
+and 4.61
+×
+\times
+, respectively.
+Fig.
+13a
+further illustrates the disparity in convergence speeds on the peg insertion task, CNN policy, with RLPD. The asynchronous pipeline significantly accelerates training, reducing the convergence time from 8000+ seconds to
+∼
+\sim
+1500 seconds.
+Ablation for Policy Weights Synchronization Interval
+The weight synchronization interval is a critical design parameter in asynchronous systems. We conducted an ablation study on the peg insertion task using the RLPD algorithm with a CNN policy. As shown in
+Fig.
+13b
+, small synchronization intervals (like 1 and 8) cause frequent in-episode weight updates. This induces policy non-stationarity, resulting in slower convergence or complete divergence. Conversely, larger synchronization intervals ensure a stable update.
+VI
+Conclusion
+This paper presents USER, a unified and extensible system for real-world online policy learning. USER treats robots as first-class hardware resources alongside GPUs and integrates adaptive communication, persistent cache-aware buffering, and a fully asynchronous training pipeline into a single learning infrastructure. By remaining agnostic to policy architectures and optimization methods, USER supports diverse paradigms—from imitation learning and reinforcement learning to human-in-the-loop learning—deployed on heterogeneous robots within a unified pipeline.
+Experiments on both simulated and real-world benchmarks show that USER enables efficient policy learning over heterogeneous multi-robot fleets, provides robust edge–cloud cross-domain communication, and maintains high-capacity, high-throughput buffering for long-horizon training.
+References
+[1]
+Philip J Ball, Laura Smith, Ilya Kostrikov, and Sergey Levine.
+Efficient online reinforcement learning with offline data.
+In
+International Conference on Machine Learning
+, pages 1577–1594. PMLR, 2023.
+[2]
+Kevin Black, Noah Brown, Danny Driess, Adnan Esmail, Michael Equi, Chelsea Finn, Niccolo Fusai, Lachy Groom, Karol Hausman, Brian Ichter, et al.
+π
+0
+\pi_{0}
+: A vision-language-action flow model for general robot control. corr, abs/2410.24164, 2024. doi: 10.48550.
+arXiv preprint ARXIV.2410.24164
+.
+[3]
+Michael Bloesch, Jan Humplik, Viorica Patraucean, Roland Hafner, Tuomas Haarnoja, Arunkumar Byravan, Noah Yamamoto Siegel, Saran Tunyasuvunakool, Federico Casarini, Nathan Batchelor, et al.
+Towards real robot learning in the wild: A case study in bipedal locomotion.
+In
+Conference on Robot Learning
+, pages 1502–1511. PMLR, 2022.
+[4]
+Remi Cadene, Simon Alibert, Alexander Soare, Quentin Gallouedec, Adil Zouitine, Steven Palma, Pepijn Kooijmans, Michel Aractingi, Mustafa Shukor, Dana Aubakirova, Martino Russi, Francesco Capuano, Caroline Pascal, Jade Choghari, et al.
+Lerobot: State-of-the-art machine learning for real-world robotics.
+https://github.com/huggingface/lerobot
+, 2024.
+[5]
+Albin Cassirer, Gabriel Barth-Maron, Eugene Brevdo, Sabela Ramos, Toby Boyd, Thibault Sottiaux, and Manuel Kroiss.
+Reverb: a framework for experience replay.
+arXiv preprint arXiv:2102.04736
+, 2021.
+[6]
+Angelo Corsaro, Luca Cominardi, Olivier Hecart, Gabriele Baldoni, Julien Enoch Pierre Avital, Julien Loudet, Carlos Guimares, Michael Ilyin, and Dmitrii Bannov.
+Zenoh: Unifying communication, storage and computation from the cloud to the microcontroller.
+In
+2023 26th Euromicro Conference on Digital System Design (DSD)
+, pages 422–428. IEEE, 2023.
+[7]
+Gabriel Dulac-Arnold, Daniel Mankowitz, and Todd Hester.
+Challenges of real-world reinforcement learning.
+arXiv preprint arXiv:1904.12901
+, 2019.
+[8]
+Tuomas Haarnoja, Aurick Zhou, Pieter Abbeel, and Sergey Levine.
+Soft actor-critic: Off-policy maximum entropy deep reinforcement learning with a stochastic actor.
+In
+International conference on machine learning
+, pages 1861–1870. Pmlr, 2018.
+[9]
+Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun.
+Deep residual learning for image recognition.
+In
+Proceedings of the IEEE conference on computer vision and pattern recognition
+, pages 770–778, 2016.
+[10]
+Matthew W Hoffman, Bobak Shahriari, John Aslanides, Gabriel Barth-Maron, Nikola Momchev, Danila Sinopalnikov, Piotr Stańczyk, Sabela Ramos, Anton Raichuk, Damien Vincent, et al.
+Acme: A research framework for distributed reinforcement learning.
+arXiv preprint arXiv:2006.00979
+, 2020.
+[11]
+Peide Huang, Xilun Zhang, Ziang Cao, Shiqi Liu, Mengdi Xu, Wenhao Ding, Jonathan Francis, Bingqing Chen, and Ding Zhao.
+What went wrong? closing the sim-to-real gap via differentiable causal discovery.
+In
+Conference on Robot Learning
+, pages 734–760. PMLR, 2023.
+[12]
+Physical Intelligence, Kevin Black, Noah Brown, James Darpinian, Karan Dhabalia, Danny Driess, Adnan Esmail, Michael Equi, Chelsea Finn, Niccolo Fusai, et al.
+π
+0.5
+\pi_{0.5}
+: a vision-language-action model with open-world generalization.
+arXiv preprint arXiv:2504.16054
+, 2025.
+[13]
+Dmitry Kalashnikov, Alex Irpan, Peter Pastor, Julian Ibarz, Alexander Herzog, Eric Jang, Deirdre Quillen, Ethan Holly, Mrinal Kalakrishnan, Vincent Vanhoucke, et al.
+Scalable deep reinforcement learning for vision-based robotic manipulation.
+In
+Conference on robot learning
+, pages 651–673. PMLR, 2018.
+[14]
+Michael Kelly, Chelsea Sidrane, Katherine Driggs-Campbell, and Mykel J Kochenderfer.
+Hg-dagger: Interactive imitation learning with human experts.
+In
+2019 International Conference on Robotics and Automation (ICRA)
+, pages 8077–8083. IEEE, 2019.
+[15]
+Eric Liang, Richard Liaw, Robert Nishihara, Philipp Moritz, Roy Fox, Ken Goldberg, Joseph Gonzalez, Michael Jordan, and Ion Stoica.
+Rllib: Abstractions for distributed reinforcement learning.
+In
+International conference on machine learning
+, pages 3053–3062. PMLR, 2018.
+[16]
+Yaron Lipman, Ricky TQ Chen, Heli Ben-Hamu, Maximilian Nickel, and Matt Le.
+Flow matching for generative modeling.
+arXiv preprint arXiv:2210.02747
+, 2022.
+[17]
+Jianlan Luo, Zheyuan Hu, Charles Xu, You Liang Tan, Jacob Berg, Archit Sharma, Stefan Schaal, Chelsea Finn, Abhishek Gupta, and Sergey Levine.
+Serl: A software suite for sample-efficient robotic reinforcement learning.
+In
+2024 IEEE International Conference on Robotics and Automation (ICRA)
+, pages 16961–16969. IEEE, 2024.
+[18]
+Steven Macenski, Tully Foote, Brian Gerkey, Chris Lalancette, and William Woodall.
+Robot operating system 2: Design, architecture, and uses in the wild.
+Science robotics
+, 7(66):eabm6074, 2022.
+[19]
+Viktor Makoviychuk, Lukasz Wawrzyniak, Yunrong Guo, Michelle Lu, Kier Storey, Miles Macklin, David Hoeller, Nikita Rudin, Arthur Allshire, Ankur Handa, et al.
+Isaac gym: High performance gpu-based physics simulation for robot learning.
+arXiv preprint arXiv:2108.10470
+, 2021.
+[20]
+Mayank Mittal, Calvin Yu, Qinxi Yu, Jingzhou Liu, Nikita Rudin, David Hoeller, Jia Lin Yuan, Ritvik Singh, Yunrong Guo, Hammad Mazhar, et al.
+Orbit: A unified simulation framework for interactive robot learning environments.
+IEEE Robotics and Automation Letters
+, 8(6):3740–3747, 2023.
+[21]
+Philipp Moritz, Robert Nishihara, Stephanie Wang, Alexey Tumanov, Richard Liaw, Eric Liang, Melih Elibol, Zongheng Yang, William Paul, Michael I Jordan, et al.
+Ray: A distributed framework for emerging
+{
+\{
+AI
+}
+\}
+applications.
+In
+13th USENIX symposium on operating systems design and implementation (OSDI 18)
+, pages 561–577, 2018.
+[22]
+Mingjie Pan, Siyuan Feng, Qinglin Zhang, Xinchen Li, Jianheng Song, Chendi Qu, Yi Wang, Chuankang Li, Ziyu Xiong, Zhi Chen, Yi Liu, and Jianlan Luo.
+Sop: A scalable online post-training system for vision-language-action models, 2026.
+URL
+https://arxiv.org/abs/2601.03044
+.
+[23]
+Jie Tan, Tingnan Zhang, Erwin Coumans, Atil Iscen, Yunfei Bai, Danijar Hafner, Steven Bohez, and Vincent Vanhoucke.
+Sim-to-real: Learning agile locomotion for quadruped robots.
+arXiv preprint arXiv:1804.10332
+, 2018.
+[24]
+Edan Toledo, Laurence Midgley, Donal Byrne, Callum Rhys Tilbury, Matthew Macfarlane, Cyprien Courtot, and Alexandre Laterre.
+Flashbax: Streamlining experience replay buffers for reinforcement learning with jax, 2023.
+URL https://github.com/instadeepai/flashbax
+, 7.
+[25]
+Andrew Wagenmaker, Kevin Huang, Liyiming Ke, Kevin Jamieson, and Abhishek Gupta.
+Overcoming the sim-to-real gap: Leveraging simulation to learn to explore for real-world rl.
+Advances in Neural Information Processing Systems
+, 37:78715–78765, 2024.
+[26]
+Hanjing Wang, Man-Kit Sit, Congjie He, Ying Wen, Weinan Zhang, Jun Wang, Yaodong Yang, and Luo Mai.
+Gear: a gpu-centric experience replay system for large reinforcement learning models.
+In
+International Conference on Machine Learning
+, pages 36380–36390. PMLR, 2023.
+[27]
+Chao Yu, Yuanqing Wang, Zhen Guo, Hao Lin, Si Xu, Hongzhi Zang, Quanlu Zhang, Yongji Wu, Chunyang Zhu, Junhao Hu, et al.
+Rlinf: Flexible and efficient large-scale reinforcement learning via macro-to-micro flow transformation.
+arXiv preprint arXiv:2509.15965
+, 2025.
+[28]
+Yixian Zhang, Shu’ang Yu, Tonghe Zhang, Mo Guang, Haojia Hui, Kaiwen Long, Yu Wang, Chao Yu, and Wenbo Ding.
+Sac flow: Sample-efficient reinforcement learning of flow-based policies via velocity-reparameterized sequential modeling.
+arXiv preprint arXiv:2509.25756
+, 2025.
+[29]
+Xian Zhou, Yiling Qiao, Zhenjia Xu, TH Wang, Z Chen, J Zheng, Z Xiong, Y Wang, M Zhang, P Ma, et al.
+Genesis: A generative and universal physics engine for robotics and beyond.
+arXiv preprint arXiv:2401.01454
+, 2024.
+-A
+Algorithm Implementation Details
+In this section, we first clarify the notation in reinforcement learning, and then provide the implementation details and hyperparameters for the four primary algorithms integrated into USER.
+-A
+1
+Problem Setting and Notation.
+We consider a partially observable Markov decision process (POMDP) defined by
+(
+𝒮
+,
+𝒪
+,
+𝒜
+,
+P
+,
+r
+,
+γ
+)
+(\mathcal{S},\mathcal{O},\mathcal{A},P,r,\gamma)
+, where
+s
+t
+∈
+𝒮
+s_{t}\in\mathcal{S}
+denotes the latent environment state,
+o
+t
+∈
+𝒪
+o_{t}\in\mathcal{O}
+the observation,
+a
+t
+∈
+𝒜
+a_{t}\in\mathcal{A}
+the action,
+P
+⁡
+(
+s
+t
++
+1
+∣
+s
+t
+,
+a
+t
+)
+P(s_{t+1}\mid s_{t},a_{t})
+the transition
+dynamics,
+r
+⁡
+(
+s
+t
+,
+a
+t
+)
+r(s_{t},a_{t})
+the reward function, and
+γ
+∈
+(
+0
+,
+1
+)
+\gamma\in(0,1)
+the discount
+factor. The policy
+π
+θ
+​
+(
+a
+t
+∣
+o
+t
+)
+\pi_{\theta}(a_{t}\mid o_{t})
+conditions only on observations.
+All off-policy algorithms are trained using a replay buffer
+ℬ
+\mathcal{B}
+that stores transitions of the form
+(
+o
+t
+,
+a
+t
+,
+r
+t
+,
+o
+t
++
+1
+)
+(o_{t},a_{t},r_{t},o_{t+1})
+.
+For notational simplicity, we omit the time index when it is clear from context
+and use
+(
+o
+,
+a
+,
+r
+,
+o
+′
+)
+(o,a,r,o^{\prime})
+to denote a generic transition sampled from
+ℬ
+\mathcal{B}
+.
+We denote the critic network by
+Q
+ψ
+​
+(
+o
+,
+a
+)
+Q_{\psi}(o,a)
+, the policy by
+π
+θ
+​
+(
+a
+∣
+o
+)
+\pi_{\theta}(a\mid o)
+,
+and the corresponding target networks by
+Q
+ψ
+¯
+Q_{\bar{\psi}}
+.
+TABLE V:
+Hyperparameters of SAC
+Parameter
+Value
+Critic Network
+ResNet10 encoder (shared) + MLP
+Actor Network
+ResNet10 encoder (shared) + MLP
+Buffer size
+20000
+Train start step
+200
+Discount Factor (
+γ
+\gamma
+)
+0.96
+Batch Size
+256
+Critic learning rate
+3e-4
+Actor learning rate
+3e-4
+α
+\alpha
+learning rate
+3e-4
+Target Entropy
+-3
+Temperature (
+α
+\alpha
+)
+Auto tune (init 0.01)
+Target update ratio
+τ
+\tau
+0.005
+Target update frequency
+1
+Actor update frequency
+4
+Weight sync. frequency
+32
+-A
+2
+SAC
+Soft Actor-Critic (SAC) is an off-policy actor-critic algorithm based on the
+maximum entropy reinforcement learning framework. It optimizes a stochastic
+policy by maximizing both the expected return and the policy entropy:
+J
+(
+π
+)
+=
+∑
+t
+=
+0
+T
+𝔼
+(
+o
+t
+,
+a
+t
+)
+∼
+ρ
+π
+[
+r
+(
+o
+t
+,
+a
+t
+)
++
+α
+ℋ
+(
+π
+(
+⋅
+∣
+o
+t
+)
+)
+]
+,
+J(\pi)=\sum_{t=0}^{T}\mathbb{E}_{(o_{t},a_{t})\sim\rho_{\pi}}\big[r(o_{t},a_{t})+\alpha\mathcal{H}(\pi(\cdot\mid o_{t}))\big],
+(1)
+where
+α
+\alpha
+is the temperature parameter controlling the strength of entropy
+ℋ
+\mathcal{H}
+regularization.
+Critic Update.
+The soft Q-function is trained by minimizing the Bellman residual:
+L
+Q
+(
+ψ
+)
+=
+𝔼
+(
+o
+,
+a
+,
+r
+,
+o
+′
+)
+∼
+ℬ
+[
+(
+Q
+ψ
+(
+o
+,
+a
+)
+\displaystyle L_{Q}(\psi)=\mathbb{E}_{(o,a,r,o^{\prime})\sim\mathcal{B}}\Big[\big(Q_{\psi}(o,a)
+(2)
+−
+\displaystyle-
+(
+r
++
+γ
+𝔼
+a
+′
+∼
+π
+θ
+(
+⋅
+∣
+o
+′
+)
+[
+Q
+ψ
+¯
+(
+o
+′
+,
+a
+′
+)
+−
+α
+log
+π
+θ
+(
+a
+′
+∣
+o
+′
+)
+]
+)
+)
+2
+]
+,
+\displaystyle(r+\gamma\mathbb{E}_{a^{\prime}\sim\pi_{\theta}(\cdot\mid o^{\prime})}[Q_{\bar{\psi}}(o^{\prime},a^{\prime})-\alpha\log\pi_{\theta}(a^{\prime}\mid o^{\prime})])\big)^{2}\Big],
+where
+a
+′
+a^{\prime}
+denotes an action sampled from the current policy at the next
+observation
+o
+′
+o^{\prime}
+, and
+Q
+ψ
+¯
+Q_{\bar{\psi}}
+is the target critic updated via
+exponential moving average(EMA).
+Actor Update.
+The policy is updated by minimizing
+L
+π
+(
+θ
+)
+=
+𝔼
+o
+∼
+ℬ
+,
+a
+∼
+π
+θ
+(
+⋅
+∣
+o
+)
+[
+α
+log
+π
+θ
+(
+a
+∣
+o
+)
+−
+Q
+ψ
+(
+o
+,
+a
+)
+]
+.
+L_{\pi}(\theta)=\mathbb{E}_{o\sim\mathcal{B},\,a\sim\pi_{\theta}(\cdot\mid o)}\big[\alpha\log\pi_{\theta}(a\mid o)-Q_{\psi}(o,a)\big].
+(3)
+Due to the sample efficiency of off-policy learning, SAC has been widely adopted for RL in real-world. The specific hyperparameters used for our implementation, including the network architecture and entropy regularization settings, are summarized in
+Tab.
+V
+.
+TABLE VI:
+Hyperparameters of SAC-Flow
+Parameter
+Value
+Critic Network
+ResNet10 encoder (shared) + MLP
+Actor Network
+ResNet10 encoder (shared) + Flow-T
+Denoising Steps (
+N
+N
+)
+4
+Decoder dimension
+256
+Attention head
+4
+Decoder layer
+2
+Log std range
+[-5, 2]
+Buffer size
+20000
+Train start step
+200
+Discount Factor (
+γ
+\gamma
+)
+0.96
+Batch Size
+256
+Critic learning rate
+3e-4
+Actor learning rate
+3e-4
+α
+\alpha
+learning rate
+3e-4
+Target Entropy
+-3
+Temperature (
+α
+\alpha
+)
+Auto tune (init 0.01)
+Target update ratio
+τ
+\tau
+0.005
+Target update frequency
+1
+Actor update frequency
+4
+Weight sync. frequency
+30
+-A
+3
+SAC-Flow
+SAC-Flow extends SAC by parameterizing the policy using a continuous-time flow-based model.
+The policy is defined through a velocity network
+v
+θ
+v_{\theta}
+that evolves a latent action variable.
+SAC-Flow reparameterized
+v
+θ
+v_{\theta}
+as a gated (Flow-G) or transformer-decoded (Flow-T) architecture to stabilize gradients.
+Deterministic Rollout.
+Given an observation
+o
+o
+, a latent trajectory
+{
+A
+t
+i
+}
+i
+=
+0
+K
+\{A_{t_{i}}\}_{i=0}^{K}
+is generated via
+K
+K
+steps of Euler integration:
+A
+t
+i
++
+1
+=
+A
+t
+i
++
+Δ
+​
+t
+i
+​
+v
+θ
+​
+(
+t
+i
+,
+A
+t
+i
+,
+o
+)
+,
+A
+t
+0
+∼
+𝒩
+⁡
+(
+0
+,
+I
+)
+.
+A_{t_{i+1}}=A_{t_{i}}+\Delta t_{i}\,v_{\theta}(t_{i},A_{t_{i}},o),\quad A_{t_{0}}\sim\mathcal{N}(0,I).
+(4)
+Likelihood Construction.
+SAC requires explicit policy likelihoods for entropy regularization. Consequently, we employ a noise-augmented rollout
+A
+t
+i
++
+1
+=
+A
+t
+i
++
+v
+θ
+​
+(
+t
+i
+,
+A
+t
+i
+,
+o
+)
+​
+Δ
+​
+t
+i
++
+σ
+​
+Δ
+​
+t
+i
+​
+ϵ
+i
+,
+ϵ
+i
+∼
+𝒩
+⁡
+(
+0
+,
+I
+)
+,
+A_{t_{i+1}}=A_{t_{i}}+v_{\theta}(t_{i},A_{t_{i}},o)\Delta t_{i}+\sigma\sqrt{\Delta t_{i}}\epsilon_{i},\quad\epsilon_{i}\sim\mathcal{N}(0,I),
+(5)
+which preserves the marginal distribution of the final action.
+Actor Objective.
+The actor minimizes the joint path density
+p
+c
+​
+(
+𝒜
+|
+s
+)
+p_{c}(\mathcal{A}|s)
+over the
+K
+K
+sampling steps:
+L
+π
+​
+(
+θ
+)
+=
+𝔼
+𝒜
+∼
+π
+θ
+​
+[
+α
+​
+log
+⁡
+p
+c
+​
+(
+𝒜
+∣
+o
+)
+−
+Q
+ψ
+​
+(
+o
+,
+tanh
+⁡
+(
+A
+t
+K
+)
+)
+]
+,
+L_{\pi}(\theta)=\mathbb{E}_{\mathcal{A}\sim\pi_{\theta}}\big[\alpha\log p_{c}(\mathcal{A}\mid o)-Q_{\psi}(o,\tanh(A_{t_{K}}))\big],
+(6)
+where
+𝒜
+=
+(
+A
+t
+0
+,
+…
+,
+A
+t
+K
+)
+\mathcal{A}=\left(A_{t_{0}},...,A_{t_{K}}\right)
+is the intermediate action path.
+We integrate SAC-Flow into our framework. The hyperparameters for the flow model, such as denoising steps and the velocity backbone, are detailed in
+Tab.
+VI
+.
+TABLE VII:
+Hyperparameters of RLPD
+Parameter
+Value
+Critic Network
+ResNet10 encoder (shared) + MLP
+Actor Network
+ResNet10 encoder (shared) + MLP
+Buffer size
+20000
+Train start step
+200
+Critic ensemble size
+10
+Critic sub-sample size
+2
+Demo sampling ratio
+50%
+Discount Factor (
+γ
+\gamma
+)
+0.96
+Batch Size
+256
+Critic learning rate
+3e-4
+Actor learning rate
+3e-4
+α
+\alpha
+learning rate
+3e-4
+Target Entropy
+-3
+Temperature (
+α
+\alpha
+)
+Auto tune (init 0.01)
+Target update ratio
+τ
+\tau
+0.005
+Target update frequency
+1
+Actor update frequency
+4
+Weight sync. frequency
+32
+-A
+4
+RLPD
+RLPD combines offline demonstration data with online exploration to significantly improve sample efficiency.
+Balanced Sampling.
+At each update step, mini-batches are constructed by sampling transitions from
+both the online replay buffer
+ℬ
+online
+\mathcal{B}_{\text{online}}
+and the demonstration
+buffer
+ℬ
+demo
+\mathcal{B}_{\text{demo}}
+at a fixed ratio:
+batch
+=
+{
+(
+s
+,
+a
+,
+r
+,
+s
+′
+)
+i
+∼
+ℬ
+o
+​
+n
+​
+l
+​
+i
+​
+n
+​
+e
+∪
+(
+s
+,
+a
+,
+r
+,
+s
+′
+)
+j
+∼
+ℬ
+d
+​
+e
+​
+m
+​
+o
+}
+\displaystyle\text{batch}=\{(s,a,r,s^{\prime})_{i}\sim\mathcal{B}_{online}\cup(s,a,r,s^{\prime})_{j}\sim\mathcal{B}_{demo}\}
+Ensemble Critics with Layer Norm:
+To handle high UTD ratios, RLPD utilizes an ensemble of
+M
+M
+Q-functions with Layer Normalization to stabilize the values:
+Q
+t
+​
+a
+​
+r
+​
+g
+​
+e
+​
+t
+=
+r
++
+γ
+⁡
+(
+min
+j
+=
+1
+,
+…
+,
+M
+⁡
+Q
+ψ
+¯
+j
+​
+(
+s
+′
+,
+a
+′
+)
+−
+α
+​
+log
+⁡
+π
+θ
+​
+(
+a
+′
+|
+s
+′
+)
+)
+\displaystyle Q_{target}=r+\gamma(\min_{j=1,\ldots,M}Q_{\bar{\psi}_{j}}(s^{\prime},a^{\prime})-\alpha\log\pi_{\theta}(a^{\prime}|s^{\prime}))
+RLPD leverages offline demonstration data to guide policy learning and accelerate convergence, significantly improving sample efficiency. The hyperparameters of RLPD are provided in
+Tab.
+VII
+.
+TABLE VIII:
+Hyperparameters of HG-DAgger
+Parameter
+Value
+Network
+π
+0
+\pi_{0}
+(
+∼
+\sim
+3B)
+Action chunk size
+10
+SFT learning rate
+2.5e-5
+SFT decay learning rate
+2.5e-6
+SFT learning rate scheduler
+cosine
+SFT weight decay
+1e-10
+SFT batch size
+1e-5
+SFT epoch
+1e-5
+HG-DAgger learning rate
+1e-5
+HG-DAgger batch size
+64
+HG-DAgger weight decay
+1e-8
+Intervention sampling ratio
+50%
+Weight sync. frequency
+1
+-A
+5
+HG-DAgger
+HG-DAgger is an interactive imitation learning algorithm designed for safe and efficient online fine-tuning. It relies on a human expert to monitor the policy and intervene when necessary.
+Gating Mechanism.
+At each timestep, the executed action is selected as
+a
+t
+=
+{
+a
+t
+human
+,
+if human intervention is active
+,
+π
+θ
+​
+(
+o
+t
+)
+,
+otherwise
+.
+a_{t}=\begin{cases}a_{t}^{\text{human}},&\text{if human intervention is active},\\
+\pi_{\theta}(o_{t}),&\text{otherwise}.\end{cases}
+(7)
+Behavior Cloning Objective.
+State-action pairs collected during intervention are stored in
+𝒟
+intervene
+\mathcal{D}_{\text{intervene}}
+, and the policy is updated via a behavior cloning (BC) loss:
+ℒ
+B
+​
+C
+​
+(
+θ
+)
+=
+𝔼
+(
+o
+,
+a
+h
+)
+∼
+𝒟
+intervene
+∪
+𝒟
+demo
+​
+[
+‖
+π
+θ
+​
+(
+o
+)
+−
+a
+h
+‖
+2
+]
+.
+\mathcal{L}_{BC}(\theta)=\mathbb{E}_{(o,a^{h})\sim\mathcal{D}_{\text{intervene}}\cup\mathcal{D}_{\text{demo}}}\big[\|\pi_{\theta}(o)-a^{h}\|^{2}\big].
+(8)
+We utilize HG-DAgger to fine-tune
+π
+0
+\pi_{0}
+via human interventions. We first perform Supervised Fine-Tuning (SFT) on a pre-collected dataset to initialize the
+π
+0
+\pi_{0}
+model, providing the policy with a non-zero initial success rate. The parameters of SFT and HG-DAgger are listed in Table
+VIII
+.
+Fig. 14:
+Visualization of 5 manipulation tasks.
+(a)
+Peg Insertion
+inserts a peg into a target hole. (b)
+Charger Plugging
+requires contact-rich manipulation with sub-millimeter precision. (c)
+Pick-and-Place
+involves grasping and transporting a randomly initialized object (a rubber duck) to a target container. (d)
+Cap Tightening
+rotates and tightens a bottle cap to a specified torque or pose. (e)
+Table Clean-up
+clears cluttered objects from the tabletop into a designated box, then close the lid.
+-B
+Task Implementation Details
+In this section, we detail task settings and task-specific training configurations.
+Fig.
+14
+shows all five tasks used for evaluation.
+-B
+1
+Peg Insertion
+The task requires the robot to perform high-precision insertion of a peg into its corresponding slot. The static pose of the slot enables straightforward success verification and automated resetting, making this task ideal for real-world RL.
+Table
+IX
+reports the task-specific training settings for the Peg Insertion task. In this task, we use a single wrist camera as visual observation. The state observation includes the pose, velocity, force, torque of the end-effector (EE), and the gripper pose. The reward signal is derived directly from the distance between the end-effector and the target pose.
+TABLE IX:
+Detailed settings of peg insertion
+Parameter
+Value
+Image shape
+1
+×
+\times
+(3, 128, 128)
+State dim
+19
+Obs coordinate
+Reset pose
+Action space
+Delta EE pose (6 dim)
+Step frequency
+10 Hz
+Max episode length
+100 steps
+Bounding box (xyz)
+[0.05, 0.05, 0.1] (m)
+Bounding box (rpy)
+π
+\pi
+/6 (rad)
+RLPD Specific:
+Demos
+20
+Demo Sampling Ratio
+50%
+Reward
+Rule-based, sparse
+SAC Specific:
+Demos
+/
+Reward
+Rule-based, dense
+SAC Flow Specific:
+Demos
+20
+Reward
+Rule-based, sparse
+-B
+2
+Charger Plugging
+The charger plugging task involves inserting a charger into a socket. This task presents a significant challenge in high-precision manipulation, defined by the narrow tolerance of the socket geometry, the sparsity of visual features, and the visual occlusion during the approach phase. To address these challenges, we employ a desktop third-view camera for visual feedback.
+Tab.
+X
+details task configurations and task-specific training settings. Given that the task necessitates sub-millimeter precision, we utilized a more constrained bounding box to focus the operational workspace.
+TABLE X:
+Detailed settings of charger plugging
+Parameter
+Value
+Image shape
+1
+×
+\times
+(3, 128, 128)
+State dim
+19
+Obs coordinate
+Reset pose
+Action space
+Delta EE pose (6 dim)
+Step frequency
+10 Hz
+Max episode length
+100
+Bounding box (xyz)
+[0.02, 0.02, 0.055] (m)
+Bounding box (rpy)
+π
+\pi
+/9 (rad)
+RLPD Specific:
+Demos
+20
+Demo Sampling Ratio
+50%
+Reward
+Rule-based, sparse
+SAC Specific:
+Demos
+/
+Reward
+Rule-based, dense
+SAC Flow Specific:
+Demos
+20
+Reward
+Rule-based, sparse
+-B
+3
+Cap Tightening
+The cap tightening task requires the policy to drive a pre-positioned cap toward a target configuration. For the required angular displacement spans multiple full rotations, the policy must learn a cyclic regrasping strategy to facilitate continuous, multi-turn manipulation.
+We equip a wrist camera and a stationary third-view camera to provide both egocentric and allocentric perspectives. This task requires higher rotation relative to translational displacement, so we employ an specific bounding box. Reward signals are sparsely provided by a human operator, who utilizes a foot-pedal interface to assign a binary success signal upon completion. Environment resets are managed manually as well. The detailed task settings are available in
+Tab.
+XI
+.
+TABLE XI:
+Detailed settings of cap tightening
+Parameter
+Value
+Image shape
+2
+×
+\times
+(3, 128, 128)
+State dim
+20
+Obs coordinate
+Target pose
+Action space
+Delta EE pose + gripper (7 dim)
+Step frequency
+10 Hz
+Max episode length
+240
+Bounding box (xyz)
+[0.01, 0.01, 0.02] (m)
+Bounding box (rpy)
+π
+\pi
+/6 (rad)
+RLPD Specific:
+Demos
+20
+Demo Sampling Ratio
+50%
+Reward
+Human-provided, sparse
+-B
+4
+Pick-and-Place
+The pick-and-place task requires the policy to successfully transfer objects between two trays. This task is characterized by a vast exploration space, posing significant challenges for sample efficiency. We employ a wrist cemera and a third-view camera at a 45-degree downward view. This combination ensures the policy to access to both fine-grained contact information and broad spatial context. Following our human-in-the-loop framework, both reward signals and environment resets are mediated by a human operator, as detailed in
+Tab.
+XII
+.
+TABLE XII:
+Deatiled settings of Pick-and-Place
+Parameter
+Value
+Image shape
+2
+×
+\times
+(3, 128, 128)
+State dim
+20
+Obs coordinate
+Reset pose
+Action space
+Delta EE pose + gripper (7 dim)
+Step frequency
+10 Hz
+Max episode length
+240
+Bounding box (xyz)
+[0.3, 0.3, 0.15] (m)
+Bounding box (rpy)
+π
+\pi
+/6 (rad)
+RLPD Specific:
+Demos
+40
+Demo Sampling Ratio
+50%
+Reward
+Human-provided, sparse
+HG-DAgger Specific:
+Demos
+40
+SFT epoch
+5000
+-B
+5
+Table Clean-up
+The table clean-up task is a long-horizon, multi-stage manipulation task that requires a high degree of precision. The policy must execute a specific sequence: first, placing a marker into a container (orange box); second, nesting that container within a larger receptacle (white box); and finally, close a semi-transparent lid. Both the grasping of the orange container and the final lid-closure demand fluid, high-precision control and contact-rich interactions. This task also integrates a wrist camera for localized,and a third-view camera to provide global spatial context.
+TABLE XIII:
+Policy training details for Table Clean-up (HG-DAgger).
+Parameter
+Value
+Image shape
+2
+×
+\times
+(3, 128, 128)
+State dim
+20
+Obs coordinate
+Reset pose
+Action space
+Delta EE pose + gripper (7 dim)
+Step frequency
+10 Hz
+Max episode length
+360
+Bounding box (xyz)
+[0.4, 0.4, 0.25] (m)
+Bounding box (rpy)
+π
+\pi
+/3
+HG-DAgger Specific:
+Demos
+40
+SFT epoch
+15000
+-C
+Hardware Details
+We conduct all experiments across two distinct robotic platforms: a 7-DoF Franka robot arm and a 6-DoF low-cost ARX robot arm (
+Fig.
+15
+). This section provides a detailed description of the robotic hardware configurations.
+(a)
+Franka arm
+(b)
+ARX arm
+Fig. 15:
+We run our experiments on two types of robot arms. (a) 7-DoF Franka robot arm, (b) Low-cost 6-DoF ARX robot arm.
+-C
+1
+Franka Robot Arm
+Most of our experiments were conducted using a Franka Emika Panda research arm. The Franka Emika Panda is a 7-DOF collaborative robot arm, widely utilized in robotics research for its high executing precision and integrated sensing capabilities. The robot arm features highly sensitive torque sensors in all seven joints, providing force and torque inputs for the policy. We use Franka Control Interface (FCI) to control the robot via libfranka. We utilize external RealSense D435i cameras to provide perception.
+RL involves interacting with the environment through trial and error. Consequently, we employ an impedance controller following SERL
+[
+17
+]
+. Compared to standard position controllers, impedance control offers significant advantages in contact-rich tasks. By regulating the dynamic relationship between interaction forces and motion, impedance controller effectively modeling the robot as a tunable mass-spring-damper system. It allows the policy to exhibit inherent compliance during collisions rather than rigidly tracking trajectories, ensuring hardware safety during exploration.
+Our RL policy sends control targets at 10 Hz for the low-level impedance controller to track at 1k Hz. A typical impedance control objective is
+F
+=
+k
+p
+⋅
+e
++
+k
+d
+⋅
+e
+˙
++
+F
+f
+​
+f
++
+F
+c
+​
+o
+​
+r
+,
+F=k_{p}\cdot e+k_{d}\cdot\dot{e}+F_{ff}+F_{cor},
+where
+e
+=
+p
+−
+p
+r
+​
+e
+​
+f
+e=p-p_{ref}
+,
+p
+p
+is the measured pose, and
+p
+r
+​
+e
+​
+f
+p_{ref}
+is the target pose.
+F
+f
+​
+f
+F_{ff}
+is the feed-forward force,
+F
+c
+​
+o
+​
+r
+F_{cor}
+is the Coriolis force. To map this objective into the joint space, we compute the required torques using the Jacobian transpose. The resulting control law emulates a PD-controlled spring-damper system, where the system tracks the equilibrium
+p
+r
+​
+e
+​
+f
+p_{ref}
+with stiffness and damping gains defined by
+k
+p
+k_{p}
+and
+k
+d
+k_{d}
+, respectively. The parameters of this impedance controller is detailed in
+Tab.
+XIV
+.
+TABLE XIV:
+Parameters of the impedance controller
+Translational
+Parameter
+Value
+Rotational
+Parameter
+Value
+Stiffness
+2500
+Stiffness
+150
+Damping
+100
+Damping
+7
+K
+i
+K_{i}
+0
+K
+i
+K_{i}
+0
+Clip x
+[-0.007, 0.007]
+Clip x
+[-0.07, 0.07]
+Clip y
+[-0.007, 0.007]
+Clip y
+[-0.07, 0.07]
+Clip z
+[-0.007, 0.007]
+Clip z
+[-0.06, 0.06]
+-C
+2
+ARX arm
+The ARX-R5 is a cost-effective, 6-DOF robot arm. Due to the absence of force/torque sensors, we employ a simple PD position controller for operation. The RL policy sends position target at 10 Hz, and the position controller tracks in 200 Hz. The manipulator is equipped with a wrist fisheye camera, as illustrated in
+Fig.
+15b
+.
+Experimental support, please
+view the build logs
+for errors. Generated by
+L
+A
+T
+E
+xml
+.
+Instructions for reporting errors
+We are continuing to improve HTML versions of papers, and your feedback helps enhance accessibility and mobile
+      support. To report errors in the HTML that will help us improve conversion and rendering, choose any of the
+      methods listed below:
+Click the "Report Issue"
+(
+)
+button, located in the page header.
+Tip:
+You can select the relevant text first, to include it in your report.
+Our team has already identified
+the following issues
+. We appreciate your time reviewing and reporting rendering errors we
+      may not have found yet. Your efforts will help us improve the HTML versions for all readers, because disability
+      should not be a barrier to accessing research. Thank you for your continued support in championing open access for
+      all.
+Have a free development cycle? Help support accessibility at arXiv! Our collaborators at LaTeXML maintain a
+list of packages that need conversion
+, and welcome
+developer contributions
+.
+We gratefully acknowledge support from
+        our
+major funders
+,
+member institutions
+,
+,
+        and all contributors.
+About
+·
+Help
+·
+Contact
+·
+Subscribe
+·
+Copyright
+·
+Privacy
+·
+Accessibility
+·
+Operational Status
+(opens in new tab)
+Major funding support from

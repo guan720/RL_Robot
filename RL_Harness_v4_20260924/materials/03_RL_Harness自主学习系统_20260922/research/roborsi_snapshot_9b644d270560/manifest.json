@@ -1,0 +1,62 @@
+{
+  "commit": "9b644d270560c440d760965cf1b859df674459de",
+  "retrieved": "2026-09-22",
+  "files": [
+    {
+      "path": "LICENSE",
+      "url": "https://raw.githubusercontent.com/nssmd/RoboRSI/9b644d270560c440d760965cf1b859df674459de/LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "bytes": 11357
+    },
+    {
+      "path": "pyproject.toml",
+      "url": "https://raw.githubusercontent.com/nssmd/RoboRSI/9b644d270560c440d760965cf1b859df674459de/pyproject.toml",
+      "error": "<urlopen error _ssl.c:1063: The handshake operation timed out>"
+    },
+    {
+      "path": "docs/EVALUATION.md",
+      "url": "https://raw.githubusercontent.com/nssmd/RoboRSI/9b644d270560c440d760965cf1b859df674459de/docs/EVALUATION.md",
+      "sha256": "1da69c7dcd994eac81d2862ff3063e3a4d755bf0bead512160d028e123c4f1b7",
+      "bytes": 5890
+    },
+    {
+      "path": "docs/real-robot-tool-spec.md",
+      "url": "https://raw.githubusercontent.com/nssmd/RoboRSI/9b644d270560c440d760965cf1b859df674459de/docs/real-robot-tool-spec.md",
+      "error": "The read operation timed out"
+    },
+    {
+      "path": "roborsi/agents/validator.py",
+      "url": "https://raw.githubusercontent.com/nssmd/RoboRSI/9b644d270560c440d760965cf1b859df674459de/roborsi/agents/validator.py",
+      "error": "The read operation timed out"
+    },
+    {
+      "path": "roborsi/learning/auto_apply.py",
+      "url": "https://raw.githubusercontent.com/nssmd/RoboRSI/9b644d270560c440d760965cf1b859df674459de/roborsi/learning/auto_apply.py",
+      "sha256": "1137475701a2d9b561602a4057c310f24f9fd64b3a12ea9a6d523a50c13c2f30",
+      "bytes": 7087
+    },
+    {
+      "path": "roborsi/embodied/executor.py",
+      "url": "https://raw.githubusercontent.com/nssmd/RoboRSI/9b644d270560c440d760965cf1b859df674459de/roborsi/embodied/executor.py",
+      "sha256": "3c4f67b4204c1753e845431c8ddecd8bbb39a40c80fcac8eaa0a7846bb277af6",
+      "bytes": 6262
+    },
+    {
+      "path": "roborsi/embodied/skills/_lib/rl/pi0_posttrain/policy.py",
+      "url": "https://raw.githubusercontent.com/nssmd/RoboRSI/9b644d270560c440d760965cf1b859df674459de/roborsi/embodied/skills/_lib/rl/pi0_posttrain/policy.py",
+      "sha256": "363c4863264ea526627fe8c1d612df1b2ec17e1d1f2f45752fc6cd3ae8e2737e",
+      "bytes": 556
+    },
+    {
+      "path": "roborsi/embodied/skills/_lib/training/pi0_finetune/policy.py",
+      "url": "https://raw.githubusercontent.com/nssmd/RoboRSI/9b644d270560c440d760965cf1b859df674459de/roborsi/embodied/skills/_lib/training/pi0_finetune/policy.py",
+      "sha256": "d3e5bf3cdc5e2857631bac20ee71e54256205acf213c27e9e448d822f5254f6e",
+      "bytes": 5508
+    },
+    {
+      "path": "roborsi/runtime_mode.py",
+      "url": "https://raw.githubusercontent.com/nssmd/RoboRSI/9b644d270560c440d760965cf1b859df674459de/roborsi/runtime_mode.py",
+      "error": "<urlopen error timed out>"
+    }
+  ]
+}

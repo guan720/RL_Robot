@@ -1,0 +1,37 @@
+{
+  "checked_at": "2026-09-23",
+  "method": "Web tool opened GitHub commit/<branch>, then blob/<short-sha>/<file>; full SHA verified in page title and breadcrumb. Critical files additionally read from raw.githubusercontent.com at the pinned abbreviated commit.",
+  "local_execution": false,
+  "full_repo_download": false,
+  "repositories": [
+    {
+      "repo": "showlab/Show-Harness",
+      "sha": "137d5718c3b7af0150764d8f9beeb252c9f2794a",
+      "sha_source": "https://github.com/showlab/Show-Harness/blob/137d571/core/runners/real.py",
+      "read_paths": ["core/runners/real.py", "core/runners/preemption.py", "plugins/dagger/plugin.py", "interpreters/piper_atomic_controller.py", "docs/piper.md", "gumi/README.md"],
+      "license": "Apache-2.0 code; model base and robot dependencies separately licensed"
+    },
+    {
+      "repo": "NVlabs/VoLoAgent",
+      "sha": "b4e623079ca8498a16bcd5016920d71f76c44d30",
+      "sha_source": "https://github.com/NVlabs/VoLoAgent/blob/b4e6230/vlm_orchestrator/proxy.py",
+      "read_paths": ["vlm_orchestrator/proxy.py"],
+      "license": "Apache-2.0 main repository; dependencies separately licensed"
+    },
+    {
+      "repo": "strands-labs/robots",
+      "sha": "4d0203161a587e29d7912c99da74878e8f989544",
+      "sha_source": "https://github.com/strands-labs/robots/blob/4d02031/strands_robots/tools/run_policy.py",
+      "read_paths": ["strands_robots/tools/run_policy.py"],
+      "license": "Apache-2.0"
+    },
+    {
+      "repo": "OpenRAL/openral",
+      "sha": "02506411bb6007beb5e36a3b72183f494235ea46",
+      "sha_source": "https://github.com/OpenRAL/openral/blob/0250641/README.md",
+      "read_paths": ["README.md"],
+      "license": "Apache-2.0 community code; Pro capabilities separate",
+      "limitation": "Critical runtime code not audited; hardware verification claims taken from official roadmap and robot support documentation."
+    }
+  ]
+}

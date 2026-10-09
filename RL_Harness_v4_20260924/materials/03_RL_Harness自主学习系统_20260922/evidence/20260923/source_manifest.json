@@ -1,0 +1,28 @@
+[
+  {
+    "name": "smoothrl_v1",
+    "url": "https://arxiv.org/html/2608.29768v1",
+    "ok": false,
+    "error": "<urlopen error [WinError 10060] 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。>"
+  },
+  {
+    "name": "arli_v1",
+    "url": "https://arxiv.org/html/2608.23831v1",
+    "ok": false,
+    "error": "The read operation timed out"
+  },
+  {
+    "name": "gpt6_official",
+    "url": "https://developers.openai.com/api/docs/models/gpt-6-astra",
+    "date": "2026-09-23",
+    "sha256": "92e5cc351b4f8c5901abc406b053029b96677f19cdd2fd0d8cf3e2250829b16b",
+    "ok": true
+  },
+  {
+    "name": "vision_official",
+    "url": "https://developers.openai.com/api/docs/guides/images-vision",
+    "date": "2026-09-23",
+    "sha256": "cb00139ae63dbd352ddb147c5291954a1f5927e71b501077cd13902f1024cab9",
+    "ok": true
+  }
+]

@@ -1,0 +1,24 @@
+{
+  "verdict": "PASS",
+  "scope": "Three actual local PNG previews and corresponding SVG XML; not a robot experiment",
+  "figures": [
+    {
+      "png": "assets/01_总体框架.png",
+      "png_sha256": "907545223a641a96a1ab06da3991bf7849eac2b6c9e33b0a6173f3ab3071f4f7",
+      "svg_sha256": "d584a1d4381af55eade0ba317d8a7f61e18ce11c4e8cd82b35e8c3db913aec0e",
+      "observation": "Viewed by root via view_image; labels and arrows readable, no cropped content or node overlap."
+    },
+    {
+      "png": "assets/02_任务循环.png",
+      "png_sha256": "3cd4500bc7bdadeaa46510a82d30c85febf8bda172ef365628b323ebb887077e",
+      "svg_sha256": "844c242b492a35865a1450d90c8dbf13ff3274367dc5bd977771d9553a28c5f4",
+      "observation": "Viewed by root via view_image; labels and arrows readable, no cropped content or node overlap."
+    },
+    {
+      "png": "assets/03_验证路线.png",
+      "png_sha256": "6319754f90ebf6f977c84b3eb2378205e6f7d40adc48ec891f2a71904690946a",
+      "svg_sha256": "911a6bf7ffad4217156f8b96894e5952c4fb39b7385434dded99b182832ac98c",
+      "observation": "Viewed by root via view_image; labels and arrows readable, no cropped content or node overlap."
+    }
+  ]
+}

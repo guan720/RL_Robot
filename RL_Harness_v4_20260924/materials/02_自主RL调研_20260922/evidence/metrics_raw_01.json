@@ -1,0 +1,3045 @@
+[
+  {
+    "id": "rail-berkeley/serl",
+    "kind": "github",
+    "url": "https://api.github.com/repos/rail-berkeley/serl",
+    "retrieved_at_utc": "2026-09-22T08:07:09.438991+00:00",
+    "status": "unavailable",
+    "error": "HTTP Error 403: rate limit exceeded"
+  },
+  {
+    "id": "rail-berkeley/hil-serl",
+    "kind": "github",
+    "url": "https://api.github.com/repos/rail-berkeley/hil-serl",
+    "retrieved_at_utc": "2026-09-22T08:07:09.440195+00:00",
+    "status": "unavailable",
+    "error": "HTTP Error 403: rate limit exceeded"
+  },
+  {
+    "id": "autoserl/AutoSERL",
+    "kind": "github",
+    "url": "https://api.github.com/repos/autoserl/AutoSERL",
+    "retrieved_at_utc": "2026-09-22T08:07:09.440743+00:00",
+    "status": "unavailable",
+    "error": "HTTP Error 403: rate limit exceeded"
+  },
+  {
+    "id": "ikostrikov/rlpd",
+    "kind": "github",
+    "url": "https://api.github.com/repos/ikostrikov/rlpd",
+    "retrieved_at_utc": "2026-09-22T08:07:09.441261+00:00",
+    "status": "unavailable",
+    "error": "HTTP Error 403: rate limit exceeded"
+  },
+  {
+    "id": "danijar/daydreamer",
+    "kind": "github",
+    "url": "https://api.github.com/repos/danijar/daydreamer",
+    "retrieved_at_utc": "2026-09-22T08:07:10.406646+00:00",
+    "status": "unavailable",
+    "error": "HTTP Error 403: rate limit exceeded"
+  },
+  {
+    "id": "nicklashansen/tdmpc2",
+    "kind": "github",
+    "url": "https://api.github.com/repos/nicklashansen/tdmpc2",
+    "retrieved_at_utc": "2026-09-22T08:07:10.505218+00:00",
+    "status": "unavailable",
+    "error": "HTTP Error 403: rate limit exceeded"
+  },
+  {
+    "id": "JiahengHu/FLaRe",
+    "kind": "github",
+    "url": "https://api.github.com/repos/JiahengHu/FLaRe",
+    "retrieved_at_utc": "2026-09-22T08:07:10.508205+00:00",
+    "status": "unavailable",
+    "error": "HTTP Error 403: rate limit exceeded"
+  },
+  {
+    "id": "amazon-far/residual-offpolicy-rl",
+    "kind": "github",
+    "url": "https://api.github.com/repos/amazon-far/residual-offpolicy-rl",
+    "retrieved_at_utc": "2026-09-22T08:07:10.608931+00:00",
+    "status": "unavailable",
+    "error": "HTTP Error 403: rate limit exceeded"
+  },
+  {
+    "id": "ajwagen/dsrl",
+    "kind": "github",
+    "url": "https://api.github.com/repos/ajwagen/dsrl",
+    "retrieved_at_utc": "2026-09-22T08:07:11.019989+00:00",
+    "status": "unavailable",
+    "error": "HTTP Error 403: rate limit exceeded"
+  },
+  {
+    "id": "nakamotoo/dsrl_pi0",
+    "kind": "github",
+    "url": "https://api.github.com/repos/nakamotoo/dsrl_pi0",
+    "retrieved_at_utc": "2026-09-22T08:07:11.020187+00:00",
+    "status": "unavailable",
+    "error": "HTTP Error 403: rate limit exceeded"
+  },
+  {
+    "id": "RLinf/RLinf",
+    "kind": "github",
+    "url": "https://api.github.com/repos/RLinf/RLinf",
+    "retrieved_at_utc": "2026-09-22T08:07:11.126660+00:00",
+    "status": "unavailable",
+    "error": "HTTP Error 403: rate limit exceeded"
+  },
+  {
+    "id": "Lei-Kun/RL-100",
+    "kind": "github",
+    "url": "https://api.github.com/repos/Lei-Kun/RL-100",
+    "retrieved_at_utc": "2026-09-22T08:07:11.339851+00:00",
+    "status": "unavailable",
+    "error": "HTTP Error 403: rate limit exceeded"
+  },
+  {
+    "id": "HIL-SERL",
+    "kind": "semantic_scholar",
+    "url": "https://api.semanticscholar.org/graph/v1/paper/ARXIV:2410.21845?fields=title,authors,year,citationCount,influentialCitationCount,externalIds,url,venue",
+    "retrieved_at_utc": "2026-09-22T08:07:11.545526+00:00",
+    "status": "unavailable",
+    "error": "HTTP Error 429: "
+  },
+  {
+    "id": "HIL-SERL",
+    "kind": "openalex_search",
+    "url": "https://api.openalex.org/works?search=Precise%20and%20Dexterous%20Robotic%20Manipulation%20via%20Human-in-the-Loop%20Reinforcement%20Learning&per-page=3",
+    "retrieved_at_utc": "2026-09-22T08:07:11.633279+00:00",
+    "status": 200,
+    "server_date": "Tue, 22 Sep 2026 08:07:13 GMT",
+    "rate_remaining": "899",
+    "data": {
+      "meta": {
+        "count": 1879,
+        "db_response_time_ms": 136,
+        "page": 1,
+        "per_page": 3,
+        "groups_count": null,
+        "x_query": {
+          "oql": "works where full text has (Precise \"and\" Dexterous Robotic Manipulation via Human-in-the-Loop Reinforcement Learning)",
+          "oqo": {
+            "get_rows": "works",
+            "filter_rows": [
+              {
+                "column_id": "fulltext.search",
+                "value": "Precise and Dexterous Robotic Manipulation via Human-in-the-Loop Reinforcement Learning",
+                "operator": "has"
+              }
+            ]
+          },
+          "url": "/works?filter=fulltext.search:Precise and Dexterous Robotic Manipulation via Human-in-the-Loop Reinforcement Learning&per_page=3"
+        },
+        "cost_usd": 0.001
+      },
+      "results": [
+        {
+          "id": "https://openalex.org/W4413362511",
+          "doi": "https://doi.org/10.1126/scirobotics.ads5033",
+          "title": "Precise and dexterous robotic manipulation via human-in-the-loop reinforcement learning",
+          "display_name": "Precise and dexterous robotic manipulation via human-in-the-loop reinforcement learning",
+          "relevance_score": 3167.2012,
+          "publication_year": 2025,
+          "publication_date": "2025-08-20",
+          "ids": {
+            "openalex": "https://openalex.org/W4413362511",
+            "doi": "https://doi.org/10.1126/scirobotics.ads5033",
+            "pmid": "https://pubmed.ncbi.nlm.nih.gov/40834062"
+          },
+          "language": "en",
+          "primary_location": {
+            "id": "doi:10.1126/scirobotics.ads5033",
+            "is_oa": false,
+            "landing_page_url": "https://doi.org/10.1126/scirobotics.ads5033",
+            "pdf_url": null,
+            "source": {
+              "id": "https://openalex.org/S4210213233",
+              "display_name": "Science Robotics",
+              "issn_l": "2470-9476",
+              "issn": [
+                "2470-9476"
+              ],
+              "is_oa": false,
+              "is_in_doaj": false,
+              "is_core": true,
+              "listed_in": [
+                "cwts-core",
+                "doyens",
+                "jufo-3",
+                "medline",
+                "norway-1"
+              ],
+              "host_organization": "https://openalex.org/P4310315823",
+              "host_organization_name": "American Association for the Advancement of Science",
+              "host_organization_lineage": [
+                "https://openalex.org/P4310315823"
+              ],
+              "host_organization_lineage_names": [
+                "American Association for the Advancement of Science"
+              ],
+              "type": "journal"
+            },
+            "license": null,
+            "license_id": null,
+            "version": "publishedVersion",
+            "is_accepted": true,
+            "is_published": true,
+            "raw_source_name": "Science Robotics",
+            "raw_type": "journal-article"
+          },
+          "type": "article",
+          "indexed_in": [
+            "crossref",
+            "pubmed"
+          ],
+          "open_access": {
+            "is_oa": false,
+            "oa_status": "closed",
+            "oa_url": null,
+            "any_repository_has_fulltext": false
+          },
+          "authorships": [
+            {
+              "author_position": "first",
+              "author": {
+                "id": "https://openalex.org/A5037464692",
+                "display_name": "Jianlan Luo",
+                "orcid": "https://orcid.org/0009-0008-8029-7794"
+              },
+              "institutions": [
+                {
+                  "id": "https://openalex.org/I95457486",
+                  "display_name": "University of California, Berkeley",
+                  "ror": "https://ror.org/01an7q238",
+                  "country_code": "US",
+                  "type": "education",
+                  "lineage": [
+                    "https://openalex.org/I95457486"
+                  ]
+                }
+              ],
+              "countries": [
+                "US"
+              ],
+              "is_corresponding": true,
+              "raw_author_name": "Jianlan Luo",
+              "raw_affiliation_strings": [
+                "Department of Electrical Engineering and Computer Sciences, University of California, Berkeley, CA 94720, USA"
+              ],
+              "raw_orcid": "https://orcid.org/0009-0008-8029-7794",
+              "affiliations": [
+                {
+                  "raw_affiliation_string": "Department of Electrical Engineering and Computer Sciences, University of California, Berkeley, CA 94720, USA",
+                  "institution_ids": [
+                    "https://openalex.org/I95457486"
+                  ]
+                }
+              ]
+            },
+            {
+              "author_position": "middle",
+              "author": {
+                "id": "https://openalex.org/A5076432186",
+                "display_name": "Charles Xu",
+                "orcid": "https://orcid.org/0009-0007-9126-3680"
+              },
+              "institutions": [
+                {
+                  "id": "https://openalex.org/I95457486",
+                  "display_name": "University of California, Berkeley",
+                  "ror": "https://ror.org/01an7q238",
+                  "country_code": "US",
+                  "type": "education",
+                  "lineage": [
+                    "https://openalex.org/I95457486"
+                  ]
+                }
+              ],
+              "countries": [
+                "US"
+              ],
+              "is_corresponding": true,
+              "raw_author_name": "Charles Xu",
+              "raw_affiliation_strings": [
+                "Department of Electrical Engineering and Computer Sciences, University of California, Berkeley, CA 94720, USA"
+              ],
+              "raw_orcid": "https://orcid.org/0009-0007-9126-3680",
+              "affiliations": [
+                {
+                  "raw_affiliation_string": "Department of Electrical Engineering and Computer Sciences, University of California, Berkeley, CA 94720, USA",
+                  "institution_ids": [
+                    "https://openalex.org/I95457486"
+                  ]
+                }
+              ]
+            },
+            {
+              "author_position": "middle",
+              "author": {
+                "id": "https://openalex.org/A5081413425",
+                "display_name": "Jeffrey Wu",
+                "orcid": null
+              },
+              "institutions": [
+                {
+                  "id": "https://openalex.org/I95457486",
+                  "display_name": "University of California, Berkeley",
+                  "ror": "https://ror.org/01an7q238",
+                  "country_code": "US",
+                  "type": "education",
+                  "lineage": [
+                    "https://openalex.org/I95457486"
+                  ]
+                }
+              ],
+              "countries": [
+                "US"
+              ],
+              "is_corresponding": false,
+              "raw_author_name": "Jeffrey Wu",
+              "raw_affiliation_strings": [
+                "Department of Electrical Engineering and Computer Sciences, University of California, Berkeley, CA 94720, USA"
+              ],
+              "raw_orcid": null,
+              "affiliations": [
+                {
+                  "raw_affiliation_string": "Department of Electrical Engineering and Computer Sciences, University of California, Berkeley, CA 94720, USA",
+                  "institution_ids": [
+                    "https://openalex.org/I95457486"
+                  ]
+                }
+              ]
+            },
+            {
+              "author_position": "last",
+              "author": {
+                "id": "https://openalex.org/A5026322200",
+                "display_name": "Sergey Levine",
+                "orcid": "https://orcid.org/0000-0001-6764-2743"
+              },
+              "institutions": [
+                {
+                  "id": "https://openalex.org/I95457486",
+                  "display_name": "University of California, Berkeley",
+                  "ror": "https://ror.org/01an7q238",
+                  "country_code": "US",
+                  "type": "education",
+                  "lineage": [
+                    "https://openalex.org/I95457486"
+                  ]
+                }
+              ],
+              "countries": [
+                "US"
+              ],
+              "is_corresponding": false,
+              "raw_author_name": "Sergey Levine",
+              "raw_affiliation_strings": [
+                "Department of Electrical Engineering and Computer Sciences, University of California, Berkeley, CA 94720, USA"
+              ],
+              "raw_orcid": "https://orcid.org/0000-0001-6764-2743",
+              "affiliations": [
+                {
+                  "raw_affiliation_string": "Department of Electrical Engineering and Computer Sciences, University of California, Berkeley, CA 94720, USA",
+                  "institution_ids": [
+                    "https://openalex.org/I95457486"
+                  ]
+                }
+              ]
+            }
+          ],
+          "institutions": [],
+          "countries_distinct_count": 1,
+          "institutions_distinct_count": 1,
+          "corresponding_author_ids": [
+            "https://openalex.org/A5037464692",
+            "https://openalex.org/A5076432186"
+          ],
+          "corresponding_institution_ids": [
+            "https://openalex.org/I95457486"
+          ],
+          "apc_list": null,
+          "apc_paid": null,
+          "fwci": 24.4214,
+          "has_fulltext": false,
+          "cited_by_count": 62,
+          "citation_normalized_percentile": {
+            "value": 0.99851675,
+            "is_in_top_1_percent": true,
+            "is_in_top_10_percent": true
+          },
+          "cited_by_percentile_year": {
+            "min": 99,
+            "max": 100
+          },
+          "biblio": {
+            "volume": "10",
+            "issue": "105",
+            "first_page": "eads5033",
+            "last_page": "eads5033"
+          },
+          "is_retracted": false,
+          "is_paratext": false,
+          "is_xpac": false,
+          "primary_topic": {
+            "id": "https://openalex.org/T10653",
+            "display_name": "Robot Manipulation and Learning",
+            "score": 0.9994999766349792,
+            "subfield": {
+              "id": "https://openalex.org/subfields/2207",
+              "display_name": "Control and Systems Engineering"
+            },
+            "field": {
+              "id": "https://openalex.org/fields/22",
+              "display_name": "Engineering"
+            },
+            "domain": {
+              "id": "https://openalex.org/domains/3",
+              "display_name": "Physical Sciences"
+            }
+          },
+          "topics": [
+            {
+              "id": "https://openalex.org/T10653",
+              "display_name": "Robot Manipulation and Learning",
+              "score": 0.9994999766349792,
+              "subfield": {
+                "id": "https://openalex.org/subfields/2207",
+                "display_name": "Control and Systems Engineering"
+              },
+              "field": {
+                "id": "https://openalex.org/fields/22",
+                "display_name": "Engineering"
+              },
+              "domain": {
+                "id": "https://openalex.org/domains/3",
+                "display_name": "Physical Sciences"
+              }
+            },
+            {
+              "id": "https://openalex.org/T10462",
+              "display_name": "Reinforcement Learning in Robotics",
+              "score": 0.9891999959945679,
+              "subfield": {
+                "id": "https://openalex.org/subfields/1702",
+                "display_name": "Artificial Intelligence"
+              },
+              "field": {
+                "id": "https://openalex.org/fields/17",
+                "display_name": "Computer Science"
+              },
+              "domain": {
+                "id": "https://openalex.org/domains/3",
+                "display_name": "Physical Sciences"
+              }
+            },
+            {
+              "id": "https://openalex.org/T10868",
+              "display_name": "Soft Robotics and Applications",
+              "score": 0.9524999856948853,
+              "subfield": {
+                "id": "https://openalex.org/subfields/2204",
+                "display_name": "Biomedical Engineering"
+              },
+              "field": {
+                "id": "https://openalex.org/fields/22",
+                "display_name": "Engineering"
+              },
+              "domain": {
+                "id": "https://openalex.org/domains/3",
+                "display_name": "Physical Sciences"
+              }
+            }
+          ],
+          "keywords": [
+            {
+              "id": "https://openalex.org/keywords/reinforcement-learning",
+              "display_name": "Reinforcement learning",
+              "score": 0.758458137512207
+            },
+            {
+              "id": "https://openalex.org/keywords/computer-science",
+              "display_name": "Computer science",
+              "score": 0.6875574588775635
+            },
+            {
+              "id": "https://openalex.org/keywords/artificial-intelligence",
+              "display_name": "Artificial intelligence",
+              "score": 0.6195247769355774
+            },
+            {
+              "id": "https://openalex.org/keywords/robustness",
+              "display_name": "Robustness (evolution)",
+              "score": 0.5428947806358337
+            },
+            {
+              "id": "https://openalex.org/keywords/robotics",
+              "display_name": "Robotics",
+              "score": 0.5352979302406311
+            },
+            {
+              "id": "https://openalex.org/keywords/software-deployment",
+              "display_name": "Software deployment",
+              "score": 0.5111947655677795
+            },
+            {
+              "id": "https://openalex.org/keywords/human-in-the-loop",
+              "display_name": "Human-in-the-loop",
+              "score": 0.4739770293235779
+            },
+            {
+              "id": "https://openalex.org/keywords/robot",
+              "display_name": "Robot",
+              "score": 0.4469251334667206
+            },
+            {
+              "id": "https://openalex.org/keywords/robotic-arm",
+              "display_name": "Robotic arm",
+              "score": 0.44031813740730286
+            },
+            {
+              "id": "https://openalex.org/keywords/human–computer-interaction",
+              "display_name": "Human–computer interaction",
+              "score": 0.3318452835083008
+            },
+            {
+              "id": "https://openalex.org/keywords/control-engineering",
+              "display_name": "Control engineering",
+              "score": 0.320967435836792
+            },
+            {
+              "id": "https://openalex.org/keywords/engineering",
+              "display_name": "Engineering",
+              "score": 0.16638723015785217
+            },
+            {
+              "id": "https://openalex.org/keywords/software-engineering",
+              "display_name": "Software engineering",
+              "score": 0.10924568772315979
+            }
+          ],
+          "concepts": [
+            {
+              "id": "https://openalex.org/C97541855",
+              "wikidata": "https://www.wikidata.org/wiki/Q830687",
+              "display_name": "Reinforcement learning",
+              "level": 2,
+              "score": 0.758458137512207
+            },
+            {
+              "id": "https://openalex.org/C41008148",
+              "wikidata": "https://www.wikidata.org/wiki/Q21198",
+              "display_name": "Computer science",
+              "level": 0,
+              "score": 0.6875574588775635
+            },
+            {
+              "id": "https://openalex.org/C154945302",
+              "wikidata": "https://www.wikidata.org/wiki/Q11660",
+              "display_name": "Artificial intelligence",
+              "level": 1,
+              "score": 0.6195247769355774
+            },
+            {
+              "id": "https://openalex.org/C63479239",
+              "wikidata": "https://www.wikidata.org/wiki/Q7353546",
+              "display_name": "Robustness (evolution)",
+              "level": 3,
+              "score": 0.5428947806358337
+            },
+            {
+              "id": "https://openalex.org/C34413123",
+              "wikidata": "https://www.wikidata.org/wiki/Q170978",
+              "display_name": "Robotics",
+              "level": 3,
+              "score": 0.5352979302406311
+            },
+            {
+              "id": "https://openalex.org/C105339364",
+              "wikidata": "https://www.wikidata.org/wiki/Q2297740",
+              "display_name": "Software deployment",
+              "level": 2,
+              "score": 0.5111947655677795
+            },
+            {
+              "id": "https://openalex.org/C2780626000",
+              "wikidata": "https://www.wikidata.org/wiki/Q5936775",
+              "display_name": "Human-in-the-loop",
+              "level": 2,
+              "score": 0.4739770293235779
+            },
+            {
+              "id": "https://openalex.org/C90509273",
+              "wikidata": "https://www.wikidata.org/wiki/Q11012",
+              "display_name": "Robot",
+              "level": 2,
+              "score": 0.4469251334667206
+            },
+            {
+              "id": "https://openalex.org/C150415221",
+              "wikidata": "https://www.wikidata.org/wiki/Q40687",
+              "display_name": "Robotic arm",
+              "level": 2,
+              "score": 0.44031813740730286
+            },
+            {
+              "id": "https://openalex.org/C107457646",
+              "wikidata": "https://www.wikidata.org/wiki/Q207434",
+              "display_name": "Human–computer interaction",
+              "level": 1,
+              "score": 0.3318452835083008
+            },
+            {
+              "id": "https://openalex.org/C133731056",
+              "wikidata": "https://www.wikidata.org/wiki/Q4917288",
+              "display_name": "Control engineering",
+              "level": 1,
+              "score": 0.320967435836792
+            },
+            {
+              "id": "https://openalex.org/C127413603",
+              "wikidata": "https://www.wikidata.org/wiki/Q11023",
+              "display_name": "Engineering",
+              "level": 0,
+              "score": 0.16638723015785217
+            },
+            {
+              "id": "https://openalex.org/C115903868",
+              "wikidata": "https://www.wikidata.org/wiki/Q80993",
+              "display_name": "Software engineering",
+              "level": 1,
+              "score": 0.10924568772315979
+            },
+            {
+              "id": "https://openalex.org/C104317684",
+              "wikidata": "https://www.wikidata.org/wiki/Q7187",
+              "display_name": "Gene",
+              "level": 2,
+              "score": 0.0
+            },
+            {
+              "id": "https://openalex.org/C55493867",
+              "wikidata": "https://www.wikidata.org/wiki/Q7094",
+              "display_name": "Biochemistry",
+              "level": 1,
+              "score": 0.0
+            },
+            {
+              "id": "https://openalex.org/C185592680",
+              "wikidata": "https://www.wikidata.org/wiki/Q2329",
+              "display_name": "Chemistry",
+              "level": 0,
+              "score": 0.0
+            }
+          ],
+          "mesh": [
+            {
+              "descriptor_ui": "D000069550",
+              "descriptor_name": "Machine Learning",
+              "qualifier_ui": null,
+              "qualifier_name": null,
+              "is_major_topic": true
+            },
+            {
+              "descriptor_ui": "D000069550",
+              "descriptor_name": "Machine Learning",
+              "qualifier_ui": null,
+              "qualifier_name": null,
+              "is_major_topic": true
+            },
+            {
+              "descriptor_ui": "D000069550",
+              "descriptor_name": "Machine Learning",
+              "qualifier_ui": null,
+              "qualifier_name": null,
+              "is_major_topic": true
+            },
+            {
+              "descriptor_ui": "D000465",
+              "descriptor_name": "Algorithms",
+              "qualifier_ui": null,
+              "qualifier_name": null,
+              "is_major_topic": false
+            },
+            {
+              "descriptor_ui": "D000465",
+              "descriptor_name": "Algorithms",
+              "qualifier_ui": null,
+              "qualifier_name": null,
+              "is_major_topic": false
+            },
+            {
+              "descriptor_ui": "D000465",
+              "descriptor_name": "Algorithms",
+              "qualifier_ui": null,
+              "qualifier_name": null,
+              "is_major_topic": false
+            },
+            {
+              "descriptor_ui": "D004867",
+              "descriptor_name": "Equipment Design",
+              "qualifier_ui": null,
+              "qualifier_name": null,
+              "is_major_topic": false
+            },
+            {
+              "descriptor_ui": "D004867",
+              "descriptor_name": "Equipment Design",
+              "qualifier_ui": null,
+              "qualifier_name": null,
+              "is_major_topic": false
+            },
+            {
+              "descriptor_ui": "D004867",
+              "descriptor_name": "Equipment Design",
+              "qualifier_ui": null,
+              "qualifier_name": null,
+              "is_major_topic": false
+            },
+            {
+              "descriptor_ui": "D006801",
+              "descriptor_name": "Humans",
+              "qualifier_ui": null,
+              "qualifier_name": null,
+              "is_major_topic": false
+            },
+            {
+              "descriptor_ui": "D006801",
+              "descriptor_name": "Humans",
+              "qualifier_ui": null,
+              "qualifier_name": null,
+              "is_major_topic": false
+            },
+            {
+              "descriptor_ui": "D006801",
+              "descriptor_name": "Humans",
+              "qualifier_ui": null,
+              "qualifier_name": null,
+              "is_major_topic": false
+            },
+            {
+              "descriptor_ui": "D012054",
+              "descriptor_name": "Reinforcement, Psychology",
+              "qualifier_ui": null,
+              "qualifier_name": null,
+              "is_major_topic": true
+            },
+            {
+              "descriptor_ui": "D012054",
+              "descriptor_name": "Reinforcement, Psychology",
+              "qualifier_ui": null,
+              "qualifier_name": null,
+              "is_major_topic": true
+            },
+            {
+              "descriptor_ui": "D012054",
+              "descriptor_name": "Reinforcement, Psychology",
+              "qualifier_ui": null,
+              "qualifier_name": null,
+              "is_major_topic": true
+            },
+            {
+              "descriptor_ui": "D012371",
+              "descriptor_name": "Robotics",
+              "qualifier_ui": "Q000295",
+              "qualifier_name": "instrumentation",
+              "is_major_topic": true
+            },
+            {
+              "descriptor_ui": "D012371",
+              "descriptor_name": "Robotics",
+              "qualifier_ui": "Q000295",
+              "qualifier_name": "instrumentation",
+              "is_major_topic": true
+            },
+            {
+              "descriptor_ui": "D012371",
+              "descriptor_name": "Robotics",
+              "qualifier_ui": "Q000295",
+              "qualifier_name": "instrumentation",
+              "is_major_topic": true
+            },
+            {
+              "descriptor_ui": "D012371",
+              "descriptor_name": "Robotics",
+              "qualifier_ui": "Q000379",
+              "qualifier_name": "methods",
+              "is_major_topic": true
+            },
+            {
+              "descriptor_ui": "D012371",
+              "descriptor_name": "Robotics",
+              "qualifier_ui": "Q000379",
+              "qualifier_name": "methods",
+              "is_major_topic": true
+            },
+            {
+              "descriptor_ui": "D012371",
+              "descriptor_name": "Robotics",
+              "qualifier_ui": "Q000379",
+              "qualifier_name": "methods",
+              "is_major_topic": true
+            }
+          ],
+          "locations_count": 2,
+          "locations": [
+            {
+              "id": "doi:10.1126/scirobotics.ads5033",
+              "is_oa": false,
+              "landing_page_url": "https://doi.org/10.1126/scirobotics.ads5033",
+              "pdf_url": null,
+              "source": {
+                "id": "https://openalex.org/S4210213233",
+                "display_name": "Science Robotics",
+                "issn_l": "2470-9476",
+                "issn": [
+                  "2470-9476"
+                ],
+                "is_oa": false,
+                "is_in_doaj": false,
+                "is_core": true,
+                "listed_in": [
+                  "cwts-core",
+                  "doyens",
+                  "jufo-3",
+                  "medline",
+                  "norway-1"
+                ],
+                "host_organization": "https://openalex.org/P4310315823",
+                "host_organization_name": "American Association for the Advancement of Science",
+                "host_organization_lineage": [
+                  "https://openalex.org/P4310315823"
+                ],
+                "host_organization_lineage_names": [
+                  "American Association for the Advancement of Science"
+                ],
+                "type": "journal"
+              },
+              "license": null,
+              "license_id": null,
+              "version": "publishedVersion",
+              "is_accepted": true,
+              "is_published": true,
+              "raw_source_name": "Science Robotics",
+              "raw_type": "journal-article"
+            },
+            {
+              "id": "pmid:40834062",
+              "is_oa": false,
+              "landing_page_url": "https://pubmed.ncbi.nlm.nih.gov/40834062",
+              "pdf_url": null,
+              "source": {
+                "id": "https://openalex.org/S4306525036",
+                "display_name": "PubMed",
+                "issn_l": null,
+                "issn": null,
+                "is_oa": false,
+                "is_in_doaj": false,
+                "is_core": false,
+                "listed_in": [],
+                "host_organization": "https://openalex.org/I1299303238",
+                "host_organization_name": "National Institutes of Health",
+                "host_organization_lineage": [
+                  "https://openalex.org/I1299303238"
+                ],
+                "host_organization_lineage_names": [],
+                "type": "repository"
+              },
+              "license": null,
+              "license_id": null,
+              "version": "publishedVersion",
+              "is_accepted": true,
+              "is_published": true,
+              "raw_source_name": "Science robotics",
+              "raw_type": "Journal Article"
+            }
+          ],
+          "best_oa_location": null,
+          "sustainable_development_goals": [],
+          "awards": [],
+          "funders": [],
+          "has_content": {
+            "pdf": false,
+            "grobid_xml": false
+          },
+          "content_urls": null,
+          "referenced_works_count": 80,
+          "referenced_works": [
+            "https://openalex.org/W1506961945",
+            "https://openalex.org/W1777239053",
+            "https://openalex.org/W1925816294",
+            "https://openalex.org/W1931877416",
+            "https://openalex.org/W1984103729",
+            "https://openalex.org/W2016765487",
+            "https://openalex.org/W2089970736",
+            "https://openalex.org/W2097797606",
+            "https://openalex.org/W2100538121",
+            "https://openalex.org/W2108598243",
+            "https://openalex.org/W2127412976",
+            "https://openalex.org/W2132714442",
+            "https://openalex.org/W2136719407",
+            "https://openalex.org/W2155007355",
+            "https://openalex.org/W2197173219",
+            "https://openalex.org/W2529601334",
+            "https://openalex.org/W2553722312",
+            "https://openalex.org/W2737215407",
+            "https://openalex.org/W2746553466",
+            "https://openalex.org/W2781726626",
+            "https://openalex.org/W2783859738",
+            "https://openalex.org/W2806130867",
+            "https://openalex.org/W2909718913",
+            "https://openalex.org/W2911087563",
+            "https://openalex.org/W2912997088",
+            "https://openalex.org/W2954829582",
+            "https://openalex.org/W2959895084",
+            "https://openalex.org/W2963411833",
+            "https://openalex.org/W2966994213",
+            "https://openalex.org/W2967727187",
+            "https://openalex.org/W2968268581",
+            "https://openalex.org/W2968340082",
+            "https://openalex.org/W2975909688",
+            "https://openalex.org/W2995058766",
+            "https://openalex.org/W3000439273",
+            "https://openalex.org/W3003232400",
+            "https://openalex.org/W3005581722",
+            "https://openalex.org/W3023407077",
+            "https://openalex.org/W3039417898",
+            "https://openalex.org/W3093922502",
+            "https://openalex.org/W3097217077",
+            "https://openalex.org/W3104876774",
+            "https://openalex.org/W3115367651",
+            "https://openalex.org/W3130717831",
+            "https://openalex.org/W3164862896",
+            "https://openalex.org/W3166580013",
+            "https://openalex.org/W3174364619",
+            "https://openalex.org/W3176397544",
+            "https://openalex.org/W3186869035",
+            "https://openalex.org/W3196840366",
+            "https://openalex.org/W3202883604",
+            "https://openalex.org/W3206200647",
+            "https://openalex.org/W3206827162",
+            "https://openalex.org/W3207061160",
+            "https://openalex.org/W4238538572",
+            "https://openalex.org/W4246394278",
+            "https://openalex.org/W4283218993",
+            "https://openalex.org/W4283721947",
+            "https://openalex.org/W4283786694",
+            "https://openalex.org/W4283788634",
+            "https://openalex.org/W4285102473",
+            "https://openalex.org/W4287553323",
+            "https://openalex.org/W4302010007",
+            "https://openalex.org/W4307001526",
+            "https://openalex.org/W4318472814",
+            "https://openalex.org/W4379260839",
+            "https://openalex.org/W4383066128",
+            "https://openalex.org/W4385430467",
+            "https://openalex.org/W4385430550",
+            "https://openalex.org/W4385430679",
+            "https://openalex.org/W4387764390",
+            "https://openalex.org/W4388901983",
+            "https://openalex.org/W4390778533",
+            "https://openalex.org/W4401416214",
+            "https://openalex.org/W4402354084",
+            "https://openalex.org/W4402354147",
+            "https://openalex.org/W4403337227",
+            "https://openalex.org/W4405784940",
+            "https://openalex.org/W4408468135",
+            "https://openalex.org/W6682849425"
+          ],
+          "related_works": [
+            "https://openalex.org/W2770234245",
+            "https://openalex.org/W96612179",
+            "https://openalex.org/W4229499248",
+            "https://openalex.org/W2566006169",
+            "https://openalex.org/W1567818861",
+            "https://openalex.org/W2987774938",
+            "https://openalex.org/W4256492088",
+            "https://openalex.org/W632915154",
+            "https://openalex.org/W2055733372",
+            "https://openalex.org/W2782058284"
+          ],
+          "abstract_inverted_index": {
+            "Robotic": [
+              0
+            ],
+            "manipulation": [
+              1,
+              72,
+              114,
+              212,
+              236
+            ],
+            "remains": [
+              2,
+              87
+            ],
+            "one": [
+              3
+            ],
+            "of": [
+              4,
+              81,
+              90,
+              92,
+              112,
+              170,
+              209,
+              233
+            ],
+            "the": [
+              5,
+              78,
+              84,
+              162,
+              216
+            ],
+            "most": [
+              6
+            ],
+            "difficult": [
+              7
+            ],
+            "challenges": [
+              8
+            ],
+            "in": [
+              9,
+              83,
+              135,
+              161,
+              215
+            ],
+            "robotics,": [
+              10
+            ],
+            "with": [
+              11,
+              36,
+              130
+            ],
+            "approaches": [
+              12
+            ],
+            "ranging": [
+              13
+            ],
+            "from": [
+              14
+            ],
+            "classical": [
+              15
+            ],
+            "model-based": [
+              16
+            ],
+            "control": [
+              17
+            ],
+            "to": [
+              18,
+              68,
+              156,
+              167
+            ],
+            "modern": [
+              19
+            ],
+            "imitation": [
+              20
+            ],
+            "learning.": [
+              21
+            ],
+            "Although": [
+              22
+            ],
+            "these": [
+              23
+            ],
+            "methods": [
+              24
+            ],
+            "have": [
+              25
+            ],
+            "enabled": [
+              26
+            ],
+            "substantial": [
+              27
+            ],
+            "progress,": [
+              28
+            ],
+            "they": [
+              29
+            ],
+            "often": [
+              30
+            ],
+            "require": [
+              31
+            ],
+            "extensive": [
+              32,
+              195
+            ],
+            "manual": [
+              33
+            ],
+            "design,": [
+              34
+            ],
+            "struggle": [
+              35
+            ],
+            "performance,": [
+              37
+            ],
+            "and": [
+              38,
+              54,
+              95,
+              121,
+              153,
+              188,
+              197,
+              242
+            ],
+            "demand": [
+              39,
+              140
+            ],
+            "large-scale": [
+              40
+            ],
+            "data": [
+              41
+            ],
+            "collection.": [
+              42
+            ],
+            "These": [
+              43,
+              124
+            ],
+            "limitations": [
+              44
+            ],
+            "hinder": [
+              45
+            ],
+            "their": [
+              46
+            ],
+            "real-world": [
+              47,
+              171
+            ],
+            "deployment": [
+              48
+            ],
+            "at": [
+              49
+            ],
+            "scale,": [
+              50
+            ],
+            "where": [
+              51
+            ],
+            "reliability,": [
+              52
+            ],
+            "speed,": [
+              53
+            ],
+            "robustness": [
+              55
+            ],
+            "are": [
+              56
+            ],
+            "essential.": [
+              57
+            ],
+            "Reinforcement": [
+              58
+            ],
+            "learning": [
+              59
+            ],
+            "(RL)": [
+              60
+            ],
+            "offers": [
+              61
+            ],
+            "a": [
+              62,
+              99,
+              109,
+              206,
+              230
+            ],
+            "powerful": [
+              63
+            ],
+            "alternative": [
+              64
+            ],
+            "by": [
+              65,
+              178,
+              182
+            ],
+            "enabling": [
+              66
+            ],
+            "robots": [
+              67
+            ],
+            "autonomously": [
+              69
+            ],
+            "acquire": [
+              70
+            ],
+            "complex": [
+              71,
+              210
+            ],
+            "skills": [
+              73
+            ],
+            "through": [
+              74
+            ],
+            "interaction.": [
+              75
+            ],
+            "However,": [
+              76
+            ],
+            "realizing": [
+              77
+            ],
+            "full": [
+              79
+            ],
+            "potential": [
+              80
+            ],
+            "RL": [
+              82,
+              102,
+              151,
+              159,
+              203
+            ],
+            "real": [
+              85,
+              163,
+              217
+            ],
+            "world": [
+              86,
+              218
+            ],
+            "challenging": [
+              88
+            ],
+            "because": [
+              89
+            ],
+            "issues": [
+              91
+            ],
+            "sample": [
+              93
+            ],
+            "efficiency": [
+              94
+            ],
+            "safety.": [
+              96
+            ],
+            "We": [
+              97,
+              223
+            ],
+            "present": [
+              98
+            ],
+            "human-in-the-loop,": [
+              100
+            ],
+            "vision-based": [
+              101,
+              211
+            ],
+            "system": [
+              103
+            ],
+            "that": [
+              104,
+              139,
+              202,
+              225
+            ],
+            "achieved": [
+              105
+            ],
+            "strong": [
+              106
+            ],
+            "performance": [
+              107
+            ],
+            "on": [
+              108,
+              192
+            ],
+            "wide": [
+              110,
+              207
+            ],
+            "range": [
+              111,
+              208
+            ],
+            "dexterous": [
+              113
+            ],
+            "tasks,": [
+              115
+            ],
+            "including": [
+              116
+            ],
+            "precise": [
+              117
+            ],
+            "assembly,": [
+              118
+            ],
+            "dynamic": [
+              119
+            ],
+            "manipulation,": [
+              120
+            ],
+            "dual-arm": [
+              122
+            ],
+            "coordination.": [
+              123
+            ],
+            "tasks": [
+              125
+            ],
+            "reflect": [
+              126
+            ],
+            "realistic": [
+              127
+            ],
+            "industrial": [
+              128,
+              240
+            ],
+            "tolerances,": [
+              129
+            ],
+            "small": [
+              131
+            ],
+            "but": [
+              132
+            ],
+            "critical": [
+              133
+            ],
+            "variations": [
+              134
+            ],
+            "initial": [
+              136
+            ],
+            "object": [
+              137
+            ],
+            "placements": [
+              138
+            ],
+            "sophisticated": [
+              141
+            ],
+            "reactive": [
+              142
+            ],
+            "control.": [
+              143
+            ],
+            "Our": [
+              144
+            ],
+            "method": [
+              145
+            ],
+            "integrates": [
+              146
+            ],
+            "demonstrations,": [
+              147
+            ],
+            "human": [
+              148
+            ],
+            "corrections,": [
+              149
+            ],
+            "sample-efficient": [
+              150
+            ],
+            "algorithms,": [
+              152
+            ],
+            "system-level": [
+              154
+            ],
+            "design": [
+              155
+            ],
+            "directly": [
+              157,
+              214
+            ],
+            "learn": [
+              158,
+              205
+            ],
+            "policies": [
+              160,
+              213
+            ],
+            "world.": [
+              164
+            ],
+            "Within": [
+              165
+            ],
+            "1": [
+              166
+            ],
+            "2.5": [
+              168
+            ],
+            "hours": [
+              169
+            ],
+            "training,": [
+              172
+            ],
+            "our": [
+              173,
+              199
+            ],
+            "approach": [
+              174
+            ],
+            "outperformed": [
+              175
+            ],
+            "other": [
+              176
+            ],
+            "baselines": [
+              177
+            ],
+            "improving": [
+              179
+            ],
+            "task": [
+              180
+            ],
+            "success": [
+              181,
+              186
+            ],
+            "2×,": [
+              183
+            ],
+            "achieving": [
+              184
+            ],
+            "near-perfect": [
+              185
+            ],
+            "rates,": [
+              187
+            ],
+            "executing": [
+              189
+            ],
+            "1.8×": [
+              190
+            ],
+            "faster": [
+              191
+            ],
+            "average.": [
+              193
+            ],
+            "Through": [
+              194
+            ],
+            "experiments": [
+              196
+            ],
+            "analysis,": [
+              198
+            ],
+            "results": [
+              200
+            ],
+            "suggest": [
+              201
+            ],
+            "can": [
+              204
+            ],
+            "within": [
+              219
+            ],
+            "practical": [
+              220
+            ],
+            "training": [
+              221
+            ],
+            "times.": [
+              222
+            ],
+            "hope": [
+              224
+            ],
+            "this": [
+              226
+            ],
+            "work": [
+              227
+            ],
+            "will": [
+              228
+            ],
+            "inspire": [
+              229
+            ],
+            "new": [
+              231
+            ],
+            "generation": [
+              232
+            ],
+            "learned": [
+              234
+            ],
+            "robotic": [
+              235
+            ],
+            "techniques,": [
+              237
+            ],
+            "benefiting": [
+              238
+            ],
+            "both": [
+              239
+            ],
+            "applications": [
+              241
+            ],
+            "research": [
+              243
+            ],
+            "advancements.": [
+              244
+            ]
+          },
+          "counts_by_year": [
+            {
+              "year": 2026,
+              "cited_by_count": 44
+            },
+            {
+              "year": 2025,
+              "cited_by_count": 18
+            }
+          ],
+          "updated_date": "2026-09-12T09:15:50.089291",
+          "created_date": "2025-10-10T00:00:00"
+        },
+        {
+          "id": "https://openalex.org/W2973229164",
+          "doi": "https://doi.org/10.32657/10356/90191",
+          "title": "Continuous control for robot based on deep reinforcement learning",
+          "display_name": "Continuous control for robot based on deep reinforcement learning",
+          "relevance_score": 885.8287,
+          "publication_year": 2019,
+          "publication_date": "2019-01-01",
+          "ids": {
+            "openalex": "https://openalex.org/W2973229164",
+            "doi": "https://doi.org/10.32657/10356/90191",
+            "mag": "2973229164"
+          },
+          "language": "en",
+          "primary_location": {
+            "id": "doi:10.32657/10356/90191",
+            "is_oa": true,
+            "landing_page_url": "https://doi.org/10.32657/10356/90191",
+            "pdf_url": "https://dr.ntu.edu.sg/bitstream/10356/90191/1/thesis-final.pdf",
+            "source": null,
+            "license": null,
+            "license_id": null,
+            "version": "publishedVersion",
+            "is_accepted": true,
+            "is_published": true,
+            "raw_source_name": "Nanyang Technological University",
+            "raw_type": "dissertation"
+          },
+          "type": "dissertation",
+          "indexed_in": [
+            "crossref"
+          ],
+          "open_access": {
+            "is_oa": true,
+            "oa_status": "gold",
+            "oa_url": "https://dr.ntu.edu.sg/bitstream/10356/90191/1/thesis-final.pdf",
+            "any_repository_has_fulltext": null
+          },
+          "authorships": [
+            {
+              "author_position": "first",
+              "author": {
+                "id": "https://openalex.org/A5070751669",
+                "display_name": "Shansi Zhang",
+                "orcid": null
+              },
+              "institutions": [],
+              "countries": [],
+              "is_corresponding": true,
+              "raw_author_name": "Shansi Zhang",
+              "raw_affiliation_strings": [],
+              "raw_orcid": null,
+              "affiliations": []
+            }
+          ],
+          "institutions": [],
+          "countries_distinct_count": 0,
+          "institutions_distinct_count": 0,
+          "corresponding_author_ids": [
+            "https://openalex.org/A5070751669"
+          ],
+          "corresponding_institution_ids": [],
+          "apc_list": null,
+          "apc_paid": null,
+          "fwci": null,
+          "has_fulltext": true,
+          "cited_by_count": 951,
+          "citation_normalized_percentile": null,
+          "cited_by_percentile_year": null,
+          "biblio": {
+            "volume": null,
+            "issue": null,
+            "first_page": null,
+            "last_page": null
+          },
+          "is_retracted": false,
+          "is_paratext": false,
+          "is_xpac": false,
+          "primary_topic": {
+            "id": "https://openalex.org/T14225",
+            "display_name": "Advanced Sensor and Control Systems",
+            "score": 0.6629999876022339,
+            "subfield": {
+              "id": "https://openalex.org/subfields/2207",
+              "display_name": "Control and Systems Engineering"
+            },
+            "field": {
+              "id": "https://openalex.org/fields/22",
+              "display_name": "Engineering"
+            },
+            "domain": {
+              "id": "https://openalex.org/domains/3",
+              "display_name": "Physical Sciences"
+            }
+          },
+          "topics": [
+            {
+              "id": "https://openalex.org/T14225",
+              "display_name": "Advanced Sensor and Control Systems",
+              "score": 0.6629999876022339,
+              "subfield": {
+                "id": "https://openalex.org/subfields/2207",
+                "display_name": "Control and Systems Engineering"
+              },
+              "field": {
+                "id": "https://openalex.org/fields/22",
+                "display_name": "Engineering"
+              },
+              "domain": {
+                "id": "https://openalex.org/domains/3",
+                "display_name": "Physical Sciences"
+              }
+            },
+            {
+              "id": "https://openalex.org/T13717",
+              "display_name": "Advanced Algorithms and Applications",
+              "score": 0.6290000081062317,
+              "subfield": {
+                "id": "https://openalex.org/subfields/2207",
+                "display_name": "Control and Systems Engineering"
+              },
+              "field": {
+                "id": "https://openalex.org/fields/22",
+                "display_name": "Engineering"
+              },
+              "domain": {
+                "id": "https://openalex.org/domains/3",
+                "display_name": "Physical Sciences"
+              }
+            }
+          ],
+          "keywords": [
+            {
+              "id": "https://openalex.org/keywords/reinforcement-learning",
+              "display_name": "Reinforcement learning",
+              "score": 0.8376568555831909
+            },
+            {
+              "id": "https://openalex.org/keywords/computer-science",
+              "display_name": "Computer science",
+              "score": 0.5035085082054138
+            },
+            {
+              "id": "https://openalex.org/keywords/reinforcement",
+              "display_name": "Reinforcement",
+              "score": 0.47970980405807495
+            },
+            {
+              "id": "https://openalex.org/keywords/control",
+              "display_name": "Control (management)",
+              "score": 0.47445306181907654
+            },
+            {
+              "id": "https://openalex.org/keywords/artificial-intelligence",
+              "display_name": "Artificial intelligence",
+              "score": 0.46188730001449585
+            },
+            {
+              "id": "https://openalex.org/keywords/human–computer-interaction",
+              "display_name": "Human–computer interaction",
+              "score": 0.3435513973236084
+            },
+            {
+              "id": "https://openalex.org/keywords/engineering",
+              "display_name": "Engineering",
+              "score": 0.2595599889755249
+            },
+            {
+              "id": "https://openalex.org/keywords/structural-engineering",
+              "display_name": "Structural engineering",
+              "score": 0.04524645209312439
+            }
+          ],
+          "concepts": [
+            {
+              "id": "https://openalex.org/C97541855",
+              "wikidata": "https://www.wikidata.org/wiki/Q830687",
+              "display_name": "Reinforcement learning",
+              "level": 2,
+              "score": 0.8376568555831909
+            },
+            {
+              "id": "https://openalex.org/C41008148",
+              "wikidata": "https://www.wikidata.org/wiki/Q21198",
+              "display_name": "Computer science",
+              "level": 0,
+              "score": 0.5035085082054138
+            },
+            {
+              "id": "https://openalex.org/C67203356",
+              "wikidata": "https://www.wikidata.org/wiki/Q1321905",
+              "display_name": "Reinforcement",
+              "level": 2,
+              "score": 0.47970980405807495
+            },
+            {
+              "id": "https://openalex.org/C2775924081",
+              "wikidata": "https://www.wikidata.org/wiki/Q55608371",
+              "display_name": "Control (management)",
+              "level": 2,
+              "score": 0.47445306181907654
+            },
+            {
+              "id": "https://openalex.org/C154945302",
+              "wikidata": "https://www.wikidata.org/wiki/Q11660",
+              "display_name": "Artificial intelligence",
+              "level": 1,
+              "score": 0.46188730001449585
+            },
+            {
+              "id": "https://openalex.org/C107457646",
+              "wikidata": "https://www.wikidata.org/wiki/Q207434",
+              "display_name": "Human–computer interaction",
+              "level": 1,
+              "score": 0.3435513973236084
+            },
+            {
+              "id": "https://openalex.org/C127413603",
+              "wikidata": "https://www.wikidata.org/wiki/Q11023",
+              "display_name": "Engineering",
+              "level": 0,
+              "score": 0.2595599889755249
+            },
+            {
+              "id": "https://openalex.org/C66938386",
+              "wikidata": "https://www.wikidata.org/wiki/Q633538",
+              "display_name": "Structural engineering",
+              "level": 1,
+              "score": 0.04524645209312439
+            }
+          ],
+          "mesh": [],
+          "locations_count": 2,
+          "locations": [
+            {
+              "id": "doi:10.32657/10356/90191",
+              "is_oa": true,
+              "landing_page_url": "https://doi.org/10.32657/10356/90191",
+              "pdf_url": "https://dr.ntu.edu.sg/bitstream/10356/90191/1/thesis-final.pdf",
+              "source": null,
+              "license": null,
+              "license_id": null,
+              "version": "publishedVersion",
+              "is_accepted": true,
+              "is_published": true,
+              "raw_source_name": "Nanyang Technological University",
+              "raw_type": "dissertation"
+            },
+            {
+              "id": "pmh:oai:dr.ntu.edu.sg:10356/90191",
+              "is_oa": false,
+              "landing_page_url": "https://hdl.handle.net/10356/90191",
+              "pdf_url": null,
+              "source": {
+                "id": "https://openalex.org/S4306402609",
+                "display_name": "DR-NTU (Nanyang Technological University)",
+                "issn_l": null,
+                "issn": null,
+                "is_oa": false,
+                "is_in_doaj": false,
+                "is_core": false,
+                "host_organization": "https://openalex.org/I172675005",
+                "host_organization_name": "Nanyang Technological University",
+                "host_organization_lineage": [
+                  "https://openalex.org/I172675005"
+                ],
+                "host_organization_lineage_names": [],
+                "type": "repository"
+              },
+              "license": null,
+              "license_id": null,
+              "version": "submittedVersion",
+              "is_accepted": false,
+              "is_published": false,
+              "raw_source_name": null,
+              "raw_type": "Thesis"
+            }
+          ],
+          "best_oa_location": {
+            "id": "doi:10.32657/10356/90191",
+            "is_oa": true,
+            "landing_page_url": "https://doi.org/10.32657/10356/90191",
+            "pdf_url": "https://dr.ntu.edu.sg/bitstream/10356/90191/1/thesis-final.pdf",
+            "source": null,
+            "license": null,
+            "license_id": null,
+            "version": "publishedVersion",
+            "is_accepted": true,
+            "is_published": true,
+            "raw_source_name": "Nanyang Technological University",
+            "raw_type": "dissertation"
+          },
+          "sustainable_development_goals": [],
+          "awards": [],
+          "funders": [],
+          "has_content": {
+            "pdf": true,
+            "grobid_xml": true
+          },
+          "content_urls": {
+            "pdf": "https://content.openalex.org/works/W2973229164.pdf",
+            "grobid_xml": "https://content.openalex.org/works/W2973229164.grobid-xml"
+          },
+          "referenced_works_count": 108,
+          "referenced_works": [
+            "https://openalex.org/W41554520",
+            "https://openalex.org/W57318391",
+            "https://openalex.org/W567721252",
+            "https://openalex.org/W1191599655",
+            "https://openalex.org/W1522301498",
+            "https://openalex.org/W1574474448",
+            "https://openalex.org/W1658008008",
+            "https://openalex.org/W1771410628",
+            "https://openalex.org/W1810943226",
+            "https://openalex.org/W1836465849",
+            "https://openalex.org/W2121092017",
+            "https://openalex.org/W2145339207",
+            "https://openalex.org/W2155027007",
+            "https://openalex.org/W2155968351",
+            "https://openalex.org/W2173248099",
+            "https://openalex.org/W2173564293",
+            "https://openalex.org/W2201581102",
+            "https://openalex.org/W2257979135",
+            "https://openalex.org/W2260756217",
+            "https://openalex.org/W2298546714",
+            "https://openalex.org/W2343568200",
+            "https://openalex.org/W2411690432",
+            "https://openalex.org/W2509374375",
+            "https://openalex.org/W2522340145",
+            "https://openalex.org/W2567061106",
+            "https://openalex.org/W2575705757",
+            "https://openalex.org/W2592873849",
+            "https://openalex.org/W2593766708",
+            "https://openalex.org/W2605102758",
+            "https://openalex.org/W2606508169",
+            "https://openalex.org/W2610395436",
+            "https://openalex.org/W2614839826",
+            "https://openalex.org/W2620671107",
+            "https://openalex.org/W2626580042",
+            "https://openalex.org/W2724169821",
+            "https://openalex.org/W2726187156",
+            "https://openalex.org/W2736601468",
+            "https://openalex.org/W2739473244",
+            "https://openalex.org/W2746553466",
+            "https://openalex.org/W2749928749",
+            "https://openalex.org/W2754000639",
+            "https://openalex.org/W2756826236",
+            "https://openalex.org/W2757631751",
+            "https://openalex.org/W2761873684",
+            "https://openalex.org/W2766447205",
+            "https://openalex.org/W2770892919",
+            "https://openalex.org/W2781726626",
+            "https://openalex.org/W2786036274",
+            "https://openalex.org/W2786928559",
+            "https://openalex.org/W2787613197",
+            "https://openalex.org/W2787938642",
+            "https://openalex.org/W2788781499",
+            "https://openalex.org/W2798472928",
+            "https://openalex.org/W2798705390",
+            "https://openalex.org/W2811329274",
+            "https://openalex.org/W2823112946",
+            "https://openalex.org/W2869375357",
+            "https://openalex.org/W2885163910",
+            "https://openalex.org/W2885550588",
+            "https://openalex.org/W2887927966",
+            "https://openalex.org/W2891076394",
+            "https://openalex.org/W2895453875",
+            "https://openalex.org/W2896066033",
+            "https://openalex.org/W2951799221",
+            "https://openalex.org/W2962887844",
+            "https://openalex.org/W2962977206",
+            "https://openalex.org/W2963095800",
+            "https://openalex.org/W2963099939",
+            "https://openalex.org/W2963211300",
+            "https://openalex.org/W2963411833",
+            "https://openalex.org/W2963428623",
+            "https://openalex.org/W2963523627",
+            "https://openalex.org/W2963674921",
+            "https://openalex.org/W2963729305",
+            "https://openalex.org/W2963780790",
+            "https://openalex.org/W2963864421",
+            "https://openalex.org/W2964043796",
+            "https://openalex.org/W2990747716",
+            "https://openalex.org/W3100944043",
+            "https://openalex.org/W3104515094",
+            "https://openalex.org/W4244566287",
+            "https://openalex.org/W4289422208",
+            "https://openalex.org/W4289763054",
+            "https://openalex.org/W4293542549",
+            "https://openalex.org/W4293864724",
+            "https://openalex.org/W4297791094",
+            "https://openalex.org/W4297795161",
+            "https://openalex.org/W4297797010",
+            "https://openalex.org/W4298857966",
+            "https://openalex.org/W4298876402",
+            "https://openalex.org/W4300799055",
+            "https://openalex.org/W4302570325",
+            "https://openalex.org/W6616173779",
+            "https://openalex.org/W6637967152",
+            "https://openalex.org/W6638018090",
+            "https://openalex.org/W6684205842",
+            "https://openalex.org/W6687681856",
+            "https://openalex.org/W6730111887",
+            "https://openalex.org/W6731334075",
+            "https://openalex.org/W6740801417",
+            "https://openalex.org/W6741002519",
+            "https://openalex.org/W6745620495",
+            "https://openalex.org/W6748554570",
+            "https://openalex.org/W6753060773",
+            "https://openalex.org/W6753925943",
+            "https://openalex.org/W6754665250",
+            "https://openalex.org/W6754957883",
+            "https://openalex.org/W6891797237"
+          ],
+          "related_works": [
+            "https://openalex.org/W2920061524",
+            "https://openalex.org/W4310083477",
+            "https://openalex.org/W1977959518",
+            "https://openalex.org/W2038908348",
+            "https://openalex.org/W2107890255",
+            "https://openalex.org/W2106552856",
+            "https://openalex.org/W2089013912",
+            "https://openalex.org/W2076061571",
+            "https://openalex.org/W1987513656",
+            "https://openalex.org/W2145821588"
+          ],
+          "abstract_inverted_index": {
+            "results": [
+              0
+            ],
+            "of": [
+              1
+            ],
+            "redundant": [
+              2
+            ],
+            "manipulator": [
+              3
+            ],
+            ".": [
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11
+            ]
+          },
+          "counts_by_year": [
+            {
+              "year": 2026,
+              "cited_by_count": 26
+            },
+            {
+              "year": 2025,
+              "cited_by_count": 293
+            },
+            {
+              "year": 2024,
+              "cited_by_count": 300
+            },
+            {
+              "year": 2023,
+              "cited_by_count": 197
+            },
+            {
+              "year": 2022,
+              "cited_by_count": 88
+            },
+            {
+              "year": 2021,
+              "cited_by_count": 42
+            },
+            {
+              "year": 2020,
+              "cited_by_count": 5
+            }
+          ],
+          "updated_date": "2026-09-08T07:41:39.490200",
+          "created_date": "2019-09-19T00:00:00"
+        },
+        {
+          "id": "https://openalex.org/W4404354105",
+          "doi": "https://doi.org/10.48550/arxiv.2410.21845",
+          "title": "Precise and Dexterous Robotic Manipulation via Human-in-the-Loop Reinforcement Learning",
+          "display_name": "Precise and Dexterous Robotic Manipulation via Human-in-the-Loop Reinforcement Learning",
+          "relevance_score": 858.7584,
+          "publication_year": 2024,
+          "publication_date": "2024-10-29",
+          "ids": {
+            "openalex": "https://openalex.org/W4404354105",
+            "doi": "https://doi.org/10.48550/arxiv.2410.21845"
+          },
+          "language": "en",
+          "primary_location": {
+            "id": "pmh:oai:arXiv.org:2410.21845",
+            "is_oa": true,
+            "landing_page_url": "http://arxiv.org/abs/2410.21845",
+            "pdf_url": "https://arxiv.org/pdf/2410.21845",
+            "source": {
+              "id": "https://openalex.org/S4306400194",
+              "display_name": "arXiv (Cornell University)",
+              "issn_l": "2331-8422",
+              "issn": [
+                "2331-8422"
+              ],
+              "is_oa": true,
+              "is_in_doaj": false,
+              "is_core": false,
+              "host_organization": "https://openalex.org/I205783295",
+              "host_organization_name": "Cornell University",
+              "host_organization_lineage": [
+                "https://openalex.org/I205783295"
+              ],
+              "host_organization_lineage_names": [],
+              "type": "repository"
+            },
+            "license": "cc-by",
+            "license_id": "https://openalex.org/licenses/cc-by",
+            "version": "submittedVersion",
+            "is_accepted": false,
+            "is_published": false,
+            "raw_source_name": null,
+            "raw_type": "text"
+          },
+          "type": "preprint",
+          "indexed_in": [
+            "arxiv",
+            "datacite"
+          ],
+          "open_access": {
+            "is_oa": true,
+            "oa_status": "green",
+            "oa_url": "https://arxiv.org/pdf/2410.21845",
+            "any_repository_has_fulltext": true
+          },
+          "authorships": [
+            {
+              "author_position": "first",
+              "author": {
+                "id": "https://openalex.org/A5037464692",
+                "display_name": "Jianlan Luo",
+                "orcid": "https://orcid.org/0009-0008-8029-7794"
+              },
+              "institutions": [],
+              "countries": [],
+              "is_corresponding": false,
+              "raw_author_name": "Luo, Jianlan",
+              "raw_affiliation_strings": [],
+              "raw_orcid": null,
+              "affiliations": []
+            },
+            {
+              "author_position": "middle",
+              "author": {
+                "id": "https://openalex.org/A5076432186",
+                "display_name": "Charles Xu",
+                "orcid": "https://orcid.org/0009-0007-9126-3680"
+              },
+              "institutions": [],
+              "countries": [],
+              "is_corresponding": false,
+              "raw_author_name": "Xu, Charles",
+              "raw_affiliation_strings": [],
+              "raw_orcid": null,
+              "affiliations": []
+            },
+            {
+              "author_position": "middle",
+              "author": {
+                "id": "https://openalex.org/A5081413425",
+                "display_name": "Jeffrey Wu",
+                "orcid": null
+              },
+              "institutions": [],
+              "countries": [],
+              "is_corresponding": false,
+              "raw_author_name": "Wu, Jeffrey",
+              "raw_affiliation_strings": [],
+              "raw_orcid": null,
+              "affiliations": []
+            },
+            {
+              "author_position": "last",
+              "author": {
+                "id": "https://openalex.org/A5026322200",
+                "display_name": "Sergey Levine",
+                "orcid": "https://orcid.org/0000-0001-6764-2743"
+              },
+              "institutions": [],
+              "countries": [],
+              "is_corresponding": false,
+              "raw_author_name": "Levine, Sergey",
+              "raw_affiliation_strings": [],
+              "raw_orcid": null,
+              "affiliations": []
+            }
+          ],
+          "institutions": [],
+          "countries_distinct_count": 0,
+          "institutions_distinct_count": 0,
+          "corresponding_author_ids": [],
+          "corresponding_institution_ids": [],
+          "apc_list": null,
+          "apc_paid": null,
+          "fwci": null,
+          "has_fulltext": false,
+          "cited_by_count": 2,
+          "citation_normalized_percentile": null,
+          "cited_by_percentile_year": null,
+          "biblio": {
+            "volume": null,
+            "issue": null,
+            "first_page": null,
+            "last_page": null
+          },
+          "is_retracted": false,
+          "is_paratext": false,
+          "is_xpac": false,
+          "primary_topic": {
+            "id": "https://openalex.org/T10653",
+            "display_name": "Robot Manipulation and Learning",
+            "score": 0.9398000240325928,
+            "subfield": {
+              "id": "https://openalex.org/subfields/2207",
+              "display_name": "Control and Systems Engineering"
+            },
+            "field": {
+              "id": "https://openalex.org/fields/22",
+              "display_name": "Engineering"
+            },
+            "domain": {
+              "id": "https://openalex.org/domains/3",
+              "display_name": "Physical Sciences"
+            }
+          },
+          "topics": [
+            {
+              "id": "https://openalex.org/T10653",
+              "display_name": "Robot Manipulation and Learning",
+              "score": 0.9398000240325928,
+              "subfield": {
+                "id": "https://openalex.org/subfields/2207",
+                "display_name": "Control and Systems Engineering"
+              },
+              "field": {
+                "id": "https://openalex.org/fields/22",
+                "display_name": "Engineering"
+              },
+              "domain": {
+                "id": "https://openalex.org/domains/3",
+                "display_name": "Physical Sciences"
+              }
+            },
+            {
+              "id": "https://openalex.org/T10462",
+              "display_name": "Reinforcement Learning in Robotics",
+              "score": 0.9269999861717224,
+              "subfield": {
+                "id": "https://openalex.org/subfields/1702",
+                "display_name": "Artificial Intelligence"
+              },
+              "field": {
+                "id": "https://openalex.org/fields/17",
+                "display_name": "Computer Science"
+              },
+              "domain": {
+                "id": "https://openalex.org/domains/3",
+                "display_name": "Physical Sciences"
+              }
+            }
+          ],
+          "keywords": [
+            {
+              "id": "https://openalex.org/keywords/reinforcement-learning",
+              "display_name": "Reinforcement learning",
+              "score": 0.8262987732887268
+            },
+            {
+              "id": "https://openalex.org/keywords/loop",
+              "display_name": "Loop (graph theory)",
+              "score": 0.5872846841812134
+            },
+            {
+              "id": "https://openalex.org/keywords/human-in-the-loop",
+              "display_name": "Human-in-the-loop",
+              "score": 0.572324812412262
+            },
+            {
+              "id": "https://openalex.org/keywords/computer-science",
+              "display_name": "Computer science",
+              "score": 0.5618088841438293
+            },
+            {
+              "id": "https://openalex.org/keywords/artificial-intelligence",
+              "display_name": "Artificial intelligence",
+              "score": 0.5247105360031128
+            },
+            {
+              "id": "https://openalex.org/keywords/reinforcement",
+              "display_name": "Reinforcement",
+              "score": 0.43452340364456177
+            },
+            {
+              "id": "https://openalex.org/keywords/robot-manipulator",
+              "display_name": "Robot manipulator",
+              "score": 0.4144604206085205
+            },
+            {
+              "id": "https://openalex.org/keywords/control-engineering",
+              "display_name": "Control engineering",
+              "score": 0.36527493596076965
+            },
+            {
+              "id": "https://openalex.org/keywords/robot",
+              "display_name": "Robot",
+              "score": 0.34521910548210144
+            },
+            {
+              "id": "https://openalex.org/keywords/engineering",
+              "display_name": "Engineering",
+              "score": 0.2572488784790039
+            },
+            {
+              "id": "https://openalex.org/keywords/mathematics",
+              "display_name": "Mathematics",
+              "score": 0.1390223205089569
+            },
+            {
+              "id": "https://openalex.org/keywords/structural-engineering",
+              "display_name": "Structural engineering",
+              "score": 0.06250551342964172
+            }
+          ],
+          "concepts": [
+            {
+              "id": "https://openalex.org/C97541855",
+              "wikidata": "https://www.wikidata.org/wiki/Q830687",
+              "display_name": "Reinforcement learning",
+              "level": 2,
+              "score": 0.8262987732887268
+            },
+            {
+              "id": "https://openalex.org/C184670325",
+              "wikidata": "https://www.wikidata.org/wiki/Q512604",
+              "display_name": "Loop (graph theory)",
+              "level": 2,
+              "score": 0.5872846841812134
+            },
+            {
+              "id": "https://openalex.org/C2780626000",
+              "wikidata": "https://www.wikidata.org/wiki/Q5936775",
+              "display_name": "Human-in-the-loop",
+              "level": 2,
+              "score": 0.572324812412262
+            },
+            {
+              "id": "https://openalex.org/C41008148",
+              "wikidata": "https://www.wikidata.org/wiki/Q21198",
+              "display_name": "Computer science",
+              "level": 0,
+              "score": 0.5618088841438293
+            },
+            {
+              "id": "https://openalex.org/C154945302",
+              "wikidata": "https://www.wikidata.org/wiki/Q11660",
+              "display_name": "Artificial intelligence",
+              "level": 1,
+              "score": 0.5247105360031128
+            },
+            {
+              "id": "https://openalex.org/C67203356",
+              "wikidata": "https://www.wikidata.org/wiki/Q1321905",
+              "display_name": "Reinforcement",
+              "level": 2,
+              "score": 0.43452340364456177
+            },
+            {
+              "id": "https://openalex.org/C2985527887",
+              "wikidata": "https://www.wikidata.org/wiki/Q1587588",
+              "display_name": "Robot manipulator",
+              "level": 3,
+              "score": 0.4144604206085205
+            },
+            {
+              "id": "https://openalex.org/C133731056",
+              "wikidata": "https://www.wikidata.org/wiki/Q4917288",
+              "display_name": "Control engineering",
+              "level": 1,
+              "score": 0.36527493596076965
+            },
+            {
+              "id": "https://openalex.org/C90509273",
+              "wikidata": "https://www.wikidata.org/wiki/Q11012",
+              "display_name": "Robot",
+              "level": 2,
+              "score": 0.34521910548210144
+            },
+            {
+              "id": "https://openalex.org/C127413603",
+              "wikidata": "https://www.wikidata.org/wiki/Q11023",
+              "display_name": "Engineering",
+              "level": 0,
+              "score": 0.2572488784790039
+            },
+            {
+              "id": "https://openalex.org/C33923547",
+              "wikidata": "https://www.wikidata.org/wiki/Q395",
+              "display_name": "Mathematics",
+              "level": 0,
+              "score": 0.1390223205089569
+            },
+            {
+              "id": "https://openalex.org/C66938386",
+              "wikidata": "https://www.wikidata.org/wiki/Q633538",
+              "display_name": "Structural engineering",
+              "level": 1,
+              "score": 0.06250551342964172
+            },
+            {
+              "id": "https://openalex.org/C114614502",
+              "wikidata": "https://www.wikidata.org/wiki/Q76592",
+              "display_name": "Combinatorics",
+              "level": 1,
+              "score": 0.0
+            }
+          ],
+          "mesh": [],
+          "locations_count": 2,
+          "locations": [
+            {
+              "id": "pmh:oai:arXiv.org:2410.21845",
+              "is_oa": true,
+              "landing_page_url": "http://arxiv.org/abs/2410.21845",
+              "pdf_url": "https://arxiv.org/pdf/2410.21845",
+              "source": {
+                "id": "https://openalex.org/S4306400194",
+                "display_name": "arXiv (Cornell University)",
+                "issn_l": "2331-8422",
+                "issn": [
+                  "2331-8422"
+                ],
+                "is_oa": true,
+                "is_in_doaj": false,
+                "is_core": false,
+                "host_organization": "https://openalex.org/I205783295",
+                "host_organization_name": "Cornell University",
+                "host_organization_lineage": [
+                  "https://openalex.org/I205783295"
+                ],
+                "host_organization_lineage_names": [],
+                "type": "repository"
+              },
+              "license": "cc-by",
+              "license_id": "https://openalex.org/licenses/cc-by",
+              "version": "submittedVersion",
+              "is_accepted": false,
+              "is_published": false,
+              "raw_source_name": null,
+              "raw_type": "text"
+            },
+            {
+              "id": "doi:10.48550/arxiv.2410.21845",
+              "is_oa": true,
+              "landing_page_url": "https://doi.org/10.48550/arxiv.2410.21845",
+              "pdf_url": null,
+              "source": {
+                "id": "https://openalex.org/S4306400194",
+                "display_name": "arXiv (Cornell University)",
+                "issn_l": "2331-8422",
+                "issn": [
+                  "2331-8422"
+                ],
+                "is_oa": true,
+                "is_in_doaj": false,
+                "is_core": false,
+                "host_organization": "https://openalex.org/I205783295",
+                "host_organization_name": "Cornell University",
+                "host_organization_lineage": [
+                  "https://openalex.org/I205783295"
+                ],
+                "host_organization_lineage_names": [],
+                "type": "repository"
+              },
+              "license": "cc-by",
+              "license_id": "https://openalex.org/licenses/cc-by",
+              "version": null,
+              "is_accepted": false,
+              "is_published": null,
+              "raw_source_name": null,
+              "raw_type": "Preprint"
+            }
+          ],
+          "best_oa_location": {
+            "id": "pmh:oai:arXiv.org:2410.21845",
+            "is_oa": true,
+            "landing_page_url": "http://arxiv.org/abs/2410.21845",
+            "pdf_url": "https://arxiv.org/pdf/2410.21845",
+            "source": {
+              "id": "https://openalex.org/S4306400194",
+              "display_name": "arXiv (Cornell University)",
+              "issn_l": "2331-8422",
+              "issn": [
+                "2331-8422"
+              ],
+              "is_oa": true,
+              "is_in_doaj": false,
+              "is_core": false,
+              "host_organization": "https://openalex.org/I205783295",
+              "host_organization_name": "Cornell University",
+              "host_organization_lineage": [
+                "https://openalex.org/I205783295"
+              ],
+              "host_organization_lineage_names": [],
+              "type": "repository"
+            },
+            "license": "cc-by",
+            "license_id": "https://openalex.org/licenses/cc-by",
+            "version": "submittedVersion",
+            "is_accepted": false,
+            "is_published": false,
+            "raw_source_name": null,
+            "raw_type": "text"
+          },
+          "sustainable_development_goals": [],
+          "awards": [],
+          "funders": [],
+          "has_content": {
+            "pdf": false,
+            "grobid_xml": false
+          },
+          "content_urls": null,
+          "referenced_works_count": 0,
+          "referenced_works": [],
+          "related_works": [
+            "https://openalex.org/W4310083477",
+            "https://openalex.org/W2328553770",
+            "https://openalex.org/W2920061524",
+            "https://openalex.org/W1977959518",
+            "https://openalex.org/W2038908348",
+            "https://openalex.org/W2107890255",
+            "https://openalex.org/W2106552856",
+            "https://openalex.org/W2145821588",
+            "https://openalex.org/W4367173559",
+            "https://openalex.org/W2782058284"
+          ],
+          "abstract_inverted_index": {
+            "Reinforcement": [
+              0
+            ],
+            "learning": [
+              1,
+              95
+            ],
+            "(RL)": [
+              2
+            ],
+            "holds": [
+              3
+            ],
+            "great": [
+              4
+            ],
+            "promise": [
+              5
+            ],
+            "for": [
+              6,
+              134
+            ],
+            "enabling": [
+              7
+            ],
+            "autonomous": [
+              8
+            ],
+            "acquisition": [
+              9
+            ],
+            "of": [
+              10,
+              40,
+              85,
+              124,
+              152,
+              175
+            ],
+            "complex": [
+              11,
+              153
+            ],
+            "robotic": [
+              12,
+              177
+            ],
+            "manipulation": [
+              13,
+              42,
+              155,
+              178
+            ],
+            "skills,": [
+              14
+            ],
+            "but": [
+              15
+            ],
+            "realizing": [
+              16
+            ],
+            "this": [
+              17,
+              168
+            ],
+            "potential": [
+              18
+            ],
+            "in": [
+              19,
+              106,
+              158
+            ],
+            "real-world": [
+              20
+            ],
+            "settings": [
+              21
+            ],
+            "has": [
+              22
+            ],
+            "been": [
+              23
+            ],
+            "challenging.": [
+              24
+            ],
+            "We": [
+              25,
+              87,
+              166
+            ],
+            "present": [
+              26
+            ],
+            "a": [
+              27,
+              37,
+              149,
+              172
+            ],
+            "human-in-the-loop": [
+              28
+            ],
+            "vision-based": [
+              29,
+              154
+            ],
+            "RL": [
+              30,
+              60,
+              99,
+              145
+            ],
+            "system": [
+              31
+            ],
+            "that": [
+              32,
+              70,
+              89,
+              144
+            ],
+            "demonstrates": [
+              33
+            ],
+            "impressive": [
+              34
+            ],
+            "performance": [
+              35
+            ],
+            "on": [
+              36
+            ],
+            "diverse": [
+              38
+            ],
+            "set": [
+              39
+            ],
+            "dexterous": [
+              41
+            ],
+            "tasks,": [
+              43
+            ],
+            "including": [
+              44
+            ],
+            "dynamic": [
+              45
+            ],
+            "manipulation,": [
+              46
+            ],
+            "precision": [
+              47
+            ],
+            "assembly,": [
+              48
+            ],
+            "and": [
+              49,
+              56,
+              62,
+              75,
+              97,
+              109,
+              116,
+              137,
+              184,
+              188
+            ],
+            "dual-arm": [
+              50
+            ],
+            "coordination.": [
+              51
+            ],
+            "Our": [
+              52,
+              141
+            ],
+            "approach": [
+              53
+            ],
+            "integrates": [
+              54
+            ],
+            "demonstrations": [
+              55
+            ],
+            "human": [
+              57
+            ],
+            "corrections,": [
+              58
+            ],
+            "efficient": [
+              59
+            ],
+            "algorithms,": [
+              61
+            ],
+            "other": [
+              63
+            ],
+            "system-level": [
+              64
+            ],
+            "design": [
+              65
+            ],
+            "choices": [
+              66
+            ],
+            "to": [
+              67,
+              82
+            ],
+            "learn": [
+              68,
+              148
+            ],
+            "policies": [
+              69,
+              133,
+              156
+            ],
+            "achieve": [
+              71
+            ],
+            "near-perfect": [
+              72
+            ],
+            "success": [
+              73,
+              107
+            ],
+            "rates": [
+              74
+            ],
+            "fast": [
+              76
+            ],
+            "cycle": [
+              77
+            ],
+            "times": [
+              78
+            ],
+            "within": [
+              79,
+              162
+            ],
+            "just": [
+              80
+            ],
+            "1": [
+              81
+            ],
+            "2.5": [
+              83
+            ],
+            "hours": [
+              84
+            ],
+            "training.": [
+              86
+            ],
+            "show": [
+              88
+            ],
+            "our": [
+              90,
+              125,
+              193
+            ],
+            "method": [
+              91
+            ],
+            "significantly": [
+              92
+            ],
+            "outperforms": [
+              93
+            ],
+            "imitation": [
+              94
+            ],
+            "baselines": [
+              96
+            ],
+            "prior": [
+              98
+            ],
+            "approaches,": [
+              100
+            ],
+            "with": [
+              101
+            ],
+            "an": [
+              102
+            ],
+            "average": [
+              103
+            ],
+            "2x": [
+              104
+            ],
+            "improvement": [
+              105
+            ],
+            "rate": [
+              108
+            ],
+            "1.8x": [
+              110
+            ],
+            "faster": [
+              111
+            ],
+            "execution.": [
+              112
+            ],
+            "Through": [
+              113
+            ],
+            "extensive": [
+              114
+            ],
+            "experiments": [
+              115
+            ],
+            "analysis,": [
+              117
+            ],
+            "we": [
+              118
+            ],
+            "provide": [
+              119
+            ],
+            "insights": [
+              120
+            ],
+            "into": [
+              121
+            ],
+            "the": [
+              122,
+              159
+            ],
+            "effectiveness": [
+              123
+            ],
+            "approach,": [
+              126
+            ],
+            "demonstrating": [
+              127
+            ],
+            "how": [
+              128
+            ],
+            "it": [
+              129
+            ],
+            "learns": [
+              130
+            ],
+            "robust,": [
+              131
+            ],
+            "adaptive": [
+              132
+            ],
+            "both": [
+              135,
+              181
+            ],
+            "reactive": [
+              136
+            ],
+            "predictive": [
+              138
+            ],
+            "control": [
+              139
+            ],
+            "strategies.": [
+              140
+            ],
+            "results": [
+              142
+            ],
+            "suggest": [
+              143
+            ],
+            "can": [
+              146
+            ],
+            "indeed": [
+              147
+            ],
+            "wide": [
+              150
+            ],
+            "range": [
+              151
+            ],
+            "directly": [
+              157
+            ],
+            "real": [
+              160
+            ],
+            "world": [
+              161
+            ],
+            "practical": [
+              163
+            ],
+            "training": [
+              164
+            ],
+            "times.": [
+              165
+            ],
+            "hope": [
+              167
+            ],
+            "work": [
+              169
+            ],
+            "will": [
+              170
+            ],
+            "inspire": [
+              171
+            ],
+            "new": [
+              173
+            ],
+            "generation": [
+              174
+            ],
+            "learned": [
+              176
+            ],
+            "techniques,": [
+              179
+            ],
+            "benefiting": [
+              180
+            ],
+            "industrial": [
+              182
+            ],
+            "applications": [
+              183
+            ],
+            "research": [
+              185
+            ],
+            "advancements.": [
+              186
+            ],
+            "Videos": [
+              187
+            ],
+            "code": [
+              189
+            ],
+            "are": [
+              190
+            ],
+            "available": [
+              191
+            ],
+            "at": [
+              192
+            ],
+            "project": [
+              194
+            ],
+            "website": [
+              195
+            ],
+            "https://hil-serl.github.io/.": [
+              196
+            ]
+          },
+          "counts_by_year": [
+            {
+              "year": 2025,
+              "cited_by_count": 2
+            }
+          ],
+          "updated_date": "2026-08-26T07:47:46.906454",
+          "created_date": "2025-10-10T00:00:00"
+        }
+      ],
+      "group_by": []
+    }
+  }
+]

@@ -1,0 +1,83 @@
+[
+  {
+    "url": "https://github.com/charlesjsun/ReLMM",
+    "stars_display": "23",
+    "forks_display": "0",
+    "downloads_last_month_display": null,
+    "note": "官方完整页；2026-09-22访问",
+    "accessed_date": "2026-09-22",
+    "source": "official_web_page"
+  },
+  {
+    "url": "https://github.com/NVlabs/ENPIRE",
+    "stars_display": "216",
+    "forks_display": "7",
+    "downloads_last_month_display": null,
+    "note": "官方完整页；较早搜索摘要显示124/2，采用本次完整页216/7，不推断增长速度",
+    "accessed_date": "2026-09-22",
+    "source": "official_web_page"
+  },
+  {
+    "url": "https://github.com/rail-berkeley/soar",
+    "stars_display": "80",
+    "forks_display": "6",
+    "downloads_last_month_display": null,
+    "note": "",
+    "accessed_date": "2026-09-22",
+    "source": "official_web_page"
+  },
+  {
+    "url": "https://github.com/robometer/robometer",
+    "stars_display": "262",
+    "forks_display": "54",
+    "downloads_last_month_display": null,
+    "note": "",
+    "accessed_date": "2026-09-22",
+    "source": "official_web_page"
+  },
+  {
+    "url": "https://huggingface.co/teetone/RoboReward-4B",
+    "stars_display": null,
+    "forks_display": null,
+    "downloads_last_month_display": "291",
+    "note": "平台Downloads last month",
+    "accessed_date": "2026-09-22",
+    "source": "official_web_page"
+  },
+  {
+    "url": "https://huggingface.co/teetone/RoboReward-8B",
+    "stars_display": null,
+    "forks_display": null,
+    "downloads_last_month_display": "514",
+    "note": "平台Downloads last month",
+    "accessed_date": "2026-09-22",
+    "source": "official_web_page"
+  },
+  {
+    "url": "https://huggingface.co/robometer/Robometer-4B",
+    "stars_display": null,
+    "forks_display": null,
+    "downloads_last_month_display": "1,961",
+    "note": "平台Downloads last month",
+    "accessed_date": "2026-09-22",
+    "source": "official_web_page"
+  },
+  {
+    "url": "https://huggingface.co/datasets/teetone/RoboReward",
+    "stars_display": null,
+    "forks_display": null,
+    "downloads_last_month_display": "10,714",
+    "note": "数据集；平台Downloads last month",
+    "accessed_date": "2026-09-22",
+    "source": "official_web_page"
+  },
+  {
+    "url": "https://huggingface.co/datasets/densereward/DenseReward",
+    "stars_display": null,
+    "forks_display": null,
+    "downloads_last_month_display": "261",
+    "note": "数据集；平台Downloads last month",
+    "accessed_date": "2026-09-22",
+    "source": "official_web_page"
+  }
+]

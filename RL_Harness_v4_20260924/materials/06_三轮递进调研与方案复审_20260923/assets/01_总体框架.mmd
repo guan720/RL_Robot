@@ -1,0 +1,24 @@
+flowchart TB
+    G["当前任务目标<br/>A→B 或 B→A"] --> P["同一个 VLA policy<br/>目标条件动作"]
+    G --> H["GPT-6 + Harness<br/>观察 · 评分 · 纠正 · 恢复"]
+    P -->|动作请求| E["统一执行入口<br/>调度 · 控制权 · 设备反馈"]
+    H -->|纠正动作或程序| E
+    E --> W["真实环境与持续观察<br/>图像 · 本体状态 · 执行事件"]
+    W -->|新观测| P
+    W -->|独立观察通道| H
+    W --> D["可追溯经验与标签<br/>真实后果 · 可靠纠正"]
+    H -->|评分与可信动作标签| D
+    K["已验证的纠正与恢复程序<br/>服务监督 · 探索 · 持续练习"] --> H
+    H -->|受限试验与验证| K
+    D --> L["BC + 在线 RL<br/>共享策略双向更新"]
+    L --> V["同一部署 policy<br/>撤去 Harness 动作辅助后双向评估"]
+    V -.->|通过后在边界发布| P
+    V -->|达到任务稳定性标准| Z["最终目标<br/>在任务范围内稳定执行的 policy"]
+    classDef core fill:#e7efff,stroke:#416bb5,color:#152d51,stroke-width:1.5px;
+    classDef harness fill:#e0f3ef,stroke:#278373,color:#153f37,stroke-width:1.5px;
+    classDef learn fill:#fff1d9,stroke:#b9842b,color:#513a17,stroke-width:1.5px;
+    classDef base fill:#f2f4f7,stroke:#778397,color:#263445,stroke-width:1.2px;
+    class P,G core;
+    class H,K harness;
+    class D,L,V,Z learn;
+    class E,W base;

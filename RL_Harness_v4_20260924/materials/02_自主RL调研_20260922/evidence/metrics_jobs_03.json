@@ -1,0 +1,93 @@
+[
+  {
+    "id": "RLPD_title",
+    "kind": "openalex_title_filter",
+    "expected_title": "Efficient Online Reinforcement Learning with Offline Data",
+    "url": "https://api.openalex.org/works?filter=title.search:Efficient%20Online%20Reinforcement%20Learning%20with%20Offline%20Data&per-page=5"
+  },
+  {
+    "id": "AutoSERL_title",
+    "kind": "openalex_title_filter",
+    "expected_title": "One Demonstration Is Enough for Real-World Robotic Reinforcement Learning",
+    "url": "https://api.openalex.org/works?filter=title.search:One%20Demonstration%20Is%20Enough%20for%20Real-World%20Robotic%20Reinforcement%20Learning&per-page=5"
+  },
+  {
+    "id": "RL100_title",
+    "kind": "openalex_title_filter",
+    "expected_title": "RL-100: Performant Robotic Manipulation with Real-World Reinforcement Learning",
+    "url": "https://api.openalex.org/works?filter=title.search:RL-100%3A%20Performant%20Robotic%20Manipulation%20with%20Real-World%20Reinforcement%20Learning&per-page=5"
+  },
+  {
+    "id": "PLD_title",
+    "kind": "openalex_title_filter",
+    "expected_title": "Self-Improving Vision-Language-Action Models with Data Generation via Residual RL",
+    "url": "https://api.openalex.org/works?filter=title.search:Self-Improving%20Vision-Language-Action%20Models%20with%20Data%20Generation%20via%20Residual%20RL&per-page=5"
+  },
+  {
+    "id": "RECAP_title",
+    "kind": "openalex_title_filter",
+    "expected_title": "a VLA That Learns From Experience",
+    "url": "https://api.openalex.org/works?filter=title.search:a%20VLA%20That%20Learns%20From%20Experience&per-page=5"
+  },
+  {
+    "id": "RISC_title",
+    "kind": "openalex_title_filter",
+    "expected_title": "Intelligent Switching",
+    "url": "https://api.openalex.org/works?filter=title.search:Intelligent%20Switching&per-page=5"
+  },
+  {
+    "id": "ENPIRE_title",
+    "kind": "openalex_title_filter",
+    "expected_title": "ENPIRE: Agentic Robot Policy Self-Improvement in the Real World",
+    "url": "https://api.openalex.org/works?filter=title.search:ENPIRE%3A%20Agentic%20Robot%20Policy%20Self-Improvement%20in%20the%20Real%20World&per-page=5"
+  },
+  {
+    "id": "Robometer_title",
+    "kind": "openalex_title_filter",
+    "expected_title": "Robometer",
+    "url": "https://api.openalex.org/works?filter=title.search:Robometer&per-page=5"
+  },
+  {
+    "id": "RoboReward_title",
+    "kind": "openalex_title_filter",
+    "expected_title": "RoboReward",
+    "url": "https://api.openalex.org/works?filter=title.search:RoboReward&per-page=5"
+  },
+  {
+    "id": "ResFiT_title",
+    "kind": "openalex_title_filter",
+    "expected_title": "Residual Off-Policy RL for Finetuning Behavior Cloning Policies",
+    "url": "https://api.openalex.org/works?filter=title.search:Residual%20Off-Policy%20RL%20for%20Finetuning%20Behavior%20Cloning%20Policies&per-page=5"
+  },
+  {
+    "id": "GRAPE_title",
+    "kind": "openalex_title_filter",
+    "expected_title": "Generalizing Robot Policy via Preference Alignment",
+    "url": "https://api.openalex.org/works?filter=title.search:Generalizing%20Robot%20Policy%20via%20Preference%20Alignment&per-page=5"
+  },
+  {
+    "id": "teetone/RoboReward-4B",
+    "kind": "hf_model",
+    "url": "https://huggingface.co/api/models/teetone/RoboReward-4B"
+  },
+  {
+    "id": "teetone/RoboReward-8B",
+    "kind": "hf_model",
+    "url": "https://huggingface.co/api/models/teetone/RoboReward-8B"
+  },
+  {
+    "id": "robometer/Robometer-4B",
+    "kind": "hf_model",
+    "url": "https://huggingface.co/api/models/robometer/Robometer-4B"
+  },
+  {
+    "id": "teetone/RoboReward",
+    "kind": "hf_dataset",
+    "url": "https://huggingface.co/api/datasets/teetone/RoboReward"
+  },
+  {
+    "id": "densereward/DenseReward",
+    "kind": "hf_dataset",
+    "url": "https://huggingface.co/api/datasets/densereward/DenseReward"
+  }
+]

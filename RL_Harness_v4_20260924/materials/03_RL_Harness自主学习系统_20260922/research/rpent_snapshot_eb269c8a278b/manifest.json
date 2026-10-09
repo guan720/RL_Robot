@@ -1,0 +1,256 @@
+{
+  "repository": "RLinf/RPent",
+  "commit": "eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1",
+  "retrieved_utc": "2026-09-23T06:55:45.869638+00:00",
+  "files": [
+    {
+      "path": "README.md",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/README.md",
+      "bytes": 13150,
+      "sha256": "5ed9285d26bee28b9e97d95fcfbcaed6c70ebc5b160b06511065d1e4375ec995"
+    },
+    {
+      "path": "LICENSE",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/LICENSE",
+      "bytes": 11357,
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    {
+      "path": "pyproject.toml",
+      "error": "<urlopen error _ssl.c:1063: The handshake operation timed out>",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/pyproject.toml"
+    },
+    {
+      "path": "rpent/tools/toolkit.py",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/rpent/tools/toolkit.py",
+      "bytes": 13655,
+      "sha256": "ce537451f3d01dbc25a65c40dab7abe794fa29fe803dbe1438d92fcdee1973ad"
+    },
+    {
+      "path": "rpent/tools/human_in_the_loop.py",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/rpent/tools/human_in_the_loop.py",
+      "bytes": 6357,
+      "sha256": "81e42902741330b7e5cea25618614ef7fc2372c7869b52bbd3d34c77e2c1cbf5"
+    },
+    {
+      "path": "rpent/planner/codex.py",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/rpent/planner/codex.py",
+      "bytes": 40306,
+      "sha256": "2bdcc3950dccceb3176153c57c772c63eee5e1fdb83fc7b641ed7a748c5271ed"
+    },
+    {
+      "path": "rpent/planner/api_loop.py",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/rpent/planner/api_loop.py",
+      "bytes": 35831,
+      "sha256": "e09d194bd3bdd4757fe8fe47349eab0af5af243f6d0473954ca4b3a1d9fe13db"
+    },
+    {
+      "path": "rpent/memory/manager.py",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/rpent/memory/manager.py",
+      "bytes": 15816,
+      "sha256": "15ff197c856c481bde710fb43c82ddab4e166f5259c3d3d5696553a2c66cc385"
+    },
+    {
+      "path": "rpent/dashboard/planner_control.py",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/rpent/dashboard/planner_control.py",
+      "bytes": 6452,
+      "sha256": "4a873eea740650032881f60ea77457e8638f6c0339b017513f932a3dd434cde7"
+    },
+    {
+      "path": "rpent/session/base.py",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/rpent/session/base.py",
+      "bytes": 14165,
+      "sha256": "af1490b1b9171a291de2f209b2a947e173244021e17af021b9c8453fe2f50d08"
+    },
+    {
+      "path": "rpent/robots/components/env_facade_base.py",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/rpent/robots/components/env_facade_base.py",
+      "bytes": 3939,
+      "sha256": "e5ed0953ae61957e08aa51f7d50ffebbeb6ce096ce437afa6c0ad4363270bb7d"
+    },
+    {
+      "path": "rpent/robots/components/pi05_vla_client.py",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/rpent/robots/components/pi05_vla_client.py",
+      "bytes": 6730,
+      "sha256": "4d050ee6c8098bf864188dd89b5d6ebb6d4aed134709fe4d576d540612beee24"
+    },
+    {
+      "path": "rpent/robots/components/pi05_vla_server.py",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/rpent/robots/components/pi05_vla_server.py",
+      "bytes": 10545,
+      "sha256": "7988d11e836b51d3dda07ada7f89ec2c7f34b3c28aab26235a9d724d27e0f77f"
+    },
+    {
+      "path": "robots/libero/toolkit.py",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/robots/libero/toolkit.py",
+      "bytes": 9469,
+      "sha256": "5628cef3aedc5fa3326e848953067acaac85b85833e334184947d2aeaa03ef23"
+    },
+    {
+      "path": "robots/franka/env_server.py",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/robots/franka/env_server.py",
+      "bytes": 18154,
+      "sha256": "a82217e6ab1dedd1f0efab23c99f2b6328bfb8af9e7a25d2de628bc9178f3661"
+    },
+    {
+      "path": "robots/franka/env_client.py",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/robots/franka/env_client.py",
+      "bytes": 4594,
+      "sha256": "1b892f2998133a574a3698d800a2752a695c81365f65b300a69874e290803a27"
+    },
+    {
+      "path": "robots/franka/rpent_env.py",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/robots/franka/rpent_env.py",
+      "bytes": 7346,
+      "sha256": "a028a99085dcf4a5a6cc81f607518fa4c8ed7be109ab82aa0f01c4b4aab95f50"
+    },
+    {
+      "path": "robots/franka/toolkit.py",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/robots/franka/toolkit.py",
+      "bytes": 3683,
+      "sha256": "b029b01d7b0fa370a97a26eb44c6638a5bfd724bb07da7a31f791b738a7d3594"
+    },
+    {
+      "path": "robots/franka/tools.py",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/robots/franka/tools.py",
+      "bytes": 10604,
+      "sha256": "c24ec71ff397f55c0d41570e92a67011ff61e78429fc7f9d65082a2ad3440520"
+    },
+    {
+      "path": "robots/dual_franka/env_server.py",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/robots/dual_franka/env_server.py",
+      "bytes": 51809,
+      "sha256": "2b97078274a3fadc859ba35363e50d3fbdc47d055218435ebd2dc86717990284"
+    },
+    {
+      "path": "robots/dual_franka/env_client.py",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/robots/dual_franka/env_client.py",
+      "bytes": 3577,
+      "sha256": "22db08fd0a74618acd5e41fec52d12f9f1badec0bc208fc5620afe721df3b736"
+    },
+    {
+      "path": "robots/dual_franka/toolkit.py",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/robots/dual_franka/toolkit.py",
+      "bytes": 24315,
+      "sha256": "91f5c98e3c2d4dcac212802310ef3327a4629882bf40933e981240d59cee9edd"
+    },
+    {
+      "path": "robots/dual_franka/tools.py",
+      "error": "<urlopen error _ssl.c:1063: The handshake operation timed out>",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/robots/dual_franka/tools.py"
+    },
+    {
+      "path": "robots/dual_franka/prompts/system.py",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/robots/dual_franka/prompts/system.py",
+      "bytes": 7681,
+      "sha256": "6d8da792508f705a54fc6a6d065fc2c10c1452d310cece2e171e1b31fe4e2a23"
+    },
+    {
+      "path": "rpent/flywheel/cli.py",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/rpent/flywheel/cli.py",
+      "bytes": 2455,
+      "sha256": "e3212fd52d3aa7d388e7af08183363af9f4b43452ab2f56489f9b51663a984ec"
+    },
+    {
+      "path": "rpent/flywheel/episode.py",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/rpent/flywheel/episode.py",
+      "bytes": 10236,
+      "sha256": "9b794bb4aa0f21b59fca02cb9e67a868474b22d24e6e6438122292bdce33b264"
+    },
+    {
+      "path": "rpent/flywheel/export.py",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/rpent/flywheel/export.py",
+      "bytes": 5042,
+      "sha256": "c89c7c61d17b3f28397724cd6f42e920e8ce5d48c524a233d3aaeabe8e181d23"
+    },
+    {
+      "path": "rpent/evaluation/result.py",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/rpent/evaluation/result.py",
+      "bytes": 1890,
+      "sha256": "8c6d123eecd2d194fd477df4d1bd4ec0fb023761ae756e222ec818770e2dec21"
+    },
+    {
+      "path": "docs/source-en/rst_source/development/architecture.rst",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/docs/source-en/rst_source/development/architecture.rst",
+      "bytes": 10711,
+      "sha256": "570e4d113b964cedda53b8a643da905f968ebd3ede789d8e0b26063e9a129d85"
+    },
+    {
+      "path": "docs/source-en/rst_source/development/memory.rst",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/docs/source-en/rst_source/development/memory.rst",
+      "bytes": 2748,
+      "sha256": "25cefd355554017531fba424a6dd9ef74b94a87c371367b1ee719003a4467cdf"
+    },
+    {
+      "path": "docs/source-en/rst_source/usage/franka.rst",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/docs/source-en/rst_source/usage/franka.rst",
+      "bytes": 4502,
+      "sha256": "a01af6b1158e275c07f5efe30430e50749d4169a2c03bab16a957b6f6d572afc"
+    },
+    {
+      "path": "docs/source-en/rst_source/usage/dual_franka.rst",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/docs/source-en/rst_source/usage/dual_franka.rst",
+      "bytes": 17306,
+      "sha256": "fd22d9925323a33503c56197e66acab9a3faadf560d21948944e323fe87e5f00"
+    },
+    {
+      "path": "docs/source-en/rst_source/usage/configure_planner.rst",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/docs/source-en/rst_source/usage/configure_planner.rst",
+      "bytes": 12838,
+      "sha256": "b343cc663a78aed9231d09a84b57007e5985a6c691b4e79d2e30709f9d87842f"
+    },
+    {
+      "path": "docs/source-en/rst_source/usage/data_flywheel.rst",
+      "error": "HTTP Error 404: Not Found",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/docs/source-en/rst_source/usage/data_flywheel.rst"
+    }
+  ],
+  "additional_fetches": [
+    {
+      "path": "pyproject.toml",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/pyproject.toml",
+      "error": "<urlopen error _ssl.c:1063: The handshake operation timed out>"
+    },
+    {
+      "path": "robots/dual_franka/tools.py",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/robots/dual_franka/tools.py",
+      "error": "<urlopen error [WinError 10054] 远程主机强迫关闭了一个现有的连接。>"
+    },
+    {
+      "path": "robots/libero/flywheel.py",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/robots/libero/flywheel.py",
+      "error": "<urlopen error _ssl.c:1063: The handshake operation timed out>"
+    },
+    {
+      "path": "robots/libero/env_server.py",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/robots/libero/env_server.py",
+      "bytes": 12703,
+      "sha256": "c8c46cb6e77a9052b5ee93c19d00082b54e53c8da171dc2ffe2e96a08c25c6bc"
+    },
+    {
+      "path": "rpent/planner/flash.py",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/rpent/planner/flash.py",
+      "bytes": 3681,
+      "sha256": "8fb3caa7b47217b94e41fda3686cdbf773f4f4e80af784c7ccc2e0f91267a3ef"
+    },
+    {
+      "path": "docs/source-en/rst_source/usage/flywheel.rst",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/docs/source-en/rst_source/usage/flywheel.rst",
+      "error": "<urlopen error _ssl.c:1063: The handshake operation timed out>"
+    },
+    {
+      "path": "docs/source-en/rst_source/usage/flash.rst",
+      "url": "https://raw.githubusercontent.com/RLinf/RPent/eb269c8a278b0ef717d61a3f55891c9ce2ec7eb1/docs/source-en/rst_source/usage/flash.rst",
+      "bytes": 7087,
+      "sha256": "f85f4853a00c59c9a91fb290d24f59367f15fba0af8f1def0f604cae9e92e556"
+    }
+  ],
+  "repository_metadata_snapshot": {
+    "stars": 931,
+    "forks": 97,
+    "created_at": "2026-07-07T08:14:20Z",
+    "latest_commit_at": "2026-09-22T13:07:43Z",
+    "license": "Apache-2.0",
+    "api_read_date": "2026-09-23"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "scope": "Hypothetical fixed-policy IID arithmetic. Every task failure requires human help; no automatic retry/recovery. Not a prediction for any paper or robot.",
+  "rows": [
+    {
+      "per_direction_success_probability": 0.9,
+      "cycle_success_probability": 0.81,
+      "probability_of_20_uninterrupted_cycles": 0.014780882941434611,
+      "expected_complete_cycles_before_first_failure": 4.263157894736843
+    },
+    {
+      "per_direction_success_probability": 0.95,
+      "cycle_success_probability": 0.9025,
+      "probability_of_20_uninterrupted_cycles": 0.12851215656510329,
+      "expected_complete_cycles_before_first_failure": 9.256410256410254
+    },
+    {
+      "per_direction_success_probability": 0.98,
+      "cycle_success_probability": 0.9603999999999999,
+      "probability_of_20_uninterrupted_cycles": 0.4457004039509503,
+      "expected_complete_cycles_before_first_failure": 24.252525252525203
+    },
+    {
+      "per_direction_success_probability": 0.99,
+      "cycle_success_probability": 0.9801,
+      "probability_of_20_uninterrupted_cycles": 0.6689717585696802,
+      "expected_complete_cycles_before_first_failure": 49.25125628140696
+    },
+    {
+      "per_direction_success_probability": 0.995,
+      "cycle_success_probability": 0.990025,
+      "probability_of_20_uninterrupted_cycles": 0.8183201210226752,
+      "expected_complete_cycles_before_first_failure": 99.25062656641649
+    },
+    {
+      "per_direction_success_probability": 0.999,
+      "cycle_success_probability": 0.998001,
+      "probability_of_20_uninterrupted_cycles": 0.9607702107358124,
+      "expected_complete_cycles_before_first_failure": 499.250125062538
+    }
+  ],
+  "equal_per_direction_p_for_90pct_survival_over_20_cycles": 0.9973694530767077,
+  "one_sided_exact_95pct_lower_bound_after_20_of_20_successes": 0.8608916593317348,
+  "zero_failure_trials_for_one_sided_95pct_lower_bound_at_least_99pct": 299,
+  "caveats": [
+    "Real cyclic robot trials are correlated and may drift; estimate actual intervention-free run survival from logs.",
+    "With autonomous recovery, task failure is not the same event as manual intervention.",
+    "The zero-failure confidence formula assumes independent, identically distributed fixed-policy trials."
+  ]
+}

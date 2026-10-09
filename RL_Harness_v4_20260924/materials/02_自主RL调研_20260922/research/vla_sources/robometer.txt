@@ -1,0 +1,7672 @@
+Robometer: Scaling General-Purpose Robotic Reward Models via Trajectory Comparisons
+Report GitHub Issue
+×
+Title:
+Content selection saved. Describe the issue below:
+Description:
+Submit without GitHub
+Submit in GitHub
+arXiv is now an independent nonprofit!
+Learn more
+×
+Back to arXiv
+Why HTML?
+Report Issue
+Back to Abstract
+Download PDF
+Abstract
+I
+Introduction
+II
+Related Works
+III
+Robometer
+III-A
+RBM-1M
+Dataset
+III-B
+Robometer
+Architecture and Tokenization
+III-C
+Training Objectives
+III-D
+Data Sampling and Augmentation
+IV
+Experiments
+IV-Q1
+Reward Evaluation
+IV-Q2
+Ablations: Why does
+Robometer
+Perform so Well?
+IV-Q3
+Accelerating Robot Learning with Generalizable Rewards
+V
+Limitations and Future Work
+References
+A
+Dataset Details
+A-1
+Individual
+RBM-1M
+Training Dataset Details
+A-11
+Expert Demonstration Datasets
+Open-X Embodiment Mix
+AGIBot World
+Galaxea Open-World
+RoboReward OXE + Roboarena Mix
+MolmoACT
+Humanoid Everyday
+LIBERO
+Metaworld
+A-12
+Paired Human-Robot Datasets
+MotIF
+RH-20T
+PH2D
+H2R
+A-13
+Mixed Expertise Datasets
+RoboArena
+SOAR
+FAILSafe
+RACER
+AutoEval
+LIBERO
+Fino-Net
+A-14
+Human only Datasets
+Epic-Kitchens
+A-2
+Dataset Filtering and Task End-State Adjustment
+A-3
+Individual Evaluation Dataset Details
+USC Franka
+USC Trossen
+USC Koch Arms
+MIT Franka
+UTD;’ SO-101
+B
+Model Details
+B-1
+Model Architecture and Training Parameters
+Architecture
+Model and Training Params
+B-2
+Training Objectives
+Trajectory Cutoffs and Success Supervision
+Progress Supervision in Preference Samples
+Data Source and Strategy Sampling
+Preference Prediction Loss: Bradley-Terry vs BCE
+B-3
+Computational Resources
+C
+Additional Reward Evaluation Results
+VLAC
+Robo-Dopamine
+GVL
+ReWiND
+RoboReward
+C-1
+Preference Prediction
+RL-VLM-F
+D
+Additional Ablations
+D-1
+Preference pair sampling ablations
+D-2
+RBM-EVAL-OOD
+Pre-Training Objective Ablations
+D-3
+Training loss weight ablations
+E
+Policy Learning Experiment Details
+E-1
+RL with Ablated Reward Models
+E-2
+Automatic Online RL
+Environment Setup
+RL Algorithm
+Results
+E-3
+Out of Distribution Failure Detection
+Baselines
+Discussion
+Failure Detection with Progress Monitoring
+E-4
+Data Filtering & Retrieval
+Procedure and Discussion
+Additional Experiments
+E-5
+Combining Noisy and Expert Trajectories via Offline
+RL
+Procedure and Data Collection
+Offline RL Setup and IQL Objectives
+Reward Specification
+F
+Low-rank Fine-tuning
+Robometer
+-4B
+G
+Robometer
+with Model-Based RL
+License: CC BY 4.0
+arXiv:2603.02115v1 [cs.RO] 02 Mar 2026
+Robometer
+: Scaling General-Purpose Robotic
+Reward Models via Trajectory Comparisons
+Anthony Liang
+Yigit Korkmaz
+Jiahui Zhang
+Minyoung Hwang
+Abrar Anwar
+Sidhant Kaushik
+Aditya Shah
+Alex S. Huang
+Luke Zettlemoyer
+Dieter Fox
+Yu Xiang
+Anqi Li
+Affiliation:
+Univ. of Southern California  UT Dallas MIT  Indep. Researcher  Univ. of Washington  Ai2  NVIDIA
+Andreea Bobu
+Abhishek Gupta
+Stephen Tu
+Erdem Bıyık
+Jesse Zhang
+⋆
+Equal contribution  Equal advising
+Abstract
+General-purpose robot reward models are typically trained to predict absolute task progress from expert demonstrations, providing only local, frame-level supervision. While effective for expert demonstrations, this paradigm scales poorly to large-scale robotics datasets where failed and suboptimal trajectories are abundant and assigning dense progress labels is ambiguous.
+We introduce
+Robometer
+, a scalable reward modeling framework that combines intra-trajectory progress supervision with inter-trajectory preference supervision.
+Robometer
+is trained with a dual objective: a frame-level progress loss that anchors reward magnitude on expert data, and a trajectory-comparison preference loss that imposes global ordering constraints across trajectories of the same task, enabling effective learning from both real and augmented failed trajectories.
+To support this formulation at scale, we curate
+RBM-1M
+, a reward-learning dataset comprising over one million trajectories spanning diverse robot embodiments and tasks, including substantial suboptimal and failure data. Across benchmarks and real-world evaluations,
+Robometer
+learns more generalizable reward functions than prior methods and improves robot learning performance across a diverse set of downstream applications. Code, model weights, and videos at
+https://robometer.github.io/
+.
+Fig. 1:
+Robometer
+Overview.
+Robometer
+is trained on
+RBM-1M
+, a 1M-trajectory dataset spanning 21 robot embodiments, containing both reward-labeled/expert trajectories and reward-unlabeled, failed trajectories.
+The model is supervised with a dual objective: predicting frame-level task progress (reward) and learning trajectory-level preferences from pairwise comparisons. To help with downstream RL, it is also trained to predict per-frame task success.
+This training recipe enables scalable reward learning, is validated on reward model evaluations from 6 out-of-distribution scenes collected at 3 institutions, and supports diverse downstream applications such as offline & online RL, imitation learning data filtering and retrieval, and automated failure detection.
+I
+Introduction
+In human cognition, comparative judgments are a core mechanism for internalizing calibrated scales
+[
+71
+,
+113
+,
+111
+]
+, enabling reasoning about relative progress and outcomes rather than isolated states. Analogously, the supervision signals used to train robotic reward models determine how well they internalize notions of task progress, enabling downstream applications such as online reinforcement learning (RL)
+[
+128
+,
+136
+]
+, imitation learning (IL) from noisy data
+[
+85
+,
+19
+]
+, automated failure detection
+[
+40
+]
+, and offline RL
+[
+118
+]
+. Current general-purpose reward models rely exclusively on absolute progress labels derived from expert or reward-labeled demonstrations, providing pointwise,
+trajectory-local
+supervision
+[
+136
+,
+133
+,
+74
+,
+115
+]
+.
+Such labels are easy to obtain for expert trajectories—for example, by linearly interpolating progress from 0 to 1—but become ill-defined and costly to annotate for failed attempts, where progress may fluctuate over time. As a result, large amounts of suboptimal data—ubiquitous in real-world robot learning—cannot be effectively leveraged
+[
+117
+]
+. This reliance on trajectory-
+local
+progress supervision limits both scalability and generalization. In this work, we address this limitation by training reward models with an additional
+global
+supervision signal that improves generalization across embodiments, scenes, and varying trajectory quality.
+Our key insight is that
+preference prediction
+over trajectory pairs provides a complementary form of supervision. While progress labels anchor reward values along individual trajectories, pairwise comparisons impose ordering constraints across diverse trajectories, tasks, robots, and viewpoints. This formulation enables learning from previously unusable suboptimal data by requiring only relative comparisons—curated without additional human annotation—rather than absolute scores. Specifically, trajectory comparison supervision (1) enforces consistent ordering across trajectories, providing global grounding beyond individual rollouts, and (2) scales naturally to unlabeled failed trajectories where absolute progress is ambiguous, resulting in better-calibrated rewards.
+To instantiate our key insight, we propose
+Robometer
+, a general-purpose, video-language-input, dense reward model trained with a dual reward-prediction objective: a frame-level progress loss on expert data and a preference-prediction loss over trajectory comparisons (see
+Robometer
+: Scaling General-Purpose Robotic
+Reward Models via Trajectory Comparisons
+). To support downstream RL,
+Robometer
+also predicts a frame-level task success. Our ablations reveal a mutual reinforcement effect: preference supervision improves
+Robometer
+’s ability to distinguish suboptimal from successful trajectories even when trained solely on expert demonstrations, suggesting that global comparative constraints induce a better-structured internal reward representation.
+Furthermore, as additional unlabeled suboptimal data is introduced,
+Robometer
+scales naturally to further improve performance.
+We train
+Robometer
+on
+RBM-1M
+, a large-scale reward-learning dataset which we curate, that contains over one million trajectories collected from 21 robot platforms, including bimanual, single-arm, and mobile manipulators, as well as human demonstrations.
+Importantly,
+RBM-1M
+is intentionally constructed to include a substantial number of suboptimal and failed trajectories that naturally arise during real-world data collection but are difficult to exploit with absolute progress-based supervision.
+The scale and diversity of
+RBM-1M
+are therefore essential for learning globally consistent preference relations across embodiments, tasks, and viewpoints, and for fully leveraging failure data that would otherwise be discarded.
+In addition to training with real failure data, we generate preference pairs using a suite of augmentations—including video rewinding
+[
+136
+]
+, sequence trimming, and cross-task comparisons—that expose the model to diverse successful and suboptimal behaviors.
+Across external benchmarks and our own evaluation trajectories collected from six out-of-distribution scenes from three institutions,
+Robometer
+outperforms state-of-the-art baselines by an average of 14% in reward rank correlation and 32% relative improvement in distinguishing suboptimal from successful trajectories.
+Finally, we show that
+Robometer
+outperforms relevant baselines in real-world robot learning applications across a diverse set of downstream applications that span different learning paradigms: (1) automatic online RL, (2) offline RL with noisy and expert trajectories, (3) dataset filtering for imitation learning, and (4) zero-shot failure detection across multiple robot embodiments and institutions.
+Overall, policy learning experiments with
+Robometer
+demonstrate
+2.4
+−
+4.5
+×
+\mathbf{{2.4}}-\mathbf{{4.5\times}}
+higher success rates than the best baseline in each category.
+We publicly release the
+Robometer
+model, the
+RBM-1M
+dataset, and code at
+https://robometer.github.io
+.
+II
+Related Works
+Learning reward functions is a central problem in reinforcement learning and robotics, and prior work has explored a wide range of approaches that differ in both the form of supervision and the scope of generalization.
+Reward Learning from Demonstrations.
+Learning reward functions from human supervision is a long-studied topic in inverse RL (IRL), where reward functions are inferred from human demonstrations
+[
+96
+,
+1
+,
+145
+,
+33
+,
+15
+]
+or from expert and goal-state distributions
+[
+47
+,
+114
+,
+34
+,
+35
+,
+37
+,
+59
+]
+.
+However, most IRL methods require task-specific expert demonstrations, making it necessary to collect new demonstrations whenever the task or reward specification changes.
+In contrast,
+Robometer
+trains a general-purpose vision-language-input reward model which can generalize effectively to new tasks.
+Preference-Based Reward Learning.
+Prior work in psychology has observed that humans often use relative comparisons over absolute numerical scales when making judgments
+[
+71
+,
+113
+,
+111
+]
+.
+This insight has been central to modern reinforcement learning from human feedback (RLHF), where preference supervision from humans is used to learn reward models that are only identifiable up to monotone transformations, yet sufficient for effective policy optimization
+[
+22
+,
+108
+,
+8
+,
+13
+,
+73
+,
+45
+,
+94
+,
+129
+,
+66
+]
+.
+In contrast to these works, which treat preferences as the primary supervision signal to train domain-specific reward models, we generate preference supervision from both synthetic and real trajectories for which assigning progress labels is difficult.
+We use this preference signal as an
+auxiliary
+objective that complements direct progress prediction, enabling
+Robometer
+to learn from large, heterogeneous datasets without additional human preference supervision.
+Closest in spirit,
+Kwok et al. [69]
+generate synthetic preference labels from action mean-squared-error to train a robot action verifier, and
+Wang et al. [122]
+,
+Venkataraman et al. [118]
+use vision-language models (VLMs) to generate frame-level preferences as the primary supervision signal for task-specific reward models.
+In contrast, we generate preference supervision by comparing entire trajectories and use it as an auxiliary signal to learn a general-purpose reward function across tasks and embodiments.
+Rewards from Foundation Models.
+Finally, recent work has sought to construct more general reward functions that operate directly on images, videos, and language.
+Large language models (LLMs) and VLMs have been applied to reward design, for example by generating executable reward code or shaping functions from natural language descriptions
+[
+87
+,
+132
+,
+125
+]
+, directly producing reward functions
+[
+70
+]
+, or guiding reward computation via language-conditioned state masking
+[
+54
+]
+.
+However, most of these approaches assume access to privileged state information, which is often unavailable or difficult to obtain in real-world robotic deployment settings.
+To overcome this challenge, some approaches use task progress as a proxy reward, either by applying pre-trained VLMs as zero-shot progress or success estimators
+[
+25
+,
+89
+,
+112
+,
+30
+,
+88
+,
+2
+,
+36
+,
+41
+,
+85
+,
+107
+,
+20
+]
+, or by training domain-specific models with progress-prediction objectives
+[
+25
+,
+31
+,
+97
+,
+95
+,
+86
+,
+128
+,
+53
+,
+64
+,
+136
+,
+19
+]
+.
+However, directly using pre-trained VLMs for zero-shot video-language reward prediction often yields noisy or inconsistent signals
+[
+136
+,
+74
+,
+18
+]
+, while smaller per-task models tend to overfit to domain-specific visual and semantic features, limiting generalization.
+More recent methods address these limitations by fine-tuning large pretrained VLMs or VLAs, enabling progress prediction to leverage visual–semantic representations learned from diverse data
+[
+133
+,
+39
+,
+57
+,
+74
+,
+115
+,
+137
+]
+and demonstrating improved sample efficiency for real-world RL.
+VLAC
+[
+133
+]
+, for example, co-trains a VLA with relative progress difference targets, while
+π
+0.6
+∗
+\pi_{0.6}^{*}
+[
+57
+]
+and
+Ghasemipour et al. [39]
+train distance-to-goal value functions that encode task progress.
+RoboReward
+[
+74
+]
+fine-tunes a VLM to predict discretized (1-5) progress labels generated via counterfactual instruction labeling by closed-source VLMs, and RoboDopamine
+[
+115
+]
+similarly fine-tunes a VLM for progress prediction but requires a goal image in addition to the language instruction and task-specific one-shot fine-tuning.
+In contrast,
+Robometer
+introduces an explicit auxiliary
+preference prediction
+objective, enabling us to scale to datasets containing suboptimal or failed trajectories without reward labels. Using such failed trajectories, even as just in-context learning examples for pre-trained VLMs, has been demonstrated to help reward models align more closely with human-specified rewards
+[
+117
+]
+.
+Fig. 2
+:
+Robometer
+is a VLM-based reward model, that predicts dense, per-frame progress-based rewards and success labels for the first of two video trajectories. To be able to train with failed, non-expert data, we also predict which of the two video trajectories better completes the task. We use three strategies for curating training examples from our given datasets, which are further detailed in Section
+III-D
+with model architecture shown in Appendix
+Figure
+11
+.
+III
+Robometer
+We propose
+Robometer
+, a large-scale reward model designed to provide dense reward feedback for robot learning. Our approach rests on three pillars: a diverse 1M-trajectory dataset (
+RBM-1M
+) which includes unlabeled failure trajectories, a pre-trained VLM backbone for cross-task generalization, and a hybrid training objective that combines
+dense, per-frame progress
+with
+global trajectory preferences
+.
+III-A
+RBM-1M
+Dataset
+Notation.
+We define the dataset
+𝒟
+=
+{
+τ
+i
+}
+\mathcal{D}=\{\tau_{i}\}
+of trajectories, where each
+τ
+=
+{
+o
+1
+:
+T
+,
+l
+,
+p
+}
+\tau=\{o_{1:T},l,p\}
+contains image observations
+o
+o
+, a language instruction
+l
+l
+, and a scalar progress label
+p
+∈
+[
+0
+,
+1
+]
+p\in[0,1]
+corresponding to the progress at the end of the trajectory. For expert demonstrations,
+p
+=
+1.0
+p=1.0
+; for datasets with partial progress labels (e.g., RoboArena
+[
+5
+]
+), we use the provided score. For unlabeled failed trajectories, we set
+p
+=
+None
+p=\texttt{None}
+.
+Data Composition.
+Rather than maximizing trajectory quantity,
+RBM-1M
+focuses on viewpoint, scene, and embodiment diversity. We aggregate 1 million trajectories from: (1)
+Expert robot data
+from diverse, multi-robot sources such as Open-X
+[
+23
+]
+and subsets of high-quality, single-robot data such as AGIBotWorld
+[
+24
+]
+; (2)
+Human videos
+from datasets such as Epic-Kitchens
+[
+27
+]
+for scene diversity or human-robot paired datasets like RH20T
+[
+32
+]
+to promote embodiment-invariant representations; (3)
+Simulation
+data from sources like LIBERO
+[
+79
+]
+; and (4)
+Failed trajectories
+from automated policy rollouts
+[
+141
+]
+and failure-detection datasets
+[
+78
+]
+.
+Our dataset overall includes 21 robot embodiments and over 1 million trajectories, hence
+RBM-1M
+.
+We also construct two evaluation datasets,
+RBM-EVAL-ID
+and
+RBM-EVAL-OOD
+, detailed in
+Section
+A-3
+.
+For further details on dataset filtering and aggregation, see
+Appendix
+A
+. We also list all dataset categories and trajectory counts in Appendix
+Figure
+10
+,
+Table
+IX
+.
+III-B
+Robometer
+Architecture and Tokenization
+Robometer
+instantiates a causally masked VLM,
+Qwen3-VL-4B-Instruct
+, to process either one video (for reward inference) or a pair of videos (for preference training).
+Hidden Embedding Extraction.
+To extract rewards without disrupting the VLM’s pre-trained internal representations, we insert new, learned tokens into the sequence. We interleave
+progress tokens
+(
+⟨
+|
+prog_token
+|
+⟩
+\langle|\text{prog\_token}|\rangle
+) within the first video sequence and a single
+preference token
+(
+⟨
+|
+pref_token
+|
+⟩
+\langle|\text{pref\_token}|\rangle
+) at the end of the multi-video prompt:
+Tok
+⁡
+(
+l
+,
+o
+1
+,
+o
+2
+)
+→
+Tok
+⁡
+(
+l
+)
+​
+⟨
+|
+video_start
+|
+⟩
+​
+[
+Tok
+⁡
+(
+o
+t
+1
+)
+​
+⟨
+|
+prog_token
+|
+⟩
+]
+t
+=
+1
+T
+⟨
+|
+split_token
+|
+⟩
+​
+[
+Tok
+⁡
+(
+o
+t
+2
+)
+]
+t
+=
+1
+T
+​
+⟨
+|
+pref_token
+|
+⟩
+,
+\begin{aligned} \operatorname{Tok}(l,o^{1},o^{2})\rightarrow&\operatorname{Tok}(l)\langle|\text{video\_start}|\rangle\left[\operatorname{Tok}(o^{1}_{t})\langle|\text{prog\_token}|\rangle\right]_{t=1}^{T}\\
+&\langle|\text{split\_token}|\rangle\left[\operatorname{Tok}(o^{2}_{t})\right]_{t=1}^{T}\langle|\text{pref\_token}|\rangle,\end{aligned}
+(1)
+where
+⟨
+|
+video_start
+|
+⟩
+\langle|\text{video\_start}|\rangle
+is the model’s default image-start delimiter and
+⟨
+|
+split_token
+|
+⟩
+\langle|\text{split\_token}|\rangle
+is a separator.
+The causal mask ensures that
+⟨
+|
+prog_token
+|
+⟩
+\langle|\text{prog\_token}|\rangle
+tokens attend only to the current and previous frames of
+o
+1
+o^{1}
+, producing dense, frame-level progress estimates for online reward inference, while
+⟨
+|
+pref_token
+|
+⟩
+\langle|\text{pref\_token}|\rangle
+attends to both trajectories to make a relative judgment.
+We fix both trajectories to length
+T
+T
+to avoid preference predictions that rely on trajectory length as a proxy for quality. Progress tokens are inserted only for
+o
+1
+o^{1}
+since at inference time, progress is predicted for a single trajectory; furthermore, if we insert progress tokens between
+o
+2
+o^{2}
+frames, they would attend to
+o
+1
+o^{1}
+.
+III-C
+Training Objectives
+We optimize
+Robometer
+using a composite loss:
+ℒ
+=
+ℒ
+pref
++
+ℒ
+prog
++
+ℒ
+succ
+\mathcal{L}=\mathcal{L}_{\text{pref}}+\mathcal{L}_{\text{prog}}+\mathcal{L}_{\text{succ}}
+. This allows the model to anchor rewards to absolute progress while learning to distinguish subtle quality differences through trajectory comparisons across the dataset.
+Preference Prediction.
+We train a binary classifier,
+MLP
+pref
+\text{MLP}_{\text{pref}}
+, on the hidden state
+h
+⟨
+|
+pref_token
+|
+⟩
+h_{\langle|\text{pref\_token}|\rangle}
+of the
+⟨
+|
+pref_token
+|
+⟩
+\langle|\text{pref\_token}|\rangle
+to predict which trajectory better satisfies
+l
+l
+:
+ℒ
+pref
+=
+−
+[
+𝕀
+y
+=
+1
+log
+σ
+(
+MLP
+pref
+(
+h
+⟨
+|
+pref_token
+|
+⟩
+)
+)
++
+𝕀
+y
+=
+2
+log
+(
+1
+−
+σ
+(
+MLP
+pref
+(
+h
+⟨
+|
+pref_token
+|
+⟩
+)
+)
+)
+]
+,
+\begin{aligned} \mathcal{L}_{\mathrm{pref}}=&-\Big[\mathbb{I}_{y=1}\,\log\sigma\!\left(\text{MLP}_{\text{pref}}(h_{\langle|\text{pref\_token}|\rangle})\right)\\
+&\quad+\mathbb{I}_{y=2}\,\log\!\left(1-\sigma\!\left(\text{MLP}_{\text{pref}}(h_{\langle|\text{pref\_token}|\rangle})\right)\right)\Big],\end{aligned}
+(2)
+where
+y
+y
+is the ground-truth preferred trajectory.
+Progress and Success.
+For the first trajectory
+o
+1
+o^{1}
+, we attach an MLP head to each
+h
+⟨
+|
+prog_token
+|
+⟩
+,
+t
+h_{\langle|\text{prog\_token}|\rangle,t}
+to predict continuous progress
+p
+t
+p_{t}
+and binary success
+s
+t
+s_{t}
+.
+Similar to prior work
+[
+136
+,
+133
+,
+19
+]
+, we define per-frame progress targets
+p
+1
+:
+T
+p_{1:T}
+for expert demonstration data, where the final target progress
+p
+=
+1
+p=1
+.
+Rather than directly regressing a scalar progress value, we discretize progress into
+N
+N
+uniformly spaced bins over
+[
+0
+,
+1
+]
+[0,1]
+and model progress prediction as a categorical distribution, following the C51 formulation
+[
+11
+]
+.
+For a trajectory of length
+T
+T
+, the ground-truth continuous progress target at frame
+t
+t
+is defined as
+p
+t
+=
+t
+/
+T
+p_{t}=t/T
+for
+t
+∈
+{
+1
+,
+…
+,
+T
+}
+t\in\{1,\ldots,T\}
+.
+This scalar target is projected onto a categorical distribution over
+N
+N
+bins using linear interpolation between neighboring bin centers.
+The progress head
+MLP
+progress
+\text{MLP}_{\text{progress}}
+outputs a categorical distribution
+p
+^
+t
+∈
+Δ
+N
+\hat{p}_{t}\in\Delta^{N}
+, and the progress loss is computed using cross-entropy:
+ℒ
+prog
+=
+1
+T
+​
+∑
+t
+=
+1
+T
+CE
+​
+(
+Proj
+​
+(
+p
+t
+)
+,
+MLP
+progress
+​
+(
+h
+⟨
+|
+prog_token
+|
+⟩
+,
+t
+)
+)
+.
+\mathcal{L}_{\text{prog}}=\frac{1}{T}\sum_{t=1}^{T}\text{CE}\!\left(\text{Proj}(p_{t}),\,\text{MLP}_{\text{progress}}(h_{\langle|\text{prog\_token}|\rangle,t})\right).
+At inference time, a continuous progress estimate is recovered by taking the expectation over the bin centers,
+p
+^
+t
+=
+∑
+i
+=
+1
+N
+z
+i
+​
+p
+^
+t
+,
+i
+\hat{p}_{t}=\sum_{i=1}^{N}z_{i}\,\hat{p}_{t,i}
+, where
+{
+z
+i
+}
+i
+=
+1
+N
+\{z_{i}\}_{i=1}^{N}
+denote the fixed bin centers.
+Per-frame success targets are defined such that
+s
+t
+=
+0
+s_{t}=0
+for
+t
+<
+T
+t<T
+and
+s
+t
+=
+1
+s_{t}=1
+for
+t
+=
+T
+t=T
+.
+In some datasets, the human operator stops recording a trajectory several frames after the task has already been completed; to improve the accuracy of both progress and success prediction, we sample 10 trajectories per data source to determine the point at which the task actually ends (Appendix
+Section
+A-1
+).
+We train success prediction with binary cross-entropy on
+s
+s
+, with balanced class weights adjusted per-batch to account for negative sample imbalance:
+ℒ
+succ
+=
+BalancedBCE
+(
+s
+1
+:
+T
+,
+[
+MLP
+success
+(
+h
+⟨
+|
+prog_token
+|
+⟩
+,
+t
+)
+]
+1
+:
+T
+)
+.
+\resizebox{20348790}{}{$\mathcal{L}_{\text{succ}}=\text{BalancedBCE}(s_{1:T},[\text{MLP}_{\text{success}}(h_{\langle|\text{prog\_token}|\rangle,t})]_{1:T})$}.
+III-D
+Data Sampling and Augmentation
+Given these losses, the ideal training regime for
+Robometer
+would rely on large-scale, preference-labeled robot trajectory datasets containing explicit progress-labeled failures. Such failures are particularly important because, at deployment time, reward models are frequently queried on out-of-distribution trajectories—e.g., failures induced by online RL exploration, compounding execution errors, or noisy data collection—that deviate substantially from the training distribution.
+In practice, however, preference annotations over robot trajectories are limited, and dense per-frame progress labels for failed executions are expensive and difficult to obtain.
+We address this limitation by constructing training inputs
+(
+l
+,
+o
+1
+,
+o
+2
+)
+(l,o^{1},o^{2})
+and targets
+y
+y
+dynamically from
+RBM-1M
+using three complementary strategies displayed in
+Figure
+2
+:
+Fig. 3
+:
+Video-Language Reward Confusion Matrix.
+For each task sampled at random from
+self-collected, unseen
+data
+from
+RBM-EVAL-OOD
+, we compute rewards for all combinations of demonstration videos and language descriptions.
+Robometer
+produces the most diagonal-heavy confusion matrix, indicating strong alignment between unseen demos and instructions. We also report
+the column-normalized diagonal mean under each model, which represents the fraction of the model’s total reward for aligned task and video pairs.
+1.
+Progress-Based Comparisons (Different Expertise).
+To teach the model to distinguish execution quality, we sample two trajectories
+τ
+1
+,
+τ
+2
+\tau_{1},\tau_{2}
+sharing an instruction
+l
+l
+but differing in outcome (e.g., an expert demonstration
+p
+=
+1
+p{=}1
+vs. an unlabeled failure
+p
+=
+None
+p{=}\texttt{None}
+) or progress (
+p
+1
+≠
+p
+2
+p^{1}{\neq}p^{2}
+). We set the preference target
+y
+=
+1
+y{=}1
+if
+p
+1
+>
+p
+2
+p^{1}{>}p^{2}
+(or if
+τ
+1
+\tau_{1}
+is the expert), and
+y
+=
+2
+y=2
+otherwise. This allows
+Robometer
+to leverage unlabeled failures by contrasting them against successful demonstrations.
+2.
+Instruction Negatives (Different Tasks).
+To ensure rewards are grounded in the language command, we sample
+τ
+1
+\tau_{1}
+and
+τ
+2
+\tau_{2}
+with distinct instructions
+l
+1
+≠
+l
+2
+l^{1}{\neq}l^{2}
+. We randomly select one instruction as the conditioning text
+l
+l
+, set the preference label
+y
+y
+to the trajectory corresponding to the selected instruction, and set the progress target
+p
+t
+=
+0
+p_{t}{=}0
+for the other, enforcing that correct behavior for the wrong task yields no reward.
+3.
+Video Rewind (Augmented Failures).
+To explicitly model “undoing” progress—a common failure mode in RL—we generate synthetic preferences from a single expert trajectory
+τ
+\tau
+by reversing a segment of time. Prior work denotes this type of augmentation as
+video rewind
+[
+136
+,
+19
+,
+51
+]
+. We sample indices
+1
+≤
+t
+1
+<
+t
+2
+<
+t
+3
+≤
+T
+1\leq t_{1}<t_{2}<t_{3}\leq T
+to form a
+Chosen
+forward sequence
+o
+c
+=
+o
+t
+1
+:
+t
+3
+o^{c}=o_{t_{1}:t_{3}}
+and a
+Rejected
+rewound sequence, either
+o
+r
+=
+[
+o
+t
+1
+:
+t
+3
+,
+o
+t
+3
+−
+1
+:
+t
+2
+]
+o^{r}=[o_{t_{1}:t_{3}},o_{t_{3}-1:t_{2}}]
+or
+[
+o
+t
+3
+:
+t
+1
+]
+[o_{t_{3}:t_{1}}]
+.
+The Chosen and Rejected sequences are randomly assigned to
+o
+1
+o^{1}
+and
+o
+2
+o^{2}
+to construct the preference label.
+While
+o
+c
+o^{c}
+targets linear forward progress, we explicitly penalize the reversal in
+o
+r
+o^{r}
+by assigning decreasing progress targets matched to their frame indices.
+Subsequence Trimming.
+We discourage overfitting to fixed trajectory lengths by randomly sampling
+T
+T
+frames with uniform start/end indices from the full video.
+Summary.
+Robometer
+builds upon a base VLM,
+Qwen3-VL-4B-Instruct
+, and inserts additional learnable tokens
+to predict preference, progress, and success.
+We train
+Robometer
+on
+RBM-1M
+, a diverse reward modeling dataset consisting of both progress-labeled and progress-unlabeled data, by sampling trajectory comparisons across the entire dataset.
+These comparisons come from unlabeled failure trajectories, comparisons across different tasks, and generated pseudo-failures via video rewind.
+For additional model implementation and training details, see
+Appendix
+B
+.
+Baselines
+w/ RoboReward Training Data
+w/ our
+RBM-1M
+data
+GVL
+VLAC
+RoboDopamine
+RoboReward
+-4B
+RoboReward
+-8B
+Robometer
+ReWiND
+Robometer
+(a) VOC
+r
+↑
+r\uparrow
+RBM-EVAL-ID
+0.16
+0.16
+0.13
+0.77
+0.82
+0.84
+0.46
+0.92
+RBM-EVAL-OOD
+0.21
+0.17
+0.08
+0.88
+0.88
+0.93
+0.51
+0.95
+(b) Kendall
+τ
+a
+↑
+\tau_{a}\uparrow
+RBM-EVAL-OOD
+0.19
+0.08
+0.11
+0.50
+0.47
+0.55
+0.01
+0.66
+TABLE I:
+(a) Reward alignment (VOC Pearson
+r
+r
+) and (b) trajectory ranking (Kendall
+τ
+a
+\tau_{a}
+) on RBM-EVAL datasets.
+Baselines are split into categories based on training data: GVL’s training data (w/ GPT-5-mini) is unknown, VLAC is trained on a 300k-trajectory dataset, and RoboDopamine is trained on a 100k-trajectory dataset.
+We compare
+Robometer
+against RoboReward-4B/8B with their own training data, and we also evaluate ReWiND and
+Robometer
+trained with the full
+RBM-1M
+dataset. Kendall
+τ
+a
+\tau_{a}
+is not calculated for
+RBM-EVAL-ID
+due to it only having simulation failure data.
+IV
+Experiments
+Our experiments aim to study
+Robometer
+’s effectiveness in producing rewards for robot learning. Specifically, we organize our experiments to answer the following questions:
+(
+Q1
+)
+Reward Evaluation
+: How well do
+Robometer
+rewards reflect task progress on
+unseen
+tasks and embodiments?
+(
+Q2
+)
+Ablation + Analysis
+: How much does each component of
+Robometer
+contribute to reward performance?
+(
+Q3
+)
+Policy Learning
+: How does
+Robometer
+compare against baselines in enabling downstream robot learning?
+Baselines.
+We compare
+Robometer
+against the strongest set of video-language input, zero-shot-capable, and open-sourced or API-accessible reward baselines described in
+Section
+II
+.
+We list a dataset size comparison table for baselines and related papers in Appendix
+Table
+VI
+.
+•
+VLAC-8B
+[
+133
+]
+trains a VLA that predicts actions and rewards on a dataset of 300k human and robot trajectories. We compare against their larger 8B parameter checkpoint.
+•
+GVL
+[
+85
+]
+prompts a pre-trained closed-source LLM with shuffled video frames to predict task progress for subsampled frames across the video sequence. We use GPT-5 mini as it is the best-performing closed-source model on the RoboRewardBench reward evaluation benchmark
+[
+74
+]
+.
+•
+ReWiND
+[
+136
+]
+trains a small transformer-based network with a direct progress prediction objective along with video rewinding to simulate failed policy rollouts.
+We train ReWiND with
+RBM-1M
+to maximize its zero-shot capability.
+•
+RoboDopamine-3B
+[
+115
+]
+fine-tunes a VLM for reward prediction via “frame hops” comparing forward and rewound frames. Although it is designed for reward prediction conditioned on a
+goal image
+and instruction, we evaluate in our zero-shot setting without a goal image for fair comparison.
+•
+RoboReward-4B/8B
+[
+74
+]
+: Fine-tunes a Qwen-3-VL 4B/8B VLM for discrete (1-5) progress prediction on a dataset consisting of data from OXE
+[
+23
+]
+and RoboArena evaluations
+[
+5
+]
+. Generates
+counterfactual
+instructions via closed-source VLMs to simulate failed trajectories.
+Custom Evaluation Datasets.
+We train
+Robometer
+, and certain baselines when applicable, on the aforementioned
+RBM-1M
+dataset.
+Prior large-scale reward modeling baselines mainly evaluate on validation or test set versions of the datasets they train on
+[
+133
+,
+136
+,
+74
+,
+115
+]
+, which contain in-distribution arms, camera angles, or scenes.
+Instead, we collect our own evaluation dataset,
+RBM-EVAL-OOD
+, consisting of 976 trajectories collected from 3 academic institutions that are guaranteed not to be in the training data of
+any
+baseline, consisting of 6 embodiments (including human hands), 3 of which are not in
+RBM-1M
+, collected across diverse camera angles.
+We also aggregate an in-distribution test split of unseen trajectories collected from datasets in
+RBM-1M
+, denoted
+RBM-EVAL-ID
+.
+See more evaluation dataset details in
+Section
+A-3
+.
+IV-Q1
+Reward Evaluation
+Model Type
+Model
+RoboRewardBench
+MAE (
+↓
+\downarrow
+)
+Qwen3-4B
+Models
+Robometer
+0.72
+Robometer
+(only RoboReward data)
+0.75
+RoboReward
+-4B
+0.85
+Qwen3-VL-4B-Instr.
+1.03
+Closed /
+Larger
+RoboReward
+-8B
+0.67
+GPT-5-mini
+0.69
+Qwen3-VL-8B-Instr.
+0.89
+Gemini-2.5-pro
+0.90
+TABLE II
+:
+Evaluation on the RoboRewardBench benchmark
+[
+74
+]
+.
+Fig. 4
+:
+Qualitative Analysis of Failure, Suboptimal and Successful Trajectories.
+We visualize the progress predictions for three trajectories of different quality for the same task.
+Notably, for the suboptimal trajectory,
+Robometer
+predicts steadily increasing progress as the robot approaches the pen holder, but sharply reduces its progress estimate when the marker is dropped, correctly reflecting regression in task completion.
+In contrast, RoboReward continues to assign high progress despite the task failure.
+Finally,
+Robometer
+is the only model that correctly predicts task success for the successful trajectory
+(i.e., high final progress value and explicit success prediction).
+As detailed in
+Section
+III-B
+, our focus is on training a reward model which:
+(1) generalizes to new tasks, embodiments, and domains while (2) providing reward feedback useful for
+policy learning
+. We structure this subsection to highlight
+Robometer
+’s strong performance across both criteria.
+Trajectory Task Alignment.
+Our first main result demonstrates that
+Robometer
+accurately distinguishes between different tasks in
+RBM-EVAL-OOD
+, which directly reflects its ability to assign rewards that align with task semantics, even across unseen robot embodiments, camera viewpoints, and scenes.
+We plot confusion matrices comparing unseen, successful trajectory videos versus their language instructions in
+Figure
+3
+.
+Ideally, a
+purple diagonal
+indicates correct video-instruction pairs, with low (white) values elsewhere.
+Robometer
+clearly produces the strongest disparity between the diagonal and off-diagonal elements, highlighting its superior ability to reward a robot for performing the
+correct
+task, which is especially important in cluttered, multi-task settings.
+This ability is in part due to how we sample
+different-task
+negative preference and progress examples across the entire dataset (cf.
+Section
+III-D
+).
+Reward Alignment.
+Quantitatively, we evaluate the ability of baselines to predict increasing progress for
+successful
+robot videos from both
+RBM-EVAL-OOD
+and
+RBM-EVAL-ID
+in
+Table
+I
+(a).
+We report Value Order Correlation (VOC)
+[
+85
+]
+∈
+[
+−
+1
+,
+1
+]
+\in[-1,1]
+, which calculates the Pearson correlation of predicted rewards for each trajectory video frame against their ground-truth timestep value.
+Overall,
+Robometer
+performs the best across the board on both test sets, especially on
+RBM-EVAL-OOD
+.
+We break down per-dataset and per-subset results for both test sets in
+Appendix
+C
+.
+RoboRewardBench Evaluation.
+We further evaluate on the
+external
+RoboRewardBench benchmark
+[
+74
+]
+, reporting Mean Absolute Error (MAE) on rewards discretized into 1–5 scores. Baseline results under the same protocol are shown in
+Table
+II
+. For a fair comparison, we also train a
+Robometer
+variant using only RoboReward data with matching 5-bin outputs.
+This RoboReward-only
+Robometer
+variant attains an MAE of 0.75, outperforming RoboReward-4B. Our full model improves to 0.72, trailing only the substantially larger RoboReward-8B and GPT-5-mini. The strong performance of the RoboReward-only variant highlights the benefit of our dual-objective training and augmentations even on narrower datasets.
+Finally, note that in our OOD evaluations in
+Table
+I
+, RoboReward-8B and 4B perform similarly, and GPT-5-mini with GVL performs markedly worse. We therefore attribute the stronger results of larger models on RoboRewardBench to its 5 discrete labels and its final-frame-only evaluation protocol.
+Relative Trajectory Rankings for Mixed Expertise Data.
+Next, we quantitatively demonstrate that
+Robometer
+is more effective than baselines at providing rewards useful for
+policy learning
+.
+For a robot policy to learn with rewards, the rewards should not only be high when performing the correct task, but also be low for incorrect execution.
+We measure this using the Kendall-
+τ
+a
+\tau_{a}
+coefficient
+[
+93
+]
+, an ordering metric
+∈
+[
+−
+1
+,
+1
+]
+\in[-1,1]
+robust to ties.
+We calculate the alignment between model-assigned final rewards and the ground-truth ordering between failed, suboptimal, and successful trajectories for the same task.
+A higher
+τ
+a
+\tau_{a}
+value demonstrates that the reward model more accurately distinguishes between levels of policy performance and thus can provide proper reward signals to the policy for both low- and high-quality behaviors.
+We report results in
+Table
+I
+(b). On
+RBM-EVAL-OOD
+,
+Robometer
+achieves a Kendall-
+τ
+a
+\tau_{a}
+of 0.66, substantially outperforming RoboReward-4B (0.50) and RoboReward-8B (0.47), indicating that
+Robometer
+more reliably recovers the correct ordering among failed, suboptimal, and successful trajectories.
+Notably, even when trained on the same data as RoboReward,
+Robometer
+outperforms RoboReward in both policy ranking and reward alignment, highlighting the effectiveness of our data augmentation strategies.
+To further illustrate this behavior, we visualize reward predictions over time for failed, suboptimal, and successful trajectories over time in
+Figure
+4
+.
+Robometer
+exhibits sharper separation in rewards between different levels of execution and accurately reflects regression in task progress.
+We also point to additional results in
+Appendix
+C
+evaluating preference prediction accuracy.
+Reward Fine-tuning.
+Finally, we demonstrate that
+Robometer
+serves as a good initialization for domain-specific fine-tuning. We fine-tune on RoboFAC
+[
+81
+]
+, a dataset of robotic failures and corrections spanning 16 tasks and 53 scenes (11k trajectories), including both simulated and real-world successes and failures.
+We adapt
+Robometer
+via LoRA
+[
+50
+]
+adapters and full fine-tuning (FFT).
+We compare against fine-tuning the base VLM
+Qwen/Qwen3-VL-4B-Instruct
+in the same way.
+In addition to the previous VOC
+r
+r
+and Ranking Kendall
+τ
+a
+\tau_{a}
+, we also compare a
+success - fail
+metric measuring the difference in final reward between successful and failed trajectories of the same task.
+Qwen3 fine-tuned still performs worse than
+Robometer
+zero-shot on 2 out of 3 metrics;
+fine-tuning from
+Robometer
+yields substantially better reward evaluation results than training Qwen3-VL from scratch across all of our ranking metrics (
+Table
+III
+).
+Importantly, LoRA and FFT perform similarly, demonstrating that
+Robometer
+can be effectively fine-tuned with just 1 GPU.
+See further experiment details in
+Appendix
+F
+.
+Method
+VOC
+r
+r
+↑
+\uparrow
+Kendall
+τ
+\tau
+↑
+\uparrow
+Succ-Fail Diff
+↑
+\uparrow
+Robometer
+-4B (Zero-shot)
+0.652
+0.436
+0.141
+Qwen3-VL (LoRA)
+0.701
+0.067
+0.005
+Qwen3-VL (Full FT)
+0.727
+0.102
+0.008
+Robometer
+-4B (LoRA)
+0.875
+0.786
+0.271
+Robometer
+-4B (FFT)
+0.884
+0.802
+0.302
+TABLE III:
+Finetuning
+Robometer
+on RoboFAC dataset.
+Zero-shot performance is strong, and fine-tuning the base Qwen3 VLM performs worse on Kendall
+τ
+\tau
+and success - fail difference compared to zero-shot
+Robometer
+. Meanwhile,
+Robometer
+fine-tuned performs best, either with LoRA or FFT.
+Overall, our results demonstrate that
+Robometer
+outperforms reward baselines
+in both
+generalization
+and
+distinguishing
+successful / failed trajectories, and that it also serves as a
+strong initialization for further fine-tuning
+.
+We next analyze
+why
+.
+IV-Q2
+Ablations: Why does
+Robometer
+Perform so Well?
+Here, we investigate individual components of
+Robometer
+to evaluate specific hypotheses about reward model training and its effects on downstream RL performance.
+H1
+Predicting
+preferences
+(
+Equation
+2
+), even without paired failure trajectories, improves reward performance.
+H2
+Scaling preference prediction with additional
+failure data
+leads to improved reward model performance.
+H3
+Fine-tuning from
+pre-trained VLMs
+helps with reward predictions on unseen tasks.
+Our main analysis is performed via a controlled setting with data from the LIBERO
+[
+79
+]
+robot manipulation simulated benchmark.
+We train models with 1,709 successful demos from
+LIBERO-{10, Object, Goal, Spatial}
+and evaluate performance on a sample of the 8,262 unseen, paired, successful and failed trajectories from
+LIBERO-90
+.
+(a) LIBERO-90
+(b)
+RBM-EVAL-OOD
+Ablation
+VOC
+r
+r
+Kendall
+τ
+\tau
+Suc
+−
+-
+Fail
+VOC
+r
+r
+Kendall
+τ
+\tau
+Suc
+−
+-
+Fail
+H1
+Prog. Only
+0.96
+0.63
+0.11
+0.93
+0.31
+0.08
+H1
++Preference
+0.90
+0.74
+0.22
+0.95
+0.54
+0.24
+H2
++Failed Data
+0.98
+0.92
+0.46
+0.95
+0.66
+0.33
+H3
+ReWiND Arch.
+0.48
+-0.14
+-0.02
+0.51
+0.01
+0.02
+TABLE IV:
+Reward alignment (VOC Pearson
+r
+r
+), policy ranking (Kendall
+τ
+\tau
+), and average reward difference between successful and failed trajectories on LIBERO-90 and
+RBM-EVAL-OOD
+.
+Fig. 5
+:
+RL w/ Ablation Models
+in LIBERO-90 tasks from scratch, corresponding to ablations trained only on LIBERO-10/Object/Goal/Spatial data from
+Table
+IV
+. We report the average success rate
+±
+\pm
+standard deviation across 5 seeds.
+Reward Model Ablations.
+To measure
+H1
+, we train
+Robometer
+with
+only
+progress prediction and also
+Robometer
+with both progress and preference prediction on the 1,709 demo dataset containing no failed trajectories.
+We then measure
+H2
+—about scaling with failure data for preference training—by adding in 1,929 generated, failed LIBERO trajectories and train
+Robometer
+with the full
+Robometer
+training objective of progress and preference prediction on the larger dataset.
+These LIBERO ablations are trained with LoRA
+[
+50
+]
+due to the small dataset size.
+Finally, we verify the importance of a pre-trained VLM (
+H3
+) by training a larger, 500M-parameter version of ReWiND’s transformer model (originally designed for low-data regimes) with our preference and progress objectives on the paired-failure LIBERO dataset.
+We depict results on LIBERO, and separately, trained on the full
+RBM-1M
+and evaluated on
+RBM-EVAL-OOD
+(with failed data removed for +Preference and +Failed Data), in
+Table
+IV
+.
+First, comparing
+H1 Prog. Only
+to
+H1 +Preference
+, adding preference supervision consistently improves policy ranking performance, increasing Kendall-
+τ
+a
+\tau_{a}
+from 0.63 to 0.74 on LIBERO-90 and from 0.31 to 0.54 on
+RBM-EVAL-OOD
+.
+Second,
+incorporating failed trajectories
+for preference training (
+H2 +Failed Data
+) yields the
+largest gains
+across all ranking-based metrics.
+On LIBERO-90, Kendall-
+τ
+\tau
+improves to 0.92 and the average difference in final rewards between success–failure increases more than 4
+×
+\times
+relative to progress-only training.
+Similar trends hold on
+RBM-EVAL-OOD
+, where Kendall-
+τ
+\tau
+increases from 0.54 to 0.66 and the success–failure separation improves from 0.24 to 0.33.
+Finally, replacing the pretrained VLM backbone with a scaled variant of ReWiND’s architecture (
+H3 ReWiND Arch.
+) results in a severe degradation across all metrics, confirming that large-scale multimodal pretrained backbone is essential for learning generalizable reward representations.
+See
+Appendix
+D
+for additional ablations.
+Ablation Results on RL Performance.
+Before moving to our full policy learning experiments, we verify that the reward evaluation metric trends observed in our ablation studies hold for policy learning. We train policies via online RL using the ablated reward models on two tasks from the unseen LIBERO-90 suite.
+These two tasks were specifically selected because sparse-reward RL stably learns to a near-100% success rate, allowing us to directly compare sample efficiency.
+Results in
+Figure
+5
+demonstrate that improvements in reward evaluation metrics consistently transfer to policy success rates. For both tasks, policies trained using
+Robometer
+(the
+H2
+LIBERO model) demonstrate better sample efficiency than ablations (
+H1
+LIBERO models) and sparse reward, highlighting the importance of dense, well-calibrated reward signals for efficient policy optimization.
+Overall,
+Robometer
+trained only on LIBERO achieves
+𝟐
+−
+𝟒
+×
+\mathbf{2-4\times}
+better sample efficiency
+than sparse reward on these unseen tasks.
+Additional details of the RL training setup are provided in
+Appendix
+E
+.
+Fig. 6
+:
+Automatic online RL
+with DSRL on a DROID setup with
+Robometer
+improves
+π
+0
+\pi_{0}
+from 20% to 85% on a single-stage task and 20% to 70% on a two-stage task, outperforming RoboReward’s overall success rate by
+2.5
+×
+2.5\times
+. DSRL with
+Robometer
+learns to avoid base
+π
+0
+\pi_{0}
+errors such as collisions or moving the wrong object. The setup is deemed “automatic” because success detection and stage advancement are handled automatically by the reward model, requiring human intervention only for physical scene resets.
+IV-Q3
+Accelerating Robot Learning with Generalizable Rewards
+We evaluate whether
+Robometer
+’s dense and generalizable reward signals can be used
+zero-shot
+into improved downstream robot learning across four settings, including both prehensile and non-prehensile tasks: (1) automatic online RL, (2) offline RL with mixed-expertise data, (3) data filtering and retrieval for policy improvement, and (4) out-of-distribution failure detection.
+Across all experiments, we compare against RoboReward-4B—the strongest baseline reward model in our offline evaluations—to assess how
+Robometer
+’s dense, instruction-aligned rewards affect learning stability, robustness, and sample efficiency.
+We also compare against strong, relevant, non-reward-model baselines for each setting where applicable.
+All policy learning results are averaged over 20 evaluation trials.
+Additional details and finer-grained results on each experiment can be found in
+Appendix
+E
+.
+Fig. 7
+:
+Offline RL
+results using IQL on a mixture of Noisy and Expert trajectories.
+Robometer
+rewards consistently outperform both RoboReward and sparse rewards:
+2.4
+×
+2.4\times
+average success rate improvement over the best baseline for each task.
+Automatic Online RL.
+First, we evaluate
+Robometer
+in an
+automated
+online RL setting by training DSRL
+[
+120
+]
+from scratch on a
+π
+0
+\pi_{0}
+base policy
+[
+14
+]
+pre-trained on DROID
+[
+63
+]
+.
+Robometer
+enables autonomous RL by providing dense rewards and explicit
+success predictions
+, which we use to automate episode termination; manual human intervention is required only for physical scene resets. For comparison, RoboReward’s discrete scores are also used for both reward shaping and success detection.
+As shown in
+Figure
+6
+(left), DSRL+
+Robometer
+improves success from
+20
+%
+20\%
+to
+85
+%
+85\%
+in
+≤
+45
+\leq 45
+minutes
+(10k timesteps), outperforming RoboReward’s
+55
+%
+55\%
+. This gap arises from a key failure mode of RoboReward: it frequently assigns maximum rewards for unrelated tasks (e.g., picking up the wrong object), leading to premature resets and reinforcing incorrect behaviors. In contrast,
+Robometer
+provides a more reliable learning signal.
+Next, we evaluate a
+longer-horizon multi-stage RL
+setting in
+Figure
+6
+(right), where success predictions trigger progression between stages. Unlike methods that explicitly train with multi-stage rewards and thus require stage labels (e.g., REDS
+[
+64
+]
+or SARM
+[
+19
+]
+), we simply decompose tasks into stages at inference time using a pre-trained VLM and use
+Robometer
+to advance stages automatically. In this setting, DSRL+
+Robometer
+improves
+π
+0
+\pi_{0}
+’s success from
+20
+%
+20\%
+to
+70
+%
+70\%
+over 10k timesteps, outperforming RoboReward’s 20%, which suffers from inaccurate rewards and unreliable stage transitions.
+Across both setups,
+Robometer
+outperforms RoboReward’s overall success rate by an average of
+2.5
+×
+\mathbf{2.5\times}
+.
+Finally, we perform an additional online RL experiment—
+model-based RL
+integrating
+Robometer
+into DreamZero
+[
+130
+]
+—where
+Robometer
+improves DreamZero’s success rate from 20% to 70%. See details and results in
+Appendix
+G
+.
+Combining Noisy and Expert Data via Offline RL.
+We consider an offline RL setting with mixed-expertise data for two tasks on an SO-101 robot (SO-101 is not in
+RBM-1M
+), combining expert and noisy, suboptimal demos, as shown in
+Figure
+7
+.
+We train policies with Implicit Q-Learning (IQL)
+[
+67
+]
+to study how dense rewards from
+Robometer
+improve learning stability and policy extraction in offline RL.
+Accurate, dense reward signals can provide informative intermediate feedback, reducing reliance on long-horizon credit assignment and enabling trajectory “stitching” with smaller discount factors
+γ
+\gamma
+, thereby reducing value function variance.
+For each of sparse reward, RoboReward, and
+Robometer
+, we sweep
+γ
+∈
+0.90
+,
+0.95
+,
+0.99
+\gamma\in{0.90,0.95,0.99}
+and report the best-performing checkpoint over 30,000 offline training steps.
+We observe that
+Robometer
+, which provides dense, temporally aligned rewards, performs best at a lower discount factor
+γ
+=
+0.9
+\gamma=0.9
+and outperforms both RoboReward and sparse rewards across both tasks with a
+2.4
+×
+\mathbf{2.4\times}
+success rate improvement over the best baseline in each.
+RoboReward performs similarly to sparse reward across the
+γ
+\gamma
+sweep due to its categorical 1-5 rewards providing less dense guidance than
+Robometer
+’s dense rewards.
+Fig. 8
+:
+(a): Proportion of task-relevant subtrajectories
+out of 100 retrieval queries. Our method consistently retrieves a high number of relevant subtrajectories using either the preference or progress objective.
+(b): Success rates
+of LoRA-finetuned
+π
+0.5
+\pi_{0.5}
+policies using the retrieved trajectories from each method. Small amounts of suboptimal & unrelated data retrieved by other baselines degrade policy-learning performance:
+Robometer
+-retrieval attains an average
+4.5
+×
+4.5\times
+success rate improvement over the best baseline.
+Data Filtering & Retrieval.
+We next evaluate
+Robometer
+as a mechanism for unsupervised data filtering and retrieval. Using a bimanual “play” dataset
+[
+83
+]
+of unannotated, multi-task trajectories collected on a Trossen AI setup (not in
+RBM-1M
+), we retrieve the top 100 subtrajectories for a given task instruction. We compare retrieval relevance against RoboReward, pre-trained SigLIP
+[
+134
+]
+, and a retrieval-specific baseline, STRAP
+[
+90
+]
+.
+For
+Robometer
+we retrieve subtrajectories using (i) the preference objective via pairwise trajectory comparisons, or (ii) the progress objective by computing per-timestep progress values and each trajectory’s value–order correlation.
+As shown in
+Figure
+8
+(a),
+Robometer
+consistently achieves higher retrieval relevance across five tasks.
+Finally, we LoRA-finetune
+π
+0.5
+\pi_{0.5}
+[
+50
+,
+80
+,
+58
+]
+on these retrieved segments.
+Policies trained on
+Robometer
+-filtered data vastly outperform those using baseline-retrieved data on
+Stir the Pot
+and
+Open the Red Drawer
+(
+Figure
+8
+(b)), demonstrating its efficacy for targeted imitation learning.
+Low baseline success rates despite high retrieval rates stem from their retrieval of more failed and suboptimal, yet task-relevant, subtrajectories.
+Overall,
+Robometer
+-retrieval averages a
+4.5
+×
+\mathbf{4.5\times}
+higher success rate than the best baseline in each task.
+Task
+T.U.
+VLAC
+GPT-5-mini
+RoboReward
+-4B
+Robometer
+move banana
+0.53
+0.45
+0.48
+0.91
+0.94
+move mouse
+0.50
+0.00
+0.89
+0.80
+0.91
+pour pebble
+0.32
+0.00
+0.25
+0.73
+0.83
+fold towel
+0.58
+0.16
+0.27
+0.40
+0.58
+pull tissue
+0.43
+0.00
+0.00
+0.57
+0.76
+put spoon
+0.22
+0.00
+0.25
+0.73
+0.73
+stir pot
+0.47
+0.00
+0.17
+0.95
+0.90
+Average
+0.48
+0.16
+0.33
+0.74
+0.81
+TABLE V:
+Failure detection performance
+. Our method achieves the highest average F1 score across tasks. T.U. stands for the token-uncertainty baseline.
+(a)
+Object dropped during transport.
+(b)
+Oscillatory behavior without task completion.
+Fig. 9
+:
+Failure Detection Examples.
+(a):
+Terminal events such as drops cause a sharp regression in predicted task progress, which
+Robometer
+flags shortly after the event.
+(b):
+Non-terminal failures correctly exhibit oscillatory progress with
+Robometer
+.
+Failure Detection.
+Detecting failures during online deployment is critical for safe robotic operation. Thus, we evaluate
+Robometer
+’s zero-shot failure detection on 100 manipulation trajectories from a Franka Panda DROID robot (30 successful, 70 failed) spanning seven tasks collected in scenes unseen in
+RBM-1M
+. Failures are evenly split between irreversible failures (e.g., drops or spills) and insufficient-progress failures, where execution stalls or terminates prematurely. We compare our method against: the token-uncertainty
+[
+40
+]
+of
+π
+0
+\pi_{0}
+-FAST-DROID
+[
+101
+]
+as proposed by
+Gu et al. [40]
+for zero-shot failure detection, VLAC, which reports failure detection results in prior work, GPT-5-mini, and RoboReward-4B.
+Failures are detected via temporal inconsistencies in predicted per-frame rewards.
+As shown in Table
+V
+,
+Robometer
+achieves the highest average F1 score, effectively balancing true positive and true negative rates (TPR and TNR); the full breakdown with TPR and TNR is provided in Appendix Table
+XXIII
+.
+VLAC frequently flags trajectories as failures, achieving high TPR but low TNR, resulting in lower F1 scores.
+RoboReward-4B performs competitively but underperforms
+Robometer
+, particularly on tasks with subtle failure modes such as
+fold towel
+and
+pull tissue
+.
+Figure
+9
+illustrates representative failure cases.
+Irreversible failures such as object drops induce sharp regressions in predicted task progress, which
+Robometer
+flags shortly after the event, while non-terminal failures exhibit stagnating or oscillatory progress without convergence to success.
+As detailed in
+Section
+E-3
+,
+Robometer
+robustly detects irreversible, insufficient-progress, and non-terminal failures (e.g., hovering, oscillation, or partial completion), fully zero-shot across tasks and environments—unlike prior methods that require task-specific thresholds, calibration, or test-time interaction
+[
+40
+,
+126
+,
+4
+]
+.
+V
+Limitations and Future Work
+Robometer
+operates as a frame-based reward model over temporally subsampled video inputs (e.g., 8 frames per trajectory), which enables scalable training but limits its ability to capture fine-grained temporal dynamics and long-horizon structure.
+In addition, real-world robot executions exhibit a wide diversity of failure modes, many of which are rare, subtle, or task-specific, and the current training data may not fully capture this breadth.
+As a result,
+Robometer
+may fail to recognize or correctly reward certain failure cases that fall outside the dominant patterns seen during training.
+As a vision-language-based model,
+Robometer
+also lacks direct access to latent physical state such as contact forces, grasp stability, or compliance, and may fail to recognize or correctly reward failure cases driven by these factors until they become visually observable.
+Future work could address these limitations by incorporating denser temporal modeling, VQA-style supervision to reason about task structure and completion criteria, and off-domain data for better generalization
+[
+75
+,
+135
+]
+, as well as by developing more systematically curated failure datasets that better reflect the diversity of real-world failure modes
+[
+117
+]
+.
+Acknowledgments
+We thank Chuning Zhu and Kaiyuan (Kyle) Zheng for testing out
+Robometer
+integrated with DreamZero and providing us with starter code for our model-based RL experiment.
+Additionally, we thank Harine Ravichandiran for helping supervise an online RL run and Matthew Hong for helping us with task selection for our LIBERO RL ablation experiments.
+Anthony L, YK, and EB acknowledge funding by the Airbus Institute for Engineering Research (AIER);
+Jesse Z, LZ, and DF acknowledge support by the Cross-Pacific AI Initiative from Amazon;
+Jesse Z and AG are partly supported by funding from Amazon FAR through the Amazon Science Hub;
+Jesse Z and DF acknowledge support by Amazon and Toyota Research Institute;
+MH and AB acknowledge funding from the Tata Group via the MIT Generative AI Impact Consortium (MGAIC) Award;
+Jiahui Z and YX acknowledge funding from the National Science Foundation (NSF) under Grant No. 2520553.
+Additionally, we thank the UW Hyak and Tillicum high-performance computing clusters and USC Center for Advanced Research Computing (CARC) for providing us with compute resources.
+References
+[1]
+P. Abbeel and A. Y. Ng
+(2004)
+Apprenticeship learning via inverse reinforcement learning
+.
+In
+International Conference on Machine Learning (ICML)
+,
+Cited by:
+§II
+.
+[2]
+A. Adeniji, A. Xie, C. Sferrazza, Y. Seo, S. James, and P. Abbeel
+(2024)
+Language reward modulation for pretraining reinforcement learning
+.
+arXiv preprint arXiv:2308.12270
+.
+Cited by:
+§II
+.
+[3]
+C. Agia, R. Sinha, J. Yang, R. Antonova, M. Pavone, H. Nishimura, M. Itkina, and J. Bohg
+(2025)
+CUPID: curating data your robot loves with influence functions
+.
+In
+Conference on Robot Learning (CoRL)
+,
+Cited by:
+§E-4
+.
+[4]
+C. Agia, R. Sinha, J. Yang, Z. Cao, R. Antonova, M. Pavone, and J. Bohg
+(2025)
+Unpacking failure modes of generative policies: runtime monitoring of consistency and progress
+.
+In
+Conference on Robot Learning (CoRL)
+,
+Cited by:
+§IV-Q3
+.
+[5]
+P. Atreya, K. Pertsch, T. Lee, M. J. Kim, A. Jain, A. Kuramshin, C. Eppner, C. Neary, E. Hu, F. Ramos,
+et al.
+(2025)
+RoboArena: distributed real-world evaluation of generalist robot policies
+.
+In
+Conference on Robot Learning (CoRL)
+,
+Cited by:
+§A-11
+,
+§A-13
+,
+TABLE IX
+,
+§III-A
+,
+5th item
+.
+[6]
+S. Bai, Y. Cai, R. Chen, K. Chen, X. Chen, Z. Cheng, L. Deng, W. Ding, C. Gao, C. Ge, W. Ge, Z. Guo, Q. Huang, J. Huang, F. Huang, B. Hui, S. Jiang, Z. Li, M. Li, M. Li, K. Li, Z. Lin, J. Lin, X. Liu, J. Liu, C. Liu, Y. Liu, D. Liu, S. Liu, D. Lu, R. Luo, C. Lv, R. Men, L. Meng, X. Ren, X. Ren, S. Song, Y. Sun, J. Tang, J. Tu, J. Wan, P. Wang, P. Wang, Q. Wang, Y. Wang, T. Xie, Y. Xu, H. Xu, J. Xu, Z. Yang, M. Yang, J. Yang, A. Yang, B. Yu, F. Zhang, H. Zhang, X. Zhang, B. Zheng, H. Zhong, J. Zhou, F. Zhou, J. Zhou, Y. Zhu, and K. Zhu
+(2025)
+Qwen3-vl technical report
+.
+arXiv preprint arXiv:2511.21631
+.
+Cited by:
+§A-13
+,
+§B-1
+.
+[7]
+S. Bai, K. Chen, X. Liu, J. Wang, W. Ge, S. Song, K. Dang, P. Wang, S. Wang, J. Tang,
+et al.
+(2025)
+Qwen2. 5-vl technical report
+.
+arXiv preprint arXiv:2502.13923
+.
+Cited by:
+§B-1
+.
+[8]
+A. Bajcsy, D. P. Losey, M. K. O’Malley, and A. D. Dragan
+(2018)
+Learning from physical human corrections, one feature at a time
+.
+In
+International Conference on Human-Robot Interaction (HRI)
+,
+Cited by:
+§II
+.
+[9]
+Y. Bao, S. Ghosh, and J. Chai
+(2022)
+Learning to mediate disparities towards pragmatic communication
+.
+arXiv preprint arXiv:2203.13685
+.
+Cited by:
+§B-2
+.
+[10]
+S. Belkhale, Y. Cui, and D. Sadigh
+(2023)
+HYDRA: hybrid robot actions for imitation learning
+.
+In
+Conference on Robot Learning (CoRL)
+,
+Cited by:
+§A-11
+.
+[11]
+M. G. Bellemare, W. Dabney, and R. Munos
+(2017)
+A distributional perspective on reinforcement learning
+.
+In
+International Conference on Machine Learning (ICML)
+,
+Cited by:
+§III-C
+.
+[12]
+H. Bharadhwaj, J. Vakil, M. Sharma, A. Gupta, S. Tulsiani, and V. Kumar
+(2023)
+RoboAgent: generalization and efficiency in robot manipulation via semantic augmentations and action chunking
+.
+arXiv preprint arXiv:2309.01918
+.
+Cited by:
+§A-11
+.
+[13]
+E. Biyik, N. Huynh, M. J. Kochenderfer, and D. Sadigh
+(2020)
+Active preference-based gaussian process regression for reward learning
+.
+In
+Robotics: Science and Systems (RSS)
+,
+Cited by:
+§II
+.
+[14]
+K. Black, N. Brown, D. Driess, A. Esmail, M. Equi, C. Finn, N. Fusai, L. Groom, K. Hausman, B. Ichter, S. Jakubczak, T. Jones, L. Ke, S. Levine, A. Li-Bell, M. Mothukuri, S. Nair, K. Pertsch, L. X. Shi, J. Tanner, Q. Vuong, A. Walling, H. Wang, and U. Zhilinsky
+(2024)
+π
+0
+\pi_{0}
+: A vision-language-action flow model for general robot control
+.
+arXiv preprint arxiv:2410.24164
+.
+Cited by:
+§IV-Q3
+.
+[15]
+A. Bobu, M. Wiggert, C. Tomlin, and A. D. Dragan
+(2021)
+Feature expansive reward learning: rethinking human input
+.
+In
+ACM/IEEE International Conference on Human-Robot Interaction (HRI)
+,
+Cited by:
+§II
+.
+[16]
+R. A. Bradley and M. E. Terry
+(1952)
+Rank analysis of incomplete block designs: i. the method of paired comparisons
+.
+Biometrika
+39
+,
+pp. 324
+.
+Cited by:
+§B-2
+.
+[17]
+A. Brohan, N. Brown, J. Carbajal, Y. Chebotar, J. Dabis, C. Finn, K. Gopalakrishnan, K. Hausman, A. Herzog, J. Hsu, J. Ibarz, B. Ichter, A. Irpan, T. Jackson, S. Jesmonth, N. J. Joshi, R. Julian, D. Kalashnikov, Y. Kuang, I. Leal, K. Lee, S. Levine, Y. Lu, U. Malla, D. Manjunath, I. Mordatch, O. Nachum, C. Parada, J. Peralta, E. Perez, K. Pertsch, J. Quiambao, K. Rao, M. Ryoo, G. Salazar, P. Sanketi, K. Sayed, J. Singh, S. Sontakke, A. Stone, C. Tan, H. Tran, V. Vanhoucke, S. Vega, Q. Vuong, F. Xia, T. Xiao, P. Xu, S. Xu, T. Yu, and B. Zitkovich
+(2023)
+RT-1: robotics transformer for real-world control at scale
+.
+In
+Robotics: Science and Systems (RSS)
+,
+Cited by:
+§A-11
+.
+[18]
+P. Budzianowski, E. Wiśnios, G. Góral, I. Kulakov, V. Petrenko, and K. Walas
+(2025)
+OpenGVL: benchmarking visual temporal progress for data curation
+.
+arXiv preprint arXiv:2509.17321
+.
+Cited by:
+§II
+.
+[19]
+Q. Chen, J. Yu, M. Schwager, P. Abbeel, F. Shentu, and P. Wu
+(2025)
+SARM: stage-aware reward modeling for long horizon robot manipulation
+.
+arXiv preprint arXiv:2509.25358
+.
+Cited by:
+§I
+,
+§II
+,
+item 3
+,
+§III-C
+,
+§IV-Q3
+.
+[20]
+S. Chen, C. Harrison, Y. Lee, A. J. Yang, Z. Ren, L. J. Ratliff, J. Duan, D. Fox, and R. Krishna
+(2026)
+TOPReward: token probabilities as hidden zero-shot rewards for robotics
+.
+arXiv preprint arXiv:2602.19313
+.
+Cited by:
+§II
+.
+[21]
+Z. Chen, J. Wu, W. Wang, W. Su, G. Chen, S. Xing, M. Zhong, Q. Zhang, X. Zhu, L. Lu,
+et al.
+(2024)
+Internvl: scaling up vision foundation models and aligning for generic visual-linguistic tasks
+.
+In
+Conference on Computer Vision and Pattern Recognition (CVPR)
+,
+Cited by:
+Appendix C
+.
+[22]
+P. F. Christiano, J. Leike, T. B. Brown, M. Martic, S. Legg, and D. Amodei
+(2017)
+Deep reinforcement learning from human preferences
+.
+In
+Advances in Neural Information Processing Systems (NeurIPS)
+,
+Cited by:
+§B-2
+,
+§II
+.
+[23]
+O. X. Collaboration, A. O’Neill, A. Rehman, A. Gupta, A. Maddukuri, A. Gupta, A. Padalkar, A. Lee, A. Pooley, A. Gupta, A. Mandlekar, A. Jain, A. Tung, A. Bewley, A. Herzog, A. Irpan, A. Khazatsky, A. Rai, A. Gupta, A. Wang, A. Kolobov, A. Singh, A. Garg, A. Kembhavi, A. Xie, A. Brohan, A. Raffin, A. Sharma, A. Yavary, A. Jain, A. Balakrishna, A. Wahid, B. Burgess-Limerick, B. Kim, B. Schölkopf, B. Wulfe, B. Ichter, C. Lu, C. Xu, C. Le, C. Finn, C. Wang, C. Xu, C. Chi, C. Huang, C. Chan, C. Agia, C. Pan, C. Fu, C. Devin, D. Xu, D. Morton, D. Driess, D. Chen, D. Pathak, D. Shah, D. Büchler, D. Jayaraman, D. Kalashnikov, D. Sadigh, E. Johns, E. Foster, F. Liu, F. Ceola, F. Xia, F. Zhao, F. V. Frujeri, F. Stulp, G. Zhou, G. S. Sukhatme, G. Salhotra, G. Yan, G. Feng, G. Schiavi, G. Berseth, G. Kahn, G. Yang, G. Wang, H. Su, H. Fang, H. Shi, H. Bao, H. B. Amor, H. I. Christensen, H. Furuta, H. Bharadhwaj, H. Walke, H. Fang, H. Ha, I. Mordatch, I. Radosavovic, I. Leal, J. Liang, J. Abou-Chakra, J. Kim, J. Drake, J. Peters, J. Schneider, J. Hsu, J. Vakil, J. Bohg, J. Bingham, J. Wu, J. Gao, J. Hu, J. Wu, J. Wu, J. Sun, J. Luo, J. Gu, J. Tan, J. Oh, J. Wu, J. Lu, J. Yang, J. Malik, J. Silvério, J. Hejna, J. Booher, J. Tompson, J. Yang, J. Salvador, J. J. Lim, J. Han, K. Wang, K. Rao, K. Pertsch, K. Hausman, K. Go, K. Gopalakrishnan, K. Goldberg, K. Byrne, K. Oslund, K. Kawaharazuka, K. Black, K. Lin, K. Zhang, K. Ehsani, K. Lekkala, K. Ellis, K. Rana, K. Srinivasan, K. Fang, K. P. Singh, K. Zeng, K. Hatch, K. Hsu, L. Itti, L. Y. Chen, L. Pinto, L. Fei-Fei, L. Tan, L. ”. Fan, L. Ott, L. Lee, L. Weihs, M. Chen, M. Lepert, M. Memmel, M. Tomizuka, M. Itkina, M. G. Castro, M. Spero, M. Du, M. Ahn, M. C. Yip, M. Zhang, M. Ding, M. Heo, M. K. Srirama, M. Sharma, M. J. Kim, N. Kanazawa, N. Hansen, N. Heess, N. J. Joshi, N. Suenderhauf, N. Liu, N. D. Palo, N. M. M. Shafiullah, O. Mees, O. Kroemer, O. Bastani, P. R. Sanketi, P. ”. Miller, P. Yin, P. Wohlhart, P. Xu, P. D. Fagan, P. Mitrano, P. Sermanet, P. Abbeel, P. Sundaresan, Q. Chen, Q. Vuong, R. Rafailov, R. Tian, R. Doshi, R. Mart’in-Mart’in, R. Baijal, R. Scalise, R. Hendrix, R. Lin, R. Qian, R. Zhang, R. Mendonca, R. Shah, R. Hoque, R. Julian, S. Bustamante, S. Kirmani, S. Levine, S. Lin, S. Moore, S. Bahl, S. Dass, S. Sonawani, S. Tulsiani, S. Song, S. Xu, S. Haldar, S. Karamcheti, S. Adebola, S. Guist, S. Nasiriany, S. Schaal, S. Welker, S. Tian, S. Ramamoorthy, S. Dasari, S. Belkhale, S. Park, S. Nair, S. Mirchandani, T. Osa, T. Gupta, T. Harada, T. Matsushima, T. Xiao, T. Kollar, T. Yu, T. Ding, T. Davchev, T. Z. Zhao, T. Armstrong, T. Darrell, T. Chung, V. Jain, V. Kumar, V. Vanhoucke, W. Zhan, W. Zhou, W. Burgard, X. Chen, X. Chen, X. Wang, X. Zhu, X. Geng, X. Liu, X. Liangwei, X. Li, Y. Pang, Y. Lu, Y. J. Ma, Y. Kim, Y. Chebotar, Y. Zhou, Y. Zhu, Y. Wu, Y. Xu, Y. Wang, Y. Bisk, Y. Dou, Y. Cho, Y. Lee, Y. Cui, Y. Cao, Y. Wu, Y. Tang, Y. Zhu, Y. Zhang, Y. Jiang, Y. Li, Y. Li, Y. Iwasawa, Y. Matsuo, Z. Ma, Z. Xu, Z. J. Cui, Z. Zhang, Z. Fu, and Z. Lin
+(2024)
+Open X-Embodiment: robotic learning datasets and RT-X models
+.
+In
+International Conference on Robotics and Automation (ICRA)
+,
+Cited by:
+§A-11
+,
+TABLE VII
+,
+TABLE IX
+,
+§III-A
+,
+5th item
+.
+[24]
+A. W. C. contributors
+(2024)
+AgiBot world colosseum
+.
+Cited by:
+§A-11
+,
+TABLE IX
+,
+§III-A
+.
+[25]
+Y. Cui, S. Niekum, A. Gupta, V. Kumar, and A. Rajeswaran
+(2022)
+Can foundation models perform zero-shot task specification for robot manipulation?
+.
+In
+Learning for Dynamics and Control Conference (L4DC)
+,
+Cited by:
+§II
+.
+[26]
+Y. Dai, J. Lee, N. Fazeli, and J. Chai
+(2025)
+Racer: rich language-guided failure recovery policies for imitation learning
+.
+In
+International Conference on Robotics and Automation (ICRA)
+,
+Cited by:
+§A-13
+,
+TABLE VII
+,
+TABLE IX
+.
+[27]
+D. Damen, H. Doughty, G. M. Farinella, A. Furnari, J. Ma, E. Kazakos, D. Moltisanti, J. Munro, T. Perrett, W. Price, and M. Wray
+(2022)
+Rescaling egocentric vision: collection, pipeline and challenges for epic-kitchens-100
+.
+International Journal of Computer Vision (IJCV)
+130
+,
+pp. 33–55
+.
+Cited by:
+§A-14
+,
+TABLE IX
+,
+§III-A
+.
+[28]
+S. Dass, J. Yapeter, J. Zhang, J. Zhang, K. Pertsch, S. Nikolaidis, and J. J. Lim
+(2023)
+CLVR jaco play dataset
+.
+Cited by:
+§A-11
+.
+[29]
+M. Du, S. Nair, D. Sadigh, and C. Finn
+(2023)
+Behavior retrieval: few-shot imitation learning by querying unlabeled datasets
+.
+In
+Robotics: Science and Systems (RSS)
+,
+Cited by:
+§E-4
+.
+[30]
+Y. Du, K. Konyushkova, M. Denil, A. Raju, J. Landon, F. Hill, N. de Freitas, and S. Cabi
+(2023)
+Vision-language models as success detectors
+.
+In
+Conference on Lifelong Learning Agents
+,
+Cited by:
+§II
+.
+[31]
+L. Fan, G. Wang, Y. Jiang, A. Mandlekar, Y. Yang, H. Zhu, A. Tang, D. Huang, Y. Zhu, and A. Anandkumar
+(2022)
+MineDojo: building open-ended embodied agents with internet-scale knowledge
+.
+In
+Conference on Neural Information Processing Systems Datasets and Benchmarks Track
+,
+Cited by:
+§II
+.
+[32]
+H. Fang, H. Fang, Z. Tang, J. Liu, C. Wang, J. Wang, H. Zhu, and C. Lu
+(2023)
+Rh20t: a comprehensive robotic dataset for learning diverse skills in one-shot
+.
+arXiv preprint arXiv:2307.00595
+.
+Cited by:
+§A-12
+,
+TABLE IX
+,
+§III-A
+.
+[33]
+C. Finn, S. Levine, and P. Abbeel
+(2016)
+Guided cost learning: deep inverse optimal control via policy optimization
+.
+In
+International Conference on Machine Learning (ICML)
+,
+Cited by:
+§II
+.
+[34]
+J. Fu, K. Luo, and S. Levine
+(2018)
+Learning robust rewards with adversarial inverse reinforcement learning
+.
+In
+International Conference on Learning Representations (ICLR)
+,
+Cited by:
+§II
+.
+[35]
+J. Fu, A. Singh, D. Ghosh, L. Yang, and S. Levine
+(2018)
+Variational inverse control with events: a general framework for data-driven reward definition
+.
+In
+Advances in Neural Information Processing Systems (NeurIPS)
+,
+Cited by:
+§II
+.
+[36]
+Y. Fu, H. Zhang, D. Wu, W. Xu, and B. Boulet
+(2024)
+FuRL: visual-language models as fuzzy rewards for reinforcement learning
+.
+In
+Internatonal Conference on Machine Learning (ICML)
+,
+Cited by:
+§II
+.
+[37]
+Y. Fu, H. Zhang, D. Wu, W. Xu, and B. Boulet
+(2024)
+Robot policy learning with temporal optimal transport reward
+.
+In
+Conference on Neural Information Processing Systems (NeurIPS)
+,
+Cited by:
+§II
+.
+[38]
+Z. Fu, T. Z. Zhao, and C. Finn
+(2024)
+Mobile aloha: learning bimanual mobile manipulation with low-cost whole-body teleoperation
+.
+In
+Conference on Robot Learning (CoRL)
+,
+Cited by:
+§A-11
+.
+[39]
+S. K. S. Ghasemipour, A. Wahid, J. Tompson, P. R. Sanketi, and I. Mordatch
+(2025)
+Self-improving embodied foundation models
+.
+In
+Advances in Neural Information Processing Systems (NeurIPS)
+,
+Cited by:
+§II
+.
+[40]
+Q. Gu, Y. Ju, S. Sun, I. Gilitschenski, H. Nishimura, M. Itkina, and F. Shkurti
+(2025)
+SAFE: multitask failure detection for vision-language-action models
+.
+In
+Conference on Neural Information Processing Systems (NeurIPS)
+,
+Cited by:
+§E-3
+,
+§I
+,
+§IV-Q3
+,
+§IV-Q3
+.
+[41]
+L. Guan, Y. Zhou, D. Liu, Y. Zha, H. B. Amor, and S. Kambhampati
+(2024)
+Task success is not enough: investigating the use of video-language models as behavior critics for catching undesirable agent behaviors
+.
+In
+Conference on Language Modeling (COLM)
+,
+Cited by:
+§II
+.
+[42]
+T. Haarnoja, A. Zhou, P. Abbeel, and S. Levine
+(2018)
+Soft actor-critic: off-policy maximum entropy deep reinforcement learning with a stochastic actor
+.
+In
+International Conference on Machine Learning (ICML)
+,
+Cited by:
+§E-1
+,
+§E-2
+.
+[43]
+S. Haldar, V. Mathur, D. Yarats, and L. Pinto
+(2023)
+Watch and match: supercharging imitation with regularized optimal transport
+.
+In
+Conference on Robot Learning (CoRL)
+,
+Cited by:
+§A-11
+.
+[44]
+J. Hejna, S. Mirchandani, A. Balakrishna, A. Xie, A. Wahid, J. Tompson, P. Sanketi, D. Shah, C. Devin, and D. Sadigh
+(2025)
+Robot data curation with mutual information estimators
+.
+In
+Robotics: Science and Systems (RSS)
+,
+Cited by:
+§E-4
+.
+[45]
+J. Hejna and D. Sadigh
+(2022)
+Few-shot preference learning for human-in-the-loop rl
+.
+In
+Conference on Robot Learning (CoRL)
+,
+Cited by:
+§II
+.
+[46]
+M. Heo, Y. Lee, D. Lee, and J. J. Lim
+(2023)
+FurnitureBench: reproducible real-world benchmark for long-horizon complex manipulation
+.
+In
+Robotics: Science and Systems (RSS)
+,
+Cited by:
+§A-11
+.
+[47]
+J. Ho and S. Ermon
+(2016)
+Generative adversarial imitation learning
+.
+In
+Advances in Neural Information Processing Systems (NeurIPS)
+,
+Cited by:
+§II
+.
+[48]
+M. Hong, A. Liang, K. Kim, H. Rajaprakash, J. Thomason, E. Bıyık, and J. Zhang
+(2026)
+HAND me the data: fast robot adaptation via hand path retrieval
+.
+In
+International Conference on Robotics and Automation (ICRA)
+,
+Cited by:
+§E-4
+.
+[49]
+R. Hoque, P. Huang, D. J. Yoon, M. Sivapurapu, and J. Zhang
+(2025)
+EgoDex: learning dexterous manipulation from large-scale egocentric video
+.
+arXiv preprint arXiv:2505.11709
+.
+Cited by:
+§A-14
+.
+[50]
+E. J. Hu, Y. Shen, P. Wallis, Z. Allen-Zhu, Y. Li, S. Wang, L. Wang, and W. Chen
+(2022)
+LoRA: low-rank adaptation of large language models
+.
+In
+International Conference on Learning Representations (ICLR)
+,
+Cited by:
+§IV-Q1
+,
+§IV-Q2
+,
+§IV-Q3
+.
+[51]
+Y. Huang, S. Zou, J. Zhang, X. Liu, R. Hu, and K. Xu
+(2025)
+AdaPower: specializing world foundation models for predictive manipulation
+.
+arXiv preprint arXiv:2512.035358
+.
+Cited by:
+item 3
+.
+[52]
+Y. Huang, J. Song, Z. Wang, S. Zhao, H. Chen, F. Juefei-Xu, and L. Ma
+(2023)
+Look before you leap: an exploratory study of uncertainty measurement for large language models
+.
+arXiv preprint arXiv:2307.10236
+.
+Cited by:
+§E-3
+.
+[53]
+K. Hung, P. Lo, J. Yeh, H. Hsu, Y. Chen, and W. H. Hsu
+(2025)
+VICtor: learning hierarchical vision-instruction correlation rewards for long-horizon manipulation
+.
+In
+International Conference on Learning Representations (ICLR)
+,
+Cited by:
+§II
+.
+[54]
+M. Hwang, A. Forsey-Smerek, N. Dennler, and A. Bobu
+(2025)
+Masked irl: llm-guided reward disambiguation from demonstrations and language
+.
+arXiv preprint arXiv:2511.14565
+.
+Cited by:
+§II
+.
+[55]
+M. Hwang, J. Hejna, D. Sadigh, and Y. Bisk
+(2025)
+Motif: motion instruction fine-tuning
+.
+IEEE Robotics and Automation Letters (RA-L)
+.
+Cited by:
+§A-12
+,
+TABLE IX
+.
+[56]
+A. Inceoglu, E. E. Aksoy, A. C. Ak, and S. Sariel
+(2021)
+FINO-net: a deep multimodal sensor fusion framework for manipulation failure detection
+.
+In
+IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
+,
+Cited by:
+§A-13
+,
+TABLE IX
+.
+[57]
+P. Intelligence, A. Amin, R. Aniceto, A. Balakrishna, K. Black, K. Conley, G. Connors, J. Darpinian, K. Dhabalia, J. DiCarlo, D. Driess, M. Equi, A. Esmail, Y. Fang, C. Finn, C. Glossop, T. Godden, I. Goryachev, L. Groom, H. Hancock, K. Hausman, G. Hussein, B. Ichter, S. Jakubczak, R. Jen, T. Jones, B. Katz, L. Ke, C. Kuchi, M. Lamb, D. LeBlanc, S. Levine, A. Li-Bell, Y. Lu, V. Mano, M. Mothukuri, S. Nair, K. Pertsch, A. Z. Ren, C. Sharma, L. X. Shi, L. Smith, J. T. Springenberg, K. Stachowicz, W. Stoeckle, A. Swerdlow, J. Tanner, M. Torne, Q. Vuong, A. Walling, H. Wang, B. Williams, S. Yoo, L. Yu, U. Zhilinsky, and Z. Zhou
+(2025)
+π
+0.6
+∗
+\pi^{*}_{0.6}
+: A vla that learns from experience
+.
+arXiv:2511.14759
+.
+Cited by:
+§II
+.
+[58]
+P. Intelligence, K. Black, N. Brown, J. Darpinian, K. Dhabalia, D. Driess, A. Esmail, M. Equi, C. Finn, N. Fusai,
+et al.
+(2025)
+π
+0.5
+\pi_{0.5}
+: A vision-language-action model with open-world generalization
+.
+arXiv preprint arXiv:2504.16054
+.
+Cited by:
+§IV-Q3
+.
+[59]
+A. K. Jain, V. Mohta, S. Kim, A. Bhardwaj, J. Ren, Y. Feng, S. Choudhury, and G. Swamy
+(2025)
+A smooth sea never made a skilled SAILOR: robust imitation via learning to search
+.
+In
+Conference on Neural Information Processing Systems (NeurIPS)
+,
+Cited by:
+§II
+.
+[60]
+S. James, Z. Ma, D. R. Arrojo, and A. J. Davison
+(2020)
+Rlbench: the robot learning benchmark & learning environment
+.
+IEEE Robotics and Automation Letters (RA-L)
+.
+Cited by:
+§A-13
+,
+TABLE IX
+.
+[61]
+E. Jang, A. Irpan, M. Khansari, D. Kappler, F. Ebert, C. Lynch, S. Levine, and C. Finn
+(2021)
+BC-z: zero-shot task generalization with robotic imitation learning
+.
+In
+Conference on Robot Learning (CoRL)
+,
+Cited by:
+§A-11
+.
+[62]
+T. Jiang, T. Yuan, Y. Liu, C. Lu, J. Cui, X. Liu, S. Cheng, J. Gao, H. Xu, and H. Zhao
+(2025)
+Galaxea open-world dataset and g0 dual-system vla model
+.
+arXiv preprint arXiv:2509.00576
+.
+Cited by:
+§A-11
+,
+TABLE IX
+.
+[63]
+A. Khazatsky, K. Pertsch, S. Nair, A. Balakrishna, S. Dasari, S. Karamcheti, S. Nasiriany, M. K. Srirama, L. Y. Chen, K. Ellis, P. D. Fagan, J. Hejna, M. Itkina, M. Lepert, Y. J. Ma, P. T. Miller, J. Wu, S. Belkhale, S. Dass, H. Ha, A. Jain, A. Lee, Y. Lee, M. Memmel, S. Park, I. Radosavovic, K. Wang, A. Zhan, K. Black, C. Chi, K. B. Hatch, S. Lin, J. Lu, J. Mercat, A. Rehman, P. R. Sanketi, A. Sharma, C. Simpson, Q. Vuong, H. R. Walke, B. Wulfe, T. Xiao, J. H. Yang, A. Yavary, T. Z. Zhao, C. Agia, R. Baijal, M. G. Castro, D. Chen, Q. Chen, T. Chung, J. Drake, E. P. Foster, J. Gao, V. Guizilini, D. A. Herrera, M. Heo, K. Hsu, J. Hu, M. Z. Irshad, D. Jackson, C. Le, Y. Li, K. Lin, R. Lin, Z. Ma, A. Maddukuri, S. Mirchandani, D. Morton, T. Nguyen, A. O’Neill, R. Scalise, D. Seale, V. Son, S. Tian, E. Tran, A. E. Wang, Y. Wu, A. Xie, J. Yang, P. Yin, Y. Zhang, O. Bastani, G. Berseth, J. Bohg, K. Goldberg, A. Gupta, A. Gupta, D. Jayaraman, J. J. Lim, J. Malik, R. Martín-Martín, S. Ramamoorthy, D. Sadigh, S. Song, J. Wu, M. C. Yip, Y. Zhu, T. Kollar, S. Levine, and C. Finn
+(2024)
+DROID: a large-scale in-the-wild robot manipulation dataset
+.
+arXiv preprint arXiv:2403.12945
+.
+Cited by:
+§A-11
+,
+§E-2
+,
+§E-2
+,
+§IV-Q3
+.
+[64]
+C. Kim, M. Heo, D. Lee, H. Lee, J. Shin, J. J. Lim, and K. Lee
+(2025)
+Subtask-aware visual reward learning from segmented demonstrations
+.
+In
+International Conference on Learning Representations (ICLR)
+,
+Cited by:
+§II
+,
+§IV-Q3
+.
+[65]
+M. J. Kim, K. Pertsch, S. Karamcheti, T. Xiao, A. Balakrishna, S. Nair, R. Rafailov, E. P. Foster, P. R. Sanketi, Q. Vuong, T. Kollar, B. Burchfiel, R. Tedrake, D. Sadigh, S. Levine, P. Liang, and C. Finn
+(2024)
+OpenVLA: an open-source vision-language-action model
+.
+In
+Conference on Robot Learning (CoRL)
+,
+Cited by:
+§A-11
+.
+[66]
+Y. Korkmaz and E. Bıyık
+(2025)
+MILE: model-based intervention learning
+.
+In
+International Conference on Robotics and Automation (ICRA)
+,
+Cited by:
+§II
+.
+[67]
+I. Kostrikov, A. Nair, and S. Levine
+(2021)
+Offline reinforcement learning with implicit q-learning
+.
+arXiv preprint arXiv:2110.06169
+.
+Cited by:
+§IV-Q3
+.
+[68]
+I. Kostrikov, A. Nair, and S. Levine
+(2022)
+Offline reinforcement learning with implicit q-learning
+.
+In
+International Conference on Learning Representations (ICLR)
+,
+Cited by:
+§E-5
+.
+[69]
+J. Kwok, C. Agia, R. Sinha, M. Foutter, S. Li, I. Stoica, A. Mirhoseini, and M. Pavone
+(2025)
+RoboMonkey: scaling test-time sampling and verification for vision-language-action models
+.
+In
+Conference on Robot Learning (CoRL)
+,
+Cited by:
+§II
+.
+[70]
+M. Kwon, S. M. Xie, K. Bullard, and D. Sadigh
+(2023)
+Reward design with language models
+.
+In
+International Conference on Learning Representations (ICLR)
+,
+Cited by:
+§II
+.
+[71]
+D. R. J. Laming
+(1984)
+The relativity of ‘absolute’ judgements
+.
+British Journal of Mathematical and Statistical Psychology
+37
+,
+pp. 152–183
+.
+Cited by:
+§I
+,
+§II
+.
+[72]
+J. Lee, J. Duan, H. Fang, Y. Deng, S. Liu, B. Li, B. Fang, J. Zhang, Y. R. Wang, S. Lee,
+et al.
+(2025)
+Molmoact: action reasoning models that can reason in space
+.
+arXiv preprint arXiv:2508.07917
+.
+Cited by:
+§A-11
+,
+TABLE IX
+.
+[73]
+K. Lee, L. Smith, and P. Abbeel
+(2021)
+PEBBLE: feedback-efficient interactive reinforcement learning via relabeling experience and unsupervised pre-training
+.
+In
+International Conference on Machine Learning (ICML)
+,
+Cited by:
+§II
+.
+[74]
+T. Lee, A. Wagenmaker, K. Pertsch, P. Liang, S. Levine, and C. Finn
+(2026)
+RoboReward: general-purpose vision-language reward models for robotics
+.
+arXiv preprint arXiv:2601.00675
+.
+Cited by:
+§A-11
+,
+TABLE VI
+,
+TABLE VII
+,
+TABLE IX
+,
+§B-1
+,
+Appendix C
+,
+§I
+,
+§II
+,
+§II
+,
+2nd item
+,
+5th item
+,
+§IV-Q1
+,
+TABLE II
+,
+TABLE II
+,
+§IV
+.
+[75]
+Y. Li, Y. Deng, J. Zhang, J. Jang, M. Memmel, C. R. Garrett, F. Ramos, D. Fox, A. Li, A. Gupta, and A. Goyal
+(2025)
+HAMSTER: hierarchical action models for open-world robot manipulation
+.
+In
+International Conference on Learning Representations (ICLR)
+,
+Cited by:
+§V
+.
+[76]
+A. Liang, I. Singh, K. Pertsch, and J. Thomason
+(2022)
+Transformer adapters for robot learning
+.
+In
+CoRL 2022 Workshop on Pre-training Robot Learning
+,
+Cited by:
+§E-4
+.
+[77]
+L. Lin, Y. Cui, A. Xie, T. Hua, and D. Sadigh
+(2024)
+FlowRetrieval: flow-guided data retrieval for few-shot imitation learning
+.
+In
+Conference on Robot Learning (CoRL)
+,
+Cited by:
+§E-4
+.
+[78]
+Z. Lin, J. Duan, H. Fang, D. Fox, R. Krishna, C. Tan, and B. Wen
+(2025)
+Failsafe: reasoning and recovery from failures in vision-language-action models
+.
+arXiv preprint arXiv:2510.01642
+.
+Cited by:
+§A-13
+,
+TABLE IX
+,
+§III-A
+.
+[79]
+B. Liu, Y. Zhu, C. Gao, Y. Feng, Q. Liu, Y. Zhu, and P. Stone
+(2023)
+LIBERO: benchmarking knowledge transfer for lifelong robot learning
+.
+arXiv preprint arXiv:2306.03310
+.
+Cited by:
+§A-11
+,
+§A-13
+,
+TABLE IX
+,
+TABLE IX
+,
+§III-A
+,
+§IV-Q2
+.
+[80]
+Z. Liu, J. Zhang, K. Asadi, Y. Liu, D. Zhao, S. Sabach, and R. Fakoor
+(2024)
+TAIL: task-specific adapters for imitation learning with large pretrained models
+.
+In
+International Conference on Learning Representations (ICLR)
+,
+Cited by:
+§E-4
+,
+§IV-Q3
+.
+[81]
+W. Lu, M. Ye, Z. Ye, R. Tao, S. Yang, and B. Zhao
+(2025)
+RoboFAC: a comprehensive framework for robotic failure analysis and correction
+.
+arXiv preprint arXiv:2505.12224
+.
+Cited by:
+§IV-Q1
+.
+[82]
+J. Luo, C. Xu, X. Geng, G. Feng, K. Fang, L. Tan, S. Schaal, and S. Levine
+(2023)
+Multi-stage cable routing through hierarchical imitation learning
+.
+arXiv preprint arXiv:2307.08927
+.
+Cited by:
+§A-11
+.
+[83]
+C. Lynch, M. Khansari, T. Xiao, V. Kumar, J. Tompson, S. Levine, and P. Sermanet
+(2019)
+Learning latent plans from play
+.
+Conference on Robot Learning (CoRL)
+.
+Cited by:
+§IV-Q3
+.
+[84]
+C. Lynch, A. Wahid, J. Tompson, T. Ding, J. Betker, R. Baruch, T. Armstrong, and P. Florence
+(2023)
+Interactive language: talking to robots in real time
+.
+IEEE Robotics and Automation Letters (RA-L)
+.
+Cited by:
+§A-11
+.
+[85]
+Y. J. Ma, J. Hejna, A. Wahid, C. Fu, D. Shah, J. Liang, Z. Xu, S. Kirmani, P. Xu, D. Driess, T. Xiao, J. Tompson, O. Bastani, D. Jayaraman, W. Yu, T. Zhang, D. Sadigh, and F. Xia
+(2025)
+Vision language models are in-context value learners
+.
+In
+International Conference on Learning Representations (ICLR)
+,
+Cited by:
+§I
+,
+§II
+,
+2nd item
+,
+§IV-Q1
+.
+[86]
+Y. J. Ma, W. Liang, V. Som, V. Kumar, A. Zhang, O. Bastani, and D. Jayaraman
+(2023)
+LIV: language-image representations and rewards for robotic control
+.
+In
+International Conference on Machine Learning (ICML)
+,
+Cited by:
+§II
+.
+[87]
+Y. J. Ma, W. Liang, G. Wang, D. Huang, O. Bastani, D. Jayaraman, Y. Zhu, L. Fan, and A. Anandkumar
+(2024)
+Eureka: human-level reward design via coding large language models
+.
+In
+International Conference on Learning Representations (ICLR)
+,
+Cited by:
+§II
+.
+[88]
+Y. J. Ma, S. Sodhani, D. Jayaraman, O. Bastani, V. Kumar, and A. Zhang
+(2023)
+VIP: towards universal visual reward and representation via value-implicit pre-training
+.
+In
+International Conference on Learning Representations (ICLR)
+,
+Cited by:
+§II
+.
+[89]
+P. Mahmoudieh, D. Pathak, and T. Darrell
+(2022)
+Zero-shot reward specification via grounded natural language
+.
+In
+International Conference on Machine Learning (ICML)
+,
+Cited by:
+§II
+.
+[90]
+M. Memmel, J. Berg, B. Chen, A. Gupta, and J. Francis
+(2025)
+STRAP: robot sub-trajectory retrieval for augmented policy learning
+.
+In
+International Conference on Learning Representations (ICLR)
+,
+Cited by:
+§E-4
+,
+§E-4
+,
+§IV-Q3
+.
+[91]
+C. Mitra, A. Anwar, R. Corona, D. Klein, T. Darrell, and J. Thomason
+(2024)
+Which one? leveraging context between objects and multiple views for language grounding
+.
+In
+Conference of the North American Chapter of the Association for Computational Linguistics (NAACL)
+,
+Cited by:
+§B-2
+.
+[92]
+W. Monroe, R. X. Hawkins, N. Goodman, and C. Potts
+(2017)
+Colors in context: a pragmatic neural model for grounded language understanding
+.
+Transactions of the Association for Computational Linguistics (TACL)
+.
+Cited by:
+§B-2
+.
+[93]
+C. Muslimani, K. Johnstonbaugh, S. Chandramouli, S. Booth, W. B. Knox, and M. E. Taylor
+(2025)
+Towards improving reward design in RL: a reward alignment metric for RL practitioners
+.
+In
+Reinforcement Learning Conference (RLC)
+,
+Cited by:
+§IV-Q1
+.
+[94]
+V. Myers, E. Biyik, N. Anari, and D. Sadigh
+(2021)
+Learning multimodal rewards from rankings
+.
+In
+Conference on Robot Learning (CoRL)
+,
+Cited by:
+§II
+.
+[95]
+T. Nam, J. Lee, J. Zhang, S. J. Hwang, J. J. Lim, and K. Pertsch
+(2023)
+LiFT: unsupervised reinforcement learning with foundation models as teachers
+.
+arXiv preprint arXiv:2312.08958
+.
+Cited by:
+§II
+.
+[96]
+A. Y. Ng and S. J. Russell
+(2000)
+Algorithms for inverse reinforcement learning
+.
+In
+International Conference on Machine Learning (ICML)
+,
+Cited by:
+§II
+.
+[97]
+K. Nottingham, P. Ammanabrolu, A. Suhr, Y. Choi, H. Hajishirzi, S. Singh, and R. Fox
+(2023)
+Do embodied agents dream of pixelated sheep?: embodied decision making using language guided world modelling
+.
+In
+International Conference on Machine Learning (ICML)
+,
+Cited by:
+§II
+.
+[98]
+M. Oquab, T. Darcet, T. Moutakanni, H. Vo, M. Szafraniec, V. Khalidov, P. Fernandez, D. Haziza, F. Massa, A. El-Nouby, M. Assran, N. Ballas, W. Galuba, R. Howes, P. Huang, S. Li, I. Misra, M. Rabbat, V. Sharma, G. Synnaeve, H. Xu, H. Jegou, J. Mairal, P. Labatut, A. Joulin, and P. Bojanowski
+(2024)
+DINOv2: learning robust visual features without supervision
+.
+arXiv preprint arXiv:2304.07193
+.
+Cited by:
+Appendix C
+,
+1st item
+,
+§E-1
+.
+[99]
+T. Osa
+(2022)
+Motion planning by learning the solution manifold in trajectory optimization
+.
+The International Journal of Robotics Research
+.
+Cited by:
+§A-11
+.
+[100]
+X. B. Peng, A. Kumar, G. Zhang, and S. Levine
+(2019)
+Advantage-weighted regression: simple and scalable off-policy reinforcement learning
+.
+In
+arXiv preprint arXiv:1910.00177
+,
+Cited by:
+TABLE XXV
+.
+[101]
+K. Pertsch, K. Stachowicz, B. Ichter, D. Driess, S. Nair, Q. Vuong, O. Mees, C. Finn, and S. Levine
+(2025)
+Fast: efficient action tokenization for vision-language-action models
+.
+arXiv preprint arXiv:2501.09747
+.
+Cited by:
+§E-3
+,
+§IV-Q3
+.
+[102]
+R. Qiu, S. Yang, X. Cheng, C. Chawla, J. Li, T. He, G. Yan, D. J. Yoon, R. Hoque, L. Paulsen,
+et al.
+(2025)
+Humanoid policy˜ human policy
+.
+arXiv preprint arXiv:2503.13441
+.
+Cited by:
+§A-12
+,
+TABLE IX
+.
+[103]
+G. Quere, A. Hagengruber, M. Iskandar, S. Bustamante, D. Leidner, F. Stulp, and J. Vogel
+(2020)
+Shared Control Templates for Assistive Robotics
+.
+In
+International Conference on Robotics and Automation (ICRA)
+,
+Cited by:
+§A-11
+.
+[104]
+I. Radosavovic, B. Shi, L. Fu, K. Goldberg, T. Darrell, and J. Malik
+(2023)
+Robot learning with sensorimotor pre-training
+.
+arXiv preprint arXiv:2306.10007
+.
+Cited by:
+§A-11
+.
+[105]
+I. Radosavovic, T. Xiao, S. James, P. Abbeel, J. Malik, and T. Darrell
+(2022)
+Real-world robot learning with masked visual pre-training
+.
+In
+Conference on Robot Learning (CoRL)
+,
+Cited by:
+§A-11
+.
+[106]
+N. Reimers and I. Gurevych
+(2019)
+Sentence-bert: sentence embeddings using siamese bert-networks
+.
+In
+Empirical Methods in Natural Language Processing (EMNLP)
+,
+Cited by:
+Appendix C
+.
+[107]
+J. Rocamonde, V. Montesinos, E. Nava, E. Perez, and D. Lindner
+(2024)
+Vision-language models are zero-shot reward models for reinforcement learning
+.
+In
+International Conference on Learning Representations (ICLR)
+,
+Cited by:
+§II
+.
+[108]
+D. Sadigh, A. D. Dragan, S. S. Sastry, and S. A. Seshia
+(2017)
+Active preference-based learning of reward functions
+.
+In
+Robotics: Science and Systems (RSS)
+,
+Cited by:
+§II
+.
+[109]
+S. Saxena, M. Sharma, and O. Kroemer
+(2023)
+Multi-resolution sensing for real-time control with vision-language models
+.
+In
+Conference on Robot Learning (CoRL)
+,
+Cited by:
+§A-11
+.
+[110]
+R. Shah, R. Martín-Martín, and Y. Zhu
+(2023)
+MUTEX: learning unified policies from multimodal task specifications
+.
+In
+Conference on Robot Learning (CoRL)
+,
+Cited by:
+§A-11
+.
+[111]
+M. A. Sharif and D. M. Oppenheimer
+(2016)
+The effect of relative encoding on memory-based judgments
+.
+Psychological Science
+27
+(
+8
+),
+pp. 1136–1145
+.
+Cited by:
+§I
+,
+§II
+.
+[112]
+S. A. Sontakke, J. Zhang, S. Arnold, K. Pertsch, E. Biyik, D. Sadigh, C. Finn, and L. Itti
+(2023)
+RoboCLIP: one demonstration is enough to learn robot policies
+.
+In
+Advances in Neural Information Processing Systems (NeurIPS)
+,
+Cited by:
+§II
+.
+[113]
+N. Stewart, G. D. A. Brown, and N. Chater
+(2005)
+Absolute identification by relative judgment.
+.
+Psychological review
+112 4
+,
+pp. 881–911
+.
+Cited by:
+§I
+,
+§II
+.
+[114]
+L. Tai, J. Zhang, M. Liu, and W. Burgard
+(2018)
+Socially compliant navigation through raw depth inputs with generative adversarial imitation learning
+.
+In
+International Conference on Robotics and Automation (ICRA)
+,
+Cited by:
+§II
+.
+[115]
+H. Tan, S. Chen, Y. Xu, Z. Wang, Y. Ji, C. Chi, Y. Lyu, Z. Zhao, X. Chen, P. Co, S. Xie, G. Yao, P. Wang, Z. Wang, and S. Zhang
+(2025)
+Robo-dopamine: general process reward modeling for high-precision robotic manipulation
+.
+arXiv preprint arXiv:2512.23703
+.
+Cited by:
+TABLE VI
+,
+§I
+,
+§II
+,
+4th item
+,
+§IV
+.
+[116]
+S. Tao, F. Xiang, A. Shukla, Y. Qin, X. Hinrichsen, X. Yuan, C. Bao, X. Lin, Y. Liu, T. Chan, Y. Gao, X. Li, T. Mu, N. Xiao, A. Gurha, V. N. Rajesh, Y. W. Choi, Y. Chen, Z. Huang, R. Calandra, R. Chen, S. Luo, and H. Su
+(2025)
+ManiSkill3: gpu parallelized robotics simulation and rendering for generalizable embodied ai
+.
+In
+Robotics: Science and Systems (RSS)
+,
+Cited by:
+§A-13
+,
+TABLE IX
+.
+[117]
+R. Tian, Y. Wu, and A. Bacjsy
+(2026)
+Position: good embodied reward models need bad behavior data
+.
+Technical report
+Carnegie Mellon University
+.
+External Links:
+Link
+Cited by:
+§I
+,
+§II
+,
+§V
+.
+[118]
+S. Venkataraman, Y. Wang, Z. Wang, N. S. Ravie, Z. Erickson, and D. Held
+(2025)
+Real-world offline reinforcement learning from vision language model feedback
+.
+In
+IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
+,
+Cited by:
+§I
+,
+§II
+.
+[119]
+J. Vogel, A. Hagengruber, M. Iskandar, G. Quere, U. Leipscher, S. Bustamante, A. Dietrich, H. Hoeppner, D. Leidner, and A. Albu-Schäffer
+(2020)
+EDAN - an emg-controlled daily assistant to help people with physical disabilities
+.
+In
+IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)
+,
+Cited by:
+§A-11
+.
+[120]
+A. Wagenmaker, M. Nakamoto, Y. Zhang, S. Park, W. Yagoub, A. Nagabandi, A. Gupta, and S. Levine
+(2025)
+Steering your diffusion policy with latent space reinforcement learning
+.
+In
+Conference on Robot Learning (CoRL)
+,
+Cited by:
+§E-2
+,
+§IV-Q3
+.
+[121]
+H. R. Walke, K. Black, T. Z. Zhao, Q. Vuong, C. Zheng, P. Hansen-Estruch, A. W. He, V. Myers, M. J. Kim, M. Du, A. Lee, K. Fang, C. Finn, and S. Levine
+(2023)
+BridgeData v2: a dataset for robot learning at scale
+.
+In
+Conference on Robot Learning (CoRL)
+,
+Cited by:
+§A-11
+.
+[122]
+Y. Wang, Z. Sun, J. Zhang, Z. Xian, E. Biyik, D. Held, and Z. Erickson
+(2024)
+RL-vlm-f: reinforcement learning from vision language foundation model feedback
+.
+In
+International Conference on Machine Learning (ICML)
+,
+Cited by:
+§C-1
+,
+§II
+.
+[123]
+A. Xie, R. Chand, D. Sadigh, and J. Hejna
+(2025)
+Data retrieval with importance weights for few-shot imitation learning
+.
+In
+Conference on Robot Learning (CoRL)
+,
+Cited by:
+§E-4
+.
+[124]
+S. Xie, H. Cao, Z. Weng, Z. Xing, H. Chen, S. Shen, J. Leng, Z. Wu, and Y. Jiang
+(2025)
+Human2Robot: learning robot actions from paired human-robot videos
+.
+arXiv preprint arXiv:2502.16587
+.
+Cited by:
+§A-12
+,
+TABLE IX
+.
+[125]
+T. Xie, S. Zhao, C. H. Wu, Y. Liu, Q. Luo, V. Zhong, Y. Yang, and T. Yu
+(2024)
+Text2Reward: reward shaping with language models for reinforcement learning
+.
+In
+International Conference on Learning Representations (ICLR)
+,
+Cited by:
+§II
+.
+[126]
+C. Xu, T. K. Nguyen, E. Dixon, C. Rodriguez, P. Miller, R. Lee, P. Shah, R. Ambrus, H. Nishimura, and M. Itkina
+(2025)
+Can we detect failures without failure data? Uncertainty-aware runtime failure detection for imitation learning policies
+.
+In
+Robotics: Science and Systems (RSS)
+,
+Cited by:
+§IV-Q3
+.
+[127]
+G. Yan, K. Wu, and X. Wang
+(2023)
+UCSD kitchens dataset
+.
+Cited by:
+§A-11
+.
+[128]
+D. Yang, D. Tjia, J. Berg, D. Damen, P. Agrawal, and A. Gupta
+(2024)
+Rank2Reward: learning shaped reward functions from passive video
+.
+In
+International Conference on Robotics and Automation (ICRA)
+,
+Cited by:
+§B-2
+,
+§I
+,
+§II
+.
+[129]
+Z. Yang, M. Jun, J. Tien, S. J. Russell, A. Dragan, and E. Bıyık
+(2024)
+Trajectory improvement and reward learning from comparative language feedback
+.
+In
+Conference on Robot Learning (CoRL)
+,
+Cited by:
+§II
+.
+[130]
+S. Ye, Y. Ge, K. Zheng, S. Gao, S. Yu, G. Kurian, S. Indupuru, Y. L. Tan, C. Zhu, J. Xiang, A. Malik, K. Lee, W. Liang, N. Ranawaka, J. Gu, Y. Xu, G. Wang, F. Hu, A. Narayan, J. Bjorck, J. Wang, G. Kim, D. Niu, R. Zheng, Y. Xie, J. Wu, Q. Wang, R. Julian, D. Xu, Y. Du, Y. Chebotar, S. Reed, J. Kautz, Y. Zhu, L. ”. Fan, and J. Jang
+(2026)
+World action models are zero-shot policies
+.
+arXiv preprint arXiv:2602.15922
+.
+Cited by:
+Fig. 17
+,
+Fig. 17
+,
+Appendix G
+,
+§IV-Q3
+.
+[131]
+T. Yu, D. Quillen, Z. He, R. Julian, A. Narayan, H. Shively, A. Bellathur, K. Hausman, C. Finn, and S. Levine
+(2019)
+Meta-world: a benchmark and evaluation for multi-task and meta reinforcement learning
+.
+In
+Conference on Robot Learning (CoRL)
+,
+Cited by:
+§A-11
+,
+TABLE VII
+,
+TABLE IX
+.
+[132]
+W. Yu, N. Gileadi, C. Fu, S. Kirmani, K. Lee, M. Gonzalez Arenas, H. Lewis Chiang, T. Erez, L. Hasenclever, J. Humplik, B. Ichter, T. Xiao, P. Xu, A. Zeng, T. Zhang, N. Heess, D. Sadigh, J. Tan, Y. Tassa, and F. Xia
+(2023)
+Language to rewards for robotic skill synthesis
+.
+In
+Conference on Robot Learning (CoRL)
+,
+Cited by:
+§II
+.
+[133]
+S. Zhai, Q. Zhang, T. Zhang, F. Huang, H. Zhang, M. Zhou, S. Zhang, L. Liu, S. Lin, and J. Pang
+(2025)
+A vision-language-action-critic model for robotic real-world reinforcement learning
+.
+arXiv preprint arXiv:2509.15937
+.
+Cited by:
+TABLE VI
+,
+§I
+,
+§II
+,
+§III-C
+,
+1st item
+,
+§IV
+.
+[134]
+X. Zhai, B. Mustafa, A. Kolesnikov, and L. Beyer
+(2023)
+Sigmoid loss for language image pre-training
+.
+In
+International Conference on Computer Vision (ICCV)
+,
+Cited by:
+§E-4
+,
+§IV-Q3
+.
+[135]
+J. Zhang, M. Memmel, K. Kim, D. Fox, J. Thomason, F. Ramos, E. Bıyık, A. Gupta, and A. Li
+(2026)
+PEEK: guiding and minimal image representations for zero-shot generalization of robot manipulation policies
+.
+In
+International Conference on Robotics and Automation (ICRA)
+,
+Cited by:
+§V
+.
+[136]
+J. Zhang, Y. Luo, A. Anwar, S. A. Sontakke, J. J. Lim, J. Thomason, E. Biyik, and J. Zhang
+(2025)
+ReWiND: language-guided rewards teach robot policies without new demonstrations
+.
+In
+Conference on Robot Learning (CoRL)
+,
+Cited by:
+§A-11
+,
+§A-11
+,
+§A-3
+,
+TABLE IX
+,
+Appendix C
+,
+§E-5
+,
+§I
+,
+§I
+,
+§II
+,
+item 3
+,
+§III-C
+,
+3rd item
+,
+§IV
+.
+[137]
+J. Zhang, C. Qian, H. Sun, H. Lu, D. Wang, L. Xue, and H. Liu
+(2026)
+PROGRESSLM: towards progress reasoning in vision-language models
+.
+arXiv preprint arXiv:2601.15224
+.
+Cited by:
+§II
+.
+[138]
+Y. Zhang, Y. Xie, H. Liu, R. Shah, M. Wan, L. Fan, and Y. Zhu
+(2026)
+SCIZOR: self-supervised data curation for large-scale imitation learning
+.
+In
+International Conference on Robotics and Automation (ICRA)
+,
+Cited by:
+§E-4
+.
+[139]
+Z. Zhao, H. Jing, X. Liu, J. Mao, A. Jha, H. Yang, R. Xue, S. Zakharor, V. Guizilini, and Y. Wang
+(2025)
+Humanoid everyday: a comprehensive robotic dataset for open-world humanoid manipulation
+.
+arXiv preprint arXiv:2510.08807
+.
+Cited by:
+§A-11
+,
+TABLE IX
+.
+[140]
+G. Zhou, V. Dean, M. K. Srirama, A. Rajeswaran, J. Pari, K. Hatch, A. Jain, T. Yu, P. Abbeel, L. Pinto, C. Finn, and A. Gupta
+(2023)
+Train offline, test online: a real robot learning benchmark
+.
+In
+International Conference on Robotics and Automation (ICRA)
+,
+Cited by:
+§A-11
+.
+[141]
+Z. Zhou, P. Atreya, A. Lee, H. R. Walke, O. Mees, and S. Levine
+(2024)
+Autonomous improvement of instruction following skills via foundation models
+.
+In
+Conference on Robot Learning (CoRL)
+,
+Cited by:
+§A-13
+,
+TABLE IX
+,
+§III-A
+.
+[142]
+Z. Zhou, P. Atreya, Y. L. Tan, K. Pertsch, and S. Levine
+(2025)
+Autoeval: autonomous evaluation of generalist robot manipulation policies in the real world
+.
+arXiv preprint arXiv:2503.24278
+.
+Cited by:
+§A-13
+,
+TABLE IX
+.
+[143]
+X. Zhu, R. Tian, C. Xu, M. Ding, W. Zhan, and M. Tomizuka
+(2023)
+Fanuc manipulation: a dataset for learning-based manipulation with fanuc mate 200id robot
+.
+Cited by:
+§A-11
+.
+[144]
+Y. Zhu, P. Stone, and Y. Zhu
+(2022)
+Bottom-up skill discovery from unsegmented demonstrations for long-horizon robot manipulation
+.
+IEEE Robotics and Automation Letters (RA-L)
+.
+Cited by:
+§A-11
+.
+[145]
+B. D. Ziebart, A. Maas, J. A. Bagnell, and A. K. Dey
+(2008)
+Maximum entropy inverse reinforcement learning
+.
+In
+AAAI Conference on Artificial Intelligence
+,
+Cited by:
+§II
+.
+Appendix Table of Contents
+Appendix A
+Dataset Details
+Paper
+# Trajectories
+RoboReward
+[
+74
+]
+45k
+RoboDopamine
+[
+115
+]
+100k
+VLAC
+[
+133
+]
+300k
+RBM-1M
+(ours)
+1M
+TABLE VI:
+Comparison of known approximate trajectory counts across recent general-purpose reward modeling papers.
+Fig. 10
+:
+Pie chart of
+RBM-1M
+dataset types. Full table with individual dataset details in
+Table
+IX
+.
+Dataset
+Embodiment
+# Trajectories
+Citation
+OXE Eval Suite
+Franka, Google Robot, Jaco 2, WidowX
+14,399
+[
+23
+]
+RoboReward Test
+12 mixed embodiments
+9,063
+[
+74
+]
+RACER (Eval)
+Franka Panda (simulation)
+7,227
+[
+26
+]
+Metaworld Eval
+Sawyer
+151
+[
+131
+]
+LIBERO Failure Eval
+Franka Panda (simulation)
+1,927
+–
+Total
+13 unique robot embodiments
+32,767
+–
+TABLE VII
+:
+RBM-EVAL-ID
+- In distribution evaluation datasets overview. # Trajectories is computed by aggregating all evaluation splits per dataset, counting unique annotated trajectories.
+Dataset
+Embodiment
+# Trajectories
+USC Franka
+Franka Panda
+24
+USC Koch
+Bimanual Kochv1.1
+407
+USC Trossen
+Trossen
+27
+USC xArm
+xArm
+36
+MIT Franka
+Franka Panda
+152
+UTD;’ SO101 Cluttered
+SO101
+60
+UTD;’ SO101 Clean (Top)
+SO101
+30
+UTD;’ SO101 Clean (Wrist)
+SO101
+30
+Total
+5 unique robot embodiments
+976
+TABLE VIII
+:
+RBM-EVAL-OOD
+- Out-of-distribution evaluation datasets overview. # Trajectories is computed by aggregating all evaluation splits per dataset, counting unique annotated trajectories.
+Dataset
+Embodiment
+# Trajectories
+Citation
+Expert Demonstration Datasets
+OXE Mix
+11 mixed embodiments
+449,475
+[
+23
+]
+AGIBotWorld-Alpha Subset
+AgiBot G1 Bimanual Mobile Manipulator
+216,911
+[
+24
+]
+Galaxea Open World
+Galaxea R1 Lite Bimanual Mobile Manipulator
+108,118
+[
+62
+]
+RoboReward OXE Mix
+13 mixed embodiments
+45,072
+[
+74
+]
+MolmoACT
+Franka Panda
+15,546
+[
+72
+]
+Humanoid Everyday
+Unitree G1 & H1 Bimanual Humanoids
+9,208
+[
+139
+]
+LIBERO
+Franka Panda (simulation)
+1,709
+[
+79
+]
+MetaWorld (ReWiND)
+Sawyer (simulation)
+100
+[
+131
+,
+136
+]
+Paired Human–Robot Datasets
+MotIF
+Stretch Mobile Manipulator
+83
+[
+55
+]
+RH-20T
+4 embodiments
+29,969
+[
+32
+]
+PH2D
+H1 (partly in MuJoCo simulation)
+3,596
+[
+102
+]
+H2R
+XArm
+2,254
+[
+124
+]
+Mixed Expertise Datasets
+RoboArena Pairwise Comparisons
+Franka Panda
+12,379
+[
+5
+]
+SOAR Paired Success/Fail
+WidowX
+16,812
+[
+141
+]
+FAILSafe
+Franka Panda (ManiSkill
+[
+116
+]
+simulation)
+71,614
+[
+78
+]
+RACER Failure Dataset
+Franka Panda (RLBench
+[
+60
+]
+simulation)
+29,115
+[
+26
+]
+AutoEval Failed Trajectories
+WidowX250
+8,677
+[
+142
+]
+LIBERO Failure Dataset
+Franka Panda (simulation)
+1,473
+[
+79
+]
+Fino-Net Paired Failure (Baxter)
+Baxter
+229
+[
+56
+]
+Human-Only Datasets
+Epic-Kitchens
+Human
+37,030
+[
+27
+]
+Total
+21 unique robot embodiments
+1,059,370
+–
+TABLE IX
+:
+RBM-1M
+Training datasets overview. # Trajectories is determined by counting every unique video-language annotation (possibly across multiple views when available).
+A-1
+Individual
+RBM-1M
+Training Dataset Details
+Here, we list dataset curation details for every source in
+RBM-1M
+.
+Preference Only Data.
+Some data sources vary significantly in when the teleoperator marks the end of the trajectory.
+As such, using these data sources for progress prediction and end-state success prediction negatively affects prediction accuracy.
+To avoid this issue, progress-only generalist robotic reward models would have to either manually label end states or simply forgo using these data sources.
+However, due to
+Robometer
+’s trajectory comparison-based preference prediction objective, we can still use these noisier datasets for preference prediction; we list which sources are used only for preference in each subsection.
+Image Resolution and Frame Downsampling.
+We first perform data pre-processing before using the data for training.
+For storage efficiency, we downsample all trajectories to a maximum of 32 frames.
+Furthermore, we downsize image resolution such that the shortest edge (either height or width) of each image is 240 pixels.
+This procedure allows us to maintain the aspect ratio while ensuring the dataset does not consume excessive storage space.
+In total, the dataset size is around 6 TB.
+Task End Thresholds.
+For predicting both progress and success (
+Section
+III-C
+), it’s important that the end-frame of the trajectory corresponds to the timestep at which the task is actually finished.
+However, in most real-world datasets, this is not the case due to human teleoperator delay or different notions of when tasks are finished.
+We address this issue by manually setting this “task finished” threshold for each data source, which takes about 2 minutes per data source.
+See
+Section
+A-2
+for further details.
+A-11
+Expert Demonstration Datasets
+We start with expert demonstration datasets, i.e., datasets that contain only successful trajectories demonstrated by competent teleoperators.
+For all of these datasets, the progress target we use in
+Section
+III-C
+is
+1.0
+1.0
+.
+Open-X Embodiment Mix
+We select a subset of datasets from the Open-X Embodiment (OXE) Dataset
+[
+23
+]
+.
+This subset was chosen from those selected for reward learning from prior work
+[
+136
+]
+.
+The subset includes DROID
+[
+63
+]
+, Fractal
+[
+17
+]
+, BRIDGE-v2
+[
+121
+]
+, Language Table
+[
+84
+]
+, BC-Z
+[
+61
+]
+, RoboSet
+[
+12
+]
+, FurnitureBench
+[
+46
+]
+, UT Austin Mutex
+[
+110
+]
+, Berkeley Cable Routing
+[
+82
+]
+, CLVR Jaco Play
+[
+28
+]
+, Berkeley RPT
+[
+104
+]
+, Toto
+[
+140
+]
+, CMU Franka Pick-Insert
+[
+109
+]
+, Stanford Hydra
+[
+10
+]
+, Berkeley MVP
+[
+105
+]
+, Berkeley Fanuc Manipulation
+[
+143
+]
+, Mobile ALOHA
+[
+38
+]
+, Imperial College Sawyer Wrist Cam, UCSD Kitchen
+[
+127
+]
+, Austin BUDS
+[
+144
+]
+, DLR Edan
+[
+119
+,
+103
+]
+, UTokyo LSMO
+[
+99
+]
+, and NYU Rot
+[
+43
+]
+.
+We use wrist camera and external camera viewpoints from DROID due to the wide-angle of the DROID wrist cameras. For most other datasets, we only use external cameras unless wrist is the only viewpoint available.
+Some of these datasets have validation or test-set splits; we use these splits for
+RBM-EVAL-ID
+.
+For BC-Z and DLR Edan, we use these datasets only for preference prediction due to highly varied trajectory termination times relative to when the task was actually completed.
+AGIBot World
+The AgiBotWorld-Alpha dataset
+[
+24
+]
+consists of 100k+ long-horizon trajectories on the AgiBot G1 bimanual mobile manipulator.
+We randomly select a 34,098 trajectory subset of the 100k trajectories to form our dataset.
+Each long-horizon trajectory is annotated with each shorter-horizon subskill that is required to accomplish the task. In total, this leads 216,911 long-horizon and short-horizon trajectories.
+These short and long horizon skills include higher-level tasks such as “put all the oranges in the basket” and the lower-level skills for each “pick orange” and “place orange.”
+Although the dataset includes wrist cameras and multiple fisheye camera angles, we only include the egocentric head camera in our dataset.
+Galaxea Open-World
+The Galaxea Open-World Dataset
+[
+62
+]
+is a large-scale humanoid dataset with 108,118 trajectories across 150 task categories. The dataset includes diverse tasks from pick-and-place to whole-body manipulation on a Galaxea R1 Lite bimanual mobile manipulator. Due to highly varied trajectory termination times relative to when the task was actually completed, we use this dataset only for preference prediction.
+RoboReward OXE + Roboarena Mix
+In addition to our own OXE mix, we incorporate the 45k trajectory OXE + Roboarena
+[
+5
+]
+training subset from RoboReward.
+This dataset is labeled using RoboReward’s VLM-based counterfactual instruction labeling technique to generate pseudo-failure instructions for successful trajectories.
+This technique complements
+Robometer
+’s training objectives — by directly incorporating all data into
+Robometer
+’s training mix and objectives.
+Final rewards for each trajectory are discrete numbers ranging from 1 to 5.
+We normalize their rewards to the range of
+[
+0
+,
+1
+]
+[0,1]
+, making this data suitable for all of our prediction objectives.
+We refer readers to
+Lee et al. [74]
+for further details.
+Similar to the OXE dataset mix, the DLR Edan and BC-Z subsets of the RoboReward data is also only used for preference prediction due to highly varied trajectory termination times relative to when the task was actually completed.
+MolmoACT
+We use all external-view data from MolmoACT
+[
+72
+]
+, collected on a Franka Panda arm, excluding trajectories with corrupted videos.
+We do not use wrist-cam data from MolmoACT because the camera angle is too narrow and often does not show the object being manipulated.
+We selected this dataset because it includes a diverse set of trajectories collected in clutter with good camera visibility.
+Humanoid Everyday
+We use all data from
+[
+139
+]
+, which contains Unitree G1 & H1 bimanual humanoid data from an egocentric viewpoint. This data was selected for diversity as it includes bimanual mobile data.
+LIBERO
+LIBERO
+[
+79
+]
+provides a diverse set of simulated household manipulation tasks across 5 task suites.
+We use
+LIBERO-{10, Object, Spatial, Goal}
+for
+RBM-1M
+and
+LIBERO-90
+for evaluation in
+RBM-EVAL-ID
+.
+We follow OpenVLA’s
+[
+65
+]
+dataset re-generation scheme by re-rendering at 256x256, removing no-ops, and removing demonstrations which are not successful upon replay.
+We selected LIBERO for its use as a popular VLA benchmark and for the ease with which we can generate our own failed trajectories across a diverse set of tasks.
+Thus, we also include a corresponding set of failed trajectories for all 5 task suites, constructed by replaying demonstration trajectories with added Gaussian noise to each action, mimicking policy execution error that results in failure.
+Metaworld
+MetaWorld
+[
+131
+]
+is a multi-task simulated manipulation benchmark with a Sawyer arm.
+We use the 20-task training split consisting of 5 demonstrations each from
+Zhang et al. [136]
+for
+RBM-1M
+.
+Correspondingly, we use the 17-task evaluation dataset from
+Zhang et al. [136]
+for
+RBM-EVAL-ID
+.
+MetaWorld was selected early on for basic testing and ensuring that we can reproduce the results from ReWiND
+[
+136
+]
+in our own implementation of it.
+We kept it in
+RBM-1M
+for visual feature diversity.
+A-12
+Paired Human-Robot Datasets
+MotIF
+A human-robot paired dataset with a Stretch Mobile Manipulator containing tasks involving motion-counting such as “stir 3 times” or shaking boba tea
+[
+55
+]
+. This dataset was selected for these counting tasks to encourage learning to track repetitive motions.
+RH-20T
+A paired human-robot dataset for tabletop manipulation spanning four robot embodiments including Flexiv, UR5, Franka Panda, and Kuka robots
+[
+32
+]
+. This dataset was selected for its diversity in tasks and embodiments. The RH20T dataset consists of 7 configurations each with its own robot, table and camera setup. For each configuration, we select 1–2 camera views which both 1) capture the full scene and robot motion and 2) are consistent with the language instruction in terms of spatial relationships, e.g., left, right, top, bottom, etc. We removed null robot demonstrations without any arm movements, as well as demonstrations which seem to be the concatenation of demonstrations for multiple tasks.
+PH2D
+A human-robot, real and simulation dataset containing Unitree H1 trajectories collected from an egocentric viewpoint
+[
+102
+]
+. This dataset was selected because it pairs simulation, real, and human trajectories; it contains many pouring tasks and many very detailed task descriptions.
+H2R
+A human-robot paired dataset with a UFACTORY XARM robot
+[
+124
+]
+. It contains pick-and-place and pushing tasks. We selected it because many tasks have multiple objects in the scene (e.g., a lighter tray and a darker tray to place a cube on), helping the reward model learn to better distinguish
+correctly
+manipulated objects.
+A-13
+Mixed Expertise Datasets
+The data here contains paired successful and failed trajectories. We incorporate these mixed expertise data to encourage
+Robometer
+to effectively reward failed trajectories, which can help in a variety of domains (e.g., all downstream experiments in
+Section
+IV-Q3
+).
+RoboArena
+Roboarena
+[
+5
+]
+data is from a set of human-performed evaluations of various generalist VLA policies on the DROID setup with a Franka Panda arm. Each evaluation has a partial progress score
+∈
+[
+0
+,
+1
+]
+\in[0,1]
+with the vast majority of evaluations being failures.
+We use these progress scores solely to construct trajectory comparisons to predict over as trajectory termination times are highly varied and can essentially undo progress made in the middle of the trajectory, for which the human gave a partial progress score. We save videos from all available camera viewpoints, including wrist camera.
+SOAR
+SOAR
+[
+141
+]
+data comes from autonomous policy rollouts guided by a VLM on a WidowX250 robot. Success/fail labels, generated by a VLM, are also provided.
+Due to automatic task generation and success/fail labeling, the dataset labels are quite noisy, and many trajectories contain tasks that are not possible in the scene, tasks that have already started from the first frame, and incorrect success/fail classifications.
+Therefore, we use a pre-trained Qwen-3-VL-4B
+[
+6
+]
+to filter out incorrectly labeled samples, including ones that were infeasible or unrelated to the task description. We do this by using the first, middle, and last frame to establish a general flow of the trajectory and ask the model to critique the positioning of relevant items. This is separated into a stage prompt that empirically improved filtering quality using a small, manually verified set and ultimately filters out 45% of trajectories from the original dataset.
+We save all filtered successful trajectories, and we also save all failed trajectories that have the same language description as at least one successful trajectory.
+Because this data does not contain progress labels and because trajectory end frames are highly variable with respect to when the task was actually completed in successful trajectories, we use the entire dataset only for generating trajectory comparisons for preference prediction.
+FAILSafe
+FAILSafe
+[
+78
+]
+contains successful and failed trajectories from a Franka Panda collected in the Maniskill simulator
+[
+116
+]
+. Each task has many example failures collected from both wrist and external cameras. Tasks are also segmented into sub-tasks, e.g., reaching a cube
+→
+\rightarrow
+grasping the cube
+→
+\rightarrow
+…
+RACER
+RACER contains paired failed and successful trajectories on a Franka Panda in the RLBench simulator
+[
+60
+,
+26
+]
+. This dataset was picked for its non-prehensile tasks, such as opening/closing drawers and sweeping.
+AutoEval
+AutoEval contains data from automatic policy evaluations collected on 2 different WidowX250 setups
+[
+142
+]
+. While task diversity is limited, we used this dataset because it contains diverse strategies coming from the evaluation of arbitrary policies.
+This dataset is used only for preference prediction due to some noisy automatic success/fail detection.
+LIBERO
+We self-generated a failure dataset in LIBERO
+[
+79
+]
+by adding Gaussian noise to successful demonstration trajectories to re-generate paired failure trajectories for every task.
+This data is paired with the original success-only LIBERO dataset mentioned in
+Section
+A-11
+.
+Fino-Net
+Fino-Net data contains egocentric, paired success/fail data from a Baxter robot
+[
+56
+]
+. The data consists mainly of pick-and-place tasks, but it was selected for its use of a unique robot not present in the other datasets.
+A-14
+Human only Datasets
+Finally, we also include human-only data. Our final dataset contains just one dataset, Epic-Kitchens, but early on we also experimented with EgoDex
+[
+49
+]
+. We found that training solely on Epic-Kitchens helped predict rewards for robot data, but this was not the case with EgoDex, perhaps due to Epic-Kitchen’s background scene diversity and clutter.
+Epic-Kitchens
+We include a subset of data from Epic-Kitchens
+[
+27
+]
+. Due to some difficulties we encountered in downloading the entire dataset, we picked a subset of Epic-Kitchens 100 uploaded to HuggingFace Datasets.
+1
+1
+1
+https://huggingface.co/datasets/awsaf49/epic_kitchens_100
+Furthermore, because language annotations and trajectory end times are quite noisy, we use the Epic-Kitchens dataset only for preference prediction.
+A-2
+Dataset Filtering and Task End-State Adjustment
+To determine task-finished thresholds for each dataset, we designed a lightweight UI to visualize randomly sampled trajectories from each data source.
+With this visualizer, we sample 10 trajectories from each data source and manually mark the frame at which we deem the task to be complete.
+We define this threshold as the point at which the task description is satisfied.
+Then, we use the 90th percentile of end-frame thresholds (i.e., when 90% of the visualized trajectories are complete) as our threshold.
+Most teleoperators collecting data in
+RBM-1M
+define the trajectory as complete when the robot has performed a partial or full reset to neutral.
+As such, our end-state thresholds are typically set to around 80-95% of the trajectory length.
+This process takes no more than 2 minutes per data source, and the thresholds are used to appropriately adjust target progress and success thresholds for training, detailed further in
+Section
+B-2
+.
+A-3
+Individual Evaluation Dataset Details
+We summarize the number of trajectories in each of our in-distribution evaluation dataset in
+Table
+VII
+and the out-of-distribution evaluation dataset in
+Table
+VIII
+and describe them in detail below.
+USC Franka
+USC Franka is a dataset of mixed expertise trajectories collected between four different tabletop tasks such as “fold towel” and “put the plate on the sink.” For each quality label, we collected at least two trajectories each.
+USC Trossen
+USC Trossen comprises of mixed expertise trajectories collected between five different tabletop tasks using a bimanual Trossen. Some tasks are more articulated and dexterous such as ”unzip the pencil case” and ”stir the pot”. For each quality label, we collected at least two trajectories each.
+USC Koch Arms
+USC Koch Arms replicates the real-world data collected in ReWiND
+[
+136
+]
+using bimanual Koch Arms. This dataset consists of 10 demos per-task over 20 tasks. We also collect suboptimal and failure examples for each task.
+MIT Franka
+MIT Franka is a dataset composed of diverse tasks, including pick and place (“pick up the banana from X and place it on Y”) and dexterous tasks such as “fold the towel in half”, “pick up the spatula and stir the beans in the pot”. We also include a task “pick up the mouse and place it on X while avoiding Y” that requires semantic scene understanding. We collect trajectories of different levels of expertise for each task.
+UTD;’ SO-101
+Univ3 SO-101 is a real-world dataset of manipulation trajectories collected using a single-arm SO-101 robot. The dataset comprises two mixed-quality settings, each containing both successful and failure trajectories. The first setting is a clean pick-and-place environment centered on a single household task, “put the bread in the oven.” This setting includes 30 successful demonstrations and 45 failure trajectories. The second setting is a cluttered multitask environment consisting of three pick-and-place tasks, such as “put the red bowl on the blue plate.” For each task in this setting, we collect 20 successful demonstrations and 15 failure trajectories.
+Appendix B
+Model Details
+B-1
+Model Architecture and Training Parameters
+TABLE X
+:
+Training Configuration for
+Robometer
+Parameter
+Value
+Base Model
+Qwen/Qwen3-VL-4B-Instruct
+Number of frames
+8
+Per-device batch size
+16
+Learning rate
+2
+×
+10
+−
+5
+2\times 10^{-5}
+Weight decay
+0.01
+Total training steps
+6500
+Max sequence length
+1024
+LR scheduler
+Cosine
+Warmup ratio
+0.1
+Min frames per trajectory
+5
+Progress loss type
+Discrete (C51 style)
+Number of discrete bins
+10
+MLP head num hidden layers
+1
+MLP head dropout
+0.1
+MLP head hidden dim
+2048
+Architecture
+We illustrate the overall architecture of
+Robometer
+in
+Figure
+11
+.
+Robometer
+instantiates a causally masked vision–language model (VLM) backbone,
+Qwen3-VL-4B-Instruct
+, a unified transformer that processes interleaved text and visual tokens using a single autoregressive decoder. Natural language instructions are tokenized using Qwen’s SentencePiece-based tokenizer.
+Each video trajectory is first subsampled into a fixed number of frames. Each frame is independently encoded by a ViT-style visual encoder and projected into a sequence of visual tokens. A special
+⟨
+|
+video_start
+|
+⟩
+\langle|\text{video\_start}|\rangle
+token marks the beginning of visual input, after which visual tokens are appended sequentially and assigned unique positional indices in the unified token sequence. The decoder jointly attends over language tokens, visual tokens, and special tokens using a single causal attention mask, supporting unified multimodal reasoning.
+To enable dense, frame-level reward estimation, a learned progress token
+⟨
+|
+prog_token
+|
+⟩
+\langle|\text{prog\_token}|\rangle
+is inserted after each frame
+o
+t
+1
+o^{1}_{t}
+in the first trajectory. Under causal masking, the hidden state of
+⟨
+|
+prog_token
+|
+⟩
+\langle|\text{prog\_token}|\rangle
+can attend only to the instruction and visual tokens from frames
+o
+1
+1
+:
+t
+o^{1}_{1:t}
+.
+We introduce a dedicated separator token
+⟨
+|
+split_token
+|
+⟩
+\langle|\text{split\_token}|\rangle
+to demarcate the boundary between two video trajectories. The second trajectory
+o
+2
+o^{2}
+is appended after
+⟨
+|
+split_token
+|
+⟩
+\langle|\text{split\_token}|\rangle
+and processed jointly with
+o
+1
+o^{1}
+in the same causal sequence. A learned preference token
+⟨
+|
+pref_token
+|
+⟩
+\langle|\text{pref\_token}|\rangle
+is appended at the end of the prompt; its hidden state aggregates information from the instruction and both trajectories and is used to predict pairwise preference.
+We attach lightweight MLP heads to the shared VLM backbone. Specifically, the progress, preference, and success heads each consist of a two-layer MLP followed by LayerNorm, GELU activation, and dropout, and a final linear projection that outputs a scalar logit. The progress head is applied to the hidden states of the interleaved
+⟨
+|
+prog_token
+|
+⟩
+\langle|\text{prog\_token}|\rangle
+tokens to produce frame-level progress logits, while the success head operates on the corresponding per-frame hidden states to predict frame-level success logits. The preference head is applied to the hidden state of
+⟨
+|
+pref_token
+|
+⟩
+\langle|\text{pref\_token}|\rangle
+to produce a single logit indicating whether the first trajectory is preferred over the second.
+For preference supervision, we construct a single multimodal prompt that contains two trajectories, serialized into a single causal sequence and separated by a split token.
+This is a more detailed, expanded version of
+Equation
+1
+.
+Tok
+⁡
+(
+l
+,
+o
+A
+,
+o
+B
+)
+→
+Tok
+(
+l
+)
+This is Trajectory A.”
+⟨
+|
+video_start
+|
+⟩
+Tok
+(
+o
+A
+1
+:
+T
+)
+⟨
+|
+split_token
+|
+⟩
+​
+This is Trajectory B.”
+⟨
+|
+video_start
+|
+⟩
+Tok
+(
+o
+B
+1
+:
+T
+)
+⟨
+|
+pref_token
+|
+⟩
+.
+\begin{aligned} \operatorname{Tok}(l,o^{A},o^{B})\rightarrow\;&\operatorname{Tok}(l)\;\text{This is Trajectory A.''}\;\langle|\text{video\_start}|\rangle\;\operatorname{Tok}(o^{A}_{1:T})\\
+&\langle|\text{split\_token}|\rangle\;\text{This is Trajectory B.''}\\
+&\langle|\text{video\_start}|\rangle\;\operatorname{Tok}(o^{B}_{1:T})\;\langle|\text{pref\_token}|\rangle.\end{aligned}
+Prompt.
+Since we train the model on all 3 objectives (progress, success, preference) simultaneously, we always sample a preference prompt.
+Thus, we always condition the model on the following natural-language prompt.
+Given these two trajectories for the task “
+{task}
+”, evaluate which one makes more progress towards the task.
+Return A for the first trajectory and B for the second trajectory.
+Additionally, predict the task progress at each frame of the first trajectory as a float between 0 and 1, where 0 corresponds to the initial state and 1 corresponds to task completion. If the robot is not performing the specified task, predict 0 progress.
+Model and Training Params
+We list overall hyperparameters in
+Table
+X
+.
+We did not extensively sweep these hyperparameters—we followed best practices and parameters from prior work
+[
+7
+,
+6
+,
+74
+]
+.
+For the preference, success, and progress prediction MLPs, we heuristically select a hidden dimension of 2048, which is half the input size (Qwen’s hidden embedding size) of 4096.
+B-2
+Training Objectives
+Trajectory Cutoffs and Success Supervision
+In several teleoperated datasets, episode termination does not coincide with task completion.
+Operators typically complete the task and then manually stop the recording after a short delay, resulting in trailing frames in which the robot remains static or performs incidental motions unrelated to task execution.
+These frames do not reflect additional task progress and introduce noise when used for frame-level progress supervision.
+To mitigate this issue, we manually annotate a dataset-specific success cutoff corresponding to the frame at which the task objective is first achieved and apply this cutoff uniformly to all trajectories within the dataset (see
+Table
+XI
+).
+For frames occurring after the dataset-specific success cutoff, we assign target progress and success labels of
+1.0
+1.0
+, reflecting that the task has already been completed.
+Success supervision is applied selectively to avoid ambiguous or conflicting learning signals.
+Specifically, we predict success only for frames whose target progress is either strictly below a minimum success threshold
+τ
+succ
+\tau_{\text{succ}}
+, corresponding to clearly pre-completion states, or exactly equal to
+1.0
+1.0
+, corresponding to completed states.
+Frames with intermediate progress values near completion are excluded from success supervision, as they often correspond to visually ambiguous transitional or stabilization phases.
+Dataset
+Success Cutoff
+Open-X Embodiment (OXE)
+Aloha Mobile
+0.95
+Austin BUDS
+0.95
+Berkeley Cable Routing
+0.95
+Berkeley FANUC Manipulation
+0.98
+Bridgev2
+0.95
+DLR EDAN Shared Control
+0.95
+CMU Pickup Insert
+0.95
+UCSD Kitchen
+0.95
+UT Austin Mutex
+0.95
+BC-Z
+0.95
+Berkeley MVP
+1.00
+Berkeley RPT
+0.76
+Fractal
+1.00
+Furniture Bench
+1.00
+DROID
+0.95
+Imperial College Sawyer Wrist Cam
+0.90
+Language Table
+1.00
+NYU ROT
+0.70
+RoboSet
+0.85
+Stanford HYDRA
+1.00
+Tokyo-U LSMO
+1.00
+TOTO
+1.00
+Other Datasets
+MolmoAct Household
+0.94
+MolmoAct Tabletop
+0.94
+AgibotWorld
+0.95
+PH2D
+0.95
+RH20T (Human)
+0.92
+RH20T (Robot)
+0.94
+RoboArena
+0.90
+H2R
+0.90
+SOAR
+0.95
+AutoEval
+0.94
+Galaxea
+0.80
+FINO-Net
+0.75
+Humanoid Everyday
+0.80
+Motif
+0.95
+TABLE XI:
+Dataset-specific success cutoffs
+used to correct for delayed episode termination in teleoperated data. Datasets not contained here use a default success cutoff of 1.0.
+Progress Supervision in Preference Samples
+For preference samples, we apply progress supervision only to the first trajectory (Trajectory A), reflecting the fact that progress prediction is used at inference time for a single video.
+To avoid introducing noisy or ill-defined targets, we compute progress loss for Trajectory A only when it corresponds to a successful trajectory.
+When Trajectory A corresponds to a failed or suboptimal execution, we do not apply progress supervision.
+For datasets that provide continuous partial completion annotations, such as RoboArena, we supervise progress on the final frame of Trajectory A using the ground-truth
+partial_success
+value, even when the trajectory is suboptimal.
+This allows the model to learn calibrated progress estimates from human-annotated partial completion labels.
+Data Source and Strategy Sampling
+Detailing
+Section
+III-D
+further, we construct pairs of trajectory comparisons for preference supervision (and also progress/success supervision with the first trajectory input to the model) by first sampling a
+preference sampling strategy
+from
+different-task
+,
+rewind augmentation
+, or
+different-expertise
+.
+Conditioned on the selected strategy, we restrict sampling to datasets from which the corresponding type of preference pair can be constructed.
+•
+For
+different-expertise
+strategy, samples are constructed from mixed expertise datasets, such as RACER or FINO-Net, where trajectories are labeled as successful, suboptimal, or failed.
+We use these annotations to form preference pairs that rank trajectories by execution quality.
+In datasets such as RoboArena that additionally provide continuous
+partial_success
+annotations, we sample two trajectories from the same task and assign the trajectory with higher partial success as the preferred one.
+•
+Rewind augmentation
+can be applied to trajectories from any dataset and does not require additional annotations.
+•
+For
+different-task pairing
+, we sample a trajectory that is successful for one task and pair it with a trajectory executing a different task.
+When constructing different-task pairs, we control whether both trajectories are drawn from the same data source or from different sources.
+With probability
+ρ
+same
+\rho_{\text{same}}
+, we sample different-task pairs from the same dataset to discourage reliance on dataset-specific visual cues, while with probability
+1
+−
+ρ
+same
+1-\rho_{\text{same}}
+the trajectories are drawn from different datasets to encourage robustness to domain shift.
+We set
+ρ
+same
+=
+0.5
+\rho_{\text{same}}=0.5
+, yielding an equal mix of same-source and cross-source different-task comparisons.
+Preference Prediction Loss: Bradley-Terry vs BCE
+Our preference prediction loss in
+Equation
+2
+uses a binary cross-entropy loss coming from an MLP on top of the
+⟨
+|
+pref_token
+|
+⟩
+\langle|\text{pref\_token}|\rangle
+embedding in
+Equation
+1
+.
+Using this token with
+two
+input videos allows
+Robometer
+to simultaneously attend to
+both
+videos to predict this loss, resulting in one forward and backward pass to train
+Robometer
+on preference prediction.
+A common alternative in both reward modeling from pseudo-preferences
+[
+128
+]
+and general RLHF reward function training on real human preferences
+[
+22
+]
+is to instead use the Bradley-Terry loss
+[
+16
+,
+22
+]
+, where a single preference score is computed over an entire individual trajectory at a time, and then the loss is backpropagated across batch comparisons.
+Ignoring computational efficiency differences, our main reason for not implementing the Bradley–Terry loss into
+Robometer
+is that it does not leverage the pre-trained attention mechanism as effectively: our two-video formulation allows tokens from one trajectory to explicitly attend to tokens from the other, enabling direct cross-video comparison during preference prediction. This strategy is common for comparative reasoning tasks in language reference games
+[
+92
+,
+91
+,
+9
+]
+. In contrast, Bradley–Terry computes independent scalar scores per trajectory and only couples them through the loss, which can make learning more sensitive to score calibration across batches. We compare these objectives in
+Appendix
+D
+.
+As shown in
+Table
+XII
+, predicting a preference label from a dedicated
+⟨
+|
+pref_token
+|
+⟩
+\langle|\text{pref\_token}|\rangle
+given both videos (BCE) improves reward alignment (from 0.862 to 0.948) and trajectory ranking over Bradley–Terry (from 0.325 to 0.655).
+Pref. Loss
+VOC
+r
+↑
+r\uparrow
+Kendall
+τ
+↑
+\tau\uparrow
+Succ–Fail Diff.
+↑
+\uparrow
+BT
+0.862
+0.325
+0.242
+BCE
+0.948
+0.655
+0.320
+TABLE XII:
+Bradley–Terry (BT) versus preference label
+from a dedicated
+⟨
+|
+pref_token
+|
+⟩
+\langle|\text{pref\_token}|\rangle
+(BCE) given both videos in a single forward pass, evaluated on
+RBM-EVAL-OOD
+.
+B-3
+Computational Resources
+We train
+Robometer
+using a per-GPU batch size of 16 across 4 GPUs, resulting in an effective batch size of 64.
+All experiments are run on a server with jobs requesting 4 NVIDIA H200 GPUs and 32 CPU threads for 6.5k training steps, corresponding to approximately 2 days of wall-clock training time.
+Unless otherwise specified, we use the same training configuration across all experiments.
+Fig. 11
+:
+Robometer
+model architecture.
+For a given task, our VLM based model takes in language description and two trajectories 1 and 2 separated by split tokens. The vlm output for trajectory 1 is fed into two MLP heads : progress - task completion percent and success - task completion probability. Finally the full output is passed into a preference MLP to choose which trajectory best completes the provided task.
+Appendix C
+Additional Reward Evaluation Results
+We first list baseline implementation details for main paper baselines before discussing additional reward evaluation results.
+VLAC
+VLAC released 2 models built on the InternVL
+[
+21
+]
+VLM, with 2B and 8B parameters.
+VLAC takes 2 frames as input and predicts the relative increase in progress between the first and second frames; thus, its output range is
+[
+−
+1
+,
+1
+]
+[-1,1]
+.
+We directly perform inference using the publicly available GitHub code and test both the 2B and 8B models---we found the 8B model to perform slightly better on our evaluation results and thus use VLAC-8B as our baseline. The pretrained VLAC checkpoints are obtained from the authors’ public release.
+2
+2
+2
+https://huggingface.co/InternRobotics/VLAC
+For relevant reward comparisons, we normalize its outputs to make them directly comparable to those of all other models that output only positive rewards.
+Robo-Dopamine
+trains a step-aware
+general process reward model
+(GRM) to estimate fine-grained manipulation progress from
+multi-view
+observations by predicting discretized progress ‘‘hops’’ between states and aggregating these signals into a dense reward. We use the authors’ released inference code and GRM-3B checkpoint.
+3
+3
+3
+https://github.com/FlagOpen/Robo-Dopamine
+4
+4
+4
+https://huggingface.co/tanhuajie2001/Robo-Dopamine-GRM-3B
+Robo-Dopamine relies on richer task-specific context at inference time (e.g. such as multi-view and goal images), which may not be consistently available across datasets or deployment settings.
+GVL
+We compare against GVL, which queries a closed-source vision-language model to estimate task progress directly from video frames.
+GVL does not involve model fine-tuning; instead, progress is inferred solely through prompting at inference time.
+In our experiments, we use
+GPT-5-mini
+,
+5
+5
+5
+GPT-5-mini-2025-08-27
+the latest version as of writing.
+which is the strongest-performing closed-source model reported in the RoboRewardBench
+[
+74
+]
+benchmark.
+To discourage the model from exploiting trivial temporal cues and to reduce correlations with frame index, GVL shuffles video frames during inference and prompts the model to predict progress values that are subsequently reordered chronologically.
+ReWiND
+We implement ReWiND
+[
+136
+]
+, which operates on precomputed visual and language embeddings rather than raw pixels.
+Each video frame is encoded using a frozen DINOv2 vision encoder
+[
+98
+]
+, and task instructions are embedded using the frozen Sentence-Transformers MiniLM-L6-v2 model (
+all-MiniLM-L6-v2
+[
+106
+]
+).
+The resulting visual and text embeddings are linearly projected into a shared latent space and processed by a Transformer encoder.
+To enable a direct architectural comparison with
+Robometer
+, we predict per-frame progress and success directly from the hidden states corresponding to visual frame embeddings using lightweight MLP heads, and train progress using a discrete bin formulation.
+In our ablation study in
+Table
+IV
+, we further extend the ReWiND baseline with a preference objective by concatenating two trajectories into a single sequence and predicting a binary preference label via a learned preference token, and we scale up its original architecture (4 layers, 8 attention heads) to a hidden dimension of 1024, 32 transformer layers, and 16 attention heads.
+RoboReward
+is trained to predict a discrete 1-5 progress target on OXE and RoboArena.
+RoboReward is trained using trajectory-level supervision and does not model intermediate task progress within a trajectory.
+As a result, the model is primarily designed to provide a sparse, terminal reward.
+For fair evaluation and comparison with our dense reward formulation, we obtain frame-level rewards from RoboReward by running inference independently on each frame of a trajectory and treating the resulting predictions as per-frame rewards.
+We use the publicly released RoboReward-8B pretrained checkpoint provided by the authors.
+6
+6
+6
+https://huggingface.co/teetone/RoboReward-4B
+7
+7
+7
+https://huggingface.co/teetone/RoboReward-8B
+C-1
+Preference Prediction
+RL-VLM-F
+RL-VLM-F
+[
+122
+]
+predicts trajectory preferences by prompting a
+closed-source vision–language model to compare the
+final frame
+of two trajectories
+conditioned on a task description. In our experiments, we instantiate RL-VLM-F using the
+same OpenAI
+GPT-5-mini
+model as for GVL.
+RL-VLM-F uses the following fixed prompt for preference prediction.
+Each frame comes from a robot trajectory.
+(Think causally and use image comparison to verify any confusion
+between the base of the robot and the end effector.)
+1.
+What is shown in the first image (Image A)?
+2.
+What is shown in the second image (Image B)?
+3.
+For this question, here is the Goal Text:
+GOAL_TEXT
+Is the goal being better achieved in Image A or Image B?
+Reply with a single line containing
+0
+if the goal is better achieved in Image A,
+or
+1
+if the goal is better achieved in Image B.
+Reply
+-1
+if there is no discernible difference or progress.
+For RL-VLM-F, preferences are inferred using only the final frame
+of each trajectory, whereas
+Robometer
+applies a learned preference head that
+directly compares full video sequences.
+Preference accuracy is computed as the fraction of pairwise comparisons in
+which the predicted ordering matches the ground truth.
+To evaluate preference quality, we construct trajectory pairs from the
+RBM-EVAL-OOD
+split along two axes: (i) differing task instructions and
+(ii) differing trajectory quality labels.
+For each dataset, we randomly sample 500 pairwise trajectory comparisons
+and evaluate predicted preferences against ground-truth ordering labels.
+As shown in
+Tables
+XIII
+and
+XIV
+,
+Robometer
+consistently outperforms RL-VLM-F, improving average preference accuracy by 27.0% on different-quality pairs and by 32.4% on different-task pairs.
+Dataset
+RL-VLM-F (%)
+Robometer
+(%)
+USC  Franka
+52.1
+75.0
+USC Koch
+54.4
+79.4
+USC  Trossen
+66.7
+76.2
+USC xArm
+48.6
+88.9
+MIT Franka
+54.4
+85.4
+UTD;’ SO-101
+56.7
+90.0
+Average
+55.5
+82.5
+TABLE XIII:
+RL-VLM-F vs
+Robometer
+. Different quality trajectory pairwise preference accuracy on 500 comparisons for each of the
+RBM-EVAL-OOD
+datasets.
+Dataset
+RL-VLM-F (%)
+Robometer
+(%)
+USC  Franka
+70.7
+100.0
+USC Koch
+54.7
+89.8
+USC  Trossen
+64.0
+99.0
+USC xArm
+73.3
+98.2
+MIT Franka
+55.3
+98.4
+UTD;’ SO-101
+72.7
+100.0
+Average
+65.1
+97.6
+TABLE XIV:
+RL-VLM-F vs
+Robometer
+. Different task trajectory pairwise preference accuracy on 500 comparisons for each of the
+RBM-EVAL-OOD
+datasets.
+VOC
+r
+↑
+r\uparrow
+Kendall
+τ
+↑
+\tau\uparrow
+Succ–Fail Diff.
+↑
+\uparrow
+Dataset
+Prog. Only
++Preference
+Robometer
+Prog. Only
++Preference
+Robometer
+Prog. Only
++Preference
+Robometer
+USC Franka
+0.913
+0.974
+0.959
+0.083
+0.542
+0.646
+0.039
+0.428
+0.326
+USC Koch Arm
+0.933
+0.932
+0.950
+0.231
+0.357
+0.471
+0.081
+0.142
+0.191
+USC Trossen
+0.199
+0.902
+0.911
+0.333
+0.423
+0.653
+0.052
+0.231
+0.312
+USC xArm
+0.890
+0.973
+0.961
+0.389
+0.597
+0.694
+0.079
+0.154
+0.345
+MIT Franka
+0.936
+0.942
+0.954
+0.183
+0.458
+0.601
+0.063
+0.223
+0.310
+UTD;’ SO101
+0.964
+0.899
+0.952
+0.533
+0.667
+0.867
+0.134
+0.244
+0.438
+Average
+0.806
+0.939
+0.948
+0.292
+0.507
+0.655
+0.075
+0.237
+0.320
+TABLE XV:
+Per-dataset model ablation results.
+Reward alignment, trajectory ranking, and final reward difference between successful and failed trajectories on
+RBM-EVAL-OOD
+Baselines
+w/ RoboReward Training Data
+w/ our
+RBM-1M
+data
+Split
+Dataset
+GVL
+VLAC
+-8B
+RoboDopamine
+RoboReward
+-4B
+RoboReward
+-8B
+Robometer
+ReWiND
+Robometer
+RBM-EVAL-ID
+RACER (Val)
+0.131
+0.156
+0.197
+0.491
+0.652
+0.937
+0.561
+0.943
+OXE (BC-Z Eval)
+0.142
+-0.150
+-0.109
+0.643
+0.809
+0.683
+0.442
+0.922
+OXE (Berkeley Cable Routing Eval)
+0.075
+-0.425
+-0.384
+0.657
+0.801
+0.900
+0.491
+0.887
+OXE (Bridge V2 Eval)
+0.143
+-0.875
+-0.834
+0.891
+0.898
+0.633
+0.526
+0.920
+OXE (Jaco Play Eval)
+0.114
+-0.151
+-0.110
+0.793
+0.785
+0.861
+0.550
+0.872
+OXE (Toto Eval)
+0.254
+-0.416
+-0.375
+0.886
+0.939
+0.947
+0.340
+0.930
+OXE (Viola Eval)
+0.264
+0.479
+0.520
+0.915
+0.896
+0.967
+-0.014
+0.947
+Metaworld (Eval)
+0.134
+0.211
+0.252
+0.746
+0.779
+0.737
+0.630
+0.900
+Libero (90)
+0.254
+0.217
+0.258
+0.874
+0.846
+0.912
+0.592
+0.967
+Average
+0.168
+0.089
+0.130
+0.766
+0.823
+0.842
+0.458
+0.921
+RBM-EVAL-OOD
+USC Franka
+0.102
+0.356
+0.061
+0.909
+0.909
+0.959
+0.772
+0.959
+USC Koch
+0.176
+0.074
+-0.221
+0.866
+0.916
+0.969
+0.585
+0.950
+USC Trossen
+0.542
+0.256
+-0.039
+0.781
+0.726
+0.925
+0.226
+0.911
+USC xArm
+0.282
+0.454
+0.159
+0.896
+0.914
+0.951
+0.435
+0.961
+MIT Franka
+0.268
+0.601
+0.306
+0.896
+0.899
+0.868
+0.531
+0.954
+UTD;’ SO101
+0.203
+0.511
+0.216
+0.926
+0.930
+0.888
+0.497
+0.952
+Average
+0.262
+0.375
+0.080
+0.879
+0.882
+0.927
+0.508
+0.948
+TABLE XVI:
+Per-dataset reward alignment results.
+Pearson correlation results across individual datasets for
+RBM-EVAL-ID
+and
+RBM-EVAL-OOD
+.
+Baselines
+w/ RoboReward Training Data
+w/ our
+RBM-1M
+data
+Dataset
+GVL
+VLAC
+-2B
+VLAC
+-8B
+RoboDopamine
+RoboReward
+-4B
+RoboReward
+-8B
+Robometer
+ReWiND
+Robometer
+USC Franka
+0.250
+0.292
+0.271
+0.167
+0.625
+0.625
+0.583
+-0.125
+0.646
+USC Koch
+-0.008
+0.167
+0.064
+0.175
+0.332
+0.264
+0.533
+0.336
+0.471
+USC Trossen
+0.292
+-0.111
+-0.417
+0.000
+0.333
+0.389
+0.646
+0.028
+0.653
+USC xArm
+0.056
+0.167
+0.139
+0.014
+0.528
+0.347
+0.403
+-0.167
+0.694
+MIT Franka
+0.306
+-0.017
+0.072
+0.220
+0.494
+0.396
+0.479
+0.080
+0.601
+UTD;’ SO101
+0.300
+-0.033
+0.167
+0.067
+0.700
+0.767
+0.667
+-0.067
+0.867
+Average
+0.199
+0.077
+0.049
+0.107
+0.502
+0.465
+0.552
+0.014
+0.655
+TABLE XVII:
+Per-dataset trajectory ranking results.
+Trajectory ranking results on individual
+RBM-EVAL-OOD
+datasets.
+Appendix D
+Additional Ablations
+VOC
+r
+↑
+r\uparrow
+Kendall
+τ
+↑
+\tau\uparrow
+Succ–Fail Diff.
+↑
+\uparrow
+Model
+RBM-EVAL-OOD
+LIBERO (90)
+RBM-EVAL-OOD
+LIBERO (90)
+RBM-EVAL-OOD
+LIBERO (90)
+No Different Task
+0.930
+0.966
+0.560
+0.903
+0.260
+0.362
+No Rewind
+0.860
+0.818
+0.480
+0.815
+0.150
+0.241
+No Subopt
+0.915
+0.910
+0.585
+0.890
+0.235
+0.413
+Ours
+0.950
+0.976
+0.660
+0.919
+0.330
+0.455
+TABLE XVIII:
+Data sampling strategy ablation results.
+Reward alignment, trajectory ranking, and final reward difference between successful and failure trajectories on
+RBM-EVAL-OOD
+and LIBERO-90.
+Models are trained without using
+RBM-EVAL-OOD
+scenes;
+RBM-EVAL-OOD
+and LIBERO-90 are held out for evaluation.
+VOC
+r
+↑
+r\uparrow
+Kendall
+τ
+↑
+\tau\uparrow
+Succ–Fail Diff.
+↑
+\uparrow
+Weights
+(
+λ
+pref
+,
+λ
+prog
+)
+(\lambda_{\text{pref}},\lambda_{\text{prog}})
+LIBERO (10)
+LIBERO (90)
+LIBERO (10)
+LIBERO (90)
+LIBERO (10)
+LIBERO (90)
+(
+2
+,
+1
+)
+(2,\,1)
+0.983
+0.964
+0.981
+0.898
+0.347
+0.352
+(
+1
+,
+2
+)
+(1,\,2)
+0.986
+0.946
+0.982
+0.875
+0.423
+0.367
+(
+1
+,
+1
+)
+(1,1)
+0.994
+0.976
+0.986
+0.919
+0.483
+0.455
+TABLE XIX:
+Loss weight ablation results.
+Hyperparameter sweep over preference/progress loss weights
+(
+λ
+pref
+,
+λ
+prog
+)
+(\lambda_{\text{pref}},\lambda_{\text{prog}})
+on LIBERO-10 and LIBERO-90. Each model is trained on LIBERO-(10, Spatial, Object, Goal) and LIBERO-90 is heldout for evaluation only.
+D-1
+Preference pair sampling ablations
+As shown in
+Table
+XVIII
+, we ablate our preference pair sampling strategies to isolate which parts of the data construction are responsible for
+generalization
+. We evaluate on held-out
+RBM-EVAL-OOD
+and the out-of-distribution LIBERO-90 benchmark, neither of which is used for training. We remove one strategy at a time from
+Section
+III-D
+to measure its contribution to held-out ranking and reward separation.
+Across both held-out benchmarks, removing any component hurts performance, with the largest drop coming from disabling
+trajectory rewinding
+, which most strongly reduces success–failure separation and degrades trajectory ranking.
+Different-task negatives
+primarily affect instruction grounding: dropping them yields a consistent (though smaller) degradation in OOD ranking. Finally,
+suboptimal trajectory
+pairs help calibrate rewards across mixed-quality behavior; removing them reduces ranking quality and narrows the margin between successful and failed trajectories. Overall, each preference construction contributes complementary signal, and combining them yields the strongest held-out ranking and reward separation.
+D-2
+RBM-EVAL-OOD
+Pre-Training Objective Ablations
+As shown in
+Table
+XV
+, incorporating trajectory-level preference supervision consistently improves reward-model behavior compared to training on progress labels alone.
+On average, adding preferences boosts reward alignment from 0.806 to 0.939 and improves trajectory ranking from 0.292 to 0.507, indicating that pairwise comparisons provide a strong signal for ordering failed, suboptimal, and successful behaviors.
+Robometer
+achieves the best average Kendall score of 0.655 and the largest success–failure final reward difference (0.320), while maintaining high alignment (0.948).
+Notably,
+Robometer
+yields consistent gains in across all OOD datasets, suggesting that jointly leveraging dense progress targets with preference learning produces a reward function that both tracks task completion and better discriminates overall trajectory quality in OOD settings.
+We report detailed evaluation results for each dataset in
+RBM-EVAL-OOD
+in
+Table
+XVI
+(reward alignment) and
+Table
+XVII
+(trajectory ranking).
+D-3
+Training loss weight ablations
+Table
+XIX
+sweeps the relative weighting between the preference and progress losses. We find that the best performance is achieved when the two objectives are weighted uniformly, with
+(
+λ
+pref
+,
+λ
+prog
+)
+=
+(
+1
+,
+1
+)
+(\lambda_{\text{pref}},\lambda_{\text{prog}})=(1,\,1)
+outperforming settings that upweight either preference or progress on LIBERO-90 across alignment, ranking, and success–failure separation.
+Appendix E
+Policy Learning Experiment Details
+E-1
+RL with Ablated Reward Models
+Experiment Setup.
+For each ablated reward model described in
+Section
+IV-Q2
+, we train an RL policy from scratch using SAC
+[
+42
+]
+. We evaluate performance on two tasks from the LIBERO-90 suite: Task 28 (
+close the top drawer
+) and Task 33 (
+close the microwave
+). Both reward estimation and RL training use only the external camera view. The policy observations consist of a DINO-v2-small
+[
+98
+]
+-featurized external image concatenated with proprioceptive state inputs. During training, we perform 25 evaluation episodes every 5000 training steps and report the average success rate
+±
+\pm
+standard deviation. For each reward model, we train 5 random seeds. The SAC hyperparameters are provided in
+Table
+XX
+.
+Hyperparameter
+Value
+Batch size
+128
+Target update rate
+τ
+\tau
+0.005
+Discount factor
+γ
+\gamma
+0.99
+0.99
+Target update interval
+1
+Number of critics
+5
+Critics sampled per update
+2
+Pooled critic features
+True
+Actor updates per train step
+1
+Critic updates per actor update
+1
+Actor learning rate
+1
+×
+10
+−
+5
+1\times 10^{-5}
+Critic learning rate
+1
+×
+10
+−
+5
+1\times 10^{-5}
+Entropy coeff learning rate
+3
+×
+10
+−
+4
+3\times 10^{-4}
+Target entropy
+0
+Learning starts
+5000 steps
+TABLE XX:
+RL with Ablated Reward Models.
+SAC hyperparameters.
+E-2
+Automatic Online RL
+Environment Setup
+We setup a DROID
+[
+63
+]
+-style Franka Panda environment on a cluttered tabletop as depicted in
+Figure
+6
+.
+Following DROID, we have a Robotiq gripper, an exterior Zed camera mounted to the left of the robot arm, and a Zed wrist camera.
+•
+Single Stage
+: The task is to put the bowl onto the table, where the difficulty lies in the bowl starting in a tall dish rack which physically blocks the robot gripper if it approaches the bowl from too low of an angle. The clutter also makes it difficult for
+π
+0
+\pi_{0}
+to perform this task with high success rates zero-shot (20% initial success rate), making it well-suited for dense reward RL. The task instruction given to
+π
+0
+\pi_{0}
+is “put the bowl on the table.”
+•
+Multi-Stage
+: The first task is to put the corn in the pot, and the second is to then put the lid on the corn, emulating a “steam corn” task.
+The pot being in the dish rack confuses
+π
+0
+\pi_{0}
+, so the base policy tends to either miss putting the corn in the pot or collide with the dish rack and get stuck.
+The exact instructions for
+π
+0
+\pi_{0}
+are “put the corn in the pot located in the dish rack” and “put the lid on the pot located in the dish rack.”
+RL Algorithm
+We train an RL policy from scratch with Diffusion Steering (DSRL)
+[
+120
+]
+to steer a frozen
+π
+0
+\pi_{0}
+policy pre-trained on the DROID
+[
+63
+]
+dataset.
+The DSRL policy trains an SAC
+[
+42
+]
+-style algorithm that operates over the
+noise space
+of the
+π
+0
+\pi_{0}
+flow matching head.
+Specifically, the inputs to the RL policy are:
+•
+DINO-v2-small
+[
+98
+]
+-featurized wrist image (384-dim)
+•
+π
+0
+\pi_{0}
+VLM hidden embedding (2048-dim)
+•
+Proprioceptive joint and gripper positions (8-dim)
+•
+For multi-stage only: the index of the current stage the policy is in (1-dim), concatenated with the proprioception.
+The output is an action chunk of length 8, where each action is of dimension 32 (
+π
+0
+\pi_{0}
+’s flow matching head noise dimension) and the action bounds are
+[
+−
+2.0
+,
+2.0
+]
+[-2.0,2.0]
+for single-stage and
+[
+−
+1.5
+,
+1.5
+]
+[-1.5,1.5]
+for multi-stage.
+The original DSRL paper proposed an MLP policy that outputs a single output noise action, which is copied
+10
+10
+times (
+π
+0
+\pi_{0}
+-DROID has a default action length of 10).
+Unlike the original DSRL paper, we parameterize the policy with a transformer backbone so that it can output a unique noise embedding for each action in the 8-length action chunk—we found this action chunked version to perform more meaningful exploration and thus learn quicker. We copy the first 2 noise actions of the action chunk to fill the remaining
+2
+2
+noise timesteps for
+π
+0
+\pi_{0}
+-DROID, but we only execute 8 actions out of 10.
+Similarly, the Q function takes as input an
+8
+8
+-length action chunk but otherwise follows a standard Q-function formulation.
+The network architectures follow the same one used in the Offline RL experiments, whose details are in
+Table
+XXVI
+.
+SAC algorithm hyperparameters are detailed below.
+Hyperparameter
+Value
+Batch size
+64
+Target update rate
+τ
+\tau
+0.005
+Discount factor
+γ
+\gamma
+0.995
+0.995
+Target update interval
+1
+Number of critics
+4
+Critics sampled per update
+2
+Pooled critic features
+True
+Actor updates per train step
+10 (single), 12 (multi)
+Critic updates per actor update
+4 (single), 2 (multi)
+Actor learning rate
+5
+×
+10
+−
+5
+5\times 10^{-5}
+Critic learning rate
+1
+×
+10
+−
+4
+1\times 10^{-4}
+Entropy coeff learning rate
+1
+×
+10
+−
+4
+1\times 10^{-4}
+Target entropy
+0
+Learning starts
+1200 steps
+Training steps
+10000 steps
+TABLE XXI:
+Automatic Online RL.
+DSRL SAC hyperparameters.
+We run RL for 10000 environment steps, corresponding to about 40 minutes of total real-world experiment time.
+We train after each episode rather than after each step, and we design an
+asynchronous
+reward relabeling pipeline that relabels rewards in the replay buffer using reward models after they’ve been added, to prevent reward-related latency.
+Success Detection.
+Success detection and episode termination come from the reward models.
+With
+Robometer
+, we use the model’s success prediction probability and threshold it so that if the last timestep’s success detection probability is
+>
+0.6
+>0.6
+, the episode is marked as a success and terminated.
+With RoboReward, we use its discrete reward predictions where we mark the episode as successful if it predicts 5/5 reward. If no success is detected by 240 timesteps, the episode terminates and resets.
+For the multi-stage experiment, we run for 200 timesteps per stage. If the first stage (corn in pot) fails after 200 timesteps, we reset.
+If the reward model detects success (as in single-stage) in the first stage, we advance to the second stage, where the episode timeout is reset back to 200 timesteps.
+If there’s a failure in the second stage, we still reset the entire scene back to before the first stage was completed.
+Each stage advance simply updates the language instruction for
+π
+0
+\pi_{0}
+and the task index for the DSRL policy/Q function.
+Environment Reward.
+For the single-stage setup, the base reward for the task is
+−
+1
+/
+0
+-1/0
+, where
+−
+1
+-1
+is given at every step except success, where
+0
+0
+is given. This base reward is added to the reward predictions
+∈
+[
+0
+,
+1
+]
+\in[0,1]
+, thus bounding the per-step reward to be
+[
+−
+1
+,
+0
+]
+[-1,0]
+.
+In the multi-stage setup, the base reward when the policy is in the first stage is
+−
+2
+-2
+at each timestep, added to the reward predictions from the reward model. When the policy enters the second stage, the base reward is
+−
+1
+/
+0
+-1/0
+just like in the single-stage setup.
+This simple reward design always encourages the policy to advance to the next stage, even under possibly suboptimal rewards.
+Results
+Our single-stage results in
+Figure
+6
+show a 55% improvement in performance of
+Robometer
+over RoboReward after 10k online RL steps.
+A key failure mode of RoboReward is its tendency to predict high rewards even when the robot is executing the wrong task.
+In cluttered environments, RoboReward frequently assigns a maximum reward (5/5) when the robot manipulates objects that are not the target bowl.
+This leads to a large number of false positives, as quantified in
+Table
+XXII
+.
+Method
+True Positives
+False Positives
+RoboReward
+6
+45
+Robometer
+18
+0
+TABLE XXII
+:
+Automatic Online RL reward relabeling.
+True positives (TP) and false positives (FP) for reward predictions during online RL.
+Finally, in our multi-stage results in
+Figure
+6
+, RoboReward does not improve the
+π
+0
+\pi_{0}
+policy at all.
+This failure to improve stems from how the
+π
+0
+\pi_{0}
+policy tends to fail the first subtask, putting the corn in the pot, by dropping it
+near
+but not in the pot.
+RoboReward often falsely assigns a 5/5 score to these failed states, allowing the policy to move onto the next stage.
+As a result, during evaluation, the RoboReward-trained DSRL policy often drops the corn into various parts of the dish rack rather than into the pot.
+Robometer
+, on the other hand, rarely assigns these states as successful, enabling the policy to learn more.
+E-3
+Out of Distribution Failure Detection
+For out-of-distribution failure detection, we evaluate our model on MIT Franka dataset. For quantitative analysis in Table
+XXIII
+and Figure
+12
+, we mark a trajectory as success if success probability is higher than or equal to 0.5, and failure otherwise.
+Baselines
+In addition to RoboReward-4B, VLAC, and GPT-5-mini, we compare against an uncertainty-based baseline, following
+[
+40
+,
+52
+]
+.
+Token-Uncertainty
+baseline estimates predictive uncertainty by computing entropy over generated language tokens. We compute token uncertainty on evaluation trajectories using the
+π
+0
+\pi_{0}
+-FAST DROID policy
+[
+101
+]
+.
+(a)
+RoboReward-4B
+(b)
+GPT-5-mini
+(c)
+Robometer
+(Ours)
+Fig. 12
+:
+Failure Detection OOD confusion matrices
+with ternary ground truth and binary prediction.
+Rows indicate ground-truth execution outcomes (
+failure
+,
+suboptimal
+,
+success
+), while columns indicate binary predictions (
+predicted failure
+vs.
+predicted success
+).
+Suboptimal
+trajectories correspond to executions that make partial progress but do not complete the task. Suboptimal trajectories are treated as failures in our quantitative evaluation, as emphasized with the horizontal orange divider in the above confusion matrices.
+Color intensity reflects the number of trajectories.
+Discussion
+Figure
+12
+visualizes out-of-distribution failure detection using an asymmetric
+3
+×
+2
+3{\times}2
+confusion matrix: ground-truth labels include
+failure
+,
+suboptimal
+, and
+success
+, while predictions are binary (
+failure
+vs.
+success
+).
+This view separates two practically distinct error types: (i) missed failures/suboptimal executions (mass in the right column for the top two rows), and (ii) false alarms on successful executions (mass in the left column for the bottom row).
+Across methods,
+Robometer
+allocates more mass to correctly flagging both
+failure
+and
+suboptimal
+trajectories as failures, while maintaining relatively few false alarms on
+success
+trajectories, consistent with its higher average F1 in Table
+V
+.
+In contrast, GPT-5-mini concentrates mass in the
+predicted success
+column for
+failure
+and
+suboptimal
+rows, indicating a conservative bias that avoids false positives but misses many non-success outcomes, whereas RoboReward-4B is intermediate with improved failure sensitivity but still more confusion between
+suboptimal
+and
+success
+than
+Robometer
+.
+Task
+Token-Unc.
+VLAC
+GPT-5-mini
+RoboReward
+-4B
+Robometer
+TPR
+TNR
+F1
+TPR
+TNR
+F1
+TPR
+TNR
+F1
+TPR
+TNR
+F1
+TPR
+TNR
+F1
+move banana
+0.00
+1.00
+0.53
+0.89
+0.35
+0.45
+0.31
+1.00
+0.48
+1.00
+0.62
+0.91
+1.00
+0.75
+0.94
+move mouse
+0.00
+1.00
+0.50
+1.00
+0.00
+0.00
+0.80
+1.00
+0.89
+0.80
+0.75
+0.80
+1.00
+0.75
+0.91
+pour pebble
+0.00
+1.00
+0.32
+0.88
+0.00
+0.00
+0.14
+1.00
+0.25
+0.57
+1.00
+0.73
+0.71
+1.00
+0.83
+fold towel
+0.00
+1.00
+0.58
+0.95
+0.10
+0.16
+0.15
+1.00
+0.27
+0.31
+0.67
+0.40
+0.54
+0.56
+0.58
+pull tissue
+0.00
+1.00
+0.43
+1.00
+0.00
+0.00
+0.00
+1.00
+0.00
+0.55
+0.00
+0.57
+0.73
+0.50
+0.76
+put spoon
+0.00
+1.00
+0.22
+1.00
+0.00
+0.00
+0.14
+1.00
+0.25
+0.57
+1.00
+0.73
+0.57
+1.00
+0.73
+stir pot
+0.00
+1.00
+0.47
+0.94
+0.00
+0.00
+0.09
+1.00
+0.17
+0.91
+1.00
+0.95
+0.82
+1.00
+0.90
+Average
+0.00
+1.00
+0.48
+0.95
+0.10
+0.16
+0.20
+1.00
+0.33
+0.69
+0.63
+0.74
+0.77
+0.70
+0.81
+TABLE XXIII:
+Failure detection performance
+.
+We report true positive rate (TPR; correctly detecting failures), true negative rate (TNR; correctly identifying successful executions), and F1 score.
+Failure Detection with Progress Monitoring
+Table
+XXIII
+compares our model against baselines on three evaluation metrics: true positive rate (TPR; correctly detecting failures), true negative rate (TNR; correctly identifying successful executions), and F1 score.
+Robometer
+consistently outperforms baselines, resulting in higher average F1 score. Token-Uncertainty and GPT-5-mini baselines attain perfect TNR but extremely low TPR, indicating a strong bias toward predicting success and missing failures. VLAC exhibits the opposite behavior: it frequently flags trajectories as failures, achieving high true positive rates but low true negative rates due to many false positives on successful executions, which results in lower F1 scores.
+RoboReward-4B lies between these extremes, with improved failure sensitivity over GPT-5-mini but more confusion between
+suboptimal
+and
+success
+trajectories than
+Robometer
+.
+We provide qualitative examples of failure detection using progress monitoring across different failure categories in Figures
+13
+–
+15
+.
+Specifically, we compute the Pearson correlation between progress values and time over a sliding window, and flag a failure at the first timestep where this correlation becomes lower than a threshold. This captures both irreversible failures, where rewards sharply decrease after an error (e.g., object drops), and insufficient-progress failures, where rewards stagnate or regress over time. If no such failure is detected or if our model predicts success, the trajectory is classified as successful.
+Our failure evaluation dataset include both
+irreversible failures
+(e.g., object drops or spills) and
+insufficient-progress failures
+, where the robot stalls, oscillates, or terminates execution before completing the task.
+We additionally highlight
+semantic failures
+, where the robot executes a physically plausible behavior that violates the task instruction. All qualitative examples use window size of 5 besides Figure
+13
+(c) which uses window size of 9. We use correlation threshold of -0.5 in all examples.
+Across all cases, our reward model identifies failures by detecting regressions or stagnation in predicted task progress.
+For irreversible failures (see Figure
+13
+), the predicted progress increases initially but drops sharply after the terminal event (e.g., dropping or spilling), leading to early failure detection.
+In semantic failures (see Figure
+14
+), progress remains consistently low despite smooth execution, reflecting instruction-level mismatch.
+For insufficient-progress failures (see Figure
+15
+), the progress signal plateaus or oscillates without converging to success, allowing the model to flag failure even in the absence of abrupt terminal events.
+(a)
+Dropped object during placement.
+(b)
+Spilled contents during pouring.
+Fig. 13
+:
+Irreversible failures.
+Terminal events such as drops or spills cause a sharp regression in predicted task progress, which our model reliably flags as failures shortly after the event.
+(a)
+Wrong object grasped despite correct motion pattern.
+(b)
+Instruction-inconsistent action (placing the cup instead of pouring).
+Fig. 14
+:
+Semantic failures.
+The robot executes smooth and physically plausible trajectories but violates the task instruction, resulting in persistently low predicted progress and failure detection without an abrupt terminal event.
+Fig. 15
+:
+Insufficient-progress failures.
+Although the robot continues to move, predicted progress stagnates or oscillates without converging to success, enabling detection of failures caused by stalling or premature termination. Execution stalls with plateaued progress in this example.
+E-4
+Data Filtering & Retrieval
+Procedure and Discussion
+We have 50 trajectories in our play dataset, where each trajectory consists of five tasks executed in random order:
+uncap the red pen
+,
+open the bottle
+,
+open the red drawer
+,
+stir the pot
+, and
+unzip the pencil case
+, collected using the Trossen Stationary AI bimanual setup. The dataset includes three camera views: one top-down view and one wrist-mounted camera for each end effector. Example images from all camera views are shown in
+Figure
+16
+. Following prior work
+[
+48
+,
+90
+]
+, we first segment each trajectory into subtrajectories based on end-effector velocities and changes in gripper states. In practice, we found that explicitly incorporating gripper state changes produces cleaner segmentation of different tasks. After segmentation, the play dataset yields a total of 615 subtrajectories. If subtrajectories were uniformly distributed across tasks, this would correspond to 123 relevant segments per task; to ensure conservative evaluation, we retrieve 100 subtrajectories per task.
+We compare our method against three baselines: RoboReward, pre-trained SigLIP
+[
+134
+]
+, a vision–language model trained with contrastive image–language supervision, and a retrieval-specific baseline, STRAP
+[
+90
+]
+.
+We chose to include STRAP as it is one of the few viable approaches for zero-shot data filtering and retrieval; alternative methods either require policy rollouts
+[
+3
+]
+, larger amounts of task-specific data
+[
+123
+]
+, or training additional task-specific retrieval modules
+[
+138
+,
+44
+,
+29
+,
+77
+]
+.
+Fig. 16
+:
+Data filtering & retrieval scene configuration
+from all cameras.
+Given a task language instruction, we perform retrieval using different reward models as follows. For RoboReward and
+Robometer
+-Prog, we first compute per-timestep reward predictions for each subtrajectory conditioned on the instruction. We then calculate the value-order correlation of each subtrajectory using the predicted rewards and select the top 100 subtrajectories with the highest VOC scores. When using the preference-based variant of our method (
+Robometer
+-Pref), we construct pairwise comparisons between all subtrajectories, aggregate the results into a win matrix, and rank subtrajectories according to estimated pairwise preferences. The top 100-ranked subtrajectories are then selected. For SigLIP, we compute the average vision–language similarity between each subtrajectory and the instruction and select the top 100 subtrajectories with the highest average similarity scores. We use wrist-camera images for retrieval in all methods, as they yield the highest-quality retrievals for all methods.
+For
+π
+0.5
+\pi_{0.5}
+policy fine-tuning via LoRA
+[
+80
+,
+76
+]
+, we directly use the retrieved 100 subtrajectories together with the corresponding task instruction. During fine-tuning, we include observations from all camera views, as well as states and actions.
+Results reported in
+Figure
+8
+(b) use a strict success metric: a trial is counted as successful only if the robot fully completes the task. This criterion partially explains the low success rates observed for the baselines. Qualitative inspection of learned behaviors reveals clear differences between retrieval methods. Policies trained on SigLIP-retrieved data often learn to approach task-relevant objects (e.g., reaching the drawer) but fail to complete the task. In contrast, policies trained on RoboReward-retrieved data frequently exhibit random or unstable behaviors, consistent with a higher proportion of unrelated subtrajectories in the retrieved set.
+Additional Experiments
+We additionally evaluate retrieval quality in a controlled setting where ground-truth trajectory labels are available. Instead of using the play dataset, we consider the Trossen subset of
+RBM-EVAL-OOD
+, which contains six tasks with known numbers of successful, suboptimal, and failed trajectories. We perform retrieval for two representative tasks—
+open the red drawer
+and
+unzip the pencil case
+—each of which contains three successful, two suboptimal, and two failure trajectories. Using the same retrieval procedures described above, we retrieve five trajectories per task and assess their quality. Results are shown in
+Table
+XXIV
+.
+Robometer
+consistently retrieves higher-quality trajectories, while baselines either fail to retrieve task-relevant trajectories or select failure cases. These results highlight
+Robometer
+’s ability to both distinguish between tasks and differentiate levels of execution quality.
+Task
+Method
+#Succ
+#Subopt
+#Fail
+#Unrel
+Open the red drawer
+SigLIP
+2
+2
+1
+0
+RoboReward
+2
+1
+2
+0
+STRAP
+2
+2
+1
+0
+Robometer
+–Prog
+3
+2
+0
+0
+Robometer
+–Pref
+3
+2
+0
+0
+Unzip the pencil case
+SigLIP
+2
+1
+2
+0
+RoboReward
+0
+0
+2
+3
+STRAP
+2
+2
+1
+0
+Robometer
+–Prog
+3
+2
+0
+0
+Robometer
+–Pref
+2
+2
+1
+0
+TABLE XXIV
+:
+Trajectory retrieval analysis.
+Top-5 retrieval quality summary per task. Counts indicate how many of the top-5 retrieved trajectories are labeled as success (Succ), suboptimal (Subopt), failure (Fail), or unrelated (Unrel).
+E-5
+Combining Noisy and Expert Trajectories via Offline
+RL
+Procedure and Data Collection
+We study how different reward formulations affect downstream policy learning when training on
+a mixture of expert and noisy trajectories using offline reinforcement learning. Specifically,
+we compare three reward settings: (i) a sparse terminal reward, (ii) rewards predicted by
+RoboReward, and (iii) rewards predicted by
+Robometer
+.
+We evaluate offline RL on the SO-101 robot platform under two settings across two manipulation tasks:
+Put the bread in the oven
+and
+Put the red bowl on the blue plate
+.
+Setting 1
+is a clean single-task setting that evaluates
+Put the bread in the oven
+;
+setting 2
+is a cluttered multi-task setting that evaluates
+Put the red bowl on the blue plate
+.
+We visualize these settings in
+Figure
+7
+.
+For each task, we collect a mixed-expertise offline dataset containing both expert demonstrations and failed executions. In
+Setting 1
+, we collect 30 successful trajectories and 45 failed trajectories for
+Put the bread in the oven
+.
+In
+Setting 2
+, we collect 20 successful trajectories and 15 failed trajectories each for 3 separate tasks:
+Put the marker in the pen cup
+, and
+Put the red cup on the purple coaster
+, and the evaluation task
+Put the red bowl on the blue plate
+.
+With offline RL, transitions from other tasks, whether the data is suboptimal or expert, should be useful for the
+Put the red bowl on the blue plate
+task as they share a similar cluttered scene.
+Observations include images from both an external camera and a wrist-mounted camera, as well as proprioceptive states. During offline RL training, we use images from both camera views, while reward estimation is performed using the external camera view only.
+Offline RL Setup and IQL Objectives
+We follow an offline RL training setup similar to ReWiND
+[
+136
+]
+.
+For all methods, we train policies using Implicit Q-Learning (IQL)
+[
+68
+]
+with identical actor, critic, and value network architectures, optimization hyperparameters,
+and datasets. IQL learns a value function
+V
+ψ
+​
+(
+s
+)
+V_{\psi}(s)
+, an ensemble of action-value functions
+{
+Q
+θ
+i
+​
+(
+s
+,
+a
+)
+}
+i
+=
+1
+N
+\{Q_{\theta_{i}}(s,a)\}_{i=1}^{N}
+, and a policy
+π
+ϕ
+​
+(
+a
+∣
+s
+)
+\pi_{\phi}(a\mid s)
+from an offline dataset
+𝒟
+=
+{
+(
+s
+,
+a
+,
+r
+,
+s
+′
+)
+}
+\mathcal{D}=\{(s,a,r,s^{\prime})\}
+. Each critic is trained by minimizing the temporal-difference
+loss
+ℒ
+Q
+​
+(
+θ
+i
+)
+=
+𝔼
+𝒟
+​
+[
+(
+Q
+θ
+i
+​
+(
+s
+,
+a
+)
+−
+(
+r
++
+γ
+​
+V
+ψ
+​
+(
+s
+′
+)
+)
+)
+2
+]
+\mathcal{L}_{Q}(\theta_{i})=\mathbb{E}_{\mathcal{D}}\!\left[(Q_{\theta_{i}}(s,a)-(r+\gamma V_{\psi}(s^{\prime})))^{2}\right]
+. The value network is trained via expectile regression
+toward the critic ensemble using
+ℒ
+V
+​
+(
+ψ
+)
+=
+𝔼
+𝒟
+​
+[
+ρ
+τ
+​
+(
+min
+i
+⁡
+Q
+θ
+i
+​
+(
+s
+,
+a
+)
+−
+V
+ψ
+​
+(
+s
+)
+)
+]
+\mathcal{L}_{V}(\psi)=\mathbb{E}_{\mathcal{D}}\!\left[\rho_{\tau}(\min_{i}Q_{\theta_{i}}(s,a)-V_{\psi}(s))\right]
+,
+where
+ρ
+τ
+​
+(
+u
+)
+=
+|
+τ
+−
+𝕀
+⁡
+(
+u
+<
+0
+)
+|
+​
+u
+2
+\rho_{\tau}(u)=|\tau-\mathbb{I}(u<0)|u^{2}
+. The policy is learned via
+advantage-weighted regression with objective
+ℒ
+π
+​
+(
+ϕ
+)
+=
+𝔼
+𝒟
+​
+[
+exp
+⁡
+(
+A
+⁡
+(
+s
+,
+a
+)
+/
+β
+)
+​
+log
+​
+π
+ϕ
+​
+(
+a
+∣
+s
+)
+]
+\mathcal{L}_{\pi}(\phi)=\mathbb{E}_{\mathcal{D}}\!\left[\exp(A(s,a)/\beta)\log\pi_{\phi}(a\mid s)\right]
+,
+where the advantage is defined as
+A
+⁡
+(
+s
+,
+a
+)
+=
+min
+i
+⁡
+Q
+θ
+i
+​
+(
+s
+,
+a
+)
+−
+V
+ψ
+​
+(
+s
+)
+A(s,a)=\min_{i}Q_{\theta_{i}}(s,a)-V_{\psi}(s)
+and
+β
+\beta
+is the advantage temperature.
+To account for differences in reward sparsity and temporal structure, we sweep the discount
+factor
+γ
+∈
+{
+0.9
+,
+0.95
+,
+0.99
+}
+\gamma\in\{0.9,0.95,0.99\}
+for each reward setting. All other IQL hyperparameters
+and actor–critic architecture details are held fixed across methods and summarized in
+Tables
+XXV
+and
+XXVI
+.
+For each method, we select the best-performing checkpoint based on validation performance.
+Reward Specification
+RoboReward provides a sparse, trajectory-level progress signal. To enable its use in IQL,
+we convert RoboReward outputs into a per-frame dense reward by querying the model on partial
+trajectory prefixes
+o
+1
+:
+t
+o_{1:t}
+and assigning the resulting prediction as the reward at timestep
+t
+t
+. In contrast, our reward model directly produces dense, temporally aligned rewards over
+video sequences, which we use without additional post-processing. Aside from this difference
+in reward construction, all other aspects of offline RL training are kept identical across
+methods.
+Hyperparameter
+Value
+Batch size
+256
+Target update rate
+τ
+\tau
+0.005
+Discount factor
+γ
+\gamma
+{
+0.9
+,
+0.95
+,
+0.99
+}
+\{0.9,0.95,0.99\}
+Target update interval
+1
+Advantage temperature
+2
+Expectile
+0.7
+Advantage clipping
+100.0
+Policy extraction method
+AWR
+[
+100
+]
+Number of critics
+5
+Critics sampled per update
+2
+Pooled critic features
+True
+Updates per train step
+1
+Actor learning rate
+3
+×
+10
+−
+4
+3\times 10^{-4}
+Critic learning rate
+3
+×
+10
+−
+4
+3\times 10^{-4}
+Value network learning rate
+3
+×
+10
+−
+4
+3\times 10^{-4}
+Weight decay
+0.0
+TABLE XXV:
+SO-101 offline RL experiment.
+Hyperparameters used for Implicit Q-Learning (IQL) in offline policy training.
+Component
+Actor
+Critic
+Transformer Encoder
+Model dimension (
+d
+model
+d_{\text{model}}
+)
+256
+256
+Number of heads
+8
+8
+Encoder layers
+6
+6
+Transformer dropout
+0.0
+0.0
+Transformer activation
+GELU
+GELU
+Layer normalization
+False
+True
+Pooling strategy
+–
+First token
+Feature Processing MLP
+Hidden dimensions
+[512, 512]
+[768, 512]
+Activation
+ReLU
+ReLU
+Dropout
+0.0
+0.0
+Output Head
+Output hidden dims
+None
+None
+Action squashing
+Tanh
+–
+Deterministic policy
+False
+–
+Log-std init
+0
+–
+Log-std range
+[
+−
+20
+,
+2
+]
+[-20,2]
+–
+TABLE XXVI:
+SO-101 offline RL model architectures.
+Transformer-based actor and critic architectures used for offline IQL training.
+Both networks share a lightweight Transformer encoder, followed by task-specific MLP heads.
+Appendix F
+Low-rank Fine-tuning
+Robometer
+-4B
+RoboFAC dataset.
+We fine-tune and evaluate on RoboFAC, a video-based dataset designed for robotic failure analysis and correction.
+RoboFAC spans 16 tasks across 53 scenes and provides 78K video QA pairs annotated over 10,722 trajectories. The dataset contains both failures and successes: 9,440 failure trajectories and 1,282 successful trajectories. Failures are collected in both simulation and the real world, with 8,960 simulated failures and 480 real-world failures; additionally, the dataset includes 1,160 simulated successes and 122 real-world successes.
+LoRA fine-tuning Robometer-4B.
+We keep our pre-trained Robometer-4B reward model backbone fixed and train LLM LoRA adapters (76M parameters) while also fine-tuning the MLP prediction heads (progress, preference, and success). We train for 500 steps with a batch size of 8 on a single NVIDIA RTX A6000 for approximately 8 hours of wall clock time.
+Baselines.
+To isolate the benefit of initializing from our pre-trained
+Robometer
+-4B checkpoint versus starting from scratch, we include two Qwen3-VL baselines fine-tuned on the same dataset.
+First, we perform LoRA fine-tuning starting from
+Qwen/Qwen3-VL-4B-Instruct
+and train the prediction heads from random initialization. We also fully fine-tune all parameters of
+Qwen/Qwen3-VL-4B-Instruct
+), again training the prediction heads from random initialization.
+Results.
+Table
+III
+reports offline reward evaluation on RoboFAC. In the zero-shot setting,
+Robometer
+-4B already achieves strong correlation with ground-truth progress (VOC
+r
+=
+0.652
+r{=}0.652
+, Kendall
+τ
+=
+0.436
+\tau{=}0.436
+), indicating meaningful transfer without any RoboFAC supervision. After adaptation,
+Robometer
+-4B provides a substantially better initialization than training the base VLM from scratch.
+Full fine-tuning from our checkpoint reaches VOC
+r
+=
+0.884
+r{=}0.884
+and Kendall
+τ
+=
+0.802
+\tau{=}0.802
+, outperforming the strongest from-scratch baseline by
++
+21.6
+%
++21.6\%
+in VOC and nearly an order of magnitude in Kendall
+τ
+\tau
+. Notably, LoRA on
+Robometer
+-4B attains essentially the same performance, indicating that the gains primarily come from our pre-trained initialization rather than full-parameter adaptation.
+Appendix G
+Robometer
+with Model-Based RL
+Setup.
+For this proof-of-concept experiment, we integrate
+Robometer
+into a model-based algorithm by using it to rank candidate trajectories sampled from the world model.
+We adopt the DreamZero
+[
+130
+]
+world model checkpoint trained on DROID to use in an identical DROID setup to the online RL experiments, albeit with a different task.
+Given 3 camera observations, proprioceptive states, and a language instruction, DreamZero generates candidate future observation sequences (multiple video frames spanning 1.6 seconds) from which an inverse dynamics model extracts an action chunk of length 24.
+We compare DreamZero with and without
+Robometer
+ranking candidate trajectories.
+DreamZero without
+Robometer
+directly generates a single candidate future observation sequence from which we extract the action chunk.
+With
+Robometer
+, we generate 6 candidate observation sequences at each inference step, rank them with the progress output from
+Robometer
+, and then execute the action sequence extracted from the highest-ranked generated observation sequence.
+In total, generating a single action chunk of length 24, including the world model forward pass for the 6 candidate observation sequences, takes approximately 28 seconds on 1 H200, resulting in a single trajectory taking around 3 minutes to execute including robot execution time.
+The vast majority of this inference time is from the world model;
+Robometer
+’s forward pass only takes around 0.6-1 seconds.
+Fig. 17
+:
+Model-Based RL
+with
+Robometer
+integrated into DreamZero
+[
+130
+]
+.
+In this cluttered scene,
+Robometer
+improves DreamZero’s performance from 20% success rate to 70%.
+Results.
+We evaluate on a “put the ice cream in the pink plate” task in an extremely cluttered scene with many possible receptacle plates of different colors.
+DreamZero typically places the ice cream cone in the wrong plate, while integrating
+Robometer
+corrects for this mistake.
+Overall, results in
+Figure
+17
+demonstrate a
+3.5
+×
+3.5\times
+improvement in success rate evaluated over 10 trials with
+Robometer
+.
+Experimental support, please
+view the build logs
+for errors. Generated by
+L
+A
+T
+E
+xml
+.
+Instructions for reporting errors
+We are continuing to improve HTML versions of papers, and your feedback helps enhance accessibility and mobile
+      support. To report errors in the HTML that will help us improve conversion and rendering, choose any of the
+      methods listed below:
+Click the "Report Issue"
+(
+)
+button, located in the page header.
+Tip:
+You can select the relevant text first, to include it in your report.
+Our team has already identified
+the following issues
+. We appreciate your time reviewing and reporting rendering errors we
+      may not have found yet. Your efforts will help us improve the HTML versions for all readers, because disability
+      should not be a barrier to accessing research. Thank you for your continued support in championing open access for
+      all.
+Have a free development cycle? Help support accessibility at arXiv! Our collaborators at LaTeXML maintain a
+list of packages that need conversion
+, and welcome
+developer contributions
+.
+We gratefully acknowledge support from
+        our
+major funders
+,
+member institutions
+,
+,
+        and all contributors.
+About
+·
+Help
+·
+Contact
+·
+Subscribe
+·
+Copyright
+·
+Privacy
+·
+Accessibility
+·
+Operational Status
+(opens in new tab)
+Major funding support from

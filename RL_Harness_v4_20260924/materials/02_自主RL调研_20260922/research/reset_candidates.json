@@ -1,0 +1,750 @@
+[
+  {
+    "id": "reset_lnt",
+    "name": "Leave No Trace (LNT)",
+    "year": 2018,
+    "type": "免复位/安全中止算法；仿真基础研究",
+    "algorithm": "外层SafetyWrapper学习reset policy和reset value；前向动作若可能进入不可逆状态则触发提前中止；与底层RL可组合。",
+    "autonomy": "学习正向任务与反向复位，减少hard resets；不能保证永不人工复位。",
+    "remaining_human": "人工定义reset reward、reset成功判定、失败后的hard reset；要求任务可逆。",
+    "real_evidence": "原论文主要为仿真；不作为真机无人值守验证。",
+    "open_source": {
+      "status": "官方源码公开但实现范围明显不完整",
+      "license": "Apache-2.0",
+      "training": "已点读lnt.py：SafetyWrapper、reset controller、阈值检查、hard-reset路径真实存在",
+      "control_reset": "仓库README明确仅支持离散动作；连续动作与value ensemble仍写coming May 2018",
+      "weights_data": "未核实可下载真机权重/数据",
+      "maintenance": "2022-09-07归档"
+    },
+    "repo_urls": [
+      "https://github.com/brain-research/LeaveNoTrace"
+    ],
+    "paper_urls": [
+      "https://arxiv.org/abs/1711.06782"
+    ],
+    "project_url": "https://sites.google.com/site/mlleavenotrace/",
+    "institutions": [
+      "Google Brain",
+      "UC Berkeley"
+    ],
+    "venue": "ICLR 2018",
+    "limitations": [
+      "原始reset value非形式安全保证",
+      "无法复原切割、损坏等不可逆变化",
+      "旧版Gym 0.9.3/mujoco-py 0.5.7，不适合作为2026真机软件底座"
+    ],
+    "fit": "读方法、借用可恢复性门控；不列即用候选",
+    "source_evidence": [
+      {
+        "url": "https://github.com/brain-research/LeaveNoTrace",
+        "section": "Limitations / Usage"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/brain-research/LeaveNoTrace/master/lnt.py",
+        "section": "SafetyWrapper"
+      }
+    ],
+    "accessed_at": "2026-09-22",
+    "audit_status": "primary_sources_read; no real_robot_replication",
+    "influence_note": "机构/venue为来源元数据；star/citation由汇总阶段统一抓取，未以名气代替可复现性。"
+  },
+  {
+    "id": "reset_r3l",
+    "name": "R3L — The Ingredients of Real-World Robotic Reinforcement Learning",
+    "year": 2020,
+    "type": "视觉真机自主RL系统",
+    "algorithm": "SAC + VICE成功图像奖励 + RND新颖性扰动控制器；视觉表示用VAE（原文部分真机结果无VAE）。",
+    "autonomy": "在任务policy与探索扰动policy之间交替，扩大访问状态，不必准确回到唯一初始状态；奖励由成功图像训练分类器。",
+    "remaining_human": "预先提供成功图像/布置任务与环境；评测需要人工初始状态。",
+    "real_evidence": "三指手阀门和串珠两类受限任务，官方报告过夜无人值守。正文Figure 8写17/5小时但附录图13/15标注相反，附录还出现约20小时评估口径；稳妥记录5–20小时任务训练，不能无核对绑定任务-时长。",
+    "open_source": {
+      "status": "未核实独立官方可运行完整发布；MTRF代码含r3l目录，但不能等同ICLR2020原论文复现包",
+      "license": "独立R3L未核实；MTRF Apache-2.0",
+      "training": "原项目页未提供可用独立code入口；vikashplus/r3l链接在后续MTRF README出现，raw读取404",
+      "control_reset": "论文有完整扰动算法；独立真机包未核实",
+      "weights_data": "未核实",
+      "maintenance": "不作为可即用底座"
+    },
+    "repo_urls": [],
+    "paper_urls": [
+      "https://arxiv.org/abs/2004.12570",
+      "https://arxiv.org/html/2004.12570v1"
+    ],
+    "project_url": "https://sites.google.com/view/realworld-rl/",
+    "institutions": [
+      "UC Berkeley",
+      "University of Oxford",
+      "University of Washington"
+    ],
+    "venue": "ICLR 2020 Spotlight",
+    "limitations": [
+      "小工作区，物体受机械约束；不能外推到移动操作或开放桌面",
+      "无长时异常/人类分钟清单",
+      "时长图注存在内部口径不一致"
+    ],
+    "fit": "自主RL设计基础；不进入首选工程实现",
+    "source_evidence": [
+      {
+        "url": "https://arxiv.org/html/2004.12570v1",
+        "section": "4, 6.3, C.2"
+      },
+      {
+        "url": "https://bair.berkeley.edu/blog/2020/04/27/ingredients/",
+        "section": "unattended training / limitations"
+      }
+    ],
+    "accessed_at": "2026-09-22",
+    "audit_status": "primary_sources_read; no real_robot_replication",
+    "influence_note": "机构/venue为来源元数据；star/citation由汇总阶段统一抓取，未以名气代替可复现性。"
+  },
+  {
+    "id": "reset_mtrf",
+    "name": "MTRF — Reset-Free RL via Multi-Task Learning",
+    "year": 2021,
+    "type": "真机多技能图自主训练",
+    "algorithm": "每个技能单独SAC actor/critic/replay；人工任务状态机根据状态选择recenter/pickup/flip/reorient或insert/remove，技能互为复位。",
+    "autonomy": "学会掉落后的重定位、拾取、翻转及任务执行，故失败本身可用于练习恢复技能。",
+    "remaining_human": "人工任务图、每技能奖励及判据；动捕跟踪对象；拾取中手臂位置由脚本控制、只学习手指；插入时冻结手指。",
+    "real_evidence": "D’Hand 16DoF + Sawyer（论文系统合计22DoF）：手内重定向约60h无人干预训练，最终约70%；管插入约25h最终>60%，装置说明支持>30h无人运行。100h是硬件无损运转能力，2000h为项目累计硬件工时，均非独立学习成功率。",
+    "open_source": {
+      "status": "官方源码公开，旧依赖且已归档",
+      "license": "Apache-2.0",
+      "training": "已点读PhasedSAC(SAC)：每目标独立policy、Q、pool和sampler，环境需set_goal；TF compat.v1优化器；README提供训练命令。",
+      "control_reset": "SAC与任务图/硬件环境代码发布；依赖sawyer_sim和robel-scenes子模块",
+      "weights_data": "未核实发布可迁移权重；硬件与动捕需自建",
+      "maintenance": "2023-10-31归档；网页显示一次代码提交；README克隆地址仍旧vikashplus/r3l"
+    },
+    "repo_urls": [
+      "https://github.com/facebookresearch/MTRF"
+    ],
+    "paper_urls": [
+      "https://arxiv.org/abs/2104.11203",
+      "https://arxiv.org/html/2104.11203v1"
+    ],
+    "project_url": "https://sites.google.com/view/mtrf",
+    "institutions": [
+      "UC Berkeley",
+      "University of Washington"
+    ],
+    "venue": "ICRA 2021",
+    "limitations": [
+      "初始部署/任务图工程不低",
+      "动捕约束与脚本primitive降低探索难度",
+      "多数算法对照在仿真，真机不能视为通用SOTA排名"
+    ],
+    "fit": "harness的技能图和恢复编排优先参考；如要原样复现硬件成本高",
+    "source_evidence": [
+      {
+        "url": "https://arxiv.org/html/2104.11203v1",
+        "section": "IV-A/B, V-B, VI-C"
+      },
+      {
+        "url": "https://github.com/facebookresearch/MTRF",
+        "section": "Setup / Example Commands"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/facebookresearch/MTRF/main/MTRF/algorithms/softlearning/algorithms/phased_sac.py",
+        "section": "PhasedSAC actual implementation"
+      }
+    ],
+    "accessed_at": "2026-09-22",
+    "audit_status": "primary_sources_read; no real_robot_replication",
+    "influence_note": "机构/venue为来源元数据；star/citation由汇总阶段统一抓取，未以名气代替可复现性。"
+  },
+  {
+    "id": "reset_relmm",
+    "name": "ReLMM — Fully Autonomous Real-World RL with Applications to Mobile Manipulation",
+    "year": 2021,
+    "type": "移动操作自主真机RL",
+    "algorithm": "导航SAC；抓取为6个成功预测器组成ensemble的contextual bandit；抓取不确定性引导导航探索并给导航奖励；随机移动后放回物体产生pseudo-reset。",
+    "autonomy": "不用地图/物体全局位姿进行学习；训练时抓到后重新放回，评测时收进机载篮子。",
+    "remaining_human": "两个curriculum需分开：stationary curriculum 2000抓取步时约5%情况人工推回对象；autonomous curriculum避免该步骤。每约5h换电，期间可能归还卡在角落/墙边的物体。",
+    "real_evidence": "LoCoBot(Kobuki + WidowX200 5DoF)：StatCurr四个真实环境，AutoCurr仅两个；每环境训练一次、评测三次，每次15分钟拾取比例。约25–50h累计训练；摘要约40h，正文范围40–60h，不能写成同长连续零干预。",
+    "open_source": {
+      "status": "官方源码，仿真与真机分支分开",
+      "license": "MIT（master与real_robot分支根LICENSE均已核实；Softlearning贡献者版权，依赖另核）",
+      "training": "master仿真；real_robot分支真机",
+      "control_reset": "softlearning环境、导航/抓取与扰动复位相关代码待分支文件审计",
+      "weights_data": "models目录存在，不等同已核实完整可迁移权重",
+      "maintenance": "仓库旧软件栈；README简短"
+    },
+    "repo_urls": [
+      "https://github.com/charlesjsun/ReLMM",
+      "https://github.com/charlesjsun/ReLMM/tree/real_robot"
+    ],
+    "paper_urls": [
+      "https://arxiv.org/abs/2107.13545",
+      "https://proceedings.mlr.press/v164/sun22a/sun22a.pdf"
+    ],
+    "project_url": "https://sites.google.com/view/relmm",
+    "institutions": [
+      "UC Berkeley BAIR"
+    ],
+    "venue": "CoRL 2021（PMLR卷2022）",
+    "limitations": [
+      "只学可俯抓的小物体、平地地面",
+      "抓取动作空间人工简化为单步x-y",
+      "换电+死角物体仍需要人",
+      "不能套用至任意双臂或门操作"
+    ],
+    "fit": "移动拾取/清理最值得读的自主系统基线，工程迁移需重建驱动与维护闭环",
+    "source_evidence": [
+      {
+        "url": "https://proceedings.mlr.press/v164/sun22a/sun22a.pdf",
+        "section": "4.1–4.4, 5, 6"
+      },
+      {
+        "url": "https://github.com/charlesjsun/ReLMM",
+        "section": "Branches"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/charlesjsun/ReLMM/real_robot/LICENSE",
+        "section": "MIT License"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/charlesjsun/ReLMM/master/LICENSE",
+        "section": "MIT License verified by cross_review_stacks"
+      }
+    ],
+    "accessed_at": "2026-09-22",
+    "audit_status": "primary_sources_read; no real_robot_replication",
+    "influence_note": "机构/venue为来源元数据；star/citation由汇总阶段统一抓取，未以名气代替可复现性。"
+  },
+  {
+    "id": "reset_ariel",
+    "name": "ARIEL — Don’t Start From Scratch",
+    "year": 2022,
+    "type": "离线预训练+低频复位真机RL",
+    "algorithm": "多任务离线数据预训练AWAC；通过任务embedding适应新任务，并学习forward/backward技能。",
+    "autonomy": "复用已有数据缓解从零探索，同时学做与撤销任务。",
+    "remaining_human": "对象检测奖励；离线脚本数据/可选约40条目标demo；真机每20–30回合（约20–30分钟）人工reset；每回合手臂自动回neutral不等于环境复位。",
+    "real_evidence": "3个真实下游任务与新物体，部分任务600回合后改善；各条件的最终测试样本较少（示例10次）。",
+    "open_source": {
+      "status": "本轮未核实官方实现发布",
+      "license": "未知",
+      "training": "官方project只有paper/video，无code入口",
+      "control_reset": "未公开核实",
+      "weights_data": "未公开核实",
+      "maintenance": "搜索同名ARIEL会命中无关进化机器人库ci-group/ariel，已排除"
+    },
+    "repo_urls": [],
+    "paper_urls": [
+      "https://arxiv.org/abs/2207.04703",
+      "https://openreview.net/pdf?id=_xln96AicXY"
+    ],
+    "project_url": "https://sites.google.com/view/ariel-berkeley",
+    "institutions": [
+      "UC Berkeley",
+      "UT Austin",
+      "Google"
+    ],
+    "venue": "2022预印本；官方页bibtex为Learning from Diverse, Offline Data workshop",
+    "limitations": [
+      "仍需频繁现场人工复位",
+      "sample-efficiency对照图的某些实验实际每回合reset，不能与免复位结果混算",
+      "真实平台上的算法对比有限"
+    ],
+    "fit": "方法参考、非优先复现对象",
+    "source_evidence": [
+      {
+        "url": "https://openreview.net/pdf?id=_xln96AicXY",
+        "section": "Online training setup / Real-World Experiments"
+      },
+      {
+        "url": "https://sites.google.com/view/ariel-berkeley",
+        "section": "Method / sparse reward"
+      }
+    ],
+    "accessed_at": "2026-09-22",
+    "audit_status": "primary_sources_read; no real_robot_replication",
+    "influence_note": "机构/venue为来源元数据；star/citation由汇总阶段统一抓取，未以名气代替可复现性。"
+  },
+  {
+    "id": "reset_medalpp",
+    "name": "MEDAL++ — Self-Improving Robots",
+    "year": 2023,
+    "type": "视觉真机双向自主RL",
+    "algorithm": "DrQ-v2视觉encoder + Q ensemble/高UTD + demo过采样和BC正则；VICE从演示末帧学习forward奖励，backward奖励匹配专家状态分布。",
+    "autonomy": "正反策略固定步数轮换，边学操作边学撤销，奖励无需手工视觉判据。",
+    "remaining_human": "每任务50正向+50反向遥操作演示；开始30min人工复位增加多样性；后续平均约每小时人工reset，部分可无人看管数小时。",
+    "real_evidence": "Franka Panda四任务，每任务30h约300k transitions。best checkpoint/50评测：cloth hanging 26%→62%、bowl cover 12%→46%、peg 4%→52%；cube OOD 8%→82%、ID85%→100%。这些是相对BC的百分点差，非全任务固定30–70%相对增长。",
+    "open_source": {
+      "status": "训练/真机接口源码真实存在",
+      "license": "Apache-2.0（主仓）；子模块单独遵循其条款",
+      "training": "medalplusplus.py，franka/medal_franka.py，agents.py；DrQ-v2/PyTorch",
+      "control_reset": "iris_robots子模块+Franka wrapper；medal_franka.py显式保留人工复位等待输入的分支，不能把env.reset调用解释成物体自动复位。",
+      "weights_data": "README提供仿真vision_demos链接；真机demo要求用户针对场景自行采集",
+      "maintenance": "旧MuJoCo/conda/机器人接口依赖，需移植维护"
+    },
+    "repo_urls": [
+      "https://github.com/rehaanahmad2013/self-improving-robots",
+      "https://github.com/ahmeda14960/iris_robots"
+    ],
+    "paper_urls": [
+      "https://arxiv.org/abs/2303.01488",
+      "https://proceedings.mlr.press/v229/sharma23b/sharma23b.pdf"
+    ],
+    "project_url": "https://architsharma97.github.io/self-improving-robots/",
+    "institutions": [
+      "Stanford University"
+    ],
+    "venue": "CoRL 2023",
+    "limitations": [
+      "物体掉出可达工作区仍需人",
+      "best checkpoint选择存在评估选择效应",
+      "30h机器人预算明显高于大量演示辅助RL方法；不等于30h无人连续运行"
+    ],
+    "fit": "机械臂可复现自主RL方法候选；适合可逆桌面任务，须承认约每小时人工服务",
+    "source_evidence": [
+      {
+        "url": "https://proceedings.mlr.press/v229/sharma23b/sharma23b.pdf",
+        "section": "4 / 5.2 / Figure 4"
+      },
+      {
+        "url": "https://github.com/rehaanahmad2013/self-improving-robots",
+        "section": "robotic platform instructions"
+      },
+      {
+        "url": "https://github.com/rehaanahmad2013/self-improving-robots/blob/main/medalplusplus.py",
+        "section": "implementation"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/rehaanahmad2013/self-improving-robots/main/franka/medal_franka.py",
+        "section": "manual reset stdin path, lines400–427"
+      }
+    ],
+    "accessed_at": "2026-09-22",
+    "audit_status": "primary_sources_read; no real_robot_replication",
+    "influence_note": "机构/venue为来源元数据；star/citation由汇总阶段统一抓取，未以名气代替可复现性。"
+  },
+  {
+    "id": "reset_robofume",
+    "name": "RoboFuME — Robot Fine-Tuning Made Easy",
+    "year": 2024,
+    "type": "离线到在线RL+VLM奖励+双向技能",
+    "algorithm": "CalQL预训练/在线更新、语言条件多任务actor/critic、BC正则；MiniGPT-4视觉语言reward classifier在任务成功/失败数据上校准。",
+    "autonomy": "同一个语言条件策略交替正向和复位任务；奖励成功或150步上限时切换。",
+    "remaining_human": "每任务50正+50反成功demo，<20失败轨迹；项目页约30min成功采集+10min失败采集；每任务挑约1000 BridgeV2相关轨迹。布料每15–25回合人工reset，其他每30–35回合；水槽场景常有力矩保护中断。",
+    "real_evidence": "WidowX250 + C920第三人称相机，5任务，30k在线步约2–4h。扫糖果报告7颗糖的完成比例，其余20回合成功率，不能全按二元任务成功率平均。",
+    "open_source": {
+      "status": "官方页仍Code (Coming Soon)，未验证完整官方实现",
+      "license": "无可核实的完整方法代码许可",
+      "training": "论文称基于MEDAL++实现，但不等于该改动已发布",
+      "control_reset": "未核实CalQL+奖励+真实reset闭环代码",
+      "weights_data": "BridgeV2公开，但目标demo/VLM checkpoint未核实发布",
+      "maintenance": "不能以CalQL或MEDAL++的开源状态替代RoboFuME开源状态"
+    },
+    "repo_urls": [],
+    "paper_urls": [
+      "https://arxiv.org/abs/2310.15145",
+      "https://arxiv.org/pdf/2310.15145",
+      "https://yjy0625.github.io/publications/robofume_icra2024.pdf"
+    ],
+    "project_url": "https://robofume.github.io/",
+    "institutions": [
+      "Stanford University"
+    ],
+    "venue": "ICRA 2024；预印本2023",
+    "limitations": [
+      "仍需周期人工环境复位",
+      "reward hacking靠BC正则限制，但未形成普适保证",
+      "SOAR表2的零成功使用其自主次优数据替代专家数据且改架构，是设置变化的负面证据，不是原协议复现证伪"
+    ],
+    "fit": "技术方向贴合VLA/RL/harness，但开源完整性差，暂不优先作为直接实现基座",
+    "source_evidence": [
+      {
+        "url": "https://arxiv.org/pdf/2310.15145",
+        "section": "Algorithm 1 / V-A / Table I"
+      },
+      {
+        "url": "https://robofume.github.io/",
+        "section": "Target demonstrations / Code Coming Soon"
+      },
+      {
+        "url": "https://arxiv.org/html/2407.20635v2",
+        "section": "Table 2 / Appendix F"
+      }
+    ],
+    "accessed_at": "2026-09-22",
+    "audit_status": "primary_sources_read; no real_robot_replication",
+    "influence_note": "机构/venue为来源元数据；star/citation由汇总阶段统一抓取，未以名气代替可复现性。"
+  },
+  {
+    "id": "reset_gear",
+    "name": "GEAR — Guided Exploration for Autonomous Reinforcement Learning",
+    "year": 2023,
+    "type": "目标条件自主学习+异步人类反馈；低层GCSL",
+    "algorithm": "人类成对比较训练目标距离估计；density估计可达性；选择既接近目标又可达的subgoal；policy通过hindsight relabeling的目标条件监督学习更新（非SAC/PPO）。",
+    "autonomy": "可持续不按episode人工复位；需要的反馈可由远程非专家异步提供，减少现场值守。",
+    "remaining_human": "真机每任务约10条seed遥操作；导航8h/453比较标签/40人；Franka推碗1h/200标签/22人；视觉状态估计需要较多调校。",
+    "real_evidence": "TurtleBot室内导航与Franka推碗真实运行；附录对众包工时和质量筛选给出说明。反馈时长不是人类总劳动分钟。",
+    "open_source": {
+      "status": "官方code链接可经raw读取，普通GitHub页面工具失败",
+      "license": "待精读LICENSE；不能默认宽松许可",
+      "training": "已点读2881行gear/algo/gear.py与launch_gear.py入口说明；README提供reset_free/density配置",
+      "control_reset": "公开README主样例为仿真且use_oracle；真机/远程标注服务完整性待查",
+      "weights_data": "未核实真机weights/数据",
+      "maintenance": "依赖多个旧环境及旧PyTorch说明，工程化成本较高"
+    },
+    "repo_urls": [
+      "https://github.com/guided-exploration-autonomous-rl/gear-code"
+    ],
+    "paper_urls": [
+      "https://arxiv.org/abs/2310.20608",
+      "https://arxiv.org/html/2310.20608v1"
+    ],
+    "project_url": "https://guided-exploration-autonomous-rl.github.io/GEAR/",
+    "institutions": [
+      "University of Washington",
+      "MIT"
+    ],
+    "venue": "CoRL 2023",
+    "limitations": [
+      "仍有持续人工标签，只是不要求人站在现场",
+      "state-based，非端到端VLA",
+      "density仅在部分quasistatic系统合理反映可达性",
+      "不可按低层RL优化器与SAC等直接比较"
+    ],
+    "fit": "用户可接受远程异步反馈时可选；主要价值是减少现场值守",
+    "source_evidence": [
+      {
+        "url": "https://arxiv.org/html/2310.20608v1",
+        "section": "3, 4, 5.4, 6, Appendix D"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/guided-exploration-autonomous-rl/gear-code/main/README.md",
+        "section": "Sample Experiment / Development Notes"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/guided-exploration-autonomous-rl/gear-code/main/gear/algo/gear.py",
+        "section": "actual algorithm implementation"
+      }
+    ],
+    "accessed_at": "2026-09-22",
+    "audit_status": "primary_sources_read; no real_robot_replication",
+    "influence_note": "机构/venue为来源元数据；star/citation由汇总阶段统一抓取，未以名气代替可复现性。"
+  },
+  {
+    "id": "reset_risc",
+    "name": "RISC — Intelligent Switching in Reset-Free RL",
+    "year": 2024,
+    "type": "免复位策略切换算法；仅仿真验证",
+    "algorithm": "基于SAC(EARL)/DQN(gridworld)；correct bootstrapping + success critic估计能力，足够有把握时提前切换正反policy，避免浪费在已经掌握区域。",
+    "autonomy": "将固定时长forward/backward改为能力驱动的可学习切换。",
+    "remaining_human": "任务目标、初始分布及goal判定仍需指定；真机感知、奖励、异常恢复不包含。",
+    "real_evidence": "EARL Sawyer door/peg/tabletop/minitaur及minigrid仿真；未给真实机器人连续无人值守实验。",
+    "open_source": {
+      "status": "官方实现公开",
+      "license": "MIT",
+      "training": "risc/main.py及configs，SAC/DQN；包含绘图原始数值",
+      "control_reset": "已点读gc_rf_agent.py、agents/sac.py、envs/reset_free_envs.py、runners/reset_free_runner.py；switcher和终止/截断处理真实存在。真实机械臂控制/安全/重置无实证。",
+      "weights_data": "提供实验raw numbers；未核实真机权重（无真机实验）",
+      "maintenance": "网页显示单次提交，科研实现"
+    },
+    "repo_urls": [
+      "https://github.com/chandar-lab/RISC"
+    ],
+    "paper_urls": [
+      "https://arxiv.org/abs/2405.01684",
+      "https://arxiv.org/html/2405.01684v1"
+    ],
+    "project_url": "https://github.com/chandar-lab/RISC",
+    "institutions": [
+      "Mila",
+      "Université de Montréal",
+      "Dalhousie University",
+      "Polytechnique Montréal"
+    ],
+    "venue": "ICLR 2024",
+    "limitations": [
+      "success critic输出不是校准的真实成功概率",
+      "不解决reward模型错误或不可逆失败",
+      "仿真优胜不可证明真机可减少值守"
+    ],
+    "fit": "作为harness切换模块实验候选；不当完整自主真机RL栈",
+    "source_evidence": [
+      {
+        "url": "https://arxiv.org/html/2405.01684v1",
+        "section": "4 / Appendix A"
+      },
+      {
+        "url": "https://github.com/chandar-lab/RISC",
+        "section": "Running the code"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/chandar-lab/RISC/main/risc/main.py",
+        "section": "actual entrypoint"
+      },
+      {
+        "url": "https://github.com/chandar-lab/RISC/blob/main/risc/agents/gc_rf_agent.py",
+        "section": "GCResetFree.should_switch delegates to goal switcher; separate forward/backward agents; downloaded archive inspected"
+      }
+    ],
+    "accessed_at": "2026-09-22",
+    "audit_status": "primary_sources_read; no real_robot_replication",
+    "influence_note": "机构/venue为来源元数据；star/citation由汇总阶段统一抓取，未以名气代替可复现性。"
+  },
+  {
+    "id": "reset_morefree",
+    "name": "MoReFree — Reset-free Reinforcement Learning with World Models",
+    "year": 2025,
+    "type": "世界模型免复位RL；仅低维仿真验证",
+    "algorithm": "以PEG/DreamerV2为底座；真实交互在初始目标、评估目标、新颖探索目标间往返；在world-model imagination中增采任务相关目标，避免过度探索无关区域。",
+    "autonomy": "减少hard reset并自动产生练习目标，不是借助人工每episode恢复。",
+    "remaining_human": "初始/目标分布、goal达成判据；环境构建与state输入；仍按任务允许低频hard resets。",
+    "real_evidence": "8个仿真环境。作者明确真实机器人和高维观测是未来工作；Sawyer Door显示模型学习困难导致失效。",
+    "open_source": {
+      "status": "官方实现公开",
+      "license": "MIT",
+      "training": "examples/run_goal_cond.py、dreamerv2、resetfree；训练/环境配置齐全",
+      "control_reset": "已点读resetfree/goal_picker_wrapper.py；resetfree/env.py区分分段done与真实reset",
+      "weights_data": "未核实发布权重；提供环境",
+      "maintenance": "TMLR2025官方代码；网页单次提交"
+    },
+    "repo_urls": [
+      "https://github.com/yangzhao-666/MoReFree"
+    ],
+    "paper_urls": [
+      "https://arxiv.org/abs/2408.09807",
+      "https://arxiv.org/html/2408.09807v3"
+    ],
+    "project_url": "https://yangzhao-666.github.io/morefree/",
+    "institutions": [
+      "Leiden University",
+      "GRASP Laboratory, University of Pennsylvania"
+    ],
+    "venue": "TMLR 2025；预印本2024",
+    "limitations": [
+      "不是视觉真机无人训练证据",
+      "模型偏差、目标混合比例固定",
+      "README的all tasks成功措辞与论文Sawyer Door例外须以论文为准"
+    ],
+    "fit": "中长期世界模型+RSI研究候选，短期真机RL选型不优先",
+    "source_evidence": [
+      {
+        "url": "https://arxiv.org/html/2408.09807v3",
+        "section": "Experiments / Conclusion / Appendix F"
+      },
+      {
+        "url": "https://github.com/yangzhao-666/MoReFree",
+        "section": "Quickstart / Environment installation"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/yangzhao-666/MoReFree/main/resetfree/goal_picker_wrapper.py",
+        "section": "goal sampling implementation"
+      }
+    ],
+    "accessed_at": "2026-09-22",
+    "audit_status": "primary_sources_read; no real_robot_replication",
+    "influence_note": "机构/venue为来源元数据；star/citation由汇总阶段统一抓取，未以名气代替可复现性。"
+  },
+  {
+    "id": "reset_continual_mobile",
+    "name": "Continuously Improving Mobile Manipulation with Autonomous Real-World RL",
+    "year": 2024,
+    "type": "Spot移动操作自主RL系统",
+    "algorithm": "DrQ/RLPD风格高效off-policy视觉RL + 行为先验；按任务先验与policy可顺序/交替/残差组合；auto-grasp + goal-cycles；Detic/SAM/depth提供奖励状态。",
+    "autonomy": "抓住对象后学习操作，循环目标防止停留已完成状态；扫地任务由第二台Spot重新放置纸袋。",
+    "remaining_human": "任务目标/先验/奖励函数，6×5m围栏内预建图，固定第三人称相机；第二台机器人reset开销；没有可核查的人类分钟/换电/故障干预账。",
+    "real_evidence": "4类任务含两类移椅、扶簸箕、扫纸袋，项目称8–10h练习后平均80%，相对对照约3–4倍；所有RL/prior对照都使用同一task-relevant autonomy。",
+    "open_source": {
+      "status": "未核实官方完整代码发布",
+      "license": "未知",
+      "training": "正文说明使用RLPD/DrQ，但共享底座公开≠此系统完整公开",
+      "control_reset": "官方project仅paper/video，没有代码入口",
+      "weights_data": "未核实",
+      "maintenance": "完整复现需自建Spot系统"
+    },
+    "repo_urls": [],
+    "paper_urls": [
+      "https://arxiv.org/abs/2409.20568",
+      "https://arxiv.org/html/2409.20568v1"
+    ],
+    "project_url": "https://continual-mobile-manip.github.io/",
+    "institutions": [
+      "Carnegie Mellon University",
+      "Boston Dynamics AI Institute"
+    ],
+    "venue": "CoRL 2024（PMLR2025）",
+    "limitations": [
+      "围栏+预建图+外部相机，非随意开放家庭环境",
+      "扫地依赖第二台机器人",
+      "复杂行为先验由人设计",
+      "未证明跨任务通用持续学习"
+    ],
+    "fit": "移动操作最契合的架构参考；如无Spot和工程资源，不作为现成可选底座",
+    "source_evidence": [
+      {
+        "url": "https://arxiv.org/html/2409.20568v1",
+        "section": "3, 4/Table1, 5"
+      },
+      {
+        "url": "https://continual-mobile-manip.github.io/",
+        "section": "Learning via Practice / priors"
+      }
+    ],
+    "accessed_at": "2026-09-22",
+    "audit_status": "primary_sources_read; no real_robot_replication",
+    "influence_note": "机构/venue为来源元数据；star/citation由汇总阶段统一抓取，未以名气代替可复现性。"
+  },
+  {
+    "id": "reset_owmm",
+    "name": "OWMM — Adaptive Mobile Manipulation for Articulated Objects in the Open World",
+    "year": 2024,
+    "type": "移动操作结构化primitive在线RL",
+    "algorithm": "BC初始化；REINFORCE+BC正则优化grasp位置与unlock/rotate/open参数；单步上下文观测输出整段open-loop primitive序列。",
+    "autonomy": "关节电流越限自动终止；T265视觉里程计回起点+随机SE2扰动；成功后脚本关门复位。",
+    "remaining_human": "120条demo来自12对象；main实验由人给+1/0/-1奖励；CLIP自动奖励只另测2扇门；脚本primitive/关门和场地布置仍人工设计。",
+    "real_evidence": "xArm6+AgileX Ranger Mini2，12训练+8测试对象，CMU四栋楼；25左右rollouts/<1h每对象后main平均50%→95%（人工reward）；CLIP2门平均80%，对应人工GT90%，必须分开。",
+    "open_source": {
+      "status": "未核实官方完整RL/控制代码发布",
+      "license": "未知",
+      "training": "论文写清REINFORCE目标；project无可核实完整开源入口",
+      "control_reset": "基于里程计和脚本的reset有论文说明，发布未核实",
+      "weights_data": "未核实",
+      "maintenance": "约$25k为v2论文历史硬件构成报价，不作当前采购价格"
+    },
+    "repo_urls": [],
+    "paper_urls": [
+      "https://arxiv.org/abs/2401.14403",
+      "https://arxiv.org/html/2401.14403v2"
+    ],
+    "project_url": "https://open-world-mobilemanip.github.io/",
+    "institutions": [
+      "Carnegie Mellon University"
+    ],
+    "venue": "2024论文；本轮未核定最终会议",
+    "limitations": [
+      "95%不等于无人监督结果",
+      "高度结构化动作与门类特化",
+      "current-based protection不等于力控制或安全保证",
+      "仅8测试对象"
+    ],
+    "fit": "门/抽屉类mobile manipulation可借用轻量REINFORCE策略；先解决自动reward和reset可靠性",
+    "source_evidence": [
+      {
+        "url": "https://arxiv.org/html/2401.14403v2",
+        "section": "III-B / IV-C/D / V-A3"
+      },
+      {
+        "url": "https://open-world-mobilemanip.github.io/",
+        "section": "project"
+      }
+    ],
+    "accessed_at": "2026-09-22",
+    "audit_status": "primary_sources_read; no real_robot_replication",
+    "influence_note": "机构/venue为来源元数据；star/citation由汇总阶段统一抓取，未以名气代替可复现性。"
+  },
+  {
+    "id": "reset_soar",
+    "name": "SOAR — Autonomous Improvement of Instruction Following Skills via Foundation Models",
+    "year": 2024,
+    "type": "自主采集harness + GCBC自监督改进；非低层RL",
+    "algorithm": "CogVLM从预指定可行任务列表选任务，UCB式均衡采样；SuSIE把语言变图像subgoal；GCBC执行；VLM成功过滤 + hindsight goal relabeling训练。",
+    "autonomy": "多任务互相改变环境，使连续采集无需精确回初态；不额外为每个下游任务收专家demo。",
+    "remaining_human": "预训练数据/策略、任务列表、每机器人workspace边界和标定；官方README明确可能周期性扶回掉落物体，包含远程监视服务。不能将论文口号no human intervention当每次运行0干预台账。",
+    "real_evidence": "5台WidowX，数周收30582轨迹/3M transitions，53套对象/5种桌面；10测试场景约2倍改善，跨scene训练GCBC+SuSIE约33%→65%，直接LCBC同数据约28%。不等于从零RL。",
+    "open_source": {
+      "status": "官方代码+数据+checkpoint下载指引发布",
+      "license": "MIT主仓；模型/数据另核条款",
+      "training": "model_training/experiments/train.py及jaxrl_m；data_collection/orchestrator/robot/main.py闭环",
+      "control_reset": "真实WidowX采集、VLM/SuSIE servers、web viewer、workspace设定；需bridge_data_robot驱动",
+      "weights_data": "SOAR-Data RLDS下载约136GB；checkpoints有下载说明，未下载校验大文件",
+      "maintenance": "可复用harness，但多服务依赖和显存成本不小：CogVLM约48GB，SuSIE约6GB（README）"
+    },
+    "repo_urls": [
+      "https://github.com/rail-berkeley/soar"
+    ],
+    "paper_urls": [
+      "https://arxiv.org/abs/2407.20635",
+      "https://arxiv.org/html/2407.20635v2",
+      "https://raw.githubusercontent.com/mlresearch/v270/main/assets/zhou25b/zhou25b.pdf"
+    ],
+    "project_url": "https://auto-improvement.github.io/",
+    "institutions": [
+      "UC Berkeley"
+    ],
+    "venue": "CoRL 2024（PMLR2025）",
+    "limitations": [
+      "低层policy训练为BC而非奖励最大化RL",
+      "VLM/图像生成可能误判或产生不可达目标",
+      "持续时间与人工干预次数缺少统一日志",
+      "RoboFuME/DIAL负面对照改变了专家数据假设",
+      "实际robot/main.py对电机故障最多重启10次后退出；对象丢失时排除任务；不能等同任意故障自动恢复。"
+    ],
+    "fit": "本需求的自主harness高优先参考，与另选的RL底座组合；不要把SOAR当RL算法",
+    "source_evidence": [
+      {
+        "url": "https://arxiv.org/html/2407.20635v2",
+        "section": "3 / 4 / Appendix F"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/rail-berkeley/soar/main/data_collection/README.md",
+        "section": "VLM hosting / workspace / running"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/rail-berkeley/soar/main/model_training/README.md",
+        "section": "training"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/rail-berkeley/soar/main/data_collection/orchestrator/robot/main.py",
+        "section": "ResetDetector; missing object task exclusion; motor reboot up to10 then exit(1)"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/rail-berkeley/soar/main/model_training/jaxrl_m/agents/continuous/gc_bc.py",
+        "section": "supervised GCBC loss"
+      }
+    ],
+    "accessed_at": "2026-09-22",
+    "audit_status": "primary_sources_read; no real_robot_replication",
+    "influence_note": "机构/venue为来源元数据；star/citation由汇总阶段统一抓取，未以名气代替可复现性。"
+  },
+  {
+    "id": "reset_revolve",
+    "name": "REVOLVE — Robot Evolving via Orchestrated Loops, Verification, and Experience",
+    "year": 2026,
+    "type": "最新harness/自动纠错+模仿学习边界项；非已证实RL",
+    "algorithm": "ARC几何感知+IK确定性动作负责采集/复位/纠错；DLE将成功和失败-纠正轨迹加入监督policy loss；判断循环以人类复核标签维护CLIP检索记忆，不更新VLM参数。",
+    "autonomy": "自动发现异常并转交验证过的纠错controller，缩减遥操作和现场重置。",
+    "remaining_human": "新任务reset代码由LLM生成后人工验证/细化；VLM错误标签需人工审查；前置每任务100demo（自动采集可用）。",
+    "real_evidence": "ViperX、四任务；5迭代平均40%→58.5%（+18.5个百分点），每轮100rollout；reset 196/200=98%；人工effort下降94.4%/95.1%为作者指标，仍要核全生命周期设置/审核工时。",
+    "open_source": {
+      "status": "本轮未核实官方仓库/数据/权重发布",
+      "license": "未知",
+      "training": "论文Eq4为监督学习，不是RL critic/policy gradient",
+      "control_reset": "ARC描述公开，源码未核实",
+      "weights_data": "未核实",
+      "maintenance": "2026-09-13 v1，09-17 v2；新预印本，尚缺独立复现和稳定影响力"
+    },
+    "repo_urls": [],
+    "paper_urls": [
+      "https://arxiv.org/abs/2609.14633",
+      "https://arxiv.org/html/2609.14633v2"
+    ],
+    "project_url": null,
+    "institutions": [
+      "江南大学机械工程学院/江苏省先进食品制造装备与技术重点实验室"
+    ],
+    "venue": "arXiv预印本（截至2026-09-22）",
+    "limitations": [
+      "不是RL方法",
+      "任务程序/纠错器工程依赖强",
+      "未提供长期无干预和跨环境证据",
+      "新工作引用/下载低不意味着无价值，证据成熟度有限"
+    ],
+    "fit": "最新harness架构观察项；不参与RL算法排名",
+    "source_evidence": [
+      {
+        "url": "https://arxiv.org/html/2609.14633v2",
+        "section": "III-B/C Eq4–5 / IV-A/B"
+      },
+      {
+        "url": "https://arxiv.org/abs/2609.14633",
+        "section": "version history"
+      }
+    ],
+    "accessed_at": "2026-09-22",
+    "audit_status": "primary_sources_read; no real_robot_replication",
+    "influence_note": "机构/venue为来源元数据；star/citation由汇总阶段统一抓取，未以名气代替可复现性。"
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "round": "R01",
+  "verdict": "FAIL",
+  "independent_agents": 3,
+  "questions": 38,
+  "consecutive_clean_after": 0,
+  "reports": ["agent_async.md", "agent_learning.md", "agent_harness.md"],
+  "remediation": "remediation.md",
+  "scope": "document design and source review; no robot experiment"
+}

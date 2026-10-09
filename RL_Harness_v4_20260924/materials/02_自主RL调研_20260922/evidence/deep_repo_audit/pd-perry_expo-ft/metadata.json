@@ -1,0 +1,18 @@
+{
+  "full_name": "pd-perry/expo-ft",
+  "html_url": "https://github.com/pd-perry/expo-ft",
+  "stargazers_count": 122,
+  "forks_count": 15,
+  "created_at": "2026-05-25T04:54:18Z",
+  "pushed_at": "2026-09-21T17:18:41Z",
+  "license": {
+    "key": "mit",
+    "name": "MIT License",
+    "spdx_id": "MIT",
+    "url": "https://api.github.com/licenses/mit",
+    "node_id": "MDc6TGljZW5zZTEz"
+  },
+  "default_branch": "main",
+  "sha": "803381fc3b4c91a0c47904f1b688fc5e35904f50",
+  "accessed_date": "2026-09-22"
+}

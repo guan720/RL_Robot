@@ -1,0 +1,19 @@
+flowchart TB
+    S["共同任务与训练配方<br/>两方向示范 · Harness规则 · BC＋RL · 起态分层"]
+    S --> M["分开练习<br/>每次按约定摆放起态<br/>人工复位工时如实计入"]
+    S --> L["正反循环<br/>上一任务终态作为下一任务起态<br/>额外整理与失败恢复如实计入"]
+    M --> MS["一套共享参数<br/>目标决定方向"]
+    M --> MI["两套独立参数<br/>只用于共享消融"]
+    L --> LS["一套共享参数<br/>拟议主方案"]
+    L --> LI["两套独立参数<br/>只用于共享消融"]
+    MS --> E["汇总训练与共同留出测试<br/>双向独立成功与最弱方向 · 有效练习量<br/>人工复位时间 · 达标所需总成本"]
+    MI --> E
+    LS --> E
+    LI --> E
+    E --> C["分开作结论<br/>同参数方式比较复位机制<br/>同复位机制比较参数共享"]
+    classDef common fill:#eef2f6,stroke:#65788c,color:#22394c;
+    classDef learn fill:#e7efff,stroke:#416bb5,color:#152d51;
+    classDef result fill:#e0f3ef,stroke:#278373,color:#153f37;
+    class S,M,L common;
+    class MS,MI,LS,LI learn;
+    class E,C result;

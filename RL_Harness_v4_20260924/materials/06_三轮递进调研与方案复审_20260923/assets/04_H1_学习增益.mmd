@@ -1,0 +1,15 @@
+flowchart TB
+    S["共同起点<br/>同一双向 BC checkpoint · 初始示范 · 任务判据"]
+    S --> B["动态 BC 对照<br/>持续聚合可靠 Harness 纠正<br/>只更新动作监督目标"]
+    S --> R["BC＋RL 实验<br/>相同纠正规则与资源预算<br/>增加真实后果的价值学习"]
+    S -.初始能力参照.-> I["初始 BC 冻结<br/>不再训练"]
+    B --> E["冻结各部署 policy<br/>关闭 Harness 任务内动作辅助<br/>在独立起态上分别测 A→B、B→A"]
+    R --> E
+    I --> E
+    E --> J["判断 RL 的额外收益<br/>双向能力差值与不确定区间<br/>并列机器人时间、纠正量与计算成本"]
+    classDef common fill:#eef2f6,stroke:#65788c,color:#22394c;
+    classDef learn fill:#e7efff,stroke:#416bb5,color:#152d51;
+    classDef result fill:#e0f3ef,stroke:#278373,color:#153f37;
+    class S,I common;
+    class B,R learn;
+    class E,J result;

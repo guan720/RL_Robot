@@ -1,0 +1,39 @@
+﻿{
+  "scope": "Scalar algebra only. No VLA weights, robot execution, installation, or training.",
+  "unisteer_sha": "cd87d240f5ec646e7590476593c3e95eb765b473",
+  "lerobot_sha": "c8ce413d738da15a2eed2d0832315779ea28cbf9",
+  "forward_source": "https://github.com/huggingface/lerobot/blob/c8ce413d738da15a2eed2d0832315779ea28cbf9/src/lerobot/policies/pi05/modeling_pi05.py#L751-L779",
+  "inverse_source": "https://github.com/microsoft/UniSteer/blob/cd87d240f5ec646e7590476593c3e95eb765b473/src/tool/unisteer_actor_supervision.py#L562-L583",
+  "results": [
+    {
+      "case": "constant_nonzero_v=1",
+      "target_action": 0.25,
+      "published_inverse_noise": -0.7499999999999999,
+      "published_local_equation_max_residual": 2.7755575615628914e-17,
+      "published_roundtrip_action": -1.7500000000000004,
+      "published_roundtrip_abs_error": 2.0000000000000004,
+      "schedule_consistent_inverse_noise": 1.25,
+      "schedule_consistent_roundtrip_abs_error": 2.7755575615628914e-17
+    },
+    {
+      "case": "time_dependent_v=t",
+      "target_action": 0.25,
+      "published_inverse_noise": -0.20000000000000007,
+      "published_local_equation_max_residual": 0.0,
+      "published_roundtrip_action": -0.7500000000000002,
+      "published_roundtrip_abs_error": 1.0000000000000002,
+      "schedule_consistent_inverse_noise": 0.8,
+      "schedule_consistent_roundtrip_abs_error": 5.551115123125783e-17
+    },
+    {
+      "case": "state_dependent_v=x",
+      "target_action": 0.25,
+      "published_inverse_noise": 0.09638582235738294,
+      "published_local_equation_max_residual": 2.7755575615628914e-17,
+      "published_roundtrip_action": 0.03360765818732799,
+      "published_roundtrip_abs_error": 0.216392341812672,
+      "schedule_consistent_inverse_noise": 0.7169929976981105,
+      "schedule_consistent_roundtrip_abs_error": 0.0
+    }
+  ]
+}

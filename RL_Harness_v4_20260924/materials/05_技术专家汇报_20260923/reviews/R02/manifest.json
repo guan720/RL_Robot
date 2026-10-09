@@ -1,0 +1,56 @@
+{
+  "round": "R02",
+  "frozen_utc": "2026-09-23T12:52:42.749782+00:00",
+  "files": [
+    {
+      "path": "01_RL_Harness真机自主学习方案汇报.md",
+      "sha256": "dd91b5aa00245268f878471043956b1ff80a60c51f89a5c2de3f9089c195bff6",
+      "bytes": 14964
+    },
+    {
+      "path": "assets/01_总体框架.mmd",
+      "sha256": "2957f7e79f38238a3d0025fc00e02e128ce3e7748a9206b3eb9cbe304b1e918b",
+      "bytes": 1121
+    },
+    {
+      "path": "assets/02_任务循环.mmd",
+      "sha256": "07b1a60cc69a32ad2a09399d85443009c7ba7c39b4171d0be004956cde546d83",
+      "bytes": 1004
+    },
+    {
+      "path": "assets/03_验证路线.mmd",
+      "sha256": "590ff1e4ee77382457bf9d8a02c3b3d22e8ac8e6c275080b6b6d7a72cd632e6d",
+      "bytes": 569
+    },
+    {
+      "path": "assets/01_总体框架.svg",
+      "sha256": "d584a1d4381af55eade0ba317d8a7f61e18ce11c4e8cd82b35e8c3db913aec0e",
+      "bytes": 17538
+    },
+    {
+      "path": "assets/02_任务循环.svg",
+      "sha256": "844c242b492a35865a1450d90c8dbf13ff3274367dc5bd977771d9553a28c5f4",
+      "bytes": 16511
+    },
+    {
+      "path": "assets/03_验证路线.svg",
+      "sha256": "911a6bf7ffad4217156f8b96894e5952c4fb39b7385434dded99b182832ac98c",
+      "bytes": 9553
+    },
+    {
+      "path": "assets/01_总体框架.png",
+      "sha256": "907545223a641a96a1ab06da3991bf7849eac2b6c9e33b0a6173f3ab3071f4f7",
+      "bytes": 55747
+    },
+    {
+      "path": "assets/02_任务循环.png",
+      "sha256": "3cd4500bc7bdadeaa46510a82d30c85febf8bda172ef365628b323ebb887077e",
+      "bytes": 64967
+    },
+    {
+      "path": "assets/03_验证路线.png",
+      "sha256": "6319754f90ebf6f977c84b3eb2378205e6f7d40adc48ec891f2a71904690946a",
+      "bytes": 18375
+    }
+  ]
+}

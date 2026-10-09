@@ -1,0 +1,13 @@
+{
+  "round":"R02",
+  "root_verdict":"NEEDS_REVISION",
+  "reviews":[
+    {"file":"review_rl.md","agent":"/root/v3r02_rl","verdict":"PASS","questions":16},
+    {"file":"review_harness.md","agent":"/root/v3r02_harness","verdict":"PASS","questions":17},
+    {"file":"review_evidence.md","agent":"/root/v3r02_evidence","verdict":"NEEDS_REVISION","questions":14}
+  ],
+  "required_issues":["RT-EXPO ordinary SFT vs RTC-SFT reference distinction","Manual resets/evaluation and online-data vs wall-clock budget"],
+  "resolution":"Primary Table I, V-C, VI and appendices reread; research corrected. Actor entropy adapter, terminology and cross-protocol symbols clarified. New frozen round required.",
+  "consecutive_passes":0,
+  "scope":"Document/source review only"
+}

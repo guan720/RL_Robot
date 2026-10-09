@@ -1,0 +1,139 @@
+﻿[
+    {
+        "files":  [
+                      {
+                          "path":  "README.md",
+                          "sha256":  "b65018cb2ce85c004bb8a6fd379d3b79ef76384af972129654167f63d2c2b4e8",
+                          "bytes":  5232
+                      },
+                      {
+                          "path":  "docs/franka_walkthrough.md",
+                          "sha256":  "1efda31f6a9e62bf41c6875d06486092ab0e2bf042724e2e6341aec21d24e0a0",
+                          "bytes":  8458
+                      },
+                      {
+                          "path":  "examples/data_util.py",
+                          "sha256":  "005d7da33aa934f995c1baceb94f4e559e4fab09cf7e94415a2667e603425331",
+                          "bytes":  3474
+                      },
+                      {
+                          "path":  "examples/record_demos_octo.py",
+                          "sha256":  "2ff954a10b9c6a22e9c20d9638a66a4a08d80799742e60631a6be0f8eb59acd5",
+                          "bytes":  3141
+                      },
+                      {
+                          "path":  "examples/train_conrft_octo.py",
+                          "sha256":  "8d1525320c1e0ff9e5f8c2c744e0cd2a69222aedba34feb531f8d6183af3e5ab",
+                          "bytes":  24182
+                      },
+                      {
+                          "path":  "examples/experiments/config.py",
+                          "sha256":  "387fc73630e983ce499c0f5ad3d943527e658308da72896331274a343caf919d",
+                          "bytes":  1371
+                      },
+                      {
+                          "path":  "examples/experiments/task1_pick_banana/config.py",
+                          "sha256":  "99ff9366f53bac9cd69adf0a1b5e11305f75f66323400cc21d1bcf3a35f10c92",
+                          "bytes":  5439
+                      },
+                      {
+                          "path":  "examples/experiments/task1_pick_banana/run_actor_conrft.sh",
+                          "sha256":  "684d4bf8e4b0bb1e4faffbb74b71092a96ff505f52692cf36594bc456c6870cc",
+                          "bytes":  313
+                      },
+                      {
+                          "path":  "examples/experiments/task1_pick_banana/run_learner_conrft.sh",
+                          "sha256":  "7903136b7a708310b9cfeaa654d1af84b87d793a86daacc75190c28db2bf3ff3",
+                          "bytes":  430
+                      },
+                      {
+                          "path":  "examples/experiments/task1_pick_banana/run_learner_conrft_pretrain.sh",
+                          "sha256":  "27499a2dd97f5d773bd7fb4a3c3dd9e9578fef59e693307f487467c9e89e5124",
+                          "bytes":  431
+                      },
+                      {
+                          "path":  "examples/experiments/task1_pick_banana/wrapper.py",
+                          "sha256":  "a7cb6b56376c8dfa04766d85117db8603ef8d33a37286b872e52507a13b651e4",
+                          "bytes":  4692
+                      },
+                      {
+                          "path":  "serl_launcher/requirements.txt",
+                          "sha256":  "e2848845a7ff8266b798fe7b57737bd309c7ecf4b7f6911b25eb230c212fcb30",
+                          "bytes":  338
+                      },
+                      {
+                          "path":  "serl_launcher/setup.py",
+                          "sha256":  "943e072981e4861797bbfb5cd4d7cf14841dc1f554f59298fe158782b28efefc",
+                          "bytes":  527
+                      },
+                      {
+                          "path":  "serl_launcher/serl_launcher/agents/continuous/conrft_single_octo_cp.py",
+                          "sha256":  "42d108ea1af89bce5912a5e7fc809d8e91dcfe30deaa1d3f50c5e877b56b9d5e",
+                          "bytes":  29636
+                      },
+                      {
+                          "path":  "serl_launcher/serl_launcher/common/encoding.py",
+                          "sha256":  "8ce2742e627d6455aa40138a2921e08bbc452885ae9b47164561f4673884f407",
+                          "bytes":  6184
+                      },
+                      {
+                          "path":  "serl_launcher/serl_launcher/data/memory_efficient_replay_buffer.py",
+                          "sha256":  "50445049b3059633669070c4ab5f76d7097fbd6ade9469981e4e6ee6ee3197a7",
+                          "bytes":  6445
+                      },
+                      {
+                          "path":  "serl_launcher/serl_launcher/data/replay_buffer.py",
+                          "sha256":  "2bb6836978a2abbc9b57979add63cbfd015a87fc4aafedd5b7779c8f8dd6ee9d",
+                          "bytes":  4481
+                      },
+                      {
+                          "path":  "serl_launcher/serl_launcher/networks/actor_critic_nets.py",
+                          "sha256":  "e1e4e89e57b37641c862ac5bf99e9de98def922c4bc9a4a45a4aa6fd6137f06b",
+                          "bytes":  13782
+                      },
+                      {
+                          "path":  "serl_launcher/serl_launcher/utils/launcher.py",
+                          "sha256":  "31a0e9a7e86595a185efb3b1741cf5a662b2d9055070a7c3e37c336767337ff7",
+                          "bytes":  7768
+                      },
+                      {
+                          "path":  "serl_launcher/serl_launcher/wrappers/chunking.py",
+                          "sha256":  "0148ffa641b129b73e80c009a6b02e05efa76e8b59e0970a43c585402aaebdea",
+                          "bytes":  2723
+                      },
+                      {
+                          "path":  "serl_robot_infra/franka_env/envs/franka_env.py",
+                          "sha256":  "d517419d8ec6178d5b44f7a4e91855db6de35886514c7250726443ff86015b03",
+                          "bytes":  18844
+                      },
+                      {
+                          "path":  "serl_robot_infra/franka_env/envs/wrappers.py",
+                          "sha256":  "7c494dd9088112a4a4cc5746060a6ab56d3351c134ca0467a8fd74d6b7babf9b",
+                          "bytes":  23699
+                      }
+                  ],
+        "repo":  "cccedric/conrft",
+        "sha":  "a779fde7fa5db5a469960a8490c100f35b41b49e"
+    },
+    {
+        "files":  [
+                      {
+                          "path":  "octo/model/octo_model.py",
+                          "sha256":  "83cc01171934dab5e0229c2c2a52ac07d805fd8e644e7519693515ce29c302cc",
+                          "bytes":  23900
+                      },
+                      {
+                          "path":  "octo/model/components/action_heads.py",
+                          "sha256":  "480f374788571db11f1e3ca2922beaec52f752001ae5ac6d284e0f1dfec40d11",
+                          "bytes":  32405
+                      },
+                      {
+                          "path":  "octo/utils/train_utils.py",
+                          "sha256":  "177d187db6a9341bb8bfe4f98e5156bb654f61cf3def2e7f2d9b699f1be6e674",
+                          "bytes":  16271
+                      }
+                  ],
+        "repo":  "cccedric/octo",
+        "sha":  "e454c7a1939163a7e1c70670d34dc504c4825247"
+    }
+]

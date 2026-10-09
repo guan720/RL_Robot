@@ -1,0 +1,382 @@
+{
+  "schema_version": 1,
+  "stage": "S3",
+  "topic": "RL joint falsification",
+  "date": "2026-09-23",
+  "scope": {
+    "knowledge_base": "read_only",
+    "write_root": "具身_harness_RSI_RL/06_三轮递进调研与方案复审_20260923/research/S3",
+    "upstream_execution": false,
+    "robot_experiment": false,
+    "documentation_review_round": false,
+    "goal_or_update_executed": false
+  },
+  "local_inputs_read": [
+    "embodied-scientist/START_HERE.md",
+    "embodied-scientist/ROLE.md",
+    "embodied-scientist/state/status.json",
+    "embodied-scientist/knowledge/INDEX.md",
+    "embodied-scientist/.agents/skills/embodied-research-scientist/SKILL.md",
+    "embodied-scientist/workflows/RESEARCH.md",
+    "具身_harness_RSI_RL/AGENTS.md",
+    "research/S2/00_根审总结与S3入口.md",
+    "research/S1/rl_frontier.md",
+    "research/S2/rl_code.md",
+    "01_开发技术方案.md",
+    "appendices/02_异步动作时间轴与学习目标.md",
+    "04_RL与Harness扩展调研_20260923/research/01_VLA_RL扩展调研.md §11"
+  ],
+  "process": [
+    "summarize existing technical assumptions",
+    "enumerate weak-start, coverage, intervention censoring, actor selection and deployment-package counterexamples",
+    "target primary-source search and detail reading",
+    "derive bounded falsifiable tests",
+    "bounded FlowDAgger follow-up from harness team",
+    "write findings without editing main documents"
+  ],
+  "searches": [
+    {
+      "q": "RAPolicy robot reinforcement learning advantage policy flow matching 2026",
+      "purpose": "locate original weak-start mechanism; recheck not novel"
+    },
+    {
+      "q": "\"Real-Time\" \"EXPO\" \"weak\" robot",
+      "purpose": "find initialization assumptions and finite support"
+    },
+    {
+      "q": "robot VLA reinforcement learning zero success demonstrations intervention censoring 2026",
+      "purpose": "new mechanism search; found SynthDemo-RL and TORL-VLA"
+    },
+    {
+      "q": "\"SynthDemo-RL\" github code",
+      "purpose": "official training-assets discovery; no verified official repository located"
+    },
+    {
+      "q": "\"RAPolicy\" \"github\"",
+      "purpose": "author repository confirmation; noisy namesakes excluded"
+    }
+  ],
+  "sources": [
+    {
+      "id": "RAP",
+      "url": "https://arxiv.org/html/2609.22888v1",
+      "kind": "paper_primary",
+      "status": "read",
+      "read_scope": [
+        "III-B replay construction",
+        "III-C/D Q/V and likelihood",
+        "IV-A/C demonstrations and evaluation"
+      ],
+      "novel_to_project": false,
+      "answer": "0/20 weak-start evidence exists with interventions; joint multi-task uses 30 demos per task. Replay anchored improvement still depends on behavior support and learnability.",
+      "not_established": [
+        "strict probability-zero start",
+        "same-theta bidirectional autonomous continuous queue RL"
+      ]
+    },
+    {
+      "id": "RT",
+      "url": "https://arxiv.org/html/2609.18207v1",
+      "kind": "paper_primary",
+      "status": "read",
+      "read_scope": [
+        "IV-B equations 4-11",
+        "IV-C SFT initialization about 30 percent",
+        "VII-E bounded edits, success-only BC, latency and training"
+      ],
+      "novel_to_project": false,
+      "new_depth": "combined weak-start and candidate-support analysis",
+      "answer": "RTC base initialization is nontrivial; composite policy includes editor and Q; base BC success gating needs independent local correction intake for this project."
+    },
+    {
+      "id": "SYN",
+      "url": "https://arxiv.org/html/2609.21650v1",
+      "kind": "paper_primary",
+      "status": "read",
+      "read_scope": [
+        "III automated teacher and distillation",
+        "IV-C reward coverage and matched-PPO control",
+        "IV-E preliminary hardware closed-loop failure and open-loop executability",
+        "IV-F teacher motion and SFT gap"
+      ],
+      "novel_to_project": true,
+      "answer": "LLM program repair can create first successful synthesis; full cost and privileged simulation conditions must be counted. Hardware open-loop success is not autonomous visual closed-loop VLA success.",
+      "asset_status": "official repository and data not located in actual directed search; not proof of absence"
+    },
+    {
+      "id": "TORL",
+      "url": "https://arxiv.org/html/2606.09337v1",
+      "kind": "paper_primary",
+      "status": "read",
+      "read_scope": [
+        "3.2 task and intervention-censored critics",
+        "6 assumptions/limitations",
+        "A.3.3 routing/refinement",
+        "A.4.2 replay diagnostics"
+      ],
+      "novel_to_project": true,
+      "answer": "Intervention-risk value is distinct from task value and relies on meaningful intervention labels; GPT unknown/timeouts are not equivalent failure events."
+    },
+    {
+      "id": "TORL-P",
+      "url": "https://torl-vla.github.io/",
+      "kind": "author_project",
+      "status": "read",
+      "read_scope": [
+        "evaluation description",
+        "paper links",
+        "code-coming-soon and separate RLT reproduction"
+      ],
+      "novel_to_project": true,
+      "answer": "Project page is source of asset status only; linked reproduction does not establish complete TORL release."
+    },
+    {
+      "id": "FORCE",
+      "url": "https://arxiv.org/html/2609.22840v1",
+      "kind": "paper_primary",
+      "status": "read",
+      "read_scope": [
+        "IV-D equations 7-8",
+        "segment return surrogate",
+        "human residual projection and critic exclusion"
+      ],
+      "novel_to_project": false,
+      "new_depth": "target contrast with full deployment-policy task return",
+      "answer": "Segment truncation is a declared surrogate; cannot universally replace legal off-policy task transitions."
+    },
+    {
+      "id": "FUT",
+      "url": "https://arxiv.org/html/2607.24008v1",
+      "kind": "paper_primary",
+      "status": "read",
+      "read_scope": [
+        "committed-action prediction mechanism",
+        "policy consistency and branch-dependent experiments",
+        "delay ablations"
+      ],
+      "novel_to_project": false,
+      "new_depth": "policy/predictor version compatibility falsification",
+      "answer": "Adapter net closed-loop gain must be retested after RL changes representation and action distribution; S2 realworld code restrictions remain."
+    },
+    {
+      "id": "RT-BATCH",
+      "url": "https://raw.githubusercontent.com/pd-perry/expo-ft/803381fc3b4c91a0c47904f1b688fc5e35904f50/expo_ft/data/batch_processor.py",
+      "kind": "official_fixed_source",
+      "commit": "803381fc3b4c91a0c47904f1b688fc5e35904f50",
+      "status": "read_web",
+      "read_scope": [
+        "entire 132-line source"
+      ],
+      "novel_to_project": false,
+      "new_depth": "success-only actor vs separate HIL-only branch",
+      "answer": "Do not assume arbitrary reliable failed-episode correction is already consumed by default base actor."
+    },
+    {
+      "id": "RT-LEARN",
+      "url": "https://raw.githubusercontent.com/pd-perry/expo-ft/803381fc3b4c91a0c47904f1b688fc5e35904f50/expo_ft/agents/alg/realtime_expo_ft.py",
+      "kind": "official_fixed_source",
+      "commit": "803381fc3b4c91a0c47904f1b688fc5e35904f50",
+      "status": "read_web",
+      "read_scope": [
+        "168-227 fast selector",
+        "569-710 masks, cached inference and prefix",
+        "910 actor entry",
+        "1117-1138 success-actor and edit updates"
+      ],
+      "novel_to_project": false,
+      "new_finding": "N<=1 branch skips edits and Q ranking; cannot use as candidate-count-only ablation. Explicit fast Q/editor inputs do not include language goal.",
+      "not_established": [
+        "runtime integration tested",
+        "all configurations have same behavior"
+      ]
+    },
+    {
+      "id": "RA-LOSS",
+      "url": "https://raw.githubusercontent.com/flyfaerss/RAPolicy/ef4b1044f0cc78c0f6143180a2d78ae267ab03ea/rlinf/algorithms/awac_actor_loss.py",
+      "kind": "official_fixed_source",
+      "commit": "ef4b1044f0cc78c0f6143180a2d78ae267ab03ea",
+      "status": "read_web",
+      "read_scope": [
+        "7-28 mode validation",
+        "31-63 fresh-noise flow actor branch"
+      ],
+      "novel_to_project": false,
+      "answer": "Alternative flow regression mode has a distinct contract; no-latent supervision must not silently claim rollout-likelihood mode."
+    },
+    {
+      "id": "FLOW-ROOT",
+      "url": "https://github.com/microsoft/FlowDAgger",
+      "kind": "official_repository",
+      "status": "read_web",
+      "version": "main returned 2026-09-23; fixed SHA not obtained, harness cross-check also main only",
+      "novel_to_project": true,
+      "discovery": "harness agent via root",
+      "read_scope": [
+        "README method and two-backend layout"
+      ],
+      "answer": "Frozen base plus learned steering is a learned composite policy; latent BC, not TD."
+    },
+    {
+      "id": "FLOW-T",
+      "url": "https://raw.githubusercontent.com/microsoft/FlowDAgger/main/TRANSPARENCY.md",
+      "kind": "official_transparency",
+      "status": "read_web",
+      "read_scope": [
+        "full document, particularly 73-92 limits"
+      ],
+      "answer": "Bounded-neighborhood inversion; delayed/poor expert correction limitations. This document describes pi0.5 only, while current README has two backends."
+    },
+    {
+      "id": "FLOW-PI-README",
+      "url": "https://raw.githubusercontent.com/microsoft/FlowDAgger/main/flowdagger_pi05/README.md",
+      "kind": "official_readme",
+      "status": "read_web",
+      "read_scope": [
+        "full 50-line README"
+      ],
+      "answer": "JAX pi0.5 MetaWorld and external pi05-metaworld checkpoint; not whole-paper reproduction."
+    },
+    {
+      "id": "FLOW-G-README",
+      "url": "https://raw.githubusercontent.com/microsoft/FlowDAgger/main/flowdagger_gr00t/README.md",
+      "kind": "official_readme",
+      "status": "read_web",
+      "read_scope": [
+        "full 105-line README"
+      ],
+      "answer": "GR00T N1.7 LIBERO57; pinned GR00T and LIBERO dependencies, gated Cosmos-Reason2, separate checkpoint. Baseline about 0.6 at N=25, not observed-zero startup."
+    },
+    {
+      "id": "FLOW-PI-TRAIN",
+      "url": "https://raw.githubusercontent.com/microsoft/FlowDAgger/main/flowdagger_pi05/train_flowdagger.py",
+      "kind": "official_source_main",
+      "status": "read_web",
+      "read_scope": [
+        "state/action shapes",
+        "base load and normalization",
+        "inverter/converter setup",
+        "defaults including seed, filter and latent basis"
+      ],
+      "answer": "Boundary settings and primitive BC experiment; no executed upstream."
+    },
+    {
+      "id": "FLOW-PI-LOOP",
+      "url": "https://raw.githubusercontent.com/microsoft/FlowDAgger/main/flowdagger_pi05/dagger_loop.py",
+      "kind": "official_source_main",
+      "status": "read_web",
+      "read_scope": [
+        "138-190 expert seed and latent p99 bound diagnostic",
+        "199-220 failed-episode gate",
+        "239-276 BC updates"
+      ],
+      "answer": "Default failed-episode filtering and latent-range warning are important adaptation boundaries; latent p99 alone is not proof of successful physical action round trip."
+    },
+    {
+      "id": "FLOW-G-TRAIN",
+      "url": "https://raw.githubusercontent.com/microsoft/FlowDAgger/main/flowdagger_gr00t/train_groot_flowdagger.py",
+      "kind": "official_source_main",
+      "status": "read_web",
+      "read_scope": [
+        "config defaults",
+        "noise network optimizer",
+        "306-386 expert collection/inversion/BC",
+        "388-426 expert-free evaluation"
+      ],
+      "answer": "Defaults are 10 expert-only seed episodes and intervention probability 1.0; expert reads new feedback throughout chunk then inverse under start context. Must distinguish post-hoc BC from same-information labels."
+    },
+    {
+      "id": "FLOW-G-CONVERT",
+      "url": "https://raw.githubusercontent.com/microsoft/FlowDAgger/main/flowdagger_gr00t/groot_expert_inversion.py",
+      "kind": "official_source_main",
+      "status": "read_web",
+      "read_scope": [
+        "entire 78-line converter"
+      ],
+      "answer": "Model-space 40x132 differs from executed 16x7; gripper conventions and physical dimensions must be checked, not only average padded MSE."
+    }
+  ],
+  "joint_derivations": [
+    {
+      "id": "D1",
+      "question": "Can finite-sample miss establish base has zero action support?",
+      "answer": "No. Separate finite candidate coverage, representational edit bounds, Q ranking and BC transfer. Use action-dimension/gripper reachability plus independent labels.",
+      "selection_change": "supports conditional RT-EXPO vs native/full-head gate"
+    },
+    {
+      "id": "D2",
+      "question": "Does retaining exact predecessors and dropping broken slots remove intervention selection bias?",
+      "answer": "No. If dropout depends on hidden risky branch, retained return differs from deployment return. Formal A/B example in report.",
+      "selection_change": "retain correct queue semantics; add reason/goal/state censoring diagnostics and bounded autonomous retries"
+    },
+    {
+      "id": "D3",
+      "question": "Does realized-terminal actor masking reweight states?",
+      "answer": "Yes when Q already averages random current-C termination; survival filtering introduces a second p_survive factor. Root agreed to use all eligible pre-decision nonterminal X for primary actor sampling.",
+      "selection_change": "main actor sampling recommendation changed; old future-survival mask only ablation"
+    },
+    {
+      "id": "D4",
+      "question": "Does same-MDP expert transition necessarily contaminate task Q?",
+      "answer": "No; legal off-policy target under deployment policy can use it. Assistance MC credit, value extrapolation and surrogate objectives must be separated.",
+      "selection_change": "do not copy universal takeover terminal or blanket human critic exclusion"
+    },
+    {
+      "id": "D5",
+      "question": "Does four-way old/new Harness/policy evaluation establish training causality?",
+      "answer": "No. It diagnoses deployment contribution. Add matched training runs from same initial policy, fixed vs expanding program library.",
+      "selection_change": "causal-training ablation added"
+    },
+    {
+      "id": "D6",
+      "question": "Does FlowDAgger remove need for correction-support checks?",
+      "answer": "No. Inversion quality, latent bounds, decoded action/gripper semantics, hidden teacher information and post-hoc chunk timing remain gates.",
+      "selection_change": "optional latent-BC precheck added; no RL/core replacement"
+    }
+  ],
+  "hypotheses_with_diagrams": [
+    "H1 weak-start coverage",
+    "H2 RL extra gain over equal-correction dynamic BC",
+    "H3 shared bidirectional transfer",
+    "H4 correct async timing and targets",
+    "H5 predictor net benefit after policy update",
+    "H6 program growth transferred into independent policy"
+  ],
+  "asset_failures": [
+    {
+      "method": "local urllib parallel selected raw-source download",
+      "status": "partial_then_cancelled",
+      "details": "After long initial zero-file wait, ForceRFT HTML finished before cancellation; final file audit found 212049 bytes with closing html, SHA256 681f576fc44c03c94177c6f592b14d90184d17c1dc7f5784dd6303476d847010. No other complete raw artifact claimed. Process stopped by scoped script-name match; primary reading was via web tool."
+    },
+    {
+      "method": "curl.exe HEAD raw.githubusercontent.com, max-time 15",
+      "status": "failed",
+      "error": "curl (28) Operation timed out after 15011 milliseconds with 0 bytes received"
+    },
+    {
+      "url": "https://api.github.com/repos/microsoft/FlowDAgger/commits/main",
+      "status": "web_not_accessible"
+    },
+    {
+      "url": "https://github.com/microsoft/FlowDAgger/commits/main/",
+      "status": "web_restricted"
+    },
+    {
+      "method": "SynthDemo-RL official assets search",
+      "status": "not_located",
+      "details": "Search returned paper and third-party aggregators; no verified official training repository. This does not prove absence."
+    }
+  ],
+  "evidence_capture": "evidence/rl_joint/web_capture.json (exact selected web response, not raw source cache)",
+  "actual_tests": "No upstream imports, model inference, training, simulator or robot execution. Only document/log integrity checks after writing.",
+  "outcome": "research complete; main documents left for root synthesis",
+  "remaining_boundaries": [
+    "GPT correction quality on real station",
+    "same-theta goal coverage",
+    "native vs complete-head BC",
+    "censoring identifiability",
+    "Q ranking and extrapolation",
+    "TD density and deadline",
+    "predictor compatibility",
+    "whole-package independent bidirectional improvement"
+  ]
+}

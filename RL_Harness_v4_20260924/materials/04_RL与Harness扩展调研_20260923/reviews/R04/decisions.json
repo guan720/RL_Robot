@@ -1,0 +1,30 @@
+{
+  "round": "R04",
+  "root_verdict": "NEEDS_REVISION",
+  "reviews": [
+    {
+      "file": "review_rl.md",
+      "agent": "/root/v3r04_rl",
+      "verdict": "PASS",
+      "questions": 12
+    },
+    {
+      "file": "review_harness.md",
+      "agent": "/root/v3r04_harness",
+      "verdict": "PASS",
+      "questions": 13
+    },
+    {
+      "file": "review_evidence.md",
+      "agent": "/root/v3r04_evidence",
+      "verdict": "NEEDS_REVISION",
+      "questions": 12
+    }
+  ],
+  "required_issues": [
+    "RT-EXPO derived-state and image-history experimental conditions and per-module information comparability"
+  ],
+  "root_assessment": "Primary appendix confirms issue. Revised evidence and comparison contracts; freeze a new version, reset clean-round streak.",
+  "consecutive_passes": 0,
+  "scope": "Design and source review only; empirical gates remain unexecuted"
+}

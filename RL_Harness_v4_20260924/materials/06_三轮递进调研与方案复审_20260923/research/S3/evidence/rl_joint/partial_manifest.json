@@ -1,0 +1,14 @@
+{
+  "date": "2026-09-23",
+  "status": "partial_download_cancelled_after_long_wait",
+  "complete_files": [
+    {
+      "file": "force_paper.html",
+      "url": "https://arxiv.org/html/2609.22840v1",
+      "bytes": 212049,
+      "sha256": "681f576fc44c03c94177c6f592b14d90184d17c1dc7f5784dd6303476d847010",
+      "closing_html_present": true
+    }
+  ],
+  "other_files": "Not downloaded completely; actual reading via web tool. web_capture.json stores an exact selected web response, not raw upstream sources."
+}
