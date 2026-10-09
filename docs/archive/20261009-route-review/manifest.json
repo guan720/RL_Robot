@@ -1,0 +1,47 @@
+[
+  {
+    "path": "README.md",
+    "sha256": "400FBCAEF45C4C8123ED43EC7E854ED23BD407CDE78FCB6F66BA0874D0715289",
+    "lines": 209
+  },
+  {
+    "path": "docs/ROADMAP.md",
+    "sha256": "9EBD2DF1C419FD6FAE5EE8B6AE788ABF8B04187524991CB0140D511F3140B0DA",
+    "lines": 178
+  },
+  {
+    "path": "docs/README.md",
+    "sha256": "96EBE33F10137D6FF9DFA2E8A31958AECBB78B58B6F5AFAAD5119D8238ACDBE4",
+    "lines": 31
+  },
+  {
+    "path": "daily_report.md",
+    "sha256": "F19B8210F5E3008A25493E6151C483EABD7B730F0168E12EE3C506F6469BEF0E",
+    "lines": 45
+  },
+  {
+    "path": "min_grasp_pi05/README.md",
+    "sha256": "A8394F522692EEF70676DECE0B4A64E6A578FC08A09FC83432EA6E2BF7426F90",
+    "lines": 59
+  },
+  {
+    "path": "min_grasp_pi05/STAGE_PLAN.md",
+    "sha256": "D5ACB08A50D7972001452C75A10D598C4C0C468CF5BA219008A3AD16BD5FECE9",
+    "lines": 2261
+  },
+  {
+    "path": "rl_harness_supervision/README.md",
+    "sha256": "D196D5A19B3E31249A8FAB902066478B8F94EFC7063FC1CB4DA2534E084462AD",
+    "lines": 8
+  },
+  {
+    "path": "docs/residual_audit_status_20260924.md",
+    "sha256": "723C3EE852B2A5DC430E29B606BB5F426232D19BBB59F6ED478B008B1D79AE14",
+    "lines": 26
+  },
+  {
+    "path": "docs/residual_audit_report_20260924.md",
+    "sha256": "96EEAD5B031AB59499B2D66FC57BC1B34D998E188D8A01BFF57C1C0C067969CF",
+    "lines": 50
+  }
+]

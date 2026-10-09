@@ -1,0 +1,116 @@
+[
+  {
+    "original": "docs/agent_a_handoff_20260924.md",
+    "archived": "docs/archive/20261009/docs/agent_a_handoff_20260924.md",
+    "sha256": "7cb40e4f56d4cbd11c47468ef30a2b5eb2502963fd856eca416df8735d78f58a",
+    "bytes": 3047
+  },
+  {
+    "original": "docs/a_handoff_to_b_t17_train_side_verified_20260929.md",
+    "archived": "docs/archive/20261009/docs/a_handoff_to_b_t17_train_side_verified_20260929.md",
+    "sha256": "aca4275a8e0d31d6b9183ac1e1be968ea8771e6e0d85dc83b2d18d6c738f8af3",
+    "bytes": 10086
+  },
+  {
+    "original": "docs/b_handoff_to_c_20260929.md",
+    "archived": "docs/archive/20261009/docs/b_handoff_to_c_20260929.md",
+    "sha256": "d6b1c9895817e419e74cda3f62c7aaf127b83ce83db4974c4089c592fe27f0ed",
+    "bytes": 23450
+  },
+  {
+    "original": "docs/b_handoff_to_d_20260929.md",
+    "archived": "docs/archive/20261009/docs/b_handoff_to_d_20260929.md",
+    "sha256": "ca411dcd5dd8a1074479ac57dc984f8d60e3c23575fc72e4ddf455a625517746",
+    "bytes": 32303
+  },
+  {
+    "original": "docs/c2_handoff_to_d_20260929.md",
+    "archived": "docs/archive/20261009/docs/c2_handoff_to_d_20260929.md",
+    "sha256": "0c9b2563a89ed238f2177914aa252494bdc21020a22b1c93b633293eaa8535e0",
+    "bytes": 81994
+  },
+  {
+    "original": "docs/c2_task_selfintake_20260929.md",
+    "archived": "docs/archive/20261009/docs/c2_task_selfintake_20260929.md",
+    "sha256": "e1c99b50d45a32edfae19128c7371e47c15d05f0580157c01d4e0742c04c0065",
+    "bytes": 26375
+  },
+  {
+    "original": "docs/c_handoff_to_b2_registry_20260929.md",
+    "archived": "docs/archive/20261009/docs/c_handoff_to_b2_registry_20260929.md",
+    "sha256": "ed55c4c3c512bc72ed05b601c480c3325e3bd1ddbb1b73513814ea9dd543245c",
+    "bytes": 17164
+  },
+  {
+    "original": "docs/c_handoff_to_b_t17_landed_20260929.md",
+    "archived": "docs/archive/20261009/docs/c_handoff_to_b_t17_landed_20260929.md",
+    "sha256": "6b3cb6ceaeea8b763f2c20167e1bfc8d925e58637fd211ce8cb0d240bad3c0aa",
+    "bytes": 9393
+  },
+  {
+    "original": "docs/c_handoff_to_d_p1_landed_20260929.md",
+    "archived": "docs/archive/20261009/docs/c_handoff_to_d_p1_landed_20260929.md",
+    "sha256": "9ca242de7fbbba4a9710351af4f522967026961a3dbe980b9625be1698b7a482",
+    "bytes": 8937
+  },
+  {
+    "original": "docs/from_scratch_sac_handoff_20260924.md",
+    "archived": "docs/archive/20261009/docs/from_scratch_sac_handoff_20260924.md",
+    "sha256": "304bfdcb013b64b759d7a1d053782522687c43197d9143ff78bd01b17b3fa5d6",
+    "bytes": 1309
+  },
+  {
+    "original": "docs/git_upload_handoff_20261008.md",
+    "archived": "docs/archive/20261009/docs/git_upload_handoff_20261008.md",
+    "sha256": "4da9170766d1906cb70be0d02842d21e93ff07a9d1d1b22e0e5a9bc9f705e1da",
+    "bytes": 2363
+  },
+  {
+    "original": "docs/handoff_scripted_pickplace_defects.md",
+    "archived": "docs/archive/20261009/docs/handoff_scripted_pickplace_defects.md",
+    "sha256": "fec3b09ef0974f450b71d7130cddaa8fba828c2bde8dde8c6c1c1f3838f98627",
+    "bytes": 11035
+  },
+  {
+    "original": "rl_harness_supervision/d_context_checkpoint_20260929_2130.md",
+    "archived": "docs/archive/20261009/rl_harness_supervision/d_context_checkpoint_20260929_2130.md",
+    "sha256": "8013accb49d1e79b37a5d34a9faec71d4f5c1597e1127a79af9aabaf63d48ea7",
+    "bytes": 227613
+  },
+  {
+    "original": "rl_harness_supervision/d_freeze_abc_20260929.md",
+    "archived": "docs/archive/20261009/rl_harness_supervision/d_freeze_abc_20260929.md",
+    "sha256": "0304adb1bdb402facb53da604894b5d6c43976122ac2025d67b40ad2694b67cb",
+    "bytes": 11514
+  },
+  {
+    "original": "rl_harness_supervision/d_handoff_to_b_20260929.md",
+    "archived": "docs/archive/20261009/rl_harness_supervision/d_handoff_to_b_20260929.md",
+    "sha256": "034a2098d134da8b1d5049fd5fcdb148d8614c37eff69aa1d787c5a26d02bae3",
+    "bytes": 26097
+  },
+  {
+    "original": "rl_harness_supervision/d_handoff_to_c_20260929.md",
+    "archived": "docs/archive/20261009/rl_harness_supervision/d_handoff_to_c_20260929.md",
+    "sha256": "e1f5f22a8bbe1e8084faf0cb8eb36569cc592b4d7f8046670b81b2d01504a5df",
+    "bytes": 37161
+  },
+  {
+    "original": "rl_harness_supervision/supervisor_handoff_20260924.md",
+    "archived": "docs/archive/20261009/rl_harness_supervision/supervisor_handoff_20260924.md",
+    "sha256": "5dd173314183242583bdc18c6353409ccbb694624dec19c49fffbb736e2e6804",
+    "bytes": 2613
+  },
+  {
+    "original": "rl_harness_supervision/supervisor_review_20260924.md",
+    "archived": "docs/archive/20261009/rl_harness_supervision/supervisor_review_20260924.md",
+    "sha256": "7000eb5aada5ebb02bf7df5e708cfc9e31821d553bf551a1445b813f6d0bf8d5",
+    "bytes": 5687
+  },
+  {
+    "original": "rl_harness_supervision/supervisor_review_initial_20260924.md",
+    "archived": "docs/archive/20261009/rl_harness_supervision/supervisor_review_initial_20260924.md",
+    "sha256": "19e7bc9436c7cbe2806f6ae340bc2cc57eb3c1f921ebdb3fc80960565ae12a82",
+    "bytes": 4078
+  }
+]
