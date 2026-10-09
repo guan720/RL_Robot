@@ -1,0 +1,38 @@
+{
+  "schema": "c_decision_entry/v1",
+  "decision_id": "DR-D08",
+  "id_kind": "DR-D",
+  "line": "D",
+  "title": "§8 上调条件第 4 条重写",
+  "statement": null,
+  "statement_kind": "pointer_only",
+  "decided_at": null,
+  "affects": [
+    "A",
+    "B",
+    "C"
+  ],
+  "requires_ack_from": [],
+  "evidence_pointers": [],
+  "source": {
+    "file": "work/decisions/decisions_20260928.md",
+    "sha256_12": "32851c0d4565",
+    "lines": "87-104",
+    "heading_line": 87,
+    "element": "bullet",
+    "title_as_written": "§8 上调条件第 4 条重写"
+  },
+  "supersedes": [],
+  "authority_pointers": [
+    "work/decisions/decisions_20260928.md"
+  ],
+  "criteria_single_source": "判据不在本条里（裁定 21：判据单一来源）。本条只存「决定 + 证据指针 + ack」；要判据请读 authority_pointers 指的那个文件本身。",
+  "extra": {
+    "ingest_scope": "执行单 P0-4：DR-001/002 + 增补裁定 8–31（实际摄取到源文档现有最后一条，超出部分一并登记）",
+    "ack_policy": "历史条目：ack 纪律自登记处生效起算，不追溯补 ack ⇒ requires_ack_from 为空。新登记的决定才带 ack 义务（验收 3）。"
+  },
+  "version_seq": 1,
+  "registered_at": "2026-09-29T16:16:54+08:00",
+  "registered_by": "C（登记处摄取；原文在 source 锚点里，未抄正文）",
+  "payload_sha256": "b33b160d5ae57f8decdf00fc6c3754301a248b89c70199ddf2d5b96b8ac91b75"
+}

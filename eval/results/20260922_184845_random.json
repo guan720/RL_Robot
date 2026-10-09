@@ -1,0 +1,62 @@
+{
+  "policy": "random",
+  "algo": "random",
+  "config": "/workspace/mnt/sppro/yhzhang91/scripts/xhzhang52/RL_Robot/configs/reach_sac.yaml",
+  "env_kwargs": {
+    "max_steps": 100,
+    "action_scale": 0.05,
+    "goal_radius": 0.03,
+    "min_goal_dist": 0.08,
+    "half_space": 0.15
+  },
+  "overrides": {},
+  "n_episodes": 5,
+  "seed": 12345,
+  "deterministic": true,
+  "success_rate": 0.0,
+  "mean_reward": -21.04,
+  "mean_steps": 100.0,
+  "mean_final_dist": 0.25456,
+  "episodes": [
+    {
+      "episode": 0,
+      "seed": 12345,
+      "steps": 100,
+      "reward": -19.6123,
+      "success": false,
+      "final_dist": 0.1533
+    },
+    {
+      "episode": 1,
+      "seed": 12346,
+      "steps": 100,
+      "reward": -21.4242,
+      "success": false,
+      "final_dist": 0.33308
+    },
+    {
+      "episode": 2,
+      "seed": 12347,
+      "steps": 100,
+      "reward": -26.001,
+      "success": false,
+      "final_dist": 0.18001
+    },
+    {
+      "episode": 3,
+      "seed": 12348,
+      "steps": 100,
+      "reward": -20.7156,
+      "success": false,
+      "final_dist": 0.29128
+    },
+    {
+      "episode": 4,
+      "seed": 12349,
+      "steps": 100,
+      "reward": -17.4469,
+      "success": false,
+      "final_dist": 0.31512
+    }
+  ]
+}

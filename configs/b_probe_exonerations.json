@@ -1,0 +1,195 @@
+{
+  "_doc": "探针豁免册（门禁 v1.3 裁定 3：VALID_probe_exonerated；**v1.5 起按 probe_kind 分通道**，DR-008）。作用：解除监管备忘 增补三 §12 对「mean_blown_frames_frac 落在争议带 [0.03,0.08] 的臂，measurement_valid 判定暂不可采信」的保留，以及 裁定 10 对带外臂的唯一救济。豁免必须带**可校验**的证据：证据产物要真实存在，且 sha256 与登记一致，否则门禁判 probe_exoneration_invalid（measurement_valid=False），不是静默忽略。两条通道（各自带自己的牙，见 scripts/b_gate_controlled_success.py::probe_exoneration_check）：① probe_kind=reblown_single_source（增补三 §12 争议带重测）——**带内 [0.03,0.08] 才受理**，带外一律不受理（§12 原文：两条路径都远超 0.05 的臂 INVALID 维持）；可 scope=arm，但要求产物自带已知 blown_metric_impl 指纹。② probe_kind=clip_at_train_absmax（裁定 10 / 裁定 16.4）——**免争议带检查**（目标臂必然带外），换成更强的四条：只受理 scope=artifact（键 = 被判 plain 产物 sha256，重跑即失效）、登记的 clip_C 必须等于被判产物**自己**声明的训练期 absmax、必须带 ruling10_conditions 五条准入逐条 true、必须带 cosign（B 写 D 会签）；另加证据侧核验：探针产物自己记录的截断值必须等于 clip_C。白名单语义：只有 BAND_EXEMPT_PROBE_KINDS 里的 kind 免带内检查，**未知 kind 一律按带内处理**。改本册前先按 DR-001 在 work/decisions/ 登记。",
+  "_schema": {
+    "entries": {
+      "<臂名 或 被裁定产物 sha256>": {
+        "scope": "arm（按臂名命中，但要求产物自带已知 blown_metric_impl 指纹）| artifact（默认，只按 sha256 命中，重跑即失效）",
+        "probe_kind": "reblown_single_source（带内 [0.03,0.08]，可 scope=arm）| clip_at_train_absmax（裁定 10，免带内检查，**只** scope=artifact）| ...",
+        "artifact": "证据产物路径（仓库相对）",
+        "sha256": "证据产物的 sha256",
+        "supporting_artifacts": [
+          {
+            "path": "...",
+            "sha256": "...",
+            "role": "..."
+          }
+        ],
+        "ruling_ref": "裁定出处",
+        "reason": "为什么这次探针足以解除保留",
+        "conditions": [
+          "引用时必须同时满足的条件"
+        ],
+        "clip_C": "仅 clip_at_train_absmax：截断值，必须 == 被判产物自己的训练期 absmax（容差 1e-6）",
+        "target_artifact": "仅 clip_at_train_absmax：被免罪的 plain 产物路径（键即其 sha256）",
+        "target_sha256": "仅 clip_at_train_absmax：plain 产物 sha256，必须与键一致",
+        "ruling10_conditions": "仅 clip_at_train_absmax：裁定 10 五条准入，五键必须全为 true",
+        "cosign": "仅 clip_at_train_absmax：{by, fact_basis:true, date, gate_build_at_cosign, verifier, note}（裁定 16.4：B 写、D 会签）"
+      }
+    }
+  },
+  "entries": {
+    "trimdone0_stdfloor_minmax_k2_lr1e-5_s20k_seed0": {
+      "scope": "arm",
+      "probe_kind": "reblown_single_source",
+      "artifact": "runs/infra/lerobot_act_env_20260928/reblown/reblown_vs_archived_stdfloor_seed0.json",
+      "sha256": "24d0d2b3c3e74b5ac1195ead79b2d855561832e0acd7a6b84c528af60c335503",
+      "supporting_artifacts": [
+        {
+          "path": "runs/infra/lerobot_act_env_20260928/reblown/official_act_truth20_trimdone0_stdfloor_minmax_k2_lr1e-5_s20k_seed0.json",
+          "sha256": "0315de26cc1d5aeac667783b27ffb1da5efc341d0914ddf8da2346a5b10c76cc",
+          "role": "重测产物本体：mean_blown_frames_frac=0.0400（与留档同值）、blown_metric_impl=52eae25ee2d7、blowup_threshold=12.469445、success_raw 20/20、受控 16/20"
+        }
+      ],
+      "ruling_ref": "rl_harness_supervision/supervisor_memo_20260928.md 增补三 §12 裁定 1（争议带重测）+ D 裁定 3（VALID_probe_exonerated 分类）；执行记录 daily_report.md §21.3；A 线登记 ADR-A-001",
+      "disputed_metric": "mean_blown_frames_frac",
+      "disputed_value": 0.04,
+      "gate_tolerance": 0.05,
+      "margin_to_tolerance": 0.01,
+      "reason": "§12 保留的技术前提是「blown 口径未单一来源化，两条代码路径对同一轨迹给出 0.2120 与 0.1180 两个值」。A 线已把 blown/oor 判定收敛到单一函数 blown_frame_stats() 并写入源码指纹（ADR-A-001），本臂用该实现重跑 20 局：全键递归比对 verdict=PASS，仅 rows[].elapsed_sec 20 处不同 + 2 个新增键，mean_blown 仍为 0.0400、受控仍 16/20、flick/insuff 仍 1/3、raw 仍 20/20。口径前提已消除，故解除保留。",
+      "recorded": "2026-09-28T21:30:00+08:00",
+      "recorded_by": "B",
+      "conditions": [
+        "引用本臂任何数字仍须带 ±0.005 敏感带：余量只有 0.010，属 threshold_sensitive",
+        "scope=arm 只对**带已知 blown_metric_impl 指纹**的产物生效；同臂的旧留档产物（缺指纹、非单一来源口径）不被本条豁免",
+        "本条只解除 §12 的**测量可采信**保留，不构成对 std 下限有效性的正面主张（§17.12 的否证结论不依赖本臂）"
+      ]
+    },
+    "85c46dfbd98191987b406b3e000b34c6948454054fc20b806eb3b671bc3c3429": {
+      "scope": "artifact",
+      "probe_kind": "clip_at_train_absmax",
+      "arm": "trimdone0_minmax_k2_lr1e-5_s20k_seed0",
+      "target_artifact": "runs/infra/lerobot_act_env_20260928/official_act_truth20_trimdone0_minmax_k2_lr1e-5_s20k_seed0.json",
+      "target_sha256": "85c46dfbd98191987b406b3e000b34c6948454054fc20b806eb3b671bc3c3429",
+      "artifact": "runs/infra/lerobot_act_env_20260928/clipprobe/official_act_truth20_trimdone0_minmax_k2_lr1e-5_s20k_seed0_clipC12p469445.json",
+      "sha256": "142bd2ccd100ef1e3b49b9bf5fe43d08363fc14608a2c37f911ca70f6eddb2fb",
+      "clip_C": 12.469445,
+      "clip_C_semantics": "= 该 checkpoint 自己的训练期归一化输入 |x| 上界（plain 产物 input_contract.blowup_threshold，按 ckpt 现算）。门禁 v1.5 会把它与**被判产物自己声明的值**逐位核对（容差 1e-6），并与探针产物自己记录的 execution_constraints.norm_input_clip 核对；两处任一不符即不受理。",
+      "supporting_artifacts": [
+        {
+          "path": "runs/infra/lerobot_act_env_20260928/clipprobe/regate_current/gate_trimdone0_minmax_k2_lr1e-5_s20k_seed0_clipC12p469445.json",
+          "sha256": "80dd7afe173fe2d856683a9214f4ba9eb8458fb8ab525acb145ef7364c4472c2",
+          "role": "探针产物的逐局裁定（cond2/cond3 的事实来源）：verdict 与三套账五项与 plain 逐格相同，残余差异只有 4 局 final_rise（5012/5014/5016/5018），两路径 verdict 均 failure"
+        },
+        {
+          "path": "runs/infra/lerobot_act_env_20260928/clipprobe/official_act_truth20_trimdone0_minmax_k2_lr1e-5_s20k_seed0_clipC5p0.json",
+          "sha256": "1cafc5b2c04d87cc68f1ab8aa2d52cf910ea2ed019dbdbc5da541072bf1967e2",
+          "role": "cond1 的**判别力反证**：同臂 C=5.0 探针不满足 cond2（seed 5007 verdict 由 insufficient_lift 翻成 failure、insufficient_lift 1→0、raw 11→10）⇒「截得越紧越安全」被证伪，C 必须钉死在 train-absmax"
+        },
+        {
+          "path": "runs/infra/lerobot_act_env_20260928/clampnochange/k2_seed0_ep5011_explained.json",
+          "sha256": "7643203ed3cdb8b66838644c09d850558da4b011e3771856c5652b3f9ea06edd",
+          "role": "C=5.0 反证的逐局解释（clampnochange 取证，D 增补四 §3 已复算）"
+        }
+      ],
+      "ruling_ref": "rl_harness_supervision/supervisor_memo_20260928.md 增补四 §3（D 核可事实基础） + 增补五 裁定 16 第 4 条（条目由 B 写、D 会签）+ 裁定 10（唯一救济通道） + 裁定 12（blown 超阈 ⇒ 这次测量不可信）；A 移交单 docs/a_handoff_to_b_probe_exoneration_gap_20260928.md；B 登记 DR-008",
+      "disputed_metric": "mean_blown_frames_frac",
+      "disputed_value": 0.212,
+      "gate_tolerance": 0.05,
+      "ruling10_conditions": {
+        "cond1_C_equals_train_absmax": true,
+        "cond2_verdicts_and_counts_identical": true,
+        "cond3_diffs_enumerated_and_verdict_same": true,
+        "cond4_probe_path_C_build_recorded": true,
+        "cond5_scope_measurement_valid_only": true
+      },
+      "ruling10_conditions_evidence": {
+        "independent_recompute_by": "scripts/d_verify_exoneration_cosign.py（D 线，只读 A/B/C 文件）",
+        "independent_recompute_result": "ALL_FIVE_PASS=true",
+        "cond1": "train_time_norm_absmax=12.469445 == probe clip C=12.469445；反证 C=5.0 见 supporting_artifacts[1]",
+        "cond2": "verdict_diff_seeds=[]、count_diff={}；受控 9 / flick 1 / insuff 1 / raw 11 / 分母 20 两路径全同",
+        "cond3": "residual_row_diffs 4 条（seed 5012/5014/5016/5018 的 final_rise），all_verdict_same=true",
+        "cond4": "探针路径 / C / build 已登记在本条目的 artifact、clip_C、gate_build_at_cosign 三处",
+        "cond5": "plain composite_policy=false、探针 composite_policy=true（active_constraints=[norm_input_clip]） ⇒ 探针产物不得当官方臂数字引用；免罪只救 measurement_valid，不碰三套账"
+      },
+      "cosign": {
+        "by": "D",
+        "fact_basis": true,
+        "date": "2026-09-29T11:14:37+08:00",
+        "gate_build_at_cosign": "f19f61341cbe",
+        "gate_version_at_cosign": "v1.5",
+        "gate_spec_sha256_at_cosign": "132fceb89f68",
+        "gate_spec_sha256_at_cosign_note": "按 裁定 29.1（D 第七次自我纠错 / DR-D28）：**spec 轴不参与会签效力判定**，本值是 D 于 2026-09-29T11:14:37+08:00 跑 verifier 时的可核历史观测，**数值不改**。会签锚只在 build 轴：gate_build_at_cosign=f19f61341cbe == 门禁现值 GATE_BUILD ⇒ cosign_build_matches=true。规格文档哈希可在判据一字未动时被编辑（实测 35 分钟内移动 4 次：132fceb89f68 → 154b3636056f → a1a8f38e7893 → c7fadabe8e3c），故它是观测日志、不是钉子。权威口径的固定写法自此为「v1.5 / f19f61341cbe」（不带 spec 值）。注由 B 追加（§19-B①）。",
+        "verifier": "scripts/d_verify_exoneration_cosign.py",
+        "verifier_invocation": "python3 scripts/d_verify_exoneration_cosign.py --expect exonerated",
+        "verifier_output": "tmp/agentD_review_20260929/D_cosign_k2seed0_v15.json",
+        "verifier_exit_code": 0,
+        "verdict_quote": "ALL_FIVE_PASS=true；registry_alone_is_sufficient=true；三个 blocker_*_hit 全部 false；mutants_all_caught=true；ACCEPTANCE=true",
+        "supersedes_previous_cosign": {
+          "gate_build": "b9379fdb1089",
+          "gate_version": "v1.4",
+          "date": "2026-09-29T10:43:23+08:00",
+          "reason": "首次会签只核可**事实基础**（当时通道不可用，registry_alone_is_sufficient=false）；本次为 v1.5 落地后的复签"
+        },
+        "observed_gate_echo": {
+          "ic_status": "probe_exonerated",
+          "measurement_valid": true,
+          "gate_pass": true,
+          "counts_unchanged": {
+            "raw_success": 11,
+            "controlled_success": 9,
+            "flick": 1,
+            "insufficient_lift": 1,
+            "over_lift": 0,
+            "provisional_pass": 0
+          },
+          "probe_kind": "clip_at_train_absmax",
+          "scope": "artifact",
+          "probe_clip_C": 12.469445,
+          "cosign_build_matches_before_this_block": false
+        },
+        "mutation_evidence": {
+          "v15_shape_scope_artifact": "exonerated",
+          "v15_shape_scope_arm": "scope_requires_known_impl",
+          "mutant_clipC_wrong_5p0": "clip_c_not_train_absmax",
+          "mutant_cond2_false": "entry_conditions_incomplete",
+          "mutant_cosign_missing": "cosign_missing",
+          "reblown_kind_out_of_band": "out_of_band_refused"
+        },
+        "build_instability_observed": [
+          {
+            "gate_build": "b9379fdb1089",
+            "gate_version": "v1.4",
+            "when": "2026-09-29T10:43:23+08:00"
+          },
+          {
+            "gate_build": "9e57327af208",
+            "gate_version": "v1.5",
+            "when": "2026-09-29T~11:1x（D 观测到一次）"
+          },
+          {
+            "gate_build": "f19f61341cbe",
+            "gate_version": "v1.5",
+            "when": "2026-09-29T11:14:37+08:00"
+          }
+        ],
+        "conditions": [
+          "本会签锚在 gate_build=f19f61341cbe。B 若在**此 build 之后**再改 scripts/b_gate_controlled_success.py，会签自动失效，D 须重跑 verifier（裁定 25 / DR-008 决定 7）。",
+          "生效前提（DR-D22）：B 须在本 build 上**重出** runs/infra/b_official_arms/reclassification.json，且满足 ic_status=verified_ok 45 / probe_exonerated 2 / violated 1、citable=25/22/1、measurement_valid=47/1、计数层 controlled_success 135 / insufficient_lift 235 / flick 7 / over_lift 0 / provisional_pass 0 **一格不动**。任一项不符 ⇒ 本会签不生效，报回 D。",
+          "在 B 重出表之前，该臂在 summary 层必须计入独立桶（裁定 25 护栏 ①，如 pending_cosign_reverify），**不得**直接计入「已免罪」。",
+          "引用纪律不变：数字取自 plain 产物，固定写法「9/20 @ final_rise=0.040，VALID_probe_exonerated（C=12.469445=train-absmax，探针逐局裁定不变）」；探针产物 composite_policy=true，不得当官方臂数字引用。"
+        ]
+      },
+      "reason": "本臂 plain 产物 mean_blown_frames_frac=0.212 > 容差 0.05，按 裁定 12 判「这次测量不可信」，裁定 10 是唯一救济通道。A 线在该 ckpt 上做了 clip-at-train-absmax 单变量因果探针（C=12.469445 = 该 ckpt 自己的训练期归一化 |x| 上界）：20 局逐局 verdict 与三套账五项**逐格相同**（受控 9 / flick 1 / insuff 1 / raw 11 / 分母 20），残余差异只有 4 局的 final_rise 数值、且两路径 verdict 均为 failure ⇒ 输入越界**没有改变任何一次裁定**，即「测量不可信」的后果被探针消除。反证：同臂 C=5.0 时 seed 5007 的 verdict 翻转、insuff 1→0 ⇒ C 必须钉死在 train-absmax，不能任选一个更紧的截断。D 已独立复算五条准入（ALL_FIVE_PASS=true）并核可事实基础（增补四 §3）。",
+      "recorded": "2026-09-29T11:04:27+08:00",
+      "recorded_by": "B",
+      "conditions": [
+        "引用的数字取自 **plain 产物**（本条目 target_artifact）；探针产物 composite_policy=true（active_constraints=[norm_input_clip]），**不得**当官方臂数字引用（裁定 10 引用纪律）",
+        "固定写法：「9/20 @ final_rise=0.040，VALID_probe_exonerated（C=12.469445=train-absmax，探针逐局裁定不变）」（A 移交单 §5）",
+        "scope=artifact ⇒ 键是 plain 产物的 sha256，**重跑即失效**：一旦该臂重新评测，必须重做探针并另立条目，豁免不随臂迁移",
+        "同族 `trimdone0_minmax_k2_lr1e-5_s20k_seed0_replan1`（blown 0.1692，**无探针**）**不在**本条目覆盖范围内，维持 INVALID（增补五 §3）",
+        "本条只救 measurement_valid，不改 composite_policy、不改三套账、不改任何逐局计数（cond5）",
+        "本条按 DR-008 决定 2 走 artifact scope，因此**不受**臂级豁免的 blown_metric_impl 指纹前置约束；该 plain 产物的指纹缺失由 configs/b_blown_impl_grandfathered.json 承接（blown_impl_status=missing_legacy_grandfathered），两册职责不重叠"
+      ],
+      "cosign_swap_recorded_by_B": {
+        "swapped_at": "2026-09-29T11:3x+08:00",
+        "swapped_by": "B（DR-003 决定 8 单写者纪律：configs/ 由 B 写）",
+        "source_of_content": "tmp/agentD_review_20260929/D_cosign_block_for_registry.json（D 产出，B 原样替换，未改一字）",
+        "superseded_cosign_gate_build": "b9379fdb1089",
+        "ruling_ref": "裁定 25 / 裁定 26（DR-D22）+ DR-008 决定 7；前提 ③（memo §11 12.4）",
+        "build_axis": "gate_build 轴一致：D 会签锚 f19f61341cbe == 门禁现值 f19f61341cbe ⇒ 换块后 cosign_build_matches 应为 true",
+        "spec_axis_note": "**已按 裁定 29.1 更正**：B 原先在这里请 D「第三轮 verifier 把 spec 轴也回显」，D 已在 裁定 29.1 自行裁定 —— **引用锚只在 build 轴，spec 轴是观测日志、不是钉子**（GATE_BUILD 是门禁脚本自身内容哈希、运行时现算 ⇒ 判据不可能在 build 不变时改变；GATE_SPEC_SHA 哈希的是散文规格文档，可在判据一字未动时被编辑）。会签块里那个 spec 值数值不改、只补注（见 cosign.gate_spec_sha256_at_cosign_note）。权威口径固定写法 = 「v1.5 / f19f61341cbe」，不带 spec 值。附带一颗 A 侧地雷（D 实测）：scripts/a_migration_gate_preflight.py:1143/:1125 仍硬编码过期的 132fceb89f68，已在 B→A 交接单里要求其降级为纯回显。",
+        "spec_axis": "（作废，见 spec_axis_note）曾记 132fceb89f68 → 154b3636056f → c7fadabe8e3c；按 裁定 29.1 该轴不作锚"
+      }
+    }
+  }
+}

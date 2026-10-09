@@ -1,0 +1,38 @@
+{
+  "schema": "c_decision_entry/v1",
+  "decision_id": "DR-D25",
+  "id_kind": "DR-D",
+  "line": "D",
+  "title": "A 的迁移闸 2 项 blocking",
+  "statement": null,
+  "statement_kind": "pointer_only",
+  "decided_at": null,
+  "affects": [
+    "A",
+    "B",
+    "C"
+  ],
+  "requires_ack_from": [],
+  "evidence_pointers": [],
+  "source": {
+    "file": "work/decisions/decisions_20260929.md",
+    "sha256_12": "f7f0a162ecbd",
+    "lines": "262-281",
+    "heading_line": 262,
+    "element": "bullet",
+    "title_as_written": "A 的迁移闸 2 项 blocking"
+  },
+  "supersedes": [],
+  "authority_pointers": [
+    "work/decisions/decisions_20260929.md"
+  ],
+  "criteria_single_source": "判据不在本条里（裁定 21：判据单一来源）。本条只存「决定 + 证据指针 + ack」；要判据请读 authority_pointers 指的那个文件本身。",
+  "extra": {
+    "ingest_scope": "执行单 P0-4：DR-001/002 + 增补裁定 8–31（实际摄取到源文档现有最后一条，超出部分一并登记）",
+    "ack_policy": "历史条目：ack 纪律自登记处生效起算，不追溯补 ack ⇒ requires_ack_from 为空。新登记的决定才带 ack 义务（验收 3）。"
+  },
+  "version_seq": 1,
+  "registered_at": "2026-09-29T16:16:54+08:00",
+  "registered_by": "C（登记处摄取；原文在 source 锚点里，未抄正文）",
+  "payload_sha256": "5b18ca54d4977e73df2c1c88ace0bdf1065a1093752898bd5bda4263bead7943"
+}

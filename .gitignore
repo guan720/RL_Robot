@@ -21,3 +21,28 @@ __pycache__/
 .DS_Store
 Thumbs.db
 Desktop.ini
+
+# Server experiment payloads (keep locally; publish source only)
+/runs/
+/tmp/
+/min_grasp_pi05/data/
+/registry/*/
+
+# Reference packages and local paper downloads
+/RL_Harness_v4_20260924/
+/RoboRSI-main/
+/*.zip
+/*.pdf
+
+# Source backups and model/data payloads
+*.bak*
+*.superseded
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.npz
+*.npy
+*.parquet
+*.h5
+*.hdf5

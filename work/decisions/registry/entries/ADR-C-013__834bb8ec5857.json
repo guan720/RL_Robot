@@ -1,0 +1,57 @@
+{
+  "schema": "c_decision_entry/v1",
+  "decision_id": "ADR-C-013",
+  "id_kind": "ADR-C",
+  "line": "C",
+  "title": "冻结收尾（裁定 38.4 / 39.2）：P1-5/P1-6 时序诚实登记 + 待办 5/6 终局 + A2/B2 复用清单与 registry 移交",
+  "statement": "冻结单 §3-C1…C5 五条逐条闭合：C1 P0-4 自查确认（已登记，小节号见 §9.1 表）；C2 两个探针目录已由作者自行补齐 README §0（C 只读复核，未写入）；C3 P1-5/P1-6 登记为冻结时状态（事实是冻结单 16:58 到达前 16:40–17:06 已落地 ⇒ 不自行回滚、不声称合规、请 D 追认或令回滚，处置前不再改那三个模块）；C4 主交付物 docs/c_reuse_manifest_for_a2_b2_20260929.md（8 模块 × 三档，视觉表征缺失按 D 升 P0，并补登记一条新发现：_obs_vector 只挑 state/environment_state 两键 ⇒ 混快照下图像键被静默丢弃且宽度检查仍通过）；C5 registry 维护权移交 B2（附四条已知限制，其中 A2/B2 无号段且 --line 受 choices 限制 ⇒ B2 无法自己 ack，请 D 裁）。待办 6 结案为 D 不批准（§59），待办 5 冻结期内不可能推进（A 的 (乙) 取消 + 真帧 teacher 0 行）。冻结时点全量回归 17/17 项 exit=0。边界例外申报一处：按 §3-C1 在 daily_report.md 只追加一节（原边界明写不改该文件，d_handoff_to_c_20260929.md:173）。",
+  "statement_kind": "self_authored",
+  "decided_at": null,
+  "affects": [],
+  "requires_ack_from": [
+    "D"
+  ],
+  "evidence_pointers": [
+    {
+      "path": "docs/c_reuse_manifest_for_a2_b2_20260929.md",
+      "sha256_12": "5f95dd0ccc36",
+      "exists": true,
+      "why": "主交付物（8 模块 × 三档 + §2 视觉表征 P0）"
+    },
+    {
+      "path": "docs/c_handoff_to_b2_registry_20260929.md",
+      "sha256_12": "a2ed2f29fd2d",
+      "exists": true,
+      "why": "registry 维护权移交 B2 + 四条已知限制"
+    },
+    {
+      "path": "docs/c_env_manifest_and_pending_impl_20260929.md",
+      "sha256_12": "a32e1f550e11",
+      "exists": true,
+      "why": "§9 冻结收尾（§9.0 时序表 / §9.1 小节号 / §9.5 回归）"
+    },
+    {
+      "path": "runs/infra/c_full_regression_20260929_freeze_171x.log",
+      "sha256_12": "cd997d7afaaa",
+      "exists": true,
+      "why": "冻结时点全量回归 17/17 exit=0（sha256 cd997d7afaaa1190…）"
+    },
+    {
+      "path": "work/decisions/decisions_20260929_C.md",
+      "sha256_12": "bf58ef7d251b",
+      "exists": true,
+      "why": "ADR-C-013 全文 + 冻结时状态表"
+    }
+  ],
+  "source": null,
+  "supersedes": [],
+  "authority_pointers": [
+    "rl_harness_supervision/d_freeze_abc_20260929.md:冻结单 §3-C1…C5（C 的收尾清单）",
+    "rl_harness_supervision/supervisor_memo_20260929.md:§58–§62（裁定 38.4 / 39.1 / 39.2；§59 明写 C 待办 6 不批准）"
+  ],
+  "criteria_single_source": "判据不在本条里（裁定 21：判据单一来源）。本条只存「决定 + 证据指针 + ack」；要判据请读 authority_pointers 指的那个文件本身。",
+  "version_seq": 1,
+  "registered_at": "2026-09-29T17:38:02+08:00",
+  "registered_by": "C（登记处）",
+  "payload_sha256": "34501237fc1a786c078e5e928094292513fa29fa4eaf08ab04f85edff4b49fce"
+}

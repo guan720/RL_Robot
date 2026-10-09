@@ -1,0 +1,5 @@
+{
+  "_doc": "git 纳管体积闸白名单（DR-003 决定 7 / scripts/b_git_size_guard.py）。上限 2 MB；超限文件默认属实验产物，应放 runs/ 而不是版本库。确需纳管必须逐条写明 reason 与 sha256，缺 reason 会被闸门拒绝（白名单不是一键放行口袋）。陈旧条目（路径已不存在）同样会被查出。",
+  "_schema": {"entries": {"<repo-relative-path>": {"reason": "为什么必须进版本库", "sha256": "内容哈希", "added": "YYYY-MM-DD", "added_by": "A|B|C|D"}}},
+  "entries": {}
+}

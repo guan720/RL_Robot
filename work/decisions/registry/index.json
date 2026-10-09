@@ -1,0 +1,2346 @@
+{
+  "schema": "c_decision_index/v1",
+  "generated_at": "2026-09-29T17:59:18+08:00",
+  "registry_root": "/workspace/mnt/sppro/yhzhang91/scripts/xhzhang52/RL_Robot/work/decisions/registry",
+  "derived": "本索引是**派生**的：由 entries/ + events/ 重算得出（`rebuild-index`）。权威是那两堆文件，不是本索引。",
+  "n_decisions": 79,
+  "n_versions": 79,
+  "n_events": 2,
+  "counts_by_line": {
+    "A": 17,
+    "B": 14,
+    "C": 14,
+    "D": 34
+  },
+  "counts_by_status": {
+    "active": 79,
+    "retired": 0,
+    "superseded": 0
+  },
+  "n_missing_acks": 6,
+  "decisions": [
+    {
+      "decision_id": "ADR-A-001",
+      "line": "A",
+      "id_kind": "ADR-A",
+      "title": "blown 指标单一来源化 + 实现指纹（口径追加，已实施，恒等回归已验收）",
+      "statement_kind": "pointer_only",
+      "sha256": "1f3ca80285a71f3a73d506ff75b8859b3462765c659a116e85fd345d2e50713a",
+      "sha256_12": "1f3ca80285a7",
+      "path": "entries/ADR-A-001__1f3ca80285a7.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "B",
+        "C",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "ADR-A-001",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "A",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "ADR-A-002",
+      "line": "A",
+      "id_kind": "ADR-A",
+      "title": "5 份盲臂留档产物：门禁可判资格作废，改为补测替代（原件保留）",
+      "statement_kind": "pointer_only",
+      "sha256": "bfe1cafd594d2459d87e0563ff4048386ad9f997c5cb41010a55cccfb694d57e",
+      "sha256_12": "bfe1cafd594d",
+      "path": "entries/ADR-A-002__bfe1cafd594d.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "B",
+        "C",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "ADR-A-002",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "A",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "ADR-A-003",
+      "line": "A",
+      "id_kind": "ADR-A",
+      "title": "A 线两条 L1 修复路径：**只登记，不动手**",
+      "statement_kind": "pointer_only",
+      "sha256": "d23398d0cb327d45728a4557a85fcfc73d6e81cfecf9d4e8e735d636e63d074f",
+      "sha256_12": "d23398d0cb32",
+      "path": "entries/ADR-A-003__d23398d0cb32.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "B",
+        "C",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "ADR-A-003",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "A",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "ADR-A-004",
+      "line": "A",
+      "id_kind": "ADR-A",
+      "title": "ack：增补三对 A 的六条（§9.A①–⑥）",
+      "statement_kind": "pointer_only",
+      "sha256": "d4e63bd5d9fbbfdeba9ea95f3da71e3b9b5efebcbdfa88a88ba6d4d029bee377",
+      "sha256_12": "d4e63bd5d9fb",
+      "path": "entries/ADR-A-004__d4e63bd5d9fb.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "B",
+        "C",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "ADR-A-004",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "A",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "ADR-A-005",
+      "line": "A",
+      "id_kind": "ADR-A",
+      "title": "提请裁定（A 不代做，等 B/D）",
+      "statement_kind": "pointer_only",
+      "sha256": "a4904fc4e1d875fbe9ec858e1b62c5cd4b04a9d1b48584831eb7cade9c3f235e",
+      "sha256_12": "a4904fc4e1d8",
+      "path": "entries/ADR-A-005__a4904fc4e1d8.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "B",
+        "C",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "ADR-A-005",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "A",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "ADR-A-006",
+      "line": "A",
+      "id_kind": "ADR-A",
+      "title": "口径裁定：A-2 钉扎 v1.2.1、48 臂表**暂不迁** v1.4（2026-09-28 22:55，A 自裁，报 D 备案）",
+      "statement_kind": "pointer_only",
+      "sha256": "3c579a38cd602a6ad4aff1c4d706fa0f0cfa0c291097a1b3766d2681de1c9d48",
+      "sha256_12": "3c579a38cd60",
+      "path": "entries/ADR-A-006__3c579a38cd60.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "B",
+        "C",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "ADR-A-006",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "A",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "ADR-A-007",
+      "line": "A",
+      "id_kind": "ADR-A",
+      "title": "提请裁定（A 不代做）",
+      "statement_kind": "pointer_only",
+      "sha256": "95798a00dcde0593b4f5d4e4b07d62226a5bc0a90bd5dbc6101c23b011a8ba1f",
+      "sha256_12": "95798a00dcde",
+      "path": "entries/ADR-A-007__95798a00dcde.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "B",
+        "C",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "ADR-A-007",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "A",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "ADR-A-008",
+      "line": "A",
+      "id_kind": "ADR-A",
+      "title": "48 臂权威表迁到 **v1.5 / `f19f61341cbe`**（裁定 27 五项 + 增补七 §19-A①，已实施已验收）",
+      "statement_kind": "pointer_only",
+      "sha256": "e4380afe3590ae1b6f366da24ebe007cf3b62845fbacebc9c68e2cba26756faa",
+      "sha256_12": "e4380afe3590",
+      "path": "entries/ADR-A-008__e4380afe3590.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:55+08:00",
+      "decided_at": null,
+      "affects": [
+        "B",
+        "C",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "ADR-A-008",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "A",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "ADR-A-009",
+      "line": "A",
+      "id_kind": "ADR-A",
+      "title": "拔除 spec 轴地雷（裁定 29.1）+ 补写被引用的移交单（裁定 29.3），已实施",
+      "statement_kind": "pointer_only",
+      "sha256": "eec719d7446294f2eed846af42f66ff9b3c3202579a4c4d049a89590923bd5a3",
+      "sha256_12": "eec719d74462",
+      "path": "entries/ADR-A-009__eec719d74462.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:55+08:00",
+      "decided_at": null,
+      "affects": [
+        "B",
+        "C",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "ADR-A-009",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "A",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "ADR-A-010",
+      "line": "A",
+      "id_kind": "ADR-A",
+      "title": "分布层引用闸：**双峰改述为「强间隙分离」**（裁定 30 / DR-D29 六条，已实施已验收）",
+      "statement_kind": "pointer_only",
+      "sha256": "14609421648e3f3bb2881ca7409a4ad9f8ff1e95f8205dfc2ac1bebfb439f075",
+      "sha256_12": "14609421648e",
+      "path": "entries/ADR-A-010__14609421648e.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:55+08:00",
+      "decided_at": null,
+      "affects": [
+        "B",
+        "C",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "ADR-A-010",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "A",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "ADR-A-011",
+      "line": "A",
+      "id_kind": "ADR-A",
+      "title": "增补七 §19-A⑤ **不照字面执行**，改为旁挂说明 + 机器护栏（提请 D 改判）",
+      "statement_kind": "pointer_only",
+      "sha256": "bdbbef3cdbcad47e83466e44cd47ceddb568de2cb1e8de2fb083f5d7c50b174b",
+      "sha256_12": "bdbbef3cdbca",
+      "path": "entries/ADR-A-011__bdbbef3cdbca.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:55+08:00",
+      "decided_at": null,
+      "affects": [
+        "B",
+        "C",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "ADR-A-011",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "A",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "ADR-A-012",
+      "line": "A",
+      "id_kind": "ADR-A",
+      "title": "自查登记：A 新闸首版的**两个判据缺口** + 一处假红（恒真/恒假同型，第 4–6 次）",
+      "statement_kind": "pointer_only",
+      "sha256": "a9c6afa63a19a64700c1e0d34e523c8122154e622225b091f90276e9b6457faf",
+      "sha256_12": "a9c6afa63a19",
+      "path": "entries/ADR-A-012__a9c6afa63a19.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:55+08:00",
+      "decided_at": null,
+      "affects": [
+        "B",
+        "C",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "ADR-A-012",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "A",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "ADR-A-013",
+      "line": "A",
+      "id_kind": "ADR-A",
+      "title": "ack B 的 DR-012（lerobot 权威 pin）+ 给 A 自己的行为约束补代码承载（已实施）",
+      "statement_kind": "pointer_only",
+      "sha256": "7ca345b15ebae4ddb8fdde3dc5a8d9f70701c45cd1f4d6eb0a8fad1c55e1dc27",
+      "sha256_12": "7ca345b15eba",
+      "path": "entries/ADR-A-013__7ca345b15eba.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:55+08:00",
+      "decided_at": null,
+      "affects": [
+        "B",
+        "C",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "ADR-A-013",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "A",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "ADR-A-014",
+      "line": "A",
+      "id_kind": "ADR-A",
+      "title": "执行裁定 32 / DR-D31：A 接手 lerobot 环境重建（**并作废本文件 ADR-A-013 末尾的两条排序判断**）",
+      "statement_kind": "pointer_only",
+      "sha256": "5a342938df9d171082b1be000c6a11ec902518d4174f394055e9ab813c534f11",
+      "sha256_12": "5a342938df9d",
+      "path": "entries/ADR-A-014__5a342938df9d.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:55+08:00",
+      "decided_at": null,
+      "affects": [
+        "B",
+        "C",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "ADR-A-014",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "A",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "ADR-A-015",
+      "line": "A",
+      "id_kind": "ADR-A",
+      "title": "自查登记：本轮 A 自己的 **4 起「判据/脚本错、产物对」**（恒真/恒假同型，本仓今日第 7–10 起）",
+      "statement_kind": "pointer_only",
+      "sha256": "1f5946e7adb76cfe4393285c685f03237fdf6e6934cb7e46b3d32ca462e98ff8",
+      "sha256_12": "1f5946e7adb7",
+      "path": "entries/ADR-A-015__1f5946e7adb7.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:55+08:00",
+      "decided_at": null,
+      "affects": [
+        "B",
+        "C",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "ADR-A-015",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "A",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "ADR-A-016",
+      "line": "A",
+      "id_kind": "ADR-A",
+      "title": "ack 裁定 33 / 34（DR-D32 / DR-D33）：3 处 lock 差异**放行**，A 侧 4 项动作已落地",
+      "statement_kind": "pointer_only",
+      "sha256": "d98de97217089af5d81d61b29f6351cedb51bd9e35888002a7e5a078f84cbe0e",
+      "sha256_12": "d98de9721708",
+      "path": "entries/ADR-A-016__d98de9721708.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:55+08:00",
+      "decided_at": null,
+      "affects": [
+        "B",
+        "C",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "ADR-A-016",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "A",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "ADR-A-017",
+      "line": "A",
+      "id_kind": "ADR-A",
+      "title": "执行裁定 35 / 36（DR-D34 / DR-D35）：D8 补牙（P0）+ 断言产物自带护栏（P1）+ E6 散文同源化（P2）+ **A 线解封**",
+      "statement_kind": "pointer_only",
+      "sha256": "fa2d2225b6fc8df3d8fcf335f2fa2db1e2fde88b888eb6ff9c4db1c26ae89d10",
+      "sha256_12": "fa2d2225b6fc",
+      "path": "entries/ADR-A-017__fa2d2225b6fc.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:55+08:00",
+      "decided_at": null,
+      "affects": [
+        "B",
+        "C",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "ADR-A-017",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "A",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "ADR-C-001",
+      "line": "C",
+      "id_kind": "ADR-C",
+      "title": "消费 B 黄金值后裁定的三条实现缺陷（F1/F2/F3）：修复 + 撤销记录",
+      "statement_kind": "pointer_only",
+      "sha256": "80a11dd5f7811f66bc84e41064b1effeaf1fb1226a371079a6390c71d833c6e4",
+      "sha256_12": "80a11dd5f781",
+      "path": "entries/ADR-C-001__80a11dd5f781.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "ADR-C-001",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "C",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "ADR-C-002",
+      "line": "C",
+      "id_kind": "ADR-C",
+      "title": "γ / n 单位冲突的处置（P0-2）与「n 必须等于 n_action_steps」的落地",
+      "statement_kind": "pointer_only",
+      "sha256": "f1ab46cb6a9037de5d7dd691dcf1ad10fcc8fe31b588e4ed395edff3e0eba8fb",
+      "sha256_12": "f1ab46cb6a90",
+      "path": "entries/ADR-C-002__f1ab46cb6a90.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "ADR-C-002",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "C",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "ADR-C-003",
+      "line": "C",
+      "id_kind": "ADR-C",
+      "title": "裁定身份与有效性层（P0-3 第一层）：只绑定、不重算、不重判",
+      "statement_kind": "pointer_only",
+      "sha256": "abf8e22d825857c9141b3523ed6f597e4f4ee4aa9d50fc79cd7ce008df792202",
+      "sha256_12": "abf8e22d8258",
+      "path": "entries/ADR-C-003__abf8e22d8258.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "ADR-C-003",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "C",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "ADR-C-004",
+      "line": "C",
+      "id_kind": "ADR-C",
+      "title": "自检第三态 SKIP：上游并发写入造成的假红不得混进 FAIL",
+      "statement_kind": "pointer_only",
+      "sha256": "bf898cbcf7fda9cab5d99fe6fe8043c69a79be5d360aed4991dbec636679282c",
+      "sha256_12": "bf898cbcf7fd",
+      "path": "entries/ADR-C-004__bf898cbcf7fd.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "ADR-C-004",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "C",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "ADR-C-005",
+      "line": "C",
+      "id_kind": "ADR-C",
+      "title": "T17 goal 贯通落地（交接单 C-1/C-2/C-3 + §4），待办 4 结案",
+      "statement_kind": "pointer_only",
+      "sha256": "4b50f1adf53181b7586fa1aac7dfb507eb1a2d7157aa08c3e69fea01796c29d3",
+      "sha256_12": "4b50f1adf531",
+      "path": "entries/ADR-C-005__4b50f1adf531.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:55+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "ADR-C-005",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "C",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "ADR-C-006",
+      "line": "C",
+      "id_kind": "ADR-C",
+      "title": "环境事件：`/root/venvs/rlrobot` 被检修清掉 + 重建口径（附一条给 D/B 的建议）",
+      "statement_kind": "pointer_only",
+      "sha256": "33ff2d14c798295f92963786070253389f8a4e5eb77466c751d5863c6d995c4f",
+      "sha256_12": "33ff2d14c798",
+      "path": "entries/ADR-C-006__33ff2d14c798.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:55+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "ADR-C-006",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "C",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "ADR-C-007",
+      "line": "C",
+      "id_kind": "ADR-C",
+      "title": "增补六 §8-C 三条 P1 落地（解释器探测 / env manifest 与断点 / `PENDING_IMPL` 第六档）",
+      "statement_kind": "pointer_only",
+      "sha256": "6be67842645fe048b56cd9a17fdf64e7783553f6edf9cb1df3861ea8e3dd66ee",
+      "sha256_12": "6be67842645f",
+      "path": "entries/ADR-C-007__6be67842645f.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:55+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "ADR-C-007",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "C",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "ADR-C-008",
+      "line": "C",
+      "id_kind": "ADR-C",
+      "title": "增补七落地：裁定 28「撤标注、留机制」/ 裁定 29.4 两条 P0 / 待办 1、2 改判",
+      "statement_kind": "pointer_only",
+      "sha256": "e1215606ed371e0096ad2cd3579b5868b5155c8ea3085f289e17419586390bec",
+      "sha256_12": "e1215606ed37",
+      "path": "entries/ADR-C-008__e1215606ed37.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:55+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "ADR-C-008",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "C",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "ADR-C-009",
+      "line": "C",
+      "id_kind": "ADR-C",
+      "title": "env manifest 的同源纪律：语义探针 / 三值 not_applicable / 窗口同源 / 三条断点并列 / import 面须给运行时证据 / 覆写前留档",
+      "statement_kind": "self_authored",
+      "sha256": "2604b7537061b6091cc6f1b834efd30a74b90b6b6efa368001b388178b395e2b",
+      "sha256_12": "2604b7537061",
+      "path": "entries/ADR-C-009__2604b7537061.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:26:53+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "ADR-C-009",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [
+          "A",
+          "B",
+          "D"
+        ],
+        "missing_acks": [
+          "A",
+          "B",
+          "D"
+        ],
+        "self_line": "C",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "ADR-C-010",
+      "line": "C",
+      "id_kind": "ADR-C",
+      "title": "work/decisions/ 正式登记处：一条决定一文件 / 内容寻址 / append-only / 撤销靠新事件 / 两层哈希 / 并号只接续",
+      "statement_kind": "self_authored",
+      "sha256": "fa30862bad5942b18a15b3b3c01c62354d576e28550269dfc2b72517791f34bf",
+      "sha256_12": "fa30862bad59",
+      "path": "entries/ADR-C-010__fa30862bad59.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:27:17+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "ADR-C-010",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [
+          "A",
+          "B",
+          "D"
+        ],
+        "missing_acks": [
+          "A",
+          "B",
+          "D"
+        ],
+        "self_line": "C",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "ADR-C-011",
+      "line": "C",
+      "id_kind": "ADR-C",
+      "title": "P1-5 physical_fact 接线：准入闸只吃 physical_fact / 账本 fail-closed / 发布包身份红线（构建不符＝拒收，不是 warn）",
+      "statement_kind": "self_authored",
+      "sha256": "713680178976b2547a4a59032e46c296fb5dc5014a2625f00b5da29677871c87",
+      "sha256_12": "713680178976",
+      "path": "entries/ADR-C-011__713680178976.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:59:53+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "ADR-C-011",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [
+          "A",
+          "B",
+          "D"
+        ],
+        "missing_acks": [
+          "A",
+          "B",
+          "D"
+        ],
+        "self_line": "C",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "ADR-C-012",
+      "line": "C",
+      "id_kind": "ADR-C",
+      "title": "P1-6 逐臂内容寻址 run manifest：与 git 互校；三字段与 P0-2 同源同义；A 侧绑定不代填",
+      "statement_kind": "self_authored",
+      "sha256": "c98d15974f65d4089e82a50f515c503aa7c8dc16270944a08dd85d8f41f08810",
+      "sha256_12": "c98d15974f65",
+      "path": "entries/ADR-C-012__c98d15974f65.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T17:00:28+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "ADR-C-012",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [
+          "A",
+          "B",
+          "D"
+        ],
+        "missing_acks": [
+          "A",
+          "B",
+          "D"
+        ],
+        "self_line": "C",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "ADR-C-013",
+      "line": "C",
+      "id_kind": "ADR-C",
+      "title": "冻结收尾（裁定 38.4 / 39.2）：P1-5/P1-6 时序诚实登记 + 待办 5/6 终局 + A2/B2 复用清单与 registry 移交",
+      "statement_kind": "self_authored",
+      "sha256": "834bb8ec58572ac6405b3f05927d2397ca0a102d2d06bdf90434d46bb9f43404",
+      "sha256_12": "834bb8ec5857",
+      "path": "entries/ADR-C-013__834bb8ec5857.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T17:38:02+08:00",
+      "decided_at": null,
+      "affects": [],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "ADR-C-013",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [
+          "D"
+        ],
+        "missing_acks": [
+          "D"
+        ],
+        "self_line": "C",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "ADR-C-014",
+      "line": "C",
+      "id_kind": "ADR-C",
+      "title": "登记处 CLI 的 ack/annotate 崩溃：自检走 API、用户走 CLI ⇒ 两条路径不同源（移交前自查出的真红，已修 + 已加牙）",
+      "statement_kind": "self_authored",
+      "sha256": "7436f0d81210c8b45c86906812d11244328c7710482a483031b8ac5608c9b3f6",
+      "sha256_12": "7436f0d81210",
+      "path": "entries/ADR-C-014__7436f0d81210.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T17:49:25+08:00",
+      "decided_at": null,
+      "affects": [],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "ADR-C-014",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [
+          "D"
+        ],
+        "missing_acks": [
+          "D"
+        ],
+        "self_line": "C",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-001",
+      "line": "B",
+      "id_kind": "DR-00",
+      "title": "`work/decisions/` 镜像目录",
+      "statement_kind": "pointer_only",
+      "sha256": "1e567da039152ee616ea9d15e39dc432e43324de0f23e189a6913e4bcca7ab20",
+      "sha256_12": "1e567da03915",
+      "path": "entries/DR-001__1e567da03915.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:53+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "C",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-001",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "B",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-002",
+      "line": "B",
+      "id_kind": "DR-00",
+      "title": "`git init`",
+      "statement_kind": "pointer_only",
+      "sha256": "8a3c3d7574e0ac8ba83e00c131cb1790bcfa15b662eb5db9a6cd985b1b13e5c3",
+      "sha256_12": "8a3c3d7574e0",
+      "path": "entries/DR-002__8a3c3d7574e0.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:53+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "C",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-002",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "B",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-003",
+      "line": "B",
+      "id_kind": "DR-00",
+      "title": "`.gitignore` 纳管范围与 `runs/` 决定（DR-002 护栏 4 的前置登记）",
+      "statement_kind": "pointer_only",
+      "sha256": "9e0709c1edcb7dd282111702153efad108dc2d436451edfc7f32c22c9101375f",
+      "sha256_12": "9e0709c1edcb",
+      "path": "entries/DR-003__9e0709c1edcb.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "C",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-003",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "B",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-004",
+      "line": "B",
+      "id_kind": "DR-00",
+      "title": "teacher 去饱和的验收标准与锚点重算规则（**预登记，不动手**）",
+      "statement_kind": "pointer_only",
+      "sha256": "7ab6a51a6754b1191847e6f4ae7b96b75402d68751aa69f1c3c203bf27e3825e",
+      "sha256_12": "7ab6a51a6754",
+      "path": "entries/DR-004__7ab6a51a6754.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "C",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-004",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "B",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-005",
+      "line": "B",
+      "id_kind": "DR-00",
+      "title": "工程扩展停车：连续性正则 / slew limit（B-7）",
+      "statement_kind": "pointer_only",
+      "sha256": "714b4958e0ddba67566b9ed1c947e5033f5b5288dd017a12c53d1f68b306b344",
+      "sha256_12": "714b4958e0dd",
+      "path": "entries/DR-005__714b4958e0dd.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "C",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-005",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "B",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-006",
+      "line": "B",
+      "id_kind": "DR-00",
+      "title": "`blown_metric_impl` 指纹拒判与祖父登记（补 DR-003 与 DR-D10 的前向引用）",
+      "statement_kind": "pointer_only",
+      "sha256": "ed5345ee75a790d003b94913e7435ebcd05afcade75b90a42cca197168613233",
+      "sha256_12": "ed5345ee75a7",
+      "path": "entries/DR-006__ed5345ee75a7.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "C",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-006",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "B",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-007",
+      "line": "B",
+      "id_kind": "DR-00",
+      "title": "裁定 14（DR-D09）的落地口径：B 对字面裁定做了**收窄**，请 D 复核",
+      "statement_kind": "pointer_only",
+      "sha256": "555398623324fb1360ec3c3e2101204bfe5cd57f80a7af9e631a5c07a162449e",
+      "sha256_12": "555398623324",
+      "path": "entries/DR-007__555398623324.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "C",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-007",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "B",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-008",
+      "line": "B",
+      "id_kind": "DR-00",
+      "title": "裁定 10 免罪通道（`clip_at_train_absmax`）落地：门禁 v1.5",
+      "statement_kind": "pointer_only",
+      "sha256": "0f8947d175e7ae6f8d17ebc8bfd8ec4e577233f211c7c6aab152fdfec89ac18c",
+      "sha256_12": "0f8947d175e7",
+      "path": "entries/DR-008__0f8947d175e7.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "C",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-008",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "B",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-009",
+      "line": "B",
+      "id_kind": "DR-00",
+      "title": "v1.5 **构建冻结声明** + 裁定 26 三前提收尾（①③护栏①）",
+      "statement_kind": "pointer_only",
+      "sha256": "737e5a49bcfe3c35ca9f30f1b57b999f1af2e8c22a109072377394e2aae92316",
+      "sha256_12": "737e5a49bcfe",
+      "path": "entries/DR-009__737e5a49bcfe.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "C",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-009",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "B",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-010",
+      "line": "B",
+      "id_kind": "DR-00",
+      "title": "裁定 23（P1）**无代码承载** —— 预登记为 v1.6，并把排序冲突上报 D",
+      "statement_kind": "pointer_only",
+      "sha256": "be7ae0d0dab5ff31a55396b7e055bf3e24a3cc2e02b19d23a65bdd15be5c94d9",
+      "sha256_12": "be7ae0d0dab5",
+      "path": "entries/DR-010__be7ae0d0dab5.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "C",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-010",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "B",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-011",
+      "line": "B",
+      "id_kind": "DR-00",
+      "title": "C 线 T17 回执的 B 侧只读验收 + `SKIP` 语义裁定 + B 自查出的一处假红",
+      "statement_kind": "pointer_only",
+      "sha256": "018fb4e9c0f48cd50443c1b65a6a63c470e59e153d119698fe1193656cad2e6c",
+      "sha256_12": "018fb4e9c0f4",
+      "path": "entries/DR-011__018fb4e9c0f4.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "C",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-011",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "B",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-012",
+      "line": "B",
+      "id_kind": "DR-00",
+      "title": "环境侧：`setup_env.sh` 改 lock 优先 + pip 入 lock；lerobot pin 摘出并**否掉一个错源**",
+      "statement_kind": "pointer_only",
+      "sha256": "1518adaaf05ac96afdeb8f27a9f0302c2550cdae5ca7e245f4160ccf32df0733",
+      "sha256_12": "1518adaaf05a",
+      "path": "entries/DR-012__1518adaaf05a.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "C",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-012",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "B",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-013",
+      "line": "B",
+      "id_kind": "DR-00",
+      "title": "裁定 31.5 / 裁定 32 的 B 侧落地：v1.6 待办收口、环境责任改判 ack、溯源闸落地、一次写权碰撞的处置",
+      "statement_kind": "pointer_only",
+      "sha256": "82df5ba0a0c1efe943989db3606a8b79545da95114c5bcb44e5f1f906d9e542a",
+      "sha256_12": "82df5ba0a0c1",
+      "path": "entries/DR-013__82df5ba0a0c1.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "C",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-013",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "B",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-014",
+      "line": "B",
+      "id_kind": "DR-00",
+      "title": "D→B 执行单（0929 14:5x）P0-1…P0-6 的 B 侧落地：门禁不变性闸、freeze 覆写护栏、persistent lock 身份登记、installer 钉版本**改判**、行号锚→内容锚、T17 A 侧翻绿",
+      "statement_kind": "pointer_only",
+      "sha256": "b0c2fc5e43f3981805e2717919ab2d7863492a25ec9f24dca00ee9ab95775052",
+      "sha256_12": "b0c2fc5e43f3",
+      "path": "entries/DR-014__b0c2fc5e43f3.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "C",
+        "D"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-014",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "B",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D03",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "门禁 phase 词表缺陷",
+      "statement_kind": "pointer_only",
+      "sha256": "6e7475fcf023a6fcec20a0f13218cb66abe31e24e2c5121b2f3cbba97eed121e",
+      "sha256_12": "6e7475fcf023",
+      "path": "entries/DR-D03__6e7475fcf023.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:53+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D03",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D04",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "无归一化学习策略的输入契约",
+      "statement_kind": "pointer_only",
+      "sha256": "a90968ce2f79d4a49c25049693a620a902463f4a8681c6488a10897a6bd4dc4d",
+      "sha256_12": "a90968ce2f79",
+      "path": "entries/DR-D04__a90968ce2f79.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D04",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D05",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "探针免罪 `VALID_probe_exonerated`",
+      "statement_kind": "pointer_only",
+      "sha256": "b1ac85050f9974adfdca87efd016ad4bad3b5702a718345eb8c4257de584ad71",
+      "sha256_12": "b1ac85050f99",
+      "path": "entries/DR-D05__b1ac85050f99.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D05",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D06",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "`blown` 阈值溯源",
+      "statement_kind": "pointer_only",
+      "sha256": "02c83e4bba800b14b862b913b87dd01ce6961e069f42c7653ff9d6679d759968",
+      "sha256_12": "02c83e4bba80",
+      "path": "entries/DR-D06__02c83e4bba80.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D06",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D07",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "`blown` 语义边界 + 解除 [0.03,0.08] 保留",
+      "statement_kind": "pointer_only",
+      "sha256": "c20415ee16da220ad6c12461144758a25c5988aaba608ee98ddb2c94714de7be",
+      "sha256_12": "c20415ee16da",
+      "path": "entries/DR-D07__c20415ee16da.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D07",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D08",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "§8 上调条件第 4 条重写",
+      "statement_kind": "pointer_only",
+      "sha256": "40395eee58a08538a1aa40e628ed303cb12574e3a21c62be54127224257a5754",
+      "sha256_12": "40395eee58a0",
+      "path": "entries/DR-D08__40395eee58a0.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D08",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D09",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "`field_class != strict` 禁止输出失效模式标签",
+      "statement_kind": "pointer_only",
+      "sha256": "f160ec31122869272e6a3e4bb807a32fc1be2c46978dfa5903b8e19753306175",
+      "sha256_12": "f160ec311228",
+      "path": "entries/DR-D09__f160ec311228.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D09",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D10",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "门禁必须回显阈值与实现指纹",
+      "statement_kind": "pointer_only",
+      "sha256": "dcbe27ef5b5933a82ef57754d167219fa0701f72103bdcc40e44549b23c837a2",
+      "sha256_12": "dcbe27ef5b59",
+      "path": "entries/DR-D10__dcbe27ef5b59.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D10",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D11",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "权威汇总刷新（48 臂 / 960 局，v1.2.1 / `e4f5ec887788`）",
+      "statement_kind": "pointer_only",
+      "sha256": "1289aaa1f42373e70e8d265e7653c26dffe50146dbdf04c2a39f41bb3ac0497c",
+      "sha256_12": "1289aaa1f423",
+      "path": "entries/DR-D11__1289aaa1f423.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D11",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D12",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "A-2 预登记复核结论：批准冻结，§2 一处事实错误须更正，不改阈值",
+      "statement_kind": "pointer_only",
+      "sha256": "dfb3c74d058ed02a244d21531a7702682c249ff46d5225350987764e76f4c478",
+      "sha256_12": "dfb3c74d058e",
+      "path": "entries/DR-D12__dfb3c74d058e.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D12",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D13",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "v1.3 顺序纪律（裁定 16）",
+      "statement_kind": "pointer_only",
+      "sha256": "ffa7e3f9e0d03f8918349149ea42469226f298c2dd4cec7ac81ea1acea4d17ce",
+      "sha256_12": "ffa7e3f9e0d0",
+      "path": "entries/DR-D13__ffa7e3f9e0d0.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D13",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D14",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "免罪条目会签：事实层通过、通道层判不可用（裁定 17）",
+      "statement_kind": "pointer_only",
+      "sha256": "bc1961222925c3b6a231827a8e157248c1ed2740cfb203c8c10867a49f949c28",
+      "sha256_12": "bc1961222925",
+      "path": "entries/DR-D14__bc1961222925.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D14",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D15",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "产物归属规则 + 驳回 A 迁移闸 B5 的判据（裁定 18）",
+      "statement_kind": "pointer_only",
+      "sha256": "cc31766992ef7a739d211cb22e3360c6099aa7d3724ca0e8f911e3308f651b5a",
+      "sha256_12": "cc31766992ef",
+      "path": "entries/DR-D15__cc31766992ef.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D15",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D16",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "`probe_kind` 必须回显 + A 移交单 §8 两处 schema 裁定（裁定 19、20）",
+      "statement_kind": "pointer_only",
+      "sha256": "e65df487b032bcea760b28459d7fab12095914a6b8ed53e6a20154f2af552850",
+      "sha256_12": "e65df487b032",
+      "path": "entries/DR-D16__e65df487b032.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D16",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D17",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "裁定 10 判据单一来源化（裁定 21，P1）",
+      "statement_kind": "pointer_only",
+      "sha256": "4179101b8fa2bcffc3fe43ca815e989467573c63eba5bf7625a3279141f47ab7",
+      "sha256_12": "4179101b8fa2",
+      "path": "entries/DR-D17__4179101b8fa2.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D17",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D18",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "检修影响面分级（0929 服务器检修，进程被直接关闭）",
+      "statement_kind": "pointer_only",
+      "sha256": "8e7350b734f2c6e9791224d307d8f6634d8c2c887850d79f85eec3410415ef41",
+      "sha256_12": "8e7350b734f2",
+      "path": "entries/DR-D18__8e7350b734f2.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D18",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D19",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "认可 B 对 裁定 14 的收窄；D 的裁定原文表述过宽，予以更正（裁定 22，结案 DR-007 提请 1）",
+      "statement_kind": "pointer_only",
+      "sha256": "ae8cb04be0bacd297663315572b310aa3c260b27bb9192b48fd67c34bea4824e",
+      "sha256_12": "ae8cb04be0ba",
+      "path": "entries/DR-D19__ae8cb04be0ba.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D19",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D20",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "`terminal_kind` 缺失：加 warn、不降级，但必须先修一处",
+      "statement_kind": "pointer_only",
+      "sha256": "b885e3d99a7e939d001826eb6da03248d9e17274debe6cba71f4988acf255d07",
+      "sha256_12": "b885e3d99a7e",
+      "path": "entries/DR-D20__b885e3d99a7e.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D20",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D21",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "`probe_exonerated` 标签语义：",
+      "statement_kind": "pointer_only",
+      "sha256": "65408255d2d711104a4889bfb573170292f4c5d59392118e28d8f3817e106242",
+      "sha256_12": "65408255d2d7",
+      "path": "entries/DR-D21__65408255d2d7.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D21",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D22",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "批准 B 的 DR-008 决定 7；更正 裁定 17.5 的严格读法（裁定 25）",
+      "statement_kind": "pointer_only",
+      "sha256": "ec424947d15dd46b8a3dd085965cedb0d608620d138acf720e5988c50e10fe6c",
+      "sha256_12": "ec424947d15d",
+      "path": "entries/DR-D22__ec424947d15d.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D22",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D23",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "门禁 v1.5 复签通过（裁定 26，执行 DR-D22 承诺的验收）",
+      "statement_kind": "pointer_only",
+      "sha256": "7b2dba7942e5dde84f4a6c20b3d9a4682ed46fbc3c216b8692e7b2eeaaf915b1",
+      "sha256_12": "7b2dba7942e5",
+      "path": "entries/DR-D23__7b2dba7942e5.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D23",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D24",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "B 的 v1.5 权威表验收通过；`PENDING_IMPL` 对「表数字」撤下（裁定 27.1、27.2）",
+      "statement_kind": "pointer_only",
+      "sha256": "f6e6ffd897badd0bba502807e2d364c8d99a1d2016537be5af43573a54d86e3b",
+      "sha256_12": "f6e6ffd897ba",
+      "path": "entries/DR-D24__f6e6ffd897ba.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D24",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D25",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "A 的迁移闸 2 项 blocking",
+      "statement_kind": "pointer_only",
+      "sha256": "430d9eb3f312b7f5ec1d31000848e2aee0a0e84fcd172be662b6f53859c35c0c",
+      "sha256_12": "430d9eb3f312",
+      "path": "entries/DR-D25__430d9eb3f312.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D25",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D26",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "`PENDING_IMPL` 撤下的剩余两项前提 + 一条护栏（裁定 27.6）",
+      "statement_kind": "pointer_only",
+      "sha256": "92ab59f02f5b57991f66f22977dbfadbdcffa5aafe033107b620116997bd4c1f",
+      "sha256_12": "92ab59f02f5b",
+      "path": "entries/DR-D26__92ab59f02f5b.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D26",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D27",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "`PENDING_IMPL` 全部撤下；权威口径改为 v1.5 / `f19f61341cbe`（裁定 28）",
+      "statement_kind": "pointer_only",
+      "sha256": "bc1214564f1d33a9a030de5df6bb7541342bf05f356a109ceb0385570e6146c3",
+      "sha256_12": "bc1214564f1d",
+      "path": "entries/DR-D27__bc1214564f1d.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D27",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D28",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "裁定 29（五项，全文见 `rl_harness_supervision/supervisor_memo_20260929.md` 增补七 §14–§19）",
+      "statement_kind": "pointer_only",
+      "sha256": "fd26988f7709f241a1e829523ef70722a0d78580e1bafa451b1446985fa3d9a0",
+      "sha256_12": "fd26988f7709",
+      "path": "entries/DR-D28__fd26988f7709.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D28",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D29",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "裁定 30：免罪的下游后果未被传播 —— 双峰证据「4–9 = 0」已被 1 臂证伪，须改述为「强间隙分离」",
+      "statement_kind": "pointer_only",
+      "sha256": "0bced97753cfd8c8ab9fc63c64cf7516371814f4589dbf37dd24825e82361231",
+      "sha256_12": "0bced97753cf",
+      "path": "entries/DR-D29__0bced97753cf.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D29",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D30",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "附：C 线下一轮派工（6 项）已落盘 `rl_harness_supervision/d_handoff_to_c_20260929.md`",
+      "statement_kind": "pointer_only",
+      "sha256": "43799194e905b6010d0d4861479eca91796c57461772efede44a1a1045260c85",
+      "sha256_12": "43799194e905",
+      "path": "entries/DR-D30__43799194e905.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D30",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D31",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "附：A 的执行单已落盘 `rl_harness_supervision/d_handoff_to_a_20260929.md`（8 节，含可直接跑的命令）",
+      "statement_kind": "pointer_only",
+      "sha256": "16adfbd5cf5f72b9bddfbce5bacd1ab3b6ede7d29f61ceb2f67fa66bd3c4eacb",
+      "sha256_12": "16adfbd5cf5f",
+      "path": "entries/DR-D31__16adfbd5cf5f.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D31",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D32",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "附：验证里撞出的两处 C 侧判据缺陷（都是真红，不是 D 用错）",
+      "statement_kind": "pointer_only",
+      "sha256": "fbbd163a94a77f89524572c006abf2ff9258ba877feb7c5f7ecb5b5d077fada5",
+      "sha256_12": "fbbd163a94a7",
+      "path": "entries/DR-D32__fbbd163a94a7.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D32",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D33",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "裁定 34（两项，全文见 `rl_harness_supervision/supervisor_memo_20260929.md` 增补十一 §36–§39）",
+      "statement_kind": "pointer_only",
+      "sha256": "793cb78d4ddfe7d33b208efcd4149d26875559f566a5813510a5fe07db74b554",
+      "sha256_12": "793cb78d4ddf",
+      "path": "entries/DR-D33__793cb78d4ddf.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D33",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D34",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "裁定 35（三项，全文见 `rl_harness_supervision/supervisor_memo_20260929.md` 增补十二 §40–§43）",
+      "statement_kind": "pointer_only",
+      "sha256": "6c1b8e16bd6506b4eda866ccb4249753c1d93993f8069224bd992c769435fc32",
+      "sha256_12": "6c1b8e16bd65",
+      "path": "entries/DR-D34__6c1b8e16bd65.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:54+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D34",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D35",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "裁定 36（五项）",
+      "statement_kind": "pointer_only",
+      "sha256": "a48b8e219d8942838455a473af76ad538cd1fcdb7db8f4436166a03fee481f03",
+      "sha256_12": "a48b8e219d89",
+      "path": "entries/DR-D35__a48b8e219d89.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:55+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D35",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    },
+    {
+      "decision_id": "DR-D36",
+      "line": "D",
+      "id_kind": "DR-D",
+      "title": "裁定 37（四项）",
+      "statement_kind": "pointer_only",
+      "sha256": "ccf756fed2a7398730d0249055a8cecc97451d8429f45a0cf1781ede875c0f54",
+      "sha256_12": "ccf756fed2a7",
+      "path": "entries/DR-D36__ccf756fed2a7.json",
+      "tampered": false,
+      "registered_at": "2026-09-29T16:16:55+08:00",
+      "decided_at": null,
+      "affects": [
+        "A",
+        "B",
+        "C"
+      ],
+      "status": "active",
+      "status_detail": null,
+      "acks": {
+        "decision_id": "DR-D36",
+        "acked_by": [],
+        "acks": {},
+        "requires_ack_from": [],
+        "missing_acks": [],
+        "self_line": "D",
+        "note": "作者线自己不给自己 ack（`missing_acks` 里排除它）；未 ack 的**可见**，不靠人记（验收 3）。"
+      }
+    }
+  ]
+}

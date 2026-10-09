@@ -1,0 +1,14 @@
+{
+  "schema": "c_decision_event/v1",
+  "seq": 2,
+  "kind": "annotate",
+  "target_id": "ADR-C-013",
+  "target_sha256": "834bb8ec58572ac6405b3f05927d2397ca0a102d2d06bdf90434d46bb9f43404",
+  "by": "C",
+  "line": "C",
+  "reason": "自查追记（二）：写完 §9 后按裁定 39.2 的动作（追加共享文件前先 git status + tail）准备追加日报小节，在日报尾部读到 D 的 17:3x 节 ⇒ 发现增补十八（裁定 41）改判了裁定 40.3 的形态口径：实机 = 松灵 Cobot Magic 双臂 ⇒ 动作空间 14 维（不是 6+1）；gym-aloha/AlohaTransferCube-v0 升为形态一致首选、SO100GraspCube/PickCube 降为 state 档对照、morphology_proxy 取值变为 so100_single_arm / yam；ABC-130k 身份确证 = YAM 双臂站、不得当 Piper 契约来源（第二列数值不得搬进第三列）；iflytek 关闭。已按裁定 41.1/41.2/41.3/41.4 更新复用清单四处（§2.3 容量几何、§3.7 第2条 gpt_rubric、§6 第3条 动作契约与 morphology_proxy、新增 §5 第5条 ABC-130k 正反对进 C 的 BC 视图的落点）；harness/ 与 registry/ 一行未改。另：裁定 41.3 的 ABC-130k 正反对补上的是 A 线量化的一般缺口（lift_B_to_A teacher 0 行），不是 C 待办 5（Lift 真帧）的解 ⇒ 待办 5 状态不变。这是本轮第二次漏读 D 的文书，两次都被同一个动作捞回 ⇒ 一般规则：『读完了』是一个时刻不是状态，每次交付前重读一次监管目录的 mtime。",
+  "at": "2026-09-29T17:59:18+08:00",
+  "evidence_pointers": [],
+  "new_decision_id": null,
+  "append_only": "本事件是**新增文件**，被指向的条目文件一个字节都不改；条目的 status 由事件流**派生**，不是被改写出来的。"
+}

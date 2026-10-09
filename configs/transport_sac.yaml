@@ -1,0 +1,45 @@
+# 阶段 2：正反向交替搬运（envs/bidirectional_pickplace.py）的实验配置
+# 原则同阶段 1：所有超参写在这里，代码里不留魔法数字。
+
+env:
+  half: 0.15            # 工作空间 [-15cm, 15cm]^2 的半边长
+  gap: 0.02             # A 区 x < -gap，B 区 x > +gap；中间 4cm 是无人区，保证两区可分
+  action_scale: 0.04    # action=1.0 时末端单步移动 4cm
+  pick_radius: 0.02     # 空手时离物体 2cm 内 -> 抓起
+  place_radius: 0.02    # 抓着时离目标 2cm 内 -> 放下（= 一个 task 成功）
+  max_steps: 400        # 一「局」400 步；一局里会连续做很多个 task
+  stall_limit: 120      # 连续 120 步没有任何 task 完成 -> 规则式救场复位（manual_resets += 1）
+  grid_n: 6             # 覆盖率网格 6x6 = 36 格（每格 5cm）
+  reset_mode: alternate # alternate = reset-free 交替；fixed = 每个 task 都人工复位
+  pick_bonus: 2.0       # 抓起物体的即时奖励
+  place_bonus: 8.0      # 完成一次搬运的即时奖励（比 pick 大，鼓励走完整个 task）
+
+# 对照实验（scripts/compare_reset_modes.py）：不需要训练，几分钟出结论
+compare:
+  steps: 20000          # 每个 (策略,模式,seed) 的交互预算
+  seeds: [0, 1, 2]      # 重复三次看波动
+  easy_radius: 0.06     # biased 策略的舒适区半径：请求目标离区域中心超过 6cm 就「不会做」
+  reset_cost_steps: 30  # 一次复位折算成 30 个环境步（真机上人工复位远比这贵）
+
+train:
+  algo: sac
+  total_timesteps: 60000
+  seed: 0
+  learning_rate: 3.0e-4
+  buffer_size: 100000
+  batch_size: 256
+  gamma: 0.99
+  tau: 0.005
+  train_freq: 1
+  gradient_steps: 1
+  policy_kwargs:
+    net_arch: [128, 128]   # 比 Reach 的 [64,64] 大一点：要同时表达 seek/carry 两相 + 目标条件
+  eval_freq: 2500          # 每 2500 步做一次独立评测（自定义 callback，记录正/反向成功率与覆盖率）
+  n_eval_episodes: 3
+  save_freq: 5000
+
+eval:
+  steps: 20000          # 冻结评测：每个 seed 烧 20000 步（= 50 局）
+  seeds: [0, 1, 2]      # 三个 seed，看波动
+  inline_steps: 4000    # 训练途中的评测预算（要便宜，否则评测比训练还慢）
+  inline_seeds: [0]     # 训练途中只用一个 seed

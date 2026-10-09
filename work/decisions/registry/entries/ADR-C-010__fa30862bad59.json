@@ -1,0 +1,59 @@
+{
+  "schema": "c_decision_entry/v1",
+  "decision_id": "ADR-C-010",
+  "id_kind": "ADR-C",
+  "line": "C",
+  "title": "work/decisions/ 正式登记处：一条决定一文件 / 内容寻址 / append-only / 撤销靠新事件 / 两层哈希 / 并号只接续",
+  "statement": "原子单位＝一条决定一文件、内容寻址、只追加、撤销靠新事件指向旧条目（与 supersedes 同型）；status（active/retired/superseded）由事件流**派生**，从不被改写。条目分**两层哈希**：payload_sha256＝「决定了什么」（判重按它），文件名 sha256＝全量含簿记（tamper 证据按它）；簿记字段 version_seq/registered_at/registered_by 必须排除在判重之外，否则去重要么靠同一秒的运气、要么被版本号 +1 完全打穿。version_seq 是版本顺序的**权威键**：不靠文件名（尾是哈希，字典序与时间无关）、不靠 mtime（文件系统状态）。撤销的牙**分两类判**：authority_pointers 引用已死条目而引用方仍 active＝dangling_authority；supersedes 的被取代者仍 active＝supersede_not_propagated；合并判会让传导成功也报红⇒恒红⇒永不报警等于没有报警。并号扫描面宁宽勿漏（work/decisions/ 全量 markdown ∪ 登记处），且自检的期望值由**第二份独立实现**现场重算、不钉常数（钉死的常数会随别线发号腐烂，腐烂的样子像实现错）。登记处**不重造口径**：摄取历史条目一律 pointer_only，判据唯一来源仍是脚本本身（裁定 21）。ack 三态 + 作者线不自 ack + 换版本后旧 ack 自动 stale + 未 ack 可见。判据不在本条里，见 authority_pointers。",
+  "statement_kind": "self_authored",
+  "decided_at": null,
+  "affects": [
+    "A",
+    "B",
+    "D"
+  ],
+  "requires_ack_from": [
+    "A",
+    "B",
+    "D"
+  ],
+  "evidence_pointers": [
+    {
+      "path": "runs/infra/c_decisions_registry_selfcheck.json",
+      "sha256_12": "38a304b2142b",
+      "exists": true,
+      "why": "53/53 PASS；每条牙都配反面用例证明非恒红"
+    },
+    {
+      "path": "runs/infra/c_decisions_registry_selfcheck",
+      "sha256_12": null,
+      "exists": true,
+      "why": "合成注册表产物（数字无物理意义；ADR-C-007）"
+    },
+    {
+      "path": "work/decisions/registry/index.json",
+      "sha256_12": "a4cc36e00989",
+      "exists": true,
+      "why": "派生索引（73→75 条；可由 entries+events 重算）"
+    },
+    {
+      "path": "/workspace/mnt/sppro/yhzhang91/recycle_bin/c_decisions_registry_pre_payload_sha_20260929_161643",
+      "sha256_12": null,
+      "exists": true,
+      "why": "重摄取前旧 entries 整目录归档 + WHY_RECYCLED.md（未用 rm）"
+    }
+  ],
+  "source": null,
+  "supersedes": [],
+  "authority_pointers": [
+    "scripts/c_decisions_registry.py",
+    "scripts/c_selfcheck_decisions_registry.py",
+    "work/decisions/registry/README.md",
+    "work/decisions/decisions_20260929_C.md#ADR-C-010"
+  ],
+  "criteria_single_source": "判据不在本条里（裁定 21：判据单一来源）。本条只存「决定 + 证据指针 + ack」；要判据请读 authority_pointers 指的那个文件本身。",
+  "version_seq": 1,
+  "registered_at": "2026-09-29T16:27:17+08:00",
+  "registered_by": "C（登记处）",
+  "payload_sha256": "583b5482d631bf857fd4c86083dd16ac9b7d23a7c477500a29f8cd30102ee166"
+}

@@ -1,0 +1,14 @@
+{
+  "schema": "c_decision_event/v1",
+  "seq": 1,
+  "kind": "annotate",
+  "target_id": "ADR-C-013",
+  "target_sha256": "834bb8ec58572ac6405b3f05927d2397ca0a102d2d06bdf90434d46bb9f43404",
+  "by": "C",
+  "line": "C",
+  "reason": "自查追记（一）：本条所依据的监管文书在首稿之后才读全 —— 复用清单首稿漏读增补十七（裁定 40：观察模型 qwen3.8-max 实测可用且支持视觉 / iflytek 被自家 WAF 403、不许再打 / 实机 Piper、四项契约仍 null 不许猜 / morphology_proxy=so100 必带），只读到增补十六（§62）。漏读由裁定 39.2 要求的动作捞回（追加共享文件前先 git status + tail）。已按裁定 40.1/40.2/40.3 补齐三处（§3.7 第2条 gpt_rubric、§5 第4条 观察模型校准两条指标分开、§6 第3条 四项 null 用 unit_convention/action_contract/task_contract 承载），旧文本就地更新并注明时间。一般规则：并发仓里『读完了』是一个时刻而不是状态 ⇒ 引用监管文书必须带 mtime，且每次写完之前重读一次 D 侧目录。",
+  "at": "2026-09-29T17:47:24+08:00",
+  "evidence_pointers": [],
+  "new_decision_id": null,
+  "append_only": "本事件是**新增文件**，被指向的条目文件一个字节都不改；条目的 status 由事件流**派生**，不是被改写出来的。"
+}

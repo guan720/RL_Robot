@@ -1,0 +1,38 @@
+{
+  "schema": "c_decision_entry/v1",
+  "decision_id": "DR-D31",
+  "id_kind": "DR-D",
+  "line": "D",
+  "title": "附：A 的执行单已落盘 `rl_harness_supervision/d_handoff_to_a_20260929.md`（8 节，含可直接跑的命令）",
+  "statement": null,
+  "statement_kind": "pointer_only",
+  "decided_at": null,
+  "affects": [
+    "A",
+    "B",
+    "C"
+  ],
+  "requires_ack_from": [],
+  "evidence_pointers": [],
+  "source": {
+    "file": "work/decisions/decisions_20260929.md",
+    "sha256_12": "f7f0a162ecbd",
+    "lines": "620-677",
+    "heading_line": 620,
+    "element": "bullet",
+    "title_as_written": "附：A 的执行单已落盘 `rl_harness_supervision/d_handoff_to_a_20260929.md`（8 节，含可直接跑的命令）"
+  },
+  "supersedes": [],
+  "authority_pointers": [
+    "work/decisions/decisions_20260929.md"
+  ],
+  "criteria_single_source": "判据不在本条里（裁定 21：判据单一来源）。本条只存「决定 + 证据指针 + ack」；要判据请读 authority_pointers 指的那个文件本身。",
+  "extra": {
+    "ingest_scope": "执行单 P0-4：DR-001/002 + 增补裁定 8–31（实际摄取到源文档现有最后一条，超出部分一并登记）",
+    "ack_policy": "历史条目：ack 纪律自登记处生效起算，不追溯补 ack ⇒ requires_ack_from 为空。新登记的决定才带 ack 义务（验收 3）。"
+  },
+  "version_seq": 1,
+  "registered_at": "2026-09-29T16:16:54+08:00",
+  "registered_by": "C（登记处摄取；原文在 source 锚点里，未抄正文）",
+  "payload_sha256": "6d7eae9ecdfa3e596d2056a34a35a033180ada2c0188d5be849e85fe000814f2"
+}

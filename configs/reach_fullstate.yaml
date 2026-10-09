@@ -1,0 +1,43 @@
+# run7 机理对照 A 臂：把**在途指令队列**放进观测（`expose_queue: true`），恢复真 Markov 状态。
+#
+# 问的问题：reach_perturbed 上「uniform 60k 只到 0.68、离手写 0.94 差 26 点」的残差，
+# 是不是**信息性的**（6 维观测拿不到在途指令）？run6 用「删掉延迟」证明了充分性，
+# 这一档用「补齐隐藏状态」做第二条证据：若这里也能到 0.9+，残差=可观测性成立且
+# 与修复方式无关；若仍卡住，残差另有其主（容量 / 优化 / 每步增益与延迟的交互）。
+#
+# 注意：这一档若被 SAC 快速打满，本身就意味着 Reach 在**任何可解配置下**都装不下
+# 「加速学习」这个问题（可解 => 饱和 => A/B 不可判定，run1 的陷阱）。所以本档只跑
+# uniform 看水平，不跑 A/B；A/B 的去向是接触物理（§6.11 排序 1）。
+env_factory: perturbed
+
+env:
+  max_steps: 50
+  action_scale: 0.05
+  goal_radius: 0.02
+  min_goal_dist: 0.10
+  half_space: 0.15
+  action_delay: 2
+  gain_noise: 0.5
+  drift: 0.004
+  obs_noise: 0.0
+  expose_queue: true     # <-- 唯一变量（观测 6 -> 12 维）
+
+train:
+  algo: sac
+  total_timesteps: 40000
+  seed: 0
+  learning_rate: 3.0e-4
+  buffer_size: 100000
+  batch_size: 256
+  gamma: 0.99
+  tau: 0.005
+  train_freq: 1
+  gradient_steps: 1
+  policy_kwargs:
+    net_arch: [64, 64]
+  eval_freq: 2500
+  n_eval_episodes: 20
+
+eval:
+  n_episodes: 50
+  seed: 12345

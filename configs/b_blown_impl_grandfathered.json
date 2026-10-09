@@ -1,0 +1,629 @@
+{
+ "_doc": "blown_metric_impl 存量豁免册（监管 §12 分派 / DR-002 护栏 1）。cutoff 之后产出的产物**不得**登记；门禁对册外且缺指纹的产物直接拒判。",
+ "cutoff": "2026-09-28T21:27:24+08:00",
+ "created": "2026-09-28T21:27:24+08:00",
+ "entries": {
+  "4412c5c023ed78fdc4cf0285fb332cc3548875adcdb85944b862428e6067bfc9": {
+   "path": "runs/infra/b_normclip/clip10.json",
+   "recorded": "2026-09-28T21:27:26+08:00",
+   "artifact_mtime": "2026-09-28T16:48:13+08:00",
+   "bytes": 871209,
+   "sha256": "4412c5c023ed78fdc4cf0285fb332cc3548875adcdb85944b862428e6067bfc9",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "05bfa9a4cf3790d20e0dafb11a068b96adb5e51cc329ed35a2224131f7116a36": {
+   "path": "runs/infra/b_normclip/clip24.json",
+   "recorded": "2026-09-28T21:27:26+08:00",
+   "artifact_mtime": "2026-09-28T16:49:01+08:00",
+   "bytes": 862421,
+   "sha256": "05bfa9a4cf3790d20e0dafb11a068b96adb5e51cc329ed35a2224131f7116a36",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "a458af18782dcf2d9220d074dce0c22ca92eb2f2cf7604a23f58211fc1c6682b": {
+   "path": "runs/infra/b_normclip/clip3.json",
+   "recorded": "2026-09-28T21:27:26+08:00",
+   "artifact_mtime": "2026-09-28T16:46:39+08:00",
+   "bytes": 854295,
+   "sha256": "a458af18782dcf2d9220d074dce0c22ca92eb2f2cf7604a23f58211fc1c6682b",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "84d7ef0cac1317aac61c0f25806cf640a5801b701f613cfeb662424cb99e3cf5": {
+   "path": "runs/infra/b_normclip/clip5.json",
+   "recorded": "2026-09-28T21:27:26+08:00",
+   "artifact_mtime": "2026-09-28T16:47:27+08:00",
+   "bytes": 862335,
+   "sha256": "84d7ef0cac1317aac61c0f25806cf640a5801b701f613cfeb662424cb99e3cf5",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "a33255dc7f05ca4d201164f7a18c4de89e8130662992f8eaed5206c167106ea3": {
+   "path": "runs/infra/b_normclip/noclip.json",
+   "recorded": "2026-09-28T21:27:26+08:00",
+   "artifact_mtime": "2026-09-28T16:45:52+08:00",
+   "bytes": 864986,
+   "sha256": "a33255dc7f05ca4d201164f7a18c4de89e8130662992f8eaed5206c167106ea3",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "5bb9f004a15b11bc8eb2d9667f50f172c2c0f5b73e92d688d314c2c7ecf37b36": {
+   "path": "runs/infra/b_normclip2/clip1.0.json",
+   "recorded": "2026-09-28T21:27:26+08:00",
+   "artifact_mtime": "2026-09-28T16:51:58+08:00",
+   "bytes": 787255,
+   "sha256": "5bb9f004a15b11bc8eb2d9667f50f172c2c0f5b73e92d688d314c2c7ecf37b36",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "25fae96062a2721b1c98b315304b5fad17ed5d511013857e1949b32966d45c26": {
+   "path": "runs/infra/b_normclip2/clip1.5.json",
+   "recorded": "2026-09-28T21:27:26+08:00",
+   "artifact_mtime": "2026-09-28T16:52:45+08:00",
+   "bytes": 777067,
+   "sha256": "25fae96062a2721b1c98b315304b5fad17ed5d511013857e1949b32966d45c26",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "6db92531aac1d643cbae14e303c3ff00d0d046db3e1a94bc92ff3c600db9213a": {
+   "path": "runs/infra/b_normclip2/clip2.0.json",
+   "recorded": "2026-09-28T21:27:26+08:00",
+   "artifact_mtime": "2026-09-28T16:53:32+08:00",
+   "bytes": 777328,
+   "sha256": "6db92531aac1d643cbae14e303c3ff00d0d046db3e1a94bc92ff3c600db9213a",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "6c167afef22a84f57363b9e31edd5ed25025d3a2cca079f0996bbb4023ace998": {
+   "path": "runs/infra/b_normclip2/clip3_dzdb0.1.json",
+   "recorded": "2026-09-28T21:27:26+08:00",
+   "artifact_mtime": "2026-09-28T16:55:06+08:00",
+   "bytes": 768855,
+   "sha256": "6c167afef22a84f57363b9e31edd5ed25025d3a2cca079f0996bbb4023ace998",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "99f6cc56472cac42eb24d575208d65d969b9d11b43e1d901a3e97acfc53306d4": {
+   "path": "runs/infra/b_normclip2/clip3_dzdb0.2.json",
+   "recorded": "2026-09-28T21:27:26+08:00",
+   "artifact_mtime": "2026-09-28T16:55:52+08:00",
+   "bytes": 767629,
+   "sha256": "99f6cc56472cac42eb24d575208d65d969b9d11b43e1d901a3e97acfc53306d4",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "6093659bda7110e7f986cab652b6e88b3c6bcb3663dc4728f47e2ae813e93b19": {
+   "path": "runs/infra/b_normclip2/clip4.0.json",
+   "recorded": "2026-09-28T21:27:26+08:00",
+   "artifact_mtime": "2026-09-28T16:54:18+08:00",
+   "bytes": 778782,
+   "sha256": "6093659bda7110e7f986cab652b6e88b3c6bcb3663dc4728f47e2ae813e93b19",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "a7d23c66933c6e9f03dbf8bcb2fae0f6a5204012b9291a6be4744a112eeaca1d": {
+   "path": "runs/infra/lerobot_act_env_20260928/actlog/actlog_train24_minmax_k2_lr1e-5_s20k_seed0.json",
+   "recorded": "2026-09-28T21:27:26+08:00",
+   "artifact_mtime": "2026-09-28T18:46:55+08:00",
+   "bytes": 2112636,
+   "sha256": "a7d23c66933c6e9f03dbf8bcb2fae0f6a5204012b9291a6be4744a112eeaca1d",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "d6455789f7a081929440074d160fefb0f431f79806f1c21f32fad6daa23097fa": {
+   "path": "runs/infra/lerobot_act_env_20260928/actlog/actlog_train24_minmax_k2_lr1e-5_s20k_seed1.json",
+   "recorded": "2026-09-28T21:27:26+08:00",
+   "artifact_mtime": "2026-09-28T18:47:58+08:00",
+   "bytes": 2125054,
+   "sha256": "d6455789f7a081929440074d160fefb0f431f79806f1c21f32fad6daa23097fa",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "447ae436ea8300b08d93fbc2188596cc7ef21d4eb5f27baeb0b44d37eebc7815": {
+   "path": "runs/infra/lerobot_act_env_20260928/actlog/actlog_trimdone0_minmax_k1_lr1e-5_s20k_seed0.json",
+   "recorded": "2026-09-28T21:27:26+08:00",
+   "artifact_mtime": "2026-09-28T18:38:21+08:00",
+   "bytes": 3061178,
+   "sha256": "447ae436ea8300b08d93fbc2188596cc7ef21d4eb5f27baeb0b44d37eebc7815",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "dbf352c900a434598c19cafa24b3e101621e635d590a7ecdaab5f95f04856f08": {
+   "path": "runs/infra/lerobot_act_env_20260928/actlog/actlog_trimdone0_minmax_k1_lr1e-5_s20k_seed1.json",
+   "recorded": "2026-09-28T21:27:26+08:00",
+   "artifact_mtime": "2026-09-28T18:39:37+08:00",
+   "bytes": 3081484,
+   "sha256": "dbf352c900a434598c19cafa24b3e101621e635d590a7ecdaab5f95f04856f08",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "aa3ed307a8ebd7417fb7b8aabc694e719133a017a791567c70e1b57584d85f21": {
+   "path": "runs/infra/lerobot_act_env_20260928/actlog/actlog_trimdone0_minmax_k2_lr1e-5_s20k_seed0.json",
+   "recorded": "2026-09-28T21:27:26+08:00",
+   "artifact_mtime": "2026-09-28T18:37:06+08:00",
+   "bytes": 2136198,
+   "sha256": "aa3ed307a8ebd7417fb7b8aabc694e719133a017a791567c70e1b57584d85f21",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "454a53a34b4709f66593080861bd55b2e62863ce44b0bce14367c116d369cc44": {
+   "path": "runs/infra/lerobot_act_env_20260928/actlog/actlog_trimdone0_minmax_k2_lr1e-5_s20k_seed1.json",
+   "recorded": "2026-09-28T21:27:26+08:00",
+   "artifact_mtime": "2026-09-28T18:40:41+08:00",
+   "bytes": 2127633,
+   "sha256": "454a53a34b4709f66593080861bd55b2e62863ce44b0bce14367c116d369cc44",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "bcb98d3067a7aa0e650a435db601cf2bc293b8b639ccc8070218f0023b72e1e9": {
+   "path": "runs/infra/lerobot_act_env_20260928/actlog/actlog_trimdone0_minmax_k2_lr1e-5_s20k_seed2.json",
+   "recorded": "2026-09-28T21:27:26+08:00",
+   "artifact_mtime": "2026-09-28T18:41:45+08:00",
+   "bytes": 2128837,
+   "sha256": "bcb98d3067a7aa0e650a435db601cf2bc293b8b639ccc8070218f0023b72e1e9",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "04f7fd5b458d10a517ad0a4292d9d8c790506fd9494b008f4f4a011f99acbce9": {
+   "path": "runs/infra/lerobot_act_env_20260928/actlog/actlog_trimdone0_minmax_k2_lr1e-5_s20k_seed3.json",
+   "recorded": "2026-09-28T21:27:26+08:00",
+   "artifact_mtime": "2026-09-28T18:42:49+08:00",
+   "bytes": 2107887,
+   "sha256": "04f7fd5b458d10a517ad0a4292d9d8c790506fd9494b008f4f4a011f99acbce9",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "144839691df25779d3a842441cecbfe46cac0aa4a3ad255af6b99159a07c5a4b": {
+   "path": "runs/infra/lerobot_act_env_20260928/actlog/actlog_trimdone0_minmax_k2_lr1e-5_s20k_seed4.json",
+   "recorded": "2026-09-28T21:27:26+08:00",
+   "artifact_mtime": "2026-09-28T18:43:53+08:00",
+   "bytes": 2126895,
+   "sha256": "144839691df25779d3a842441cecbfe46cac0aa4a3ad255af6b99159a07c5a4b",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "47058e0886721d361f22cc449376867e8ee06b9154ca22672c48ca5e07236246": {
+   "path": "runs/infra/lerobot_act_env_20260928/actlog/actlog_trimdone0_minmax_k2_lr1e-5_s20k_seed5.json",
+   "recorded": "2026-09-28T21:27:26+08:00",
+   "artifact_mtime": "2026-09-28T18:44:57+08:00",
+   "bytes": 2129910,
+   "sha256": "47058e0886721d361f22cc449376867e8ee06b9154ca22672c48ca5e07236246",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "fa6bf9d7bb3d4f12355d2347870909d6307274ad9ae71849a25ba26cd6fad2ab": {
+   "path": "runs/infra/lerobot_act_env_20260928/actlog/actlog_trimdone0_minmax_k8_lr1e-5_s20k_seed0.json",
+   "recorded": "2026-09-28T21:27:26+08:00",
+   "artifact_mtime": "2026-09-28T18:45:52+08:00",
+   "bytes": 1439828,
+   "sha256": "fa6bf9d7bb3d4f12355d2347870909d6307274ad9ae71849a25ba26cd6fad2ab",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "12124b8cfe8973883155429568e5306a5d940f395ed761909801c1cf61777def": {
+   "path": "runs/infra/lerobot_act_env_20260928/actlog/actlog_trimdone0_stdfloor_minmax_k2_lr1e-5_s20k_seed0.json",
+   "recorded": "2026-09-28T21:27:26+08:00",
+   "artifact_mtime": "2026-09-28T18:49:01+08:00",
+   "bytes": 2118454,
+   "sha256": "12124b8cfe8973883155429568e5306a5d940f395ed761909801c1cf61777def",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "bacdc34b5ce77f20dc5b6a70a68ae444019e226349e85ff498da81bec2fbf217": {
+   "path": "runs/infra/lerobot_act_env_20260928/actlog/actlog_trimdone0_stdfloor_minmax_k2_lr1e-5_s20k_seed1.json",
+   "recorded": "2026-09-28T21:27:26+08:00",
+   "artifact_mtime": "2026-09-28T18:50:05+08:00",
+   "bytes": 2126946,
+   "sha256": "bacdc34b5ce77f20dc5b6a70a68ae444019e226349e85ff498da81bec2fbf217",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "a93409e832a2b97ecb5b4467152e99b242045552fe9cb852a5fe81cd31e0ce37": {
+   "path": "runs/infra/lerobot_act_env_20260928/actlog/actlog_trimdone0_stdfloor_minmax_k2_lr1e-5_s20k_seed2.json",
+   "recorded": "2026-09-28T21:27:26+08:00",
+   "artifact_mtime": "2026-09-28T18:51:09+08:00",
+   "bytes": 2123704,
+   "sha256": "a93409e832a2b97ecb5b4467152e99b242045552fe9cb852a5fe81cd31e0ce37",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "42dc5ba71305ef77278e96adf17b81aacabb06ee1686decbaf786bdb4a721044": {
+   "path": "runs/infra/lerobot_act_env_20260928/actlog/actlog_trimdone0_stdfloor_minmax_k2_lr1e-5_s20k_seed4.json",
+   "recorded": "2026-09-28T21:27:26+08:00",
+   "artifact_mtime": "2026-09-28T18:52:13+08:00",
+   "bytes": 2121895,
+   "sha256": "42dc5ba71305ef77278e96adf17b81aacabb06ee1686decbaf786bdb4a721044",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "142bd2ccd100ef1e3b49b9bf5fe43d08363fc14608a2c37f911ca70f6eddb2fb": {
+   "path": "runs/infra/lerobot_act_env_20260928/clipprobe/official_act_truth20_trimdone0_minmax_k2_lr1e-5_s20k_seed0_clipC12p469445.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T18:32:42+08:00",
+   "bytes": 1188532,
+   "sha256": "142bd2ccd100ef1e3b49b9bf5fe43d08363fc14608a2c37f911ca70f6eddb2fb",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "1cafc5b2c04d87cc68f1ab8aa2d52cf910ea2ed019dbdbc5da541072bf1967e2": {
+   "path": "runs/infra/lerobot_act_env_20260928/clipprobe/official_act_truth20_trimdone0_minmax_k2_lr1e-5_s20k_seed0_clipC5p0.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T18:33:45+08:00",
+   "bytes": 1188798,
+   "sha256": "1cafc5b2c04d87cc68f1ab8aa2d52cf910ea2ed019dbdbc5da541072bf1967e2",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "2e76912bada0582e365d72ebefa865b1283c22ea7ff4858a88a0a29664ccc55e": {
+   "path": "runs/infra/lerobot_act_env_20260928/clipprobe/official_act_truth20_trimdone0_minmax_k2_lr1e-5_s20k_seed2_clipC12p469445.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T18:35:53+08:00",
+   "bytes": 1180063,
+   "sha256": "2e76912bada0582e365d72ebefa865b1283c22ea7ff4858a88a0a29664ccc55e",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "d9695a6b4d2b8768948463666af8bb8cbaa7add70757849c0e67c37c7ba7bf60": {
+   "path": "runs/infra/lerobot_act_env_20260928/clipprobe/official_act_truth20_trimdone0_minmax_k2_lr1e-5_s20k_seed4_clipC12p469445.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T18:34:49+08:00",
+   "bytes": 1175725,
+   "sha256": "d9695a6b4d2b8768948463666af8bb8cbaa7add70757849c0e67c37c7ba7bf60",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "07ddf67b8010dd74004026551d8cb0c91584fc172bc5768404d3cdfeb0b51a72": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_train120_trimdone0_minmax_k2_lr1e-5_s20k_seed0.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T17:32:24+08:00",
+   "bytes": 1176845,
+   "sha256": "07ddf67b8010dd74004026551d8cb0c91584fc172bc5768404d3cdfeb0b51a72",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "f5fc8a982b7a8a079d21a593d0f0571f6a552ff3271c9ac290fc9d7ef697332b": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_train120_trimdone0_minmax_lr1e-5_s20k_seed0.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T17:45:24+08:00",
+   "bytes": 705788,
+   "sha256": "f5fc8a982b7a8a079d21a593d0f0571f6a552ff3271c9ac290fc9d7ef697332b",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "f6957d702057c8b05cd7fb7b0e5b081c3065bfa6fe4511c526f8ea5622ac2964": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_train120_trimdone0_minmax_lr1e-5_s20k_seed0_replan1.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T17:56:04+08:00",
+   "bytes": 2121251,
+   "sha256": "f6957d702057c8b05cd7fb7b0e5b081c3065bfa6fe4511c526f8ea5622ac2964",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "fb32f80c08ae8ba1cf789c8efb39af87b451cbc200f94e217d77a92bd4a7d060": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_train120_trimdone0_minmax_lr1e-5_s20k_seed1.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T17:57:05+08:00",
+   "bytes": 705830,
+   "sha256": "fb32f80c08ae8ba1cf789c8efb39af87b451cbc200f94e217d77a92bd4a7d060",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "62f331346b8227321448aa2cbdc5ef1f5ea9b75f6df044b9825b7c9fd0093477": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_train120_trimdone0_minmax_lr1e-5_s20k_seed1_replan1.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T17:58:27+08:00",
+   "bytes": 2121228,
+   "sha256": "62f331346b8227321448aa2cbdc5ef1f5ea9b75f6df044b9825b7c9fd0093477",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "790d75ba248ba58e3bb8e1a37c7a0f994842ea10a4f520d5328d487a4dcc1443": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_train24_lr1e-4_actionminmax_s20k_gatefields.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T17:59:25+08:00",
+   "bytes": 720522,
+   "sha256": "790d75ba248ba58e3bb8e1a37c7a0f994842ea10a4f520d5328d487a4dcc1443",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "72002e4518937d68d8e6e70b9ed0bd7bc0befa8209bf6e90ab9f0729f0a4961b": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_train24_lr1e-4_s20k_gatefields.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T18:00:23+08:00",
+   "bytes": 728352,
+   "sha256": "72002e4518937d68d8e6e70b9ed0bd7bc0befa8209bf6e90ab9f0729f0a4961b",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "8dd0a9c8ba38cc3e33b30bdf747c275b8b29767b9c0f41827f2a42085ddadc18": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_train24_lr1e-5_actionminmax_s20k_gatefields.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T18:01:23+08:00",
+   "bytes": 705839,
+   "sha256": "8dd0a9c8ba38cc3e33b30bdf747c275b8b29767b9c0f41827f2a42085ddadc18",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "f30d13401bd99b5b42ff6011e07bb6a9fef9ca16e152cc3900d350d348b13723": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_train24_lr1e-5_actionminmax_s20k_replan1.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T18:02:42+08:00",
+   "bytes": 2123446,
+   "sha256": "f30d13401bd99b5b42ff6011e07bb6a9fef9ca16e152cc3900d350d348b13723",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "05fab6cbbd5bc12308976d4fa17fb8ef60b72fe66a99ab4d6be65d3c84846a60": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_train24_lr1e-5_actionminmax_s20k_seed1_gatefields.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T18:03:43+08:00",
+   "bytes": 705867,
+   "sha256": "05fab6cbbd5bc12308976d4fa17fb8ef60b72fe66a99ab4d6be65d3c84846a60",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "7796cfb0254b13ebb19154d2a1c4b3044d711288c39b3cfc071422a65f70ab69": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_train24_lr1e-5_actionminmax_s20k_seed2_gatefields.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T18:04:41+08:00",
+   "bytes": 705846,
+   "sha256": "7796cfb0254b13ebb19154d2a1c4b3044d711288c39b3cfc071422a65f70ab69",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "4c703502928cef22e40b2d3072635aa82c52ece360d768147d5966bac57b11a8": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_train24_lr1e-5_actionminmax_s40k_gatefields.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T18:05:40+08:00",
+   "bytes": 705872,
+   "sha256": "4c703502928cef22e40b2d3072635aa82c52ece360d768147d5966bac57b11a8",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "44fa151afc111f419575dd0e714b6547237a10a52d39403e406fb46769cb679b": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_train24_lr1e-5_s20k_gatefields.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T18:06:40+08:00",
+   "bytes": 705853,
+   "sha256": "44fa151afc111f419575dd0e714b6547237a10a52d39403e406fb46769cb679b",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "d9a60b61f0fae38499a6e59da6c7c834a9466ed35be01f0b3870abef79c9b0ce": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_train24_minmax_k2_lr1e-5_s20k_seed0.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T17:42:14+08:00",
+   "bytes": 1177154,
+   "sha256": "d9a60b61f0fae38499a6e59da6c7c834a9466ed35be01f0b3870abef79c9b0ce",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "dfe884b8691032fcc7668c5dffda66a730c6f3817317db68096191d133be4ba5": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_train24_minmax_k2_lr1e-5_s20k_seed1.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T17:43:24+08:00",
+   "bytes": 1178599,
+   "sha256": "dfe884b8691032fcc7668c5dffda66a730c6f3817317db68096191d133be4ba5",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "ca9b4011795c7c841445555f0748034e82bfd5deb9c912697a97b76b40837ea2": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_trimdone0_minmax_k1_lr1e-5_s20k_seed0.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T17:33:26+08:00",
+   "bytes": 2115730,
+   "sha256": "ca9b4011795c7c841445555f0748034e82bfd5deb9c912697a97b76b40837ea2",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "9cfd97afe5c2d00ddeb4f74afc98083ac773267e1911c99e0cd6d8dce503cc36": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_trimdone0_minmax_k1_lr1e-5_s20k_seed1.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T17:35:24+08:00",
+   "bytes": 2121276,
+   "sha256": "9cfd97afe5c2d00ddeb4f74afc98083ac773267e1911c99e0cd6d8dce503cc36",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "85c46dfbd98191987b406b3e000b34c6948454054fc20b806eb3b671bc3c3429": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_trimdone0_minmax_k2_lr1e-5_s20k_seed0.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T17:34:31+08:00",
+   "bytes": 1186017,
+   "sha256": "85c46dfbd98191987b406b3e000b34c6948454054fc20b806eb3b671bc3c3429",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "fcd7fc4480dcae7b78b5a8563de4ff35aba44cad26350f2077e89e1f49257ef6": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_trimdone0_minmax_k2_lr1e-5_s20k_seed0_replan1.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T18:07:59+08:00",
+   "bytes": 2149310,
+   "sha256": "fcd7fc4480dcae7b78b5a8563de4ff35aba44cad26350f2077e89e1f49257ef6",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "27c33fac2bfc567742959fd3e2cbd98cf4fe9cdadb45ff7d08e177e449552f43": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_trimdone0_minmax_k2_lr1e-5_s20k_seed1.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T17:35:39+08:00",
+   "bytes": 1177236,
+   "sha256": "27c33fac2bfc567742959fd3e2cbd98cf4fe9cdadb45ff7d08e177e449552f43",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "186b2dc0259e64eb73c366644543a4a1e5ad279d4ffd13cbefe714871c29aaa7": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_trimdone0_minmax_k2_lr1e-5_s20k_seed1_replan1.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T18:09:21+08:00",
+   "bytes": 2121153,
+   "sha256": "186b2dc0259e64eb73c366644543a4a1e5ad279d4ffd13cbefe714871c29aaa7",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "665ec852f755c5f868374e4d3b9427390782566353ba81283ef92b488706373e": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_trimdone0_minmax_k2_lr1e-5_s20k_seed2.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T17:36:52+08:00",
+   "bytes": 1177412,
+   "sha256": "665ec852f755c5f868374e4d3b9427390782566353ba81283ef92b488706373e",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "741daab0dfe7944524b656d1d2c03abbff5f97b0cc7033efec4efa9461522262": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_trimdone0_minmax_k2_lr1e-5_s20k_seed3.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T17:38:03+08:00",
+   "bytes": 1174077,
+   "sha256": "741daab0dfe7944524b656d1d2c03abbff5f97b0cc7033efec4efa9461522262",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "3c73dd90fedbc0d529fe71a0514f71019bec9ee9d53d72f916a88bb1d7e6ae0c": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_trimdone0_minmax_k2_lr1e-5_s20k_seed4.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T17:34:43+08:00",
+   "bytes": 1173056,
+   "sha256": "3c73dd90fedbc0d529fe71a0514f71019bec9ee9d53d72f916a88bb1d7e6ae0c",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "1c286ccae1fd88209b57e08c7d2292384215beb422eac8db0d9597e14d871cff": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_trimdone0_minmax_k2_lr1e-5_s20k_seed5.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T17:44:48+08:00",
+   "bytes": 1177253,
+   "sha256": "1c286ccae1fd88209b57e08c7d2292384215beb422eac8db0d9597e14d871cff",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "4d7a447e7b94d907df980cb7b93e92f35fa7062b90e199620c0699131b14541c": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_trimdone0_minmax_k8_lr1e-5_s20k_seed0.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T17:41:05+08:00",
+   "bytes": 473646,
+   "sha256": "4d7a447e7b94d907df980cb7b93e92f35fa7062b90e199620c0699131b14541c",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "10c7ce3b2517441d8d0542c33224de98536ac0d16919310e31b8c83bd6b531f4": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_trimdone0_minmax_kl1_s20k_seed0.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T18:10:21+08:00",
+   "bytes": 705570,
+   "sha256": "10c7ce3b2517441d8d0542c33224de98536ac0d16919310e31b8c83bd6b531f4",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "ed31933aac9d027218dba86ecad1ab3d229d23eda1935eef4e45563edff28c2a": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_trimdone0_minmax_lr1e-5_s20k_seed0.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T17:39:04+08:00",
+   "bytes": 705672,
+   "sha256": "ed31933aac9d027218dba86ecad1ab3d229d23eda1935eef4e45563edff28c2a",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "25b5316fda2e772ffe3b0ed56436146454d17113a6d4d567bf0105c6fa83ee93": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_trimdone0_minmax_lr1e-5_s20k_seed0_replan1.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T18:11:42+08:00",
+   "bytes": 2120374,
+   "sha256": "25b5316fda2e772ffe3b0ed56436146454d17113a6d4d567bf0105c6fa83ee93",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "044791194ce42ec03d82cbcaf0cd06ae0c8de3d90829df8b73faa766b39b2cfd": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_trimdone0_minmax_lr1e-5_s20k_seed0_replan2.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T18:12:48+08:00",
+   "bytes": 1176951,
+   "sha256": "044791194ce42ec03d82cbcaf0cd06ae0c8de3d90829df8b73faa766b39b2cfd",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "73b29837180f9051b77b1fef16bf59dcc8b750401143f5e9405e82f12fd1f63f": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_trimdone0_minmax_lr1e-5_s20k_seed1.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T17:40:07+08:00",
+   "bytes": 705862,
+   "sha256": "73b29837180f9051b77b1fef16bf59dcc8b750401143f5e9405e82f12fd1f63f",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "f1a0824ea82ad85e692e4c1c5c1d16af4815a2a0f73612b83f4a7206e0fa55f6": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_trimdone0_minmax_lr1e-5_s20k_seed1_replan1.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T18:14:06+08:00",
+   "bytes": 2121246,
+   "sha256": "f1a0824ea82ad85e692e4c1c5c1d16af4815a2a0f73612b83f4a7206e0fa55f6",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "5302e8c28b58036f65b4536627897b2cf87e642981185c18cad6d06eae687cc5": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_trimdone0_minmax_lr1e-5_s6k_seed0.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T18:15:06+08:00",
+   "bytes": 705581,
+   "sha256": "5302e8c28b58036f65b4536627897b2cf87e642981185c18cad6d06eae687cc5",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "3f441be0a76da2e0bb67420af0b2b5057515a488d3b07eaa4a3b0cff4e15de9a": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_trimdone0_minmax_novae_s20k_seed0.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T18:16:06+08:00",
+   "bytes": 705536,
+   "sha256": "3f441be0a76da2e0bb67420af0b2b5057515a488d3b07eaa4a3b0cff4e15de9a",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "cbbf28e7144105804c7d48aed54134c65a4441f8920ad4348d2c45c6ed07788e": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_trimdone0_stdfloor_minmax_k2_lr1e-5_s20k_seed0.json",
+   "recorded": "2026-09-28T21:27:27+08:00",
+   "artifact_mtime": "2026-09-28T17:55:01+08:00",
+   "bytes": 1175497,
+   "sha256": "cbbf28e7144105804c7d48aed54134c65a4441f8920ad4348d2c45c6ed07788e",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "683a4de1918063e5f7244e04070fd13565f1cc9f629393f969cb7962e983966d": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_trimdone0_stdfloor_minmax_k2_lr1e-5_s20k_seed1.json",
+   "recorded": "2026-09-28T21:27:28+08:00",
+   "artifact_mtime": "2026-09-28T18:04:30+08:00",
+   "bytes": 1177306,
+   "sha256": "683a4de1918063e5f7244e04070fd13565f1cc9f629393f969cb7962e983966d",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "1a3087b090137a59378e62aabf4e5547e96cad44b493379b4ad918c9b1229e60": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_trimdone0_stdfloor_minmax_k2_lr1e-5_s20k_seed2.json",
+   "recorded": "2026-09-28T21:27:28+08:00",
+   "artifact_mtime": "2026-09-28T18:13:59+08:00",
+   "bytes": 1177359,
+   "sha256": "1a3087b090137a59378e62aabf4e5547e96cad44b493379b4ad918c9b1229e60",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "709f7a2b39cc72f4ccb92c4a67454577904b9e40c4a0b96a957fae31ddf0d9ae": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_trimdone0_stdfloor_minmax_k2_lr1e-5_s20k_seed4.json",
+   "recorded": "2026-09-28T21:27:28+08:00",
+   "artifact_mtime": "2026-09-28T18:23:28+08:00",
+   "bytes": 1175513,
+   "sha256": "709f7a2b39cc72f4ccb92c4a67454577904b9e40c4a0b96a957fae31ddf0d9ae",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  },
+  "1f50e545d11960041d2889a976aa336f7393257409353d5a2fdfc11204c37fc5": {
+   "path": "runs/infra/lerobot_act_env_20260928/official_act_truth20_trimdone60_minmax_lr1e-5_s20k_seed0.json",
+   "recorded": "2026-09-28T21:27:28+08:00",
+   "artifact_mtime": "2026-09-28T18:17:05+08:00",
+   "bytes": 705876,
+   "sha256": "1f50e545d11960041d2889a976aa336f7393257409353d5a2fdfc11204c37fc5",
+   "reason": "存量产物：产出于 A 线 blown 口径单一来源化（ADR-A-001，impl=52eae25ee2d7）之前，按 DR-002 护栏 1 登记豁免",
+   "scan_detail": "blown_field=20/20, impl missing"
+  }
+ },
+ "revoked": {}
+}

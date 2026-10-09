@@ -1,0 +1,45 @@
+{
+  "_purpose": "L0-h 的 obs_dim 失配**确认作废清单**。列在这里的 checkpoint 已判定作废，L0-h 降为 WARN 并计入作废账；不在这里的失配一律 FAIL。",
+  "_rules": [
+    "只接受精确相对路径，不接受通配符或目录（否则一份 ack 就能静默掉未来所有失配）。",
+    "每条必须有 reason 与 acked_at；缺字段的条目视为无效，对应失配仍按 FAIL 处理。",
+    "ack 的含义是「这个产物作废、不得与当前环境的结果比较」，不是「这个失配可以忽略」。",
+    "条目对应的文件若已不存在（stale），L0-h 会单独报出来，防止清单腐烂。"
+  ],
+  "expected_obs_dim": 60,
+  "incident": "docs/b_reproducibility_incident_20260928.md",
+  "entries": [
+    {
+      "path": "runs/infra/b_act_lift_mb_hist1_seed0/model_best.pt",
+      "obs_dim": 53,
+      "history": 1,
+      "reason": "在 robosuite 1.5.1（Lift state obs=53 维）下训练；pin 漂移事故产物，与当前 1.5.2/60 维环境不可比",
+      "acked_by": "B",
+      "acked_at": "2026-09-28"
+    },
+    {
+      "path": "runs/infra/b_act_lift_mb_hist1_seed0/model_final.pt",
+      "obs_dim": 53,
+      "history": 1,
+      "reason": "同上（同一臂的 final checkpoint）",
+      "acked_by": "B",
+      "acked_at": "2026-09-28"
+    },
+    {
+      "path": "runs/infra/b_act_lift_mb_hist4_seed0/model_best.pt",
+      "obs_dim": 212,
+      "history": 4,
+      "reason": "4x53=212，基于 1.5.1 的 53 维单帧；pin 漂移事故产物，作废",
+      "acked_by": "B",
+      "acked_at": "2026-09-28"
+    },
+    {
+      "path": "runs/infra/b_act_lift_mb_hist4_seed0/model_final.pt",
+      "obs_dim": 212,
+      "history": 4,
+      "reason": "同上（同一臂的 final checkpoint）",
+      "acked_by": "B",
+      "acked_at": "2026-09-28"
+    }
+  ]
+}

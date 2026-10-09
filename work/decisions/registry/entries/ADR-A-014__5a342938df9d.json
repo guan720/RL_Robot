@@ -1,0 +1,38 @@
+{
+  "schema": "c_decision_entry/v1",
+  "decision_id": "ADR-A-014",
+  "id_kind": "ADR-A",
+  "line": "A",
+  "title": "执行裁定 32 / DR-D31：A 接手 lerobot 环境重建（**并作废本文件 ADR-A-013 末尾的两条排序判断**）",
+  "statement": null,
+  "statement_kind": "pointer_only",
+  "decided_at": null,
+  "affects": [
+    "B",
+    "C",
+    "D"
+  ],
+  "requires_ack_from": [],
+  "evidence_pointers": [],
+  "source": {
+    "file": "work/decisions/decisions_20260929_A.md",
+    "sha256_12": "2fa8c8b98c08",
+    "lines": "217-263",
+    "heading_line": 217,
+    "element": "heading",
+    "title_as_written": "执行裁定 32 / DR-D31：A 接手 lerobot 环境重建（**并作废本文件 ADR-A-013 末尾的两条排序判断**）"
+  },
+  "supersedes": [],
+  "authority_pointers": [
+    "work/decisions/decisions_20260929_A.md"
+  ],
+  "criteria_single_source": "判据不在本条里（裁定 21：判据单一来源）。本条只存「决定 + 证据指针 + ack」；要判据请读 authority_pointers 指的那个文件本身。",
+  "extra": {
+    "ingest_scope": "执行单 P0-4：DR-001/002 + 增补裁定 8–31（实际摄取到源文档现有最后一条，超出部分一并登记）",
+    "ack_policy": "历史条目：ack 纪律自登记处生效起算，不追溯补 ack ⇒ requires_ack_from 为空。新登记的决定才带 ack 义务（验收 3）。"
+  },
+  "version_seq": 1,
+  "registered_at": "2026-09-29T16:16:55+08:00",
+  "registered_by": "C（登记处摄取；原文在 source 锚点里，未抄正文）",
+  "payload_sha256": "74545d1fbf89b798f2b0b2ef496f2ae3c2ef1f72415eefc4f4d1402184e0a94c"
+}

@@ -1,0 +1,71 @@
+{
+  "schema": "c_decision_entry/v1",
+  "decision_id": "ADR-C-009",
+  "id_kind": "ADR-C",
+  "line": "C",
+  "title": "env manifest 的同源纪律：语义探针 / 三值 not_applicable / 窗口同源 / 三条断点并列 / import 面须给运行时证据 / 覆写前留档",
+  "statement": "C-F1：模块探针判据从「能不能 import」改成**语义探针**（版本号 + 安装来源），因为 import lerobot 是恒真判据；rlrobot 里没有 lerobot 属**设计如此**，处置是改判据的作用域（not_applicable 三值 + design_note）而**不是**改观测或删行。C-F2：断点是**窗口**不是时刻，窗口证据必须与被描述的那个 venv **同源**（subject_venv / source_kind / applies_to_described_venv / not_the_described_venv_because），堵住跨 venv 混算；「规则有牙」用 synthetic 窗口证、「数据自洽」用 real_window 证，两者不互相冒充。三条断点**并列不合并**（invalidates 范围不同）。发行版探针一律走子进程（进程内探多解释器会跨对象混装）。覆写自己的 manifest 前 copy2 留档并带 previous_manifest + changed_fields（裁定 37.4 第 2 条）。「某包不在某链路 import 面上」的主张**必须给运行时证据**（sys.modules），静态 grep 不足以独立支撑（裁定 37.3 一般化）。判据不在本条里，见 authority_pointers。",
+  "statement_kind": "self_authored",
+  "decided_at": null,
+  "affects": [
+    "A",
+    "B",
+    "D"
+  ],
+  "requires_ack_from": [
+    "A",
+    "B",
+    "D"
+  ],
+  "evidence_pointers": [
+    {
+      "path": "runs/infra/c_env_manifest_20260929.json",
+      "sha256_12": "8c6a4ec366fc",
+      "exists": true,
+      "why": "15:47:03 权威快照；sha256_12=8c6a4ec366fc；env_fully_restored=true；reproduction_claims_blocked.blocked=false"
+    },
+    {
+      "path": "runs/infra/c_env_manifest_20260929_pre_lerobot_rebuild.json",
+      "sha256_12": "9f7f0c94f394",
+      "exists": true,
+      "why": "12:14 归档＝C-F1/C-F2 曾经是真红的证据"
+    },
+    {
+      "path": "runs/infra/c_env_manifest_probe_lerobot_act.json",
+      "sha256_12": "843b88c57331",
+      "exists": true,
+      "why": "lerobot_act 侧语义探针产物（0.4.4 / index_wheel / uv）"
+    },
+    {
+      "path": "runs/infra/c_ruling_34_1_import_surface_20260929.json",
+      "sha256_12": "9aaa811b2689",
+      "exists": true,
+      "why": "8 个 ACT 链路脚本 hit=[]；上游 lerobot_train 有 imageio（分开报）"
+    },
+    {
+      "path": "runs/infra/d_persistent_env_20260929/a_gate_after_c_reprobe_1531.json",
+      "sha256_12": "5ec1dd878d53",
+      "exists": true,
+      "why": "D 只读实测 A 线 E1..E7 全 PASS、ALLOWED、blocking_fail=0"
+    },
+    {
+      "path": "docs/c_env_manifest_and_pending_impl_20260929.md",
+      "sha256_12": "173ab802bef2",
+      "exists": true,
+      "why": "§4 与 §8 的完整叙事"
+    }
+  ],
+  "source": null,
+  "supersedes": [],
+  "authority_pointers": [
+    "scripts/c_env_manifest.py",
+    "work/decisions/decisions_20260929_C.md#ADR-C-009",
+    "work/decisions/registry/README.md",
+    "rl_harness_supervision/supervisor_memo_20260929.md#§50-§52"
+  ],
+  "criteria_single_source": "判据不在本条里（裁定 21：判据单一来源）。本条只存「决定 + 证据指针 + ack」；要判据请读 authority_pointers 指的那个文件本身。",
+  "version_seq": 1,
+  "registered_at": "2026-09-29T16:26:53+08:00",
+  "registered_by": "C（登记处）",
+  "payload_sha256": "9911311928a95db026c2b59cd883917a3dda11fee1ca6848e54f73466ed8a5bb"
+}

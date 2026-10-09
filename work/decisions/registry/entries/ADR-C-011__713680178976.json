@@ -1,0 +1,59 @@
+{
+  "schema": "c_decision_entry/v1",
+  "decision_id": "ADR-C-011",
+  "id_kind": "ADR-C",
+  "line": "C",
+  "title": "P1-5 physical_fact 接线：准入闸只吃 physical_fact / 账本 fail-closed / 发布包身份红线（构建不符＝拒收，不是 warn）",
+  "statement": "准入闸单一来源在 registry/verdict_identity.py::admit_as_physical_fact：只有 usable_for==physical_fact 且 gate_build 等于**调用时**的门禁现值才准入，其余一律拒收并回显理由（不是 warn、不是静默降级）；比的是调用时的现值而不是记录解析时存下的那份，判据在脚下移动过就必须重新对表。闸**返回判定**而不抛错，于是拒收本身可留档；要硬拒的调用方自己抛。账本 fail-closed：ingest_runtime_result 必须显式声明依据（verdict= 走闸，或 observation_only=True 声明是 env 原始观测），都不给 ⇒ 抛 VerdictAdmissionError 且一行都不写；理由是「不声明就入账」会把「没有身份」和「忘了闸」混成同一种行。拒收留档为事件（verdict_admitted/verdict_refused/verdict_identity_absent，都在封闭词表 EVENT_KINDS 里），payload 自带身份+理由+当时门禁现值+frames_written=false，且帧 0 标签 0；on_refusal=raise 也先写事件再抛 ⇒ 抛错不等于丢证据。重判是**追加**：旧事件序列必须是新序列的**前缀**（按前缀判定，不按多了几条——后者抓不到改写中间一条）。DirectionScore 的身份是**字段不是注释**（10 个）；build_bundle 默认 require_verdict_identity=True，缺身份/档位不对/自称非现构建 ⇒ VerdictIdentityViolation（与双向同 checkpoint 红线同级）；给了 gate_current 再逐方向比 gate_build。两条红线**互相独立**：关掉身份要求也拦得住构建不符；逃生口是显式的不是默认。physical_fact 这个词在 release_bundle 里 **import** 而不抄常量（抄一份就有第二份口径，漂移后那句话会看不出错）。**预先写明的后果**：B 的 v1.6 会升 GATE_BUILD ⇒ physical_fact 48→0、整批拒收 = 正确行为不是回归红点，这句话写进三处代码内规则原文并有断言专门核它还在。**边界申报**：动了 registry/release_bundle.py（D 在增补五 §9-C③ 点名该文件 :102 的 DirectionScore）与两个无 c_ 前缀但属 C 线的自检。判据不在本条里，见 authority_pointers。",
+  "statement_kind": "self_authored",
+  "decided_at": null,
+  "affects": [
+    "A",
+    "B",
+    "D"
+  ],
+  "requires_ack_from": [
+    "A",
+    "B",
+    "D"
+  ],
+  "evidence_pointers": [
+    {
+      "path": "runs/infra/c_verdict_wiring_selfcheck.json",
+      "sha256_12": "fc9a5f4369bb",
+      "exists": true,
+      "why": "48/48 PASS（每条牙配反面用例）"
+    },
+    {
+      "path": "runs/infra/c_verdict_selfcheck.json",
+      "sha256_12": "071ec96d5e69",
+      "exists": true,
+      "why": "身份层 156/157 PASS + 1 诚实 SKIP（未回归）"
+    },
+    {
+      "path": "runs/infra/c_ledger_selfcheck.json",
+      "sha256_12": "8b3fbb134096",
+      "exists": true,
+      "why": "账本视图 84/84（未回归）"
+    },
+    {
+      "path": "runs/infra/c_release_selfcheck.json",
+      "sha256_12": "70ba31b34c74",
+      "exists": true,
+      "why": "发布包 27/27（未回归）"
+    }
+  ],
+  "source": null,
+  "supersedes": [],
+  "authority_pointers": [
+    "registry/verdict_identity.py#ADMISSION_RULE+harness/ledger.py#ingest_runtime_result+registry/release_bundle.py#_require_verdict_identity",
+    "scripts/c_selfcheck_verdict_wiring.py",
+    "work/decisions/decisions_20260929_C.md#ADR-C-011",
+    "rl_harness_supervision/supervisor_memo_20260928.md#L334"
+  ],
+  "criteria_single_source": "判据不在本条里（裁定 21：判据单一来源）。本条只存「决定 + 证据指针 + ack」；要判据请读 authority_pointers 指的那个文件本身。",
+  "version_seq": 1,
+  "registered_at": "2026-09-29T16:59:53+08:00",
+  "registered_by": "C（登记处）",
+  "payload_sha256": "97db2290118742c6c5cf5446a35b47a261d5d0a0617613bde87186ae51ca651b"
+}

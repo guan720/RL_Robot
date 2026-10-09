@@ -1,0 +1,38 @@
+{
+  "schema": "c_decision_entry/v1",
+  "decision_id": "DR-D11",
+  "id_kind": "DR-D",
+  "line": "D",
+  "title": "权威汇总刷新（48 臂 / 960 局，v1.2.1 / `e4f5ec887788`）",
+  "statement": null,
+  "statement_kind": "pointer_only",
+  "decided_at": null,
+  "affects": [
+    "A",
+    "B",
+    "C"
+  ],
+  "requires_ack_from": [],
+  "evidence_pointers": [],
+  "source": {
+    "file": "work/decisions/decisions_20260928.md",
+    "sha256_12": "32851c0d4565",
+    "lines": "122-128",
+    "heading_line": 122,
+    "element": "bullet",
+    "title_as_written": "权威汇总刷新（48 臂 / 960 局，v1.2.1 / `e4f5ec887788`）"
+  },
+  "supersedes": [],
+  "authority_pointers": [
+    "work/decisions/decisions_20260928.md"
+  ],
+  "criteria_single_source": "判据不在本条里（裁定 21：判据单一来源）。本条只存「决定 + 证据指针 + ack」；要判据请读 authority_pointers 指的那个文件本身。",
+  "extra": {
+    "ingest_scope": "执行单 P0-4：DR-001/002 + 增补裁定 8–31（实际摄取到源文档现有最后一条，超出部分一并登记）",
+    "ack_policy": "历史条目：ack 纪律自登记处生效起算，不追溯补 ack ⇒ requires_ack_from 为空。新登记的决定才带 ack 义务（验收 3）。"
+  },
+  "version_seq": 1,
+  "registered_at": "2026-09-29T16:16:54+08:00",
+  "registered_by": "C（登记处摄取；原文在 source 锚点里，未抄正文）",
+  "payload_sha256": "ab9d9a928d1fde15275df186c2c44cbf5281d9f69a1451a63e0d148ed0cbdee4"
+}

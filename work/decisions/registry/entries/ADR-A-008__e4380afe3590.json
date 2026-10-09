@@ -1,0 +1,38 @@
+{
+  "schema": "c_decision_entry/v1",
+  "decision_id": "ADR-A-008",
+  "id_kind": "ADR-A",
+  "line": "A",
+  "title": "48 臂权威表迁到 **v1.5 / `f19f61341cbe`**（裁定 27 五项 + 增补七 §19-A①，已实施已验收）",
+  "statement": null,
+  "statement_kind": "pointer_only",
+  "decided_at": null,
+  "affects": [
+    "B",
+    "C",
+    "D"
+  ],
+  "requires_ack_from": [],
+  "evidence_pointers": [],
+  "source": {
+    "file": "work/decisions/decisions_20260929_A.md",
+    "sha256_12": "2fa8c8b98c08",
+    "lines": "23-61",
+    "heading_line": 23,
+    "element": "heading",
+    "title_as_written": "48 臂权威表迁到 **v1.5 / `f19f61341cbe`**（裁定 27 五项 + 增补七 §19-A①，已实施已验收）"
+  },
+  "supersedes": [],
+  "authority_pointers": [
+    "work/decisions/decisions_20260929_A.md"
+  ],
+  "criteria_single_source": "判据不在本条里（裁定 21：判据单一来源）。本条只存「决定 + 证据指针 + ack」；要判据请读 authority_pointers 指的那个文件本身。",
+  "extra": {
+    "ingest_scope": "执行单 P0-4：DR-001/002 + 增补裁定 8–31（实际摄取到源文档现有最后一条，超出部分一并登记）",
+    "ack_policy": "历史条目：ack 纪律自登记处生效起算，不追溯补 ack ⇒ requires_ack_from 为空。新登记的决定才带 ack 义务（验收 3）。"
+  },
+  "version_seq": 1,
+  "registered_at": "2026-09-29T16:16:55+08:00",
+  "registered_by": "C（登记处摄取；原文在 source 锚点里，未抄正文）",
+  "payload_sha256": "28c1e444d0c1e8fe957fe1f29bf2b1b53f6826f8bbd32ad8df5e2a9cd8f69528"
+}

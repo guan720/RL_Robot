@@ -1,0 +1,46 @@
+{
+  "schema": "c_decision_entry/v1",
+  "decision_id": "ADR-C-012",
+  "id_kind": "ADR-C",
+  "line": "C",
+  "title": "P1-6 逐臂内容寻址 run manifest：与 git 互校；三字段与 P0-2 同源同义；A 侧绑定不代填",
+  "statement": "git 已 init ⇒ manifest 不是替代 git 而是与 git **互校**：git 管代码版本，manifest 管「这一臂的这次评测由哪些内容组成」。**同源同义（执行单 P1-6 的硬要求）**：每臂的 gate_build / sha256 / is_current_build 一律取自 vi.artifact_identity()，本文件不重算；三件事一起保证——build_manifest 里**当场核对**三字段与嵌入的 artifact_identity 逐值相同（不同源就抛错）、来源映射**写进产物**（读者可核不必读代码）、自检逐字段造反例（三个字各试一次）。**自检设计的一般教训**：变异体必须造出**真分歧**——最初那版反面牙改的是 artifact_identity 本身，无效：三字段与嵌入身份同出一次调用，一起变就永远相等 ⇒ 判据恒过；要模拟「取值路径被换掉」，变异点必须是 arm_entry。变异体若不能造出分歧，那条判据就是装饰。**绑定项按 owner 分两类，绝不代填**：C 能自己算的（requirements.lock.txt、门禁模块、verdict_identity.py、ledger.py、release_bundle.py、本脚本）就地取 sha256；只有 A 能给的（model_safetensors_sha256 / dataset_sha256 / pinned_object_seed / eval_seeds / probe_build）不代填不猜测——填了就是把 A 的产物身份写成 C 的口径；没给就如实记 not_bound + 点名缺哪几项 + 为什么。git 归属由 **B** 提供（护栏 8：C 不执行 git 写命令、不代 B 认定 commit 归属），没给记 not_available，不编。**内容寻址**：分母 = run_id + gate_current + arms（规范化 JSON 的 sha256）；改任何一臂的任何绑定都换哈希，同输入必同哈希（双向都验）。**必须现算不能读旧清单**：三字段要反映调用时的门禁现值，否则门禁升版后 manifest 会假装还是当前构建；为此给 inventory()/scan_dir() 加了 collect= 出参——活对象不能塞进返回值（那个返回值要 json.dumps，塞进去会写不出来），且交回的是 regrade_pending_impl **之后**的记录，与清单同一批对象。判据不在本条里，见 authority_pointers。",
+  "statement_kind": "self_authored",
+  "decided_at": null,
+  "affects": [
+    "A",
+    "B",
+    "D"
+  ],
+  "requires_ack_from": [
+    "A",
+    "B",
+    "D"
+  ],
+  "evidence_pointers": [
+    {
+      "path": "runs/infra/c_run_manifest_20260929.json",
+      "sha256_12": "c2ce579b00dd",
+      "exists": true,
+      "why": "246 臂真 manifest；manifest_sha256=9d41d6917b15f73e；is_current_build 54 true/192 false；A 侧绑定 246 臂全部如实 not_bound"
+    },
+    {
+      "path": "runs/infra/c_run_manifest_selftest.json",
+      "sha256_12": "4159d8e97625",
+      "exists": true,
+      "why": "15/15 PASS（含逐字段反面牙）"
+    }
+  ],
+  "source": null,
+  "supersedes": [],
+  "authority_pointers": [
+    "scripts/c_run_manifest.py",
+    "registry/verdict_identity.py#artifact_identity+inventory(collect)",
+    "work/decisions/decisions_20260929_C.md#ADR-C-012"
+  ],
+  "criteria_single_source": "判据不在本条里（裁定 21：判据单一来源）。本条只存「决定 + 证据指针 + ack」；要判据请读 authority_pointers 指的那个文件本身。",
+  "version_seq": 1,
+  "registered_at": "2026-09-29T17:00:28+08:00",
+  "registered_by": "C（登记处）",
+  "payload_sha256": "9d95444631fdbbaffbb635eeea2f9d4958c81a3610d9890742d01b059090c90e"
+}

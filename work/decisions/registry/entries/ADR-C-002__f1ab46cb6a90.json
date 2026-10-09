@@ -1,0 +1,38 @@
+{
+  "schema": "c_decision_entry/v1",
+  "decision_id": "ADR-C-002",
+  "id_kind": "ADR-C",
+  "line": "C",
+  "title": "γ / n 单位冲突的处置（P0-2）与「n 必须等于 n_action_steps」的落地",
+  "statement": null,
+  "statement_kind": "pointer_only",
+  "decided_at": null,
+  "affects": [
+    "A",
+    "B",
+    "D"
+  ],
+  "requires_ack_from": [],
+  "evidence_pointers": [],
+  "source": {
+    "file": "work/decisions/decisions_20260928_C.md",
+    "sha256_12": "dc9792bb0e64",
+    "lines": "42-71",
+    "heading_line": 42,
+    "element": "heading",
+    "title_as_written": "γ / n 单位冲突的处置（P0-2）与「n 必须等于 n_action_steps」的落地"
+  },
+  "supersedes": [],
+  "authority_pointers": [
+    "work/decisions/decisions_20260928_C.md"
+  ],
+  "criteria_single_source": "判据不在本条里（裁定 21：判据单一来源）。本条只存「决定 + 证据指针 + ack」；要判据请读 authority_pointers 指的那个文件本身。",
+  "extra": {
+    "ingest_scope": "执行单 P0-4：DR-001/002 + 增补裁定 8–31（实际摄取到源文档现有最后一条，超出部分一并登记）",
+    "ack_policy": "历史条目：ack 纪律自登记处生效起算，不追溯补 ack ⇒ requires_ack_from 为空。新登记的决定才带 ack 义务（验收 3）。"
+  },
+  "version_seq": 1,
+  "registered_at": "2026-09-29T16:16:54+08:00",
+  "registered_by": "C（登记处摄取；原文在 source 锚点里，未抄正文）",
+  "payload_sha256": "a2adb00a813b9cb4d0c0545e69e02296e962dc75e50b6ab31ee8ddc87e64ee26"
+}

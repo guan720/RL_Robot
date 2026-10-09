@@ -1,0 +1,703 @@
+{
+  "spec_id": "b_golden_async_td_v1",
+  "version": "v1",
+  "date": "2026-09-28",
+  "author": "B 线（门禁与验收规格）",
+  "consumer": "C 线（harness/ledger.py, harness/data_bridge.py）自证用；B 不实现、不测试 C 的代码",
+  "source_of_truth": "RL_Harness_v4_20260924/materials/06_三轮递进调研与方案复审_20260923/appendices/02_异步动作时间轴与学习目标.md §9 例 1-6（:286 起），公式取 §2/§3.1/§4.1/§5.1/§5.3",
+  "status": "手算期望值。附录原文写明这六例是**待实现的验收算例，不是已跑过的实验结果**；本文件不改变其性质，只把文字变成可断言的数。",
+  "implementation_agnostic": true,
+  "how_to_use": [
+    "1. 把 cases[*].input.event_log 按顺序喂给你的 ledger（或它的 mock 驱动），不要为了过测试改 ledger 的字段语义。",
+    "2. 调 data_bridge 生成训练视图，断言 cases[*].expect 里的每一项。",
+    "3. expect 分四类，必须**分别**断言，不能合并成一个 bool：targets / masks / isolation / gradients。",
+    "4. 数值容差：targets 用 1e-9 相对容差（都是 γ 的整数次幂，应当逐位可复现）；gradients 用 ==0 与 !=0 的严格判定。",
+    "5. 任何一条不过，先在 work/decisions/ 或 docs/ 记录你认为是规格错还是实现错，再改。不要静默调阈值。"
+  ],
+  "conventions": {
+    "gamma_per_control_step": 0.9,
+    "slot_length_n": 6,
+    "gamma_slot": 0.531441,
+    "gamma_slot_note": "γ_slot = γ^n = 0.9^6 = 0.531441，必须**显式存储**。附录 §3.1 明确：若代码把一个时间槽当折扣单位，不得再对它做一次 n 次幂。断言 target 时若发现 0.9^36 量级的数，就是二次幂 bug。",
+    "chunk_length_H": 20,
+    "H_constraint": "H >= 2n = 12；本规格取 H=20（附录 §1 的示例值）",
+    "action_index_segments": {
+      "C_committed": "[0, n) = [0,6)  —— 读**已承诺的真实命令队列**，不是本 proposal 自己预测的前 6 步（附录 §1）",
+      "E_execution": "[n, 2n) = [6,12) —— RL 的动作 U 就是这一段",
+      "D_discarded": "[2n, H) = [12,20) —— 被后续推理替换，不进入 RL 动作"
+    },
+    "state_definition": "X_k = (h_{t_k}, g_k, C_k, ξ_k)；U_k = π_θ(X_k) = E_k ∈ R^{n×d_a}",
+    "next_state_definition": "X_{k+1} = (h_{t_k+n}, g_k, C_{k+1}=U_k, ξ_{k+1}) —— 队列即环境（附录 §2.3）",
+    "normal_target": "y_k = R_k + γ_slot * Q_φ̄(X_{k+1}, π_θ̄(X_{k+1}))，其中 R_k = Σ_{j=0..n-1} γ^j r_{t_k+j}",
+    "terminal_target": "L <= n 时 y_k = R_{k,L} = Σ_{j=0..L-1} γ^j r_{t_k+j}，terminated=true，**无 bootstrap**",
+    "actor_loss": "L_Q^actor = -E[Q_φ(h, g, sg(C), π_θ(X), ξ)]；L_actor = -E[Q] + λ_BC*L_BC + λ_cont*L_continuity",
+    "four_masks_must_stay_separate": [
+      "physical_execution_mask —— 哪条命令在什么时间真正被采用/部分生效",
+      "td_eligibility       —— 普通 TD 资格（附录 §3.3 五条准入）",
+      "bc_mask_and_weight   —— 动作监督 mask/权重",
+      "q_gradient_span      —— 本轮 actor 哪些输出构成这个决策的 U",
+      "附录 §4.2 原文：不能用「是否成功」代替四者。失败仍可能是正确 TD 数据，未执行建议也可能是正确 BC 数据。"
+    ],
+    "symbolic_values": "Q̄(...) 这类模型相关的量用符号名（如 Q2_bar）表示；expect 里给的是**结构与系数**，不是浮点常数。C 的测试应当断言「target == R + gamma_slot * <同一个 Q̄ 调用的返回值>」，而不是断言一个编出来的数。",
+    "action_index_segments_numeric": {
+      "C_committed": [
+        0,
+        6
+      ],
+      "E_execution": [
+        6,
+        12
+      ],
+      "D_discarded": [
+        12,
+        20
+      ],
+      "note": "半开区间 [lo, hi)。断言一律用本字段，不要对 action_index_segments 的中文说明做字符串匹配。"
+    }
+  },
+  "cases": [
+    {
+      "case_id": "E1",
+      "title": "正常三段与一槽 TD",
+      "appendix_ref": "附录 §9 例 1（:288）",
+      "intent": "确认「决策时刻、回报区间、next state、折扣」四者的时间对应关系。这是最容易写错、且写错之后所有下游数字都错的一条。",
+      "input": {
+        "constants": {
+          "t_k": 100,
+          "n": 6,
+          "H": 20,
+          "gamma": 0.9
+        },
+        "timeline": {
+          "frames_100_105": "执行上一次推理已承诺的旧动作 = C 区间（proposal 索引 0-5）",
+          "frames_106_111": "本次推理准时完成并获准入队的动作 = E 区间（proposal 索引 6-11）",
+          "frames_112_119": "后续推理到达后被替换 = D 区间（proposal 索引 12-19）"
+        },
+        "event_log": [
+          {
+            "event": "request_accepted",
+            "request_id": "rq100",
+            "slot_start_frame": 100,
+            "X_frozen_at_frame": 100,
+            "C_snapshot": "prev_committed_6",
+            "goal": "A_to_B"
+          },
+          {
+            "event": "reward",
+            "frame": 102,
+            "value": 0.1
+          },
+          {
+            "event": "reward",
+            "frames": [
+              100,
+              101,
+              103,
+              104,
+              105
+            ],
+            "value": 0.0
+          },
+          {
+            "event": "result_committed",
+            "request_id": "rq100",
+            "frame": 106,
+            "U_indices": [
+              6,
+              12
+            ],
+            "receipt": "commit_ok",
+            "next_queue_snapshot": "U_rq100"
+          },
+          {
+            "event": "physically_activated",
+            "request_id": "rq100",
+            "frames": [
+              106,
+              112
+            ]
+          },
+          {
+            "event": "next_observation",
+            "frame": 106,
+            "paired_with_next_queue": "U_rq100"
+          }
+        ],
+        "q_bar_placeholder": "Q2_bar = Q_φ̄(X_101slot, π_θ̄(X_101slot))，X_101slot = (h_106, g, C=U_rq100, ξ)"
+      },
+      "expect": {
+        "targets": {
+          "R_k": {
+            "expression": "Σ_{j=0..5} γ^j r_{100+j}",
+            "numeric": 0.08100000000000002,
+            "numeric_exact": 0.081,
+            "note": "只有 r_102 = 0.1 非零，所以 R_k = γ^2 * 0.1 = 0.81 * 0.1 = 0.081"
+          },
+          "y_k": {
+            "expression": "0.081 + γ_slot * Q2_bar",
+            "gamma_slot_coefficient": 0.531441,
+            "must_not_contain": "帧 106-111 的任何奖励"
+          }
+        },
+        "masks": {
+          "physical_execution_mask": {
+            "indices": [
+              6,
+              12
+            ],
+            "frames": [
+              106,
+              112
+            ]
+          },
+          "td_eligibility": true,
+          "td_eligibility_basis": "附录 §3.3 五条全过：C 全槽按学习动作边界执行且反馈可追溯；request 在槽起点真实接纳、U 只依赖 X_k、准时合法完整入队；next obs 与当时的 next queue 成对记录且 C_next=U；goal/动作配置/租约/调度相容且无未建模的中途队列替换；本槽奖励已归入固定奖励视图（无 pending）",
+          "bc_mask": "按 §4.2 独立判定，与本例的 TD 资格无关",
+          "q_gradient_span": [
+            6,
+            12
+          ]
+        },
+        "next_state": {
+          "h_frame": 106,
+          "C_next": "U_rq100",
+          "note": "next state 必须是**帧 106** 的观测。U 的物理效果覆盖 106-111，进入的是**下一条**转移的回报，不是本条。"
+        },
+        "isolation": {
+          "isolated": false,
+          "censored": false
+        }
+      },
+      "common_traps": [
+        "把 next state 写成帧 112、却仍累计 100-105 的奖励 —— 附录 §9 例 1 明确点名这条不通过。",
+        "把 106-111 的奖励挪进当前样本「让动作立即配上自己的物理奖励」，却保留原 next state 与折扣（附录 §3.1 末段禁止）。",
+        "C 读成本 proposal 自己预测的前 6 步，而不是已承诺的真实命令队列（附录 §1）。",
+        "对 γ_slot 再做一次 n 次幂，得到 0.9^36。",
+        "用实测位移反填成策略发出的动作（附录 §1：命令与实际位移不是同一量）。"
+      ]
+    },
+    {
+      "case_id": "E2",
+      "title": "梯度只经过可选的 E",
+      "appendix_ref": "附录 §9 例 2（:290）+ §4.1（:158）",
+      "intent": "确认 actor 的 Q 动作梯度路径只经 E/U，不经 C 预测与 D 预测；同时确认这个测试**不能**被用来禁止所有未执行标签的 BC 监督。",
+      "input": {
+        "constants": {
+          "n": 6,
+          "H": 20
+        },
+        "setup": "critic 写成 Q(h, g, C, U, ξ)，actor 损失 L_Q^actor = -E[Q_φ(h, g, sg(C), π_θ(X), ξ)]。sg = stop_gradient。C 是已承诺的状态，不是本轮可优化的输出。",
+        "perturbations": [
+          {
+            "id": "P0",
+            "change": "无（基准）"
+          },
+          {
+            "id": "P1",
+            "change": "任意改变当前 proposal 的 C 段预测（索引 [0,6)），X 中的真实 C 不变"
+          },
+          {
+            "id": "P2",
+            "change": "任意改变当前 proposal 的 D 段预测（索引 [12,20)）"
+          },
+          {
+            "id": "P3",
+            "change": "改变 E 段预测（索引 [6,12)）"
+          }
+        ]
+      },
+      "expect": {
+        "gradients": {
+          "dL_Q_actor_d_chunk_indices_0_6": {
+            "value": 0.0,
+            "strict": true
+          },
+          "dL_Q_actor_d_chunk_indices_12_20": {
+            "value": 0.0,
+            "strict": true
+          },
+          "dL_Q_actor_d_chunk_indices_6_12": {
+            "value": "!= 0",
+            "strict": true
+          },
+          "note": "自动微分必须显示这条 Q 路径对 C 预测与 D 预测的动作导数为零（附录 §9 例 2 原文）。"
+        },
+        "invariance": {
+          "L_Q_actor_under_P1": "== L_Q_actor_under_P0",
+          "L_Q_actor_under_P2": "== L_Q_actor_under_P0",
+          "L_Q_actor_under_P3": "!= L_Q_actor_under_P0"
+        },
+        "masks": {
+          "q_gradient_span": [
+            6,
+            12
+          ],
+          "bc_mask": "不受本例约束"
+        },
+        "explicit_non_claim": {
+          "L_BC_may_change_under_P1_P2": true,
+          "reason": "附录 §9 例 2 末句：BC 有自己的 mask，**不能借这个测试禁止所有未执行标签监督**。所以断言必须只作用于 Q 路径；若实现把 L_actor 整体对 P1/P2 不变，说明它顺手把 BC 标签也禁掉了，那是**过度约束**，同样不通过。"
+        },
+        "notes": [
+          "「只经 E」描述的是当前计算图的因果路径，不承诺其他输出数值永久不变：共享网络参数仍会因 E 的训练更新而改变其他输出（附录 §4.1）。",
+          "若输出在学习动作边界前被投影，投影必须纳入同一个动作定义与优化路径；不可微的保护性改写要触发专门记录与训练资格审核（附录 §4.1 末段）。"
+        ]
+      },
+      "common_traps": [
+        "断言 L_actor 整体不变（把 BC 一起禁掉了）。",
+        "用 mask 乘在 loss 最外层来「实现」零梯度 —— 那仍会让梯度流经被 mask 的位置（0*x 的梯度是 0，但如果 mask 参与了对 C 的依赖，图仍然是连着的）。必须用 stop_gradient 或切片，并真的做 autograd 检查。",
+        "把 C 当成可优化输出送进 critic 而不加 sg。"
+      ]
+    },
+    {
+      "case_id": "E3",
+      "title": "下一槽第 3 步成功",
+      "appendix_ref": "附录 §9 例 3（:292）+ §5.1（:236）+ §5.2",
+      "intent": "确认终局样本的 target 无 bootstrap、原请求的 U 被保留、以及正奖励**沿同一递推关系**传回前驱而不是被临时回填。",
+      "input": {
+        "constants": {
+          "gamma": 0.9,
+          "n": 6,
+          "L": 3
+        },
+        "current_slot_k": {
+          "rewards": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "R_k": 0.0,
+          "request": "rq_k 已正常提交，U_k 已成为下一槽队列"
+        },
+        "next_slot_k1": {
+          "rewards_by_step": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "terminal_at_step": 3,
+          "terminal_kind": "true_goal_termination",
+          "request": "rq_{k+1} 在下一槽起点已真实接纳并产生 U_{k+1}",
+          "physical_activation_of_U_next": false,
+          "note": "任务在第 3 个控制步真终止，U_{k+1} 因任务结束不再激活。附录 §5.1：可让同一个在途计算继续完成，仅用于日志与训练，不再获得硬件执行权限；输入观测/权重/随机性/目标/C 仍保持原冻结版本，**不得**在终局后重新查询当前场景生成「合适的动作」。"
+        }
+      },
+      "expect": {
+        "targets": {
+          "next_slot_terminal_sample": {
+            "R_k1_L": {
+              "expression": "Σ_{j=0..L-1} γ^j r = γ^2 * 1",
+              "numeric_exact": 0.81
+            },
+            "y": 0.81,
+            "terminated": true,
+            "bootstrap": false,
+            "action_recorded": "U_{k+1}（原请求的真实结果，保留）",
+            "sample_type": "(X_{k+1}, U_{k+1}, R_{k+1,L}, absorbing_terminal) 的**延迟决策**样本",
+            "must_not_claim": "U_{k+1} 已物理执行；也不得声称 U_{k+1} 造成了当前 C 的成功"
+          },
+          "current_slot_normal_sample": {
+            "y_k": {
+              "expression": "R_k + γ_slot * Q̄(X_{k+1}, π̄(X_{k+1})) = 0 + 0.531441 * Q̄(...)",
+              "gamma_slot_coefficient": 0.531441
+            },
+            "after_Q_converges": {
+              "Q_bar_value": 0.81,
+              "y_k_numeric_exact": 0.4304672100000001,
+              "expression": "γ^6 * γ^2 = γ^8 = 0.43046721",
+              "note": "附录 §9 例 3 原文：只有当该状态的价值已经学到这个确定性例子的终局回报时，前一条普通 target 才通过 0.9^6 × 0.9^2 = 0.9^8 传回。"
+            }
+          },
+          "forbidden_alternative": {
+            "name": "按未来终止事件临时改前驱目标",
+            "why_wrong": "附录 §5.2：固定 next state 以一半概率终止得 1、另一半总回报为 0，其真值为 0.5；若终止时回填 1、未终止时仍填无条件价值 0.5，平均会变成 0.75 —— 选择偏差。",
+            "expected_value_of_that_bad_scheme": 0.75,
+            "correct_value": 0.5
+          }
+        },
+        "masks": {
+          "physical_execution_mask_for_steps_after_L": {
+            "indices": [
+              3,
+              6
+            ],
+            "value": false,
+            "note": "第三步以后的命令没有物理执行，**不能生成额外奖励、BC 真值或假观测**（附录 §9 例 3）。"
+          },
+          "td_eligibility_next_slot": true,
+          "td_eligibility_basis": "附录 §5 的真实终局例外：request 已在槽起点真实接纳、有原请求结果 U，只是当前 C 先触发任务真终止导致 U 未激活。",
+          "td_eligibility_current_slot": true,
+          "bc_mask_for_steps_after_L": false
+        },
+        "actor_sampling": {
+          "exclude_X_k_because_of_future_termination": false,
+          "rule": "附录 §5.1 末段：actor 从全部合格的事前非终止决策状态 X 采样，**包括**当前 C 随后真终止而 U 未激活的行；不因本次未来终止而额外筛掉该行（否则等于重复施加存活概率）。",
+          "gradient_of_ideal_Q_wrt_U_at_deterministic_terminal": 0.0,
+          "committed_U_still_has_value_learning_path": true
+        },
+        "isolation": {
+          "isolated": false,
+          "note": "真终止不是删失。删失（抢占/超时/掉线/日志缺失）按 §5.3 与例 5 处理，**不得**把后续价值设为零。"
+        }
+      },
+      "common_traps": [
+        "给终局样本加 bootstrap（terminated=true 却仍加 γ_slot*Q̄）。",
+        "因为 U_{k+1} 没物理激活就把它当「未执行建议」丢进 BC-only 池，从而丢掉终局 TD 样本 —— 附录 §5.1 明确要求把「撤销物理执行资格」与「取消所有计算和日志」分开。",
+        "终局后重新查询当前场景生成一个「合适的动作」填进 U。",
+        "把 §5.3 的外部截断也当 terminated 处理（本例是 true_goal_termination，不是截断）。",
+        "用后来的成功给前驱回填较长回报。"
+      ]
+    },
+    {
+      "case_id": "E4",
+      "title": "建议未提交与提交后尚未执行",
+      "appendix_ref": "附录 §9 例 4（:294）+ §2.2（:88）+ §2.3（:112）",
+      "intent": "确认「已提交但尚未物理执行」与「只是离线建议」这两类数据的资格完全不同，并且**已成立的 next queue 不得被事后改写**。",
+      "input": {
+        "constants": {
+          "n": 6
+        },
+        "candidates": [
+          {
+            "id": "A",
+            "origin": "harness",
+            "entered_actual_control_request": true,
+            "commit_receipt": "commit_ok",
+            "became_next_queue": true,
+            "physical_activation_frame": "下一槽起点（本槽内尚未激活）"
+          },
+          {
+            "id": "B",
+            "origin": "harness",
+            "entered_actual_control_request": false,
+            "commit_receipt": null,
+            "became_next_queue": false,
+            "note": "仅供讨论/评分/离线查询。附录 §2.2：不能事后给建议补一个 request ID，伪装成曾被运行时接纳。"
+          }
+        ],
+        "variants": [
+          {
+            "id": "V1",
+            "what_happens": "A 正常成为 next queue，随后在下一槽被抢占"
+          },
+          {
+            "id": "V2",
+            "what_happens": "真实 request 因当前 C 提前终止而未提交"
+          }
+        ]
+      },
+      "expect": {
+        "masks": {
+          "A": {
+            "td_eligible": true,
+            "td_basis": "附录 §2.3 表格第 1 行：实际 request 已接受、U 按固定调度提交、下一状态队列确为 U；物理执行将在下一槽开始 —— **是**这个队列 MDP 的真实动作。",
+            "bc_eligible": "按 §4.2 独立判定；若 A 是 Harness 在相同目标、同一 C、同一调度语义下为下一槽产生的纠正段，则同时具备 TD 与 BC 资格",
+            "must_not_be_deleted_because_not_yet_physically_executed": true
+          },
+          "B": {
+            "td_eligible": false,
+            "td_basis": "附录 §2.3 表格第 3 行：没有进入实际控制 request，不是这个 MDP 的行为动作。",
+            "bc_eligible": true,
+            "bc_note": "附录 §2.2 末段：只查询而未进入控制 request 的可信纠正也可以长期存储并参加 BC。",
+            "must_not_get_fabricated_request_id": true,
+            "must_not_get_fabricated_next_queue": true
+          }
+        },
+        "variant_expectations": {
+          "V1": {
+            "predecessor_next_queue_after_preemption": "A",
+            "must_not_rewrite_to": "B 或任何抢占动作",
+            "rule": "附录 §9 例 4：若 A 随后被抢占，回看前一条记录时 next queue 仍是当时已经成立的 A，不允许事后改成抢占动作 B。附录 §3.3 末段：当前已经成立的一步转移不因后来被抢占而改写成成功/失败/零价值。"
+          },
+          "V2": {
+            "terminal_exception_applies_to": "只有它本身（那个真实 request 的真实结果）",
+            "B_gains_td_eligibility": false,
+            "rule": "附录 §9 例 4 末句：若真实 request 因当前 C 提前终止而未提交，只有它本身的真实结果满足第 5 节 terminal 例外；B 不因此获得 TD 资格。"
+          }
+        },
+        "isolation": {
+          "A": false,
+          "B": "N/A（本来就不进 TD 视图，不是被隔离）",
+          "note": "「不进 TD 视图」与「被隔离/删失」是两件事，必须在账本里分开记。"
+        }
+      },
+      "common_traps": [
+        "因为 A 尚未物理激活就把它误删成「未执行建议」（附录 §2.3 明确点名这条）。",
+        "因为 B 的数值合理就为它编造入队事件和后继状态（同上）。",
+        "V1 里把前驱的 next queue 事后改成抢占动作。",
+        "V2 里让 B 沾光获得 terminal TD 资格。",
+        "把「shadow 建议」伪 TD —— 附录 02:63 原文：未进 request 的 shadow 建议永远不得伪 TD。"
+      ]
+    },
+    {
+      "case_id": "E5",
+      "title": "帧 108 中途抢占",
+      "appendix_ref": "附录 §9 例 5（:296）+ §6.2（:262）",
+      "intent": "确认前驱的一步转移在快照准确时**保留**、被打断槽**隔离而非零价值**，以及快照不可确认时隔离范围如何按实际不可确认区间收敛。",
+      "input": {
+        "constants": {
+          "n": 6,
+          "preempt_frame": 108
+        },
+        "timeline": {
+          "frame_100": "槽 k 起点，request rq100 接纳，X 冻结",
+          "frame_106": "rq100 的 U 准时提交并成为槽 k+1 的 C；帧 106 的观测与队列快照已记录",
+          "frames_106_107": "槽 k+1 正常执行 C（= U_rq100）",
+          "frame_108": "Harness 强制改队列（抢占），槽 k+1 的 C 未执行完整"
+        },
+        "variants": [
+          {
+            "id": "V1",
+            "condition": "帧 106 的观测与队列快照准确、与接管有明确先后"
+          },
+          {
+            "id": "V2",
+            "condition": "快照与接管并发，先后无法判断"
+          }
+        ]
+      },
+      "expect": {
+        "masks": {
+          "slot_k_starting_100": {
+            "V1": {
+              "td_eligible": true,
+              "target": "R_k + γ_slot * Q̄(X_{k+1}, π̄(X_{k+1}))，X_{k+1} 用**帧 106** 的快照",
+              "rule": "附录 §6.2：此前转移若拥有准确的槽边界 next state 与 next queue，可按原一步目标保留；后续抢占不改变已经发生的这一步。"
+            },
+            "V2": {
+              "td_eligible": false,
+              "isolated": true,
+              "rule": "附录 §6.2：若接管发生在边界附近，导致前驱的 next snapshot 本身不能确认，则连该前驱一起隔离，而不是猜哪个命令先发生。"
+            }
+          },
+          "slot_k1_starting_106": {
+            "td_eligible": false,
+            "isolated": true,
+            "treated_as_zero_value": false,
+            "violated_admission_conditions": [
+              "§3.3-1 C 未在整个槽内按学习动作边界执行",
+              "§3.3-4 存在未建模的中途队列替换"
+            ],
+            "rule": "附录 §6.2：被打断槽保留全部微步事实和纠正标签，但不伪装成普通固定槽 TD；首版未定义「中途改队列」的宏动作模型，因此从普通 TD 视图隔离，**不将删失当零价值**。"
+          },
+          "frames_106_107_108": {
+            "micro_step_facts_saved": true,
+            "correction_trajectory_saved_separately": true,
+            "rule": "附录 §9 例 5：实际 106、107、108 的动作生效情况与纠正轨迹分别保存。"
+          }
+        },
+        "forbidden_attributions": [
+          "把后面的辅助成功直接贴给旧 U（rq100 的 U）",
+          "把后面的辅助成功贴给被取消的新候选",
+          "把事后微步拼成「先前就选好的 U」（附录 §6.2 末段）"
+        ],
+        "isolation_scope": {
+          "rule": "附录 §6.2：处理范围取决于实际不可确认的时间区间，**不沿整个 episode 无限制删除**。",
+          "V1_isolated_slots": [
+            "slot_k1_starting_106"
+          ],
+          "V2_isolated_slots": [
+            "slot_k_starting_100",
+            "slot_k1_starting_106"
+          ],
+          "must_report": "被删失窗口比例（附录 §6.2：隔离会减少可用 TD，尤其接管频繁时；需报告比例，不宣称它自动消除了干预选择偏差）"
+        },
+        "terminal_semantics": {
+          "preemption_is": "中断/删失（censoring）",
+          "preemption_is_not": "任务终止",
+          "rule": "附录 §5.3：Harness 抢占、超时、云服务掉线、日志缺失属于中断/删失，**不因此把后续价值设为零**。"
+        }
+      },
+      "common_traps": [
+        "把被打断槽当普通 TD 样本发布（它违反 §3.3 的第 1 和第 4 条）。",
+        "把删失当零价值 —— 这会把「我们不知道」写成「这里价值为 0」，是最难查的一类偏差。",
+        "V1 里连前驱也一起隔离（过度删失，白扔合法数据）。",
+        "V2 里保留前驱（快照不可确认还硬用，等于猜先后）。",
+        "沿整个 episode 无限制删除。"
+      ]
+    },
+    {
+      "case_id": "E6",
+      "title": "晚到与换向",
+      "appendix_ref": "附录 §9 例 6（:298）+ §7（超时路径）",
+      "intent": "确认超时晚到的结果被拒绝采纳、goal/epoch 不相容被独立拒绝，且这两类拒绝都**不是**失败样本、不给零奖励。",
+      "input": {
+        "constants": {
+          "n": 6,
+          "deadline_frame": 106,
+          "result_arrival_frame": 107
+        },
+        "event_log": [
+          {
+            "event": "request_accepted",
+            "request_id": "rq100",
+            "slot_start_frame": 100,
+            "goal": "A_to_B",
+            "goal_epoch": 1,
+            "scheduled_slot": [
+              106,
+              112
+            ]
+          },
+          {
+            "event": "deadline_passed",
+            "frame": 106,
+            "result_committed": false
+          },
+          {
+            "event": "goal_changed",
+            "frame": 106.5,
+            "from": "A_to_B",
+            "to": "B_to_A",
+            "goal_epoch": 2
+          },
+          {
+            "event": "result_arrived_late",
+            "request_id": "rq100",
+            "frame": 107,
+            "goal": "A_to_B",
+            "goal_epoch": 1
+          }
+        ],
+        "variants": [
+          {
+            "id": "V1",
+            "condition": "只有晚到，goal 未换向"
+          },
+          {
+            "id": "V2",
+            "condition": "晚到 + goal 已从 A→B 换为 B→A（epoch 1 vs 2）"
+          }
+        ]
+      },
+      "expect": {
+        "masks": {
+          "V1": {
+            "adoption_for_original_slot": "REJECT",
+            "td_eligible": false,
+            "bc_eligible": "按 §4.2 独立判定（标签的输入时刻必须正确对应）",
+            "next_queue_fabricated": false,
+            "follow_up": "按异常流程重启（附录 §9 例 6：应拒绝原槽采纳并按异常流程重启）"
+          },
+          "V2": {
+            "adoption_for_original_slot": "REJECT",
+            "rejection_reasons": [
+              "late_past_deadline",
+              "goal_epoch_incompatible"
+            ],
+            "both_reasons_must_be_recorded_separately": true,
+            "td_eligible": false,
+            "next_queue_fabricated": false
+          }
+        },
+        "logging": {
+          "rule": "附录 §9 例 6 末句：日志中一般执行索引可以准确表示这些事件，但它们**不自动变为首版普通 TD**。",
+          "must_record": [
+            "request_id",
+            "scheduled_slot",
+            "deadline_frame",
+            "actual_arrival_frame",
+            "goal 与 goal_epoch（请求时与到达时各一份）",
+            "拒绝原因"
+          ],
+          "must_not_do": "把晚到的 U 倒填成 U_100 并声称策略在帧 100 选择了整段纠正（附录 §4.3）"
+        },
+        "reward_semantics": {
+          "unknown_is_not_failure": true,
+          "unknown_is_not_zero_reward": true,
+          "rule": "附录 02:249 与 §5.3：unknown 不是失败、不是零奖励；无法确定终局事件对应哪一帧时，相关 target 保持 pending，不能凭模型回复时间或猜测时间直接对齐。"
+        },
+        "isolation": {
+          "isolated": true,
+          "censored": true,
+          "treated_as_zero_value": false,
+          "counted_toward_censoring_ratio": true
+        }
+      },
+      "common_traps": [
+        "晚到就顺手采纳（它会污染 next queue 与槽边界）。",
+        "只检查晚到、不检查 goal/epoch —— 换向后旧结果即使准时也必须拒绝。",
+        "把拒绝当失败样本喂进 TD 并给零奖励。",
+        "把晚到的纠正倒填成早先状态的 U（附录 §4.3 明确禁止）。",
+        "用一般执行索引「能表示」这些事件，就当作已经支持任意可变延迟 RL（附录 §1 末段：支持一般日志不等于已经支持任意可变延迟 RL；首版只接收满足固定时间槽契约的数据）。"
+      ]
+    }
+  ],
+  "cross_case_invariants": [
+    {
+      "id": "I1",
+      "invariant": "四种 mask/资格严格分离，不能用「是否成功」代替（附录 §4.2、02:165）",
+      "cases": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E6"
+      ]
+    },
+    {
+      "id": "I2",
+      "invariant": "request / commit / activate 是三个不同事件；RL 的动作是「真实决策请求产生的 U」；未进 request 的 shadow 建议永远不得伪 TD（附录 02:63）",
+      "cases": [
+        "E1",
+        "E3",
+        "E4",
+        "E6"
+      ]
+    },
+    {
+      "id": "I3",
+      "invariant": "unknown 不是失败、不是零奖励；终局与外部截断不能合并；被抢占槽从普通 TD 隔离并报告删失比例，不当零价值（附录 02:249）",
+      "cases": [
+        "E3",
+        "E5",
+        "E6"
+      ]
+    },
+    {
+      "id": "I4",
+      "invariant": "γ_slot = γ^n 必须显式存储，避免二次幂（附录 §3.1）",
+      "cases": [
+        "E1",
+        "E3",
+        "E5"
+      ]
+    },
+    {
+      "id": "I5",
+      "invariant": "C 读的是已承诺的真实命令队列，不是新 proposal 自己预测的前 n 步；C/E/D 不是前缀 mask（附录 02:11、§1）",
+      "cases": [
+        "E1",
+        "E2"
+      ]
+    },
+    {
+      "id": "I6",
+      "invariant": "这是本项目自拟的一决策步队列增广目标，不是原版 SmoothRL 的 2n chunk-skip；代码/图表/实验名里不能写成「原版 SmoothRL 只改折扣」（附录 §3.2）",
+      "cases": [
+        "E1",
+        "E3"
+      ]
+    },
+    {
+      "id": "I7",
+      "invariant": "终局后的 L/terminal 信息只用于构造 target 与样本资格，不作为 actor 在线拿不到的额外 critic 观测特征（附录 §5.3）",
+      "cases": [
+        "E3",
+        "E5"
+      ]
+    },
+    {
+      "id": "I8",
+      "invariant": "边界按实际发生顺序裁定：先超时/失联/被改 C，之后才完成任务的，不能因为后来拿到成功标签就追认成合法 terminal 样本（附录 §5.3）",
+      "cases": [
+        "E5",
+        "E6"
+      ]
+    }
+  ]
+}

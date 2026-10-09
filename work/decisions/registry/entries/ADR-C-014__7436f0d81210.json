@@ -1,0 +1,56 @@
+{
+  "schema": "c_decision_entry/v1",
+  "decision_id": "ADR-C-014",
+  "id_kind": "ADR-C",
+  "line": "C",
+  "title": "登记处 CLI 的 ack/annotate 崩溃：自检走 API、用户走 CLI ⇒ 两条路径不同源（移交前自查出的真红，已修 + 已加牙）",
+  "statement": "实测：c_decisions_registry.py 的 annotate 与 ack 两条 CLI 都崩在修前 :783（AttributeError: 'Namespace' object has no attribute 'kind'），根因是字典字面量的三个值先全部求值，而 --kind 只挂在 revoke 子命令上（:725）⇒ 移交给 B2 的登记处，验收 3（ack 可核）在 CLI 上是死的：missing 能看，但没有任何一条线能通过命令行 ack。53/53 全绿的自检抓不到它，因为前 8 案全在进程内调 API、没有一条经过 argparse/CLI ⇒ 缺陷类是「被测对象与用户使用的对象不是同一个」，与恒真判据同族但方向相反（不是判据不看东西，而是判据看的是另一个东西）。决定 1 修根因：kind = getattr(args,'kind',None) or args.cmd（修后 :786）；并把 by=... or args.line 改成 getattr(args,'line',None)（annotate/revoke 没有 --line，此前没崩只是因为 --by required 让 or 短路 ⇒ 那是运气不是设计）。决定 2 加牙而不是只修 bug：新增第 9 案 case_cli_surface（15 条检查，自检 53/53 → 68/68），子进程真跑 add/ack/annotate/revoke/supersede 并逐条核后果（事件落盘、missing 少一个、status 由事件派生、verify 仍 PASS），再配把 eager 字典塞回源码副本的变异体，断言变异体上 ack/annotate 必须崩而 revoke 仍通（牙不是恒红），且变异生效本身也有一条断言（防止重构后变异静默失效、判据退化成恒真）。决定 3 移交文档数字就地更新：events/ 由 0 → 1（本条追记的 annotate 事件），但『撤销的牙在真登记簿上从未被真实触发过』仍成立（revoke/supersede 事件仍为 0，annotate ≠ revoke，不拿它冒充）。一般规则：被测对象必须与用户使用的对象是同一个；带 CLI 的工具，自检至少要有一条走子进程的用例并配变异体；『库的自检全绿』不得被写成『工具可用』。边界：只改 scripts/c_* 两个文件，未改 harness/ 与 registry/*.py ⇒ ADR-C-013 决定 1 的承诺仍有效；这不是新开任务，是执行冻结单 §3-C5 移交时发现要交出去的工具本身会崩。",
+  "statement_kind": "self_authored",
+  "decided_at": null,
+  "affects": [],
+  "requires_ack_from": [
+    "D"
+  ],
+  "evidence_pointers": [
+    {
+      "path": "work/decisions/decisions_20260929_C.md",
+      "sha256_12": "2b0a0bc637b8",
+      "exists": true,
+      "why": "ADR-C-014 全文（含 traceback 原文）"
+    },
+    {
+      "path": "scripts/c_decisions_registry.py",
+      "sha256_12": "d9410f20003b",
+      "exists": true,
+      "why": "修后 :786 惰性取值 / :789 by 回退"
+    },
+    {
+      "path": "scripts/c_selfcheck_decisions_registry.py",
+      "sha256_12": "9f2b1e94d851",
+      "exists": true,
+      "why": "第 9 案 case_cli_surface + _run_cli + CLI_KIND_FIXED/BUGGY 变异"
+    },
+    {
+      "path": "runs/infra/c_decisions_registry_selfcheck.json",
+      "sha256_12": "9b1807371f23",
+      "exists": true,
+      "why": "68/68 结果与 impl_sha256"
+    },
+    {
+      "path": "work/decisions/registry/events/0001-annotate-8dfe36a532f7.json",
+      "sha256_12": "cd4e15706ffc",
+      "exists": true,
+      "why": "登记处第一条真实事件"
+    }
+  ],
+  "source": null,
+  "supersedes": [],
+  "authority_pointers": [
+    "scripts/c_selfcheck_decisions_registry.py:牙的唯一来源（case_cli_surface 的变异体断言）"
+  ],
+  "criteria_single_source": "判据不在本条里（裁定 21：判据单一来源）。本条只存「决定 + 证据指针 + ack」；要判据请读 authority_pointers 指的那个文件本身。",
+  "version_seq": 1,
+  "registered_at": "2026-09-29T17:49:25+08:00",
+  "registered_by": "C（登记处）",
+  "payload_sha256": "343a03abaa46922b2603a41b9bbb8c4ecf35c45275d68428fd4b830c590e7bad"
+}
